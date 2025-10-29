@@ -297,7 +297,7 @@ const RisksAssessment = () => {
                   <thead className="bg-gradient-to-r from-blue-50 to-blue-100">
                     <tr>
                       <th className="px-4 py-3 text-left font-semibold text-blue-800 border-r border-blue-200 sticky left-0 bg-gradient-to-r from-blue-50 to-blue-100 z-20 w-[40px]"></th> {/* Checkbox th */}
-                      <th className="px-4 py-3 text-left font-semibold text-blue-800 border-r border-blue-200 sticky left-4 bg-gradient-to-r from-blue-50 to-blue-100 z-20 w-[40px]">ID</th> {/* ID sticky güncelle */}
+                      <th className="px-4 py-3 text-left font-semibold text-blue-800 border-r border-blue-200 sticky left-10 bg-gradient-to-r from-blue-50 to-blue-100 z-20 w-[40px]">ID</th> {/* ID sticky güncelle - ofset düzeltildi */}
                       <th className="px-4 py-3 text-left font-semibold text-blue-800 border-r border-blue-200 w-[120px]">SWOT</th>
                       <th className="px-4 py-3 text-left font-semibold text-blue-800 border-r border-blue-200 w-[100px]">PESTLE</th>
                       <th className="px-4 py-3 text-left font-semibold text-blue-800 border-r border-blue-200 w-[112px]">Interested Party</th>
@@ -338,15 +338,15 @@ const RisksAssessment = () => {
                   <tbody>
                     {filteredTableData.map((row, index) => (
                       <tr key={row.id} className={[index % 2 === 0 ? 'bg-white' : 'bg-blue-50/30', row.archived ? 'opacity-60' : ''].join(' ')}>
-                        <td className="px-4 py-3 border-r border-blue-100 sticky left-0 z-10">
+                        <td className="px-4 py-3 border-r border-blue-100 sticky left-0 z-10 bg-white">
                           <input
                             type="checkbox"
                             checked={selectedRows.has(row.id)}
                             onChange={() => handleCheckboxChange(row.id)}
-                            className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                            className="rounded sticky border-gray-300 text-blue-600 focus:ring-blue-500 "
                           />
                         </td>
-                        <td className={['px-4 py-3 border-r border-blue-100 sticky left-4 z-10 font-semibold text-blue-800', index % 2 === 0 ? 'bg-white' : 'bg-blue-50/30'].join(' ')}>
+                        <td className={['px-4 py-3 border-r border-blue-100 sticky left-10 z-20 font-semibold text-blue-800', index % 2 === 0 ? 'bg-white' : 'bg-blue-50/30'].join(' ')}>
                           {row.id}
                         </td>
                         <td className="px-4 py-3 border-r border-blue-100">{row.swot}</td>
