@@ -89,6 +89,7 @@ const RisksAssessment = () => {
       } else {
         newSet.add(id);
       }
+      console.log(newSet);
       return newSet;
     });
   };
@@ -490,7 +491,8 @@ const RisksAssessment = () => {
                         className="border border-blue-500 px-2 py-1 w-16 sticky left-[-1px] top-0 z-10 bg-white -ml-px"
                         rowSpan={3}
                       >
-                        1
+                        <input onChange={() => handleCheckboxChange(1)} className="mr-2" type="checkbox"></input>
+                        {tableData.id}
                       </td>{" "}
                       {/* # sütunu - rowspan=2: Ana sütunlar alt-alta Action Plan sub-rows için span eder */}
                       <td
