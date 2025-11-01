@@ -1,130 +1,187 @@
 [
   {
-    "id": 1,
-    "swot": "Strengths",
-    "pestle": "Political",
-    "interestedParty": "Stakeholder A",
-    "riskOpportunity": "Market Risk",
-    "objective": "Increase Revenue",
-    "kpi": "10% Growth",
-    "process": "Sales Process",
-    "existingRisk": "Current Mitigation",
+    "id": "BRR/25/001",
+    "swot": "Weaknesses",
+    "pestle": "Legal",
+    "interestedParty": "Customer",
+    "riskOpportunity": "Improving customer satisfaction",
+    "objective": "Inrease customer satisfaction rate to 95%",
+    "kpi": "Customer Satisfaction Rate",
+    "process": "Customer Satisfaction",
+    "existingRisk": "To determinition of customer demands. To obtain customer feedback",
     "initialRisk": {
-      "severity": "High",
-      "likelihood": "Medium",
+      "severity": "4",
+      "likelihood": "3",
       "riskLevel": "High"
     },
     "actionPlan": [
       {
-        "action": "Implement Plan",
-        "raiseDate": "2025-01-01",
-        "resources": "Team A",
-        "function": "Marketing",
-        "responsible": "John Doe",
-        "deadline": "2025-06-01",
-        "actionStatus": "In Progress",
-        "verification": "Verified",
+        "action": "To conduct customer satisfaction training to all employees",
+        "raiseDate": "01.02.2025",
+        "resources": "Human Resources",
+        "function": "Training",
+        "responsible": "QHSE Specialist",
+        "deadline": "01.05.2025",
+        "actionConfirmation": "Done",
+        "actionStatus": "10%",
+        "completionDate": "01.05.2025",
+        "statusOfVerification": "Done",
         "comment": "On track"
       },
       {
-        "action": "I Hate Front-End",
-        "raiseDate": "2025-01-01",
-        "resources": "Team A",
-        "function": "Marketing",
-        "responsible": "John Doe",
-        "deadline": "2025-06-01",
-        "actionStatus": "In Progress",
-        "verification": "Verified",
-        "comment": "On track"
+        "action": "To hire additional QHSE Specialist",
+        "raiseDate": "01.02.2025",
+        "resources": "Human & Financial Resources",
+        "function": "HR",
+        "responsible": "HR Manager",
+        "deadline": "01.05.2025",
+        "actionConfirmation": "Done",
+        "actionStatus": "10%",
+        "completionDate": "02.05.2025",
+        "statusOfVerification": "Not Done",
+        "comment": "Action Confirmation Pending"
       },
       {
-        "action": "I Hate Front-End",
-        "raiseDate": "2025-01-01",
-        "resources": "Team A",
-        "function": "Marketing",
-        "responsible": "John Doe",
-        "deadline": "2025-06-01",
-        "actionStatus": "In Progress",
-        "verification": "Verified",
-        "comment": "On track"
-      },
-      {
-        "action": "I Hate Front-End",
-        "raiseDate": "2025-01-01",
-        "resources": "Team A",
-        "function": "Marketing",
-        "responsible": "John Doe",
-        "deadline": "2025-06-01",
-        "actionStatus": "In Progress",
-        "verification": "Verified",
-        "comment": "On track"
+        "action": "To reailize customer loyalty project",
+        "raiseDate": "01.02.2025",
+        "resources": "Human, Financial & Technical Resources",
+        "function": "QHSE",
+        "responsible": "QHSE Specialist",
+        "deadline": "01.10.2025",
+        "actionConfirmation": "Not Done",
+        "actionStatus": "10%",
+        "completionDate": "03.05.2025",
+        "statusOfVerification": "Done",
+        "comment": "Action Confirmation Pending"
       }
+      
+
     ],
     "residualRisk": "Low",
     "archived": false
   },
   {
-    "id": 2,
-    "swot": "Strengths",
-    "pestle": "Political",
-    "interestedParty": "Stakeholder A",
-    "riskOpportunity": "Market Risk",
-    "objective": "Increase Revenue",
-    "kpi": "10% Growth",
-    "process": "Sales Process",
-    "existingRisk": "Current Mitigation",
+    "id": "BRR/25/001",
+    "swot": "Weaknesses",
+    "pestle": "Legal",
+    "interestedParty": "Customer",
+    "riskOpportunity": "Improving customer satisfaction",
+    "objective": "Inrease customer satisfaction rate to 95%",
+    "kpi": "Customer Satisfaction Rate",
+    "process": "Customer Satisfaction",
+    "existingRisk": "To determinition of customer demands. To obtain customer feedback",
     "initialRisk": {
-      "severity": "High",
-      "likelihood": "Medium",
+      "severity": "4",
+      "likelihood": "3",
       "riskLevel": "High"
     },
     "actionPlan": [
       {
-        "action": "Implement Plan",
-        "raiseDate": "2025-01-01",
-        "resources": "Team A",
-        "function": "Marketing",
-        "responsible": "John Doe",
-        "deadline": "2025-06-01",
-        "actionStatus": "In Progress",
-        "verification": "Verified",
+        "action": "To conduct customer satisfaction training to all employees",
+        "raiseDate": "01.02.2025",
+        "resources": "Human Resources",
+        "function": "Training",
+        "responsible": "QHSE Specialist",
+        "deadline": "01.05.2025",
+        "actionConfirmation": "Done",
+        "actionStatus": "10%",
+        "completionDate": "01.05.2025",
+        "statusOfVerification": "Done",
         "comment": "On track"
       },
       {
-        "action": "I Hate Front-End",
-        "raiseDate": "2025-01-01",
-        "resources": "Team A",
-        "function": "Marketing",
-        "responsible": "John Doe",
-        "deadline": "2025-06-01",
-        "actionStatus": "In Progress",
-        "verification": "Verified",
-        "comment": "On track"
+        "action": "To hire additional QHSE Specialist",
+        "raiseDate": "01.02.2025",
+        "resources": "Human & Financial Resources",
+        "function": "HR",
+        "responsible": "HR Manager",
+        "deadline": "01.05.2025",
+        "actionConfirmation": "Done",
+        "actionStatus": "10%",
+        "completionDate": "02.05.2025",
+        "statusOfVerification": "Not Done",
+        "comment": "Action Confirmation Pending"
       },
       {
-        "action": "I Hate Front-End",
-        "raiseDate": "2025-01-01",
-        "resources": "Team A",
-        "function": "Marketing",
-        "responsible": "John Doe",
-        "deadline": "2025-06-01",
-        "actionStatus": "In Progress",
-        "verification": "Verified",
-        "comment": "On track"
-      },
-      {
-        "action": "I Hate Front-End",
-        "raiseDate": "2025-01-01",
-        "resources": "Team A",
-        "function": "Marketing",
-        "responsible": "John Doe",
-        "deadline": "2025-06-01",
-        "actionStatus": "In Progress",
-        "verification": "Verified",
-        "comment": "On track"
+        "action": "To reailize customer loyalty project",
+        "raiseDate": "01.02.2025",
+        "resources": "Human, Financial & Technical Resources",
+        "function": "QHSE",
+        "responsible": "QHSE Specialist",
+        "deadline": "01.10.2025",
+        "actionConfirmation": "Not Done",
+        "actionStatus": "10%",
+        "completionDate": "03.05.2025",
+        "statusOfVerification": "Done",
+        "comment": "Action Confirmation Pending"
       }
+
+
+    ],
+    "residualRisk": "Low",
+    "archived": false
+  },
+  {
+    "id": "BRR/25/001",
+    "swot": "Weaknesses",
+    "pestle": "Legal",
+    "interestedParty": "Customer",
+    "riskOpportunity": "Improving customer satisfaction",
+    "objective": "Inrease customer satisfaction rate to 95%",
+    "kpi": "Customer Satisfaction Rate",
+    "process": "Customer Satisfaction",
+    "existingRisk": "To determinition of customer demands. To obtain customer feedback",
+    "initialRisk": {
+      "severity": "4",
+      "likelihood": "3",
+      "riskLevel": "High"
+    },
+    "actionPlan": [
+      {
+        "action": "To conduct customer satisfaction training to all employees",
+        "raiseDate": "01.02.2025",
+        "resources": "Human Resources",
+        "function": "Training",
+        "responsible": "QHSE Specialist",
+        "deadline": "01.05.2025",
+        "actionConfirmation": "Done",
+        "actionStatus": "10%",
+        "completionDate": "01.05.2025",
+        "statusOfVerification": "Done",
+        "comment": "On track"
+      },
+      {
+        "action": "To hire additional QHSE Specialist",
+        "raiseDate": "01.02.2025",
+        "resources": "Human & Financial Resources",
+        "function": "HR",
+        "responsible": "HR Manager",
+        "deadline": "01.05.2025",
+        "actionConfirmation": "Done",
+        "actionStatus": "10%",
+        "completionDate": "02.05.2025",
+        "statusOfVerification": "Not Done",
+        "comment": "Action Confirmation Pending"
+      },
+      {
+        "action": "To reailize customer loyalty project",
+        "raiseDate": "01.02.2025",
+        "resources": "Human, Financial & Technical Resources",
+        "function": "QHSE",
+        "responsible": "QHSE Specialist",
+        "deadline": "01.10.2025",
+        "actionConfirmation": "Not Done",
+        "actionStatus": "10%",
+        "completionDate": "03.05.2025",
+        "statusOfVerification": "Done",
+        "comment": "Action Confirmation Pending"
+      }
+
+
     ],
     "residualRisk": "Low",
     "archived": false
   }
+
+
 ]

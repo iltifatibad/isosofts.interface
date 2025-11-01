@@ -174,19 +174,19 @@ const MyTableBody = () => {
                 {actions[0]?.deadline || "2025-06-01"}
               </td>
               <td className="border border-blue-500 px-2 py-1 w-36">
-                {actions[0]?.actionStatus || "Pending"}
+                {actions[0]?.actionConfirmation || "Pending"}
               </td>
               <td className="border border-blue-500 px-2 py-1 w-24">
-                {actions[0]?.verification || "Pending"}{" "}
+                {actions[0]?.actionStatus || "Pending"}{" "}
+                {/* Örnekte farklı field'lar var, uyarla */}
+              </td>
+                <td className="border border-blue-500 px-2 py-1 w-24">
+                {actions[0]?.completionDate || "Pending"}{" "}
                 {/* Örnekte farklı field'lar var, uyarla */}
               </td>
               <td className="border border-blue-500 px-2 py-1 w-32">
-                {actions[0]?.comment || "N/A"}{" "}
+                {actions[0]?.statusOfVerification || "N/A"}{" "}
                 {/* Örnekte deadline-like, ama uyarla */}
-              </td>
-              <td className="border border-blue-500 px-2 py-1 w-36">
-                {actions[0]?.verification || "Pending"}{" "}
-                {/* Tekrar, field'ları senin verine göre ayarla */}
               </td>
               <td className="border border-blue-500 px-2 py-1 w-40">
                 {actions[0]?.comment || "On track"}
