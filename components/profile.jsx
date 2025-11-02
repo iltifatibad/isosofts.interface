@@ -27,7 +27,7 @@ const RisksAssessment = () => {
     { id: "a-l", name: "Action Log"},
   ])
 
-  const [selectedRisk, setSelectedRisk] = useState("bg-reg");
+  const [selectedRisk, setSelectedRisk] = useState("");
   const [isOpenReg, setIsOpenReg] = useState(false);
   const [showArchived, setShowArchived] = useState(false);
   const [showModal, setShowModal] = useState(false);
