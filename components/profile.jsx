@@ -357,12 +357,12 @@ const RisksAssessment = () => {
                   </button>
 
                   {/* Actions butonları header'a taşındı */}
-                  <div className="flex space-x-2 ml-4">
+                  <div className="flex space-x-2">
                     <button
                       onClick={editSingle}
                       disabled={selectedCount !== 1}
                       className={[
-                        "!rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-blue-500 to-blue-600 text-white px-2 py-1 hover:from-blue-600 hover:to-blue-700 transition-all duration-300 text-xs shadow-sm",
+                        "!rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 hover:from-green-600 hover:to-green-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
                         selectedCount !== 1
                           ? "opacity-50 cursor-not-allowed"
                           : "",
@@ -375,7 +375,7 @@ const RisksAssessment = () => {
                       onClick={bulkArchive}
                       disabled={selectedCount === 0}
                       className={[
-                        "!rounded-button whitespace-nowrap cursor-pointer px-2 py-1 transition-all duration-300 text-xs shadow-sm",
+                        "!rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 hover:from-green-600 hover:to-green-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
                         selectedCount === 0
                           ? "opacity-50 cursor-not-allowed"
                           : "bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-600 hover:to-orange-700",
@@ -392,7 +392,7 @@ const RisksAssessment = () => {
                       onClick={selectedCount > 0 ? confirmBulkDelete : () => {}} // Bulk delete için güncellendi
                       disabled={selectedCount === 0}
                       className={[
-                        "!rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-red-500 to-red-600 text-white px-2 py-1 hover:from-red-600 hover:to-red-700 transition-all duration-300 text-xs shadow-sm",
+                        "!rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 hover:from-green-600 hover:to-green-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
                         selectedCount === 0
                           ? "opacity-50 cursor-not-allowed"
                           : "",
@@ -458,12 +458,12 @@ const RisksAssessment = () => {
                   </button>
 
                   {/* Actions butonları header'a taşındı */}
-                  <div className="flex space-x-2 ml-4">
+                  <div className="flex space-x-2">
                     <button
                       onClick={editSingle}
                       disabled={selectedCount !== 1}
                       className={[
-                        "!rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-blue-500 to-blue-600 text-white px-2 py-1 hover:from-blue-600 hover:to-blue-700 transition-all duration-300 text-xs shadow-sm",
+                        "!rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 hover:from-green-600 hover:to-green-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
                         selectedCount !== 1
                           ? "opacity-50 cursor-not-allowed"
                           : "",
@@ -476,7 +476,7 @@ const RisksAssessment = () => {
                       onClick={bulkArchive}
                       disabled={selectedCount === 0}
                       className={[
-                        "!rounded-button whitespace-nowrap cursor-pointer px-2 py-1 transition-all duration-300 text-xs shadow-sm",
+                        "!rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 hover:from-green-600 hover:to-green-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
                         selectedCount === 0
                           ? "opacity-50 cursor-not-allowed"
                           : "bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-600 hover:to-orange-700",
@@ -493,7 +493,7 @@ const RisksAssessment = () => {
                       onClick={selectedCount > 0 ? confirmBulkDelete : () => {}} // Bulk delete için güncellendi
                       disabled={selectedCount === 0}
                       className={[
-                        "!rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-red-500 to-red-600 text-white px-2 py-1 hover:from-red-600 hover:to-red-700 transition-all duration-300 text-xs shadow-sm",
+                        "!rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 hover:from-green-600 hover:to-green-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
                         selectedCount === 0
                           ? "opacity-50 cursor-not-allowed"
                           : "",

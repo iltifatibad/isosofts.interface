@@ -133,14 +133,14 @@ const MyTableBody = () => {
                 className="border border-blue-500 px-2 py-1 w-20"
                 rowSpan={numActions}
               >
-                {row.initialRiskSeverity.value|| "Medium"}
+                {row.initialRiskSeverity|| ""}
               </td>
               {/* Initial Risk: Likelihood - rowspan */}
               <td
                 className="border border-blue-500 px-2 py-1 w-24"
                 rowSpan={numActions}
               >
-                {row.initialRiskLikelyhood.value || "Possible"}
+                {row.initialRiskLikelyhood || ""}
               </td>
               {/* Initial Risk: Risk Level - rowspan */}
               <td
@@ -151,53 +151,53 @@ const MyTableBody = () => {
               </td>
               {/* İlk Action Plan'ın detayları (11 td) */}
               <td className="border border-blue-500 px-2 py-1 w-32">
-                {actions[0]?.action || "Default Action"}
+                {actions[0]?.action || ""}
               </td>
               <td className="border border-blue-500 px-2 py-1 w-32">
-                {actions[0]?.raiseDate || "2025-01-01"}
+                {actions[0]?.raiseDate || ""}
               </td>
               <td className="border border-blue-500 px-2 py-1 w-24">
-                {actions[0]?.resources || "Team"}
+                {actions[0]?.resources || ""}
               </td>
               <td className="border border-blue-500 px-2 py-1 w-28">
-                {actions[0]?.function || "Department"}
+                {actions[0]?.function || ""}
               </td>
               <td className="border border-blue-500 px-2 py-1 w-28">
-                {actions[0]?.responsible || "Person"}
+                {actions[0]?.responsible || ""}
               </td>
               <td className="border border-blue-500 px-2 py-1 w-24">
-                {actions[0]?.deadline || "2025-06-01"}
+                {actions[0]?.deadline || ""}
               </td>
               <td className="border border-blue-500 px-2 py-1 w-36">
-                {actions[0]?.actionConfirmation || "Pending"}
+                {actions[0]?.actionConfirmation || ""}
               </td>
               <td className="border border-blue-500 px-2 py-1 w-24">
-                {actions[0]?.actionStatus || "Pending"}{" "}
+                {actions[0]?.actionStatus || ""}{" "}
                 {/* Örnekte farklı field'lar var, uyarla */}
               </td>
               <td className="border border-blue-500 px-2 py-1 w-24">
-                {actions[0]?.completionDate || "Pending"}{" "}
+                {actions[0]?.completionDate || ""}{" "}
                 {/* Örnekte farklı field'lar var, uyarla */}
               </td>
               <td className="border border-blue-500 px-2 py-1 w-32">
-                {actions[0]?.statusOfVerification || "N/A"}{" "}
+                {actions[0]?.statusOfVerification || ""}{" "}
                 {/* Örnekte deadline-like, ama uyarla */}
               </td>
               <td className="border border-blue-500 px-2 py-1 w-40">
-                {actions[0]?.comment || "On track"}
+                {actions[0]?.comment || ""}
               </td>
               {/* Residual Risk/Opportunity Level - rowspan */}
               <td
                 className="border border-blue-500 px-2 py-1 w-24"
                 rowSpan={numActions}
               >
-                {row.initialRiskSeverity.value || "Low"}
+                {row.residualRiskSeverity || ""}
               </td>
               <td
                 className="border border-blue-500 px-2 py-1 w-24"
                 rowSpan={numActions}
               >
-                {row.initialRiskLikelyhood.value || "Unlikely"}{" "}
+                {row.residualRiskLikelyhood || ""}{" "}
                 {/* Varsa ekle, yoksa 'Unlikely' gibi */}
               </td>
               <td
@@ -212,37 +212,37 @@ const MyTableBody = () => {
               <tr key={`${row.id}-action-${actionIndex}`}>
                 {/* Action Plan detayları (11 td - rowspan yok, sadece action-specific) */}
                 <td className="border border-blue-500 px-2 py-1 w-32">
-                  {action?.action || "Default Action"}
+                  {action?.action || ""}
                 </td>
                 <td className="border border-blue-500 px-2 py-1 w-32">
-                  {action?.raiseDate || "2025-01-01"}
+                  {action?.raiseDate || ""}
                 </td>
                 <td className="border border-blue-500 px-2 py-1 w-24">
-                  {action?.resources || "Team"}
+                  {action?.resources || ""}
                 </td>
                 <td className="border border-blue-500 px-2 py-1 w-28">
-                  {action?.function || "Department"}
+                  {action?.function || ""}
                 </td>
                 <td className="border border-blue-500 px-2 py-1 w-28">
-                  {action?.responsible || "Person"}
+                  {action?.responsible || ""}
                 </td>
                 <td className="border border-blue-500 px-2 py-1 w-24">
-                  {action?.deadline || "2025-06-01"}
+                  {action?.deadline || ""}
                 </td>
                 <td className="border border-blue-500 px-2 py-1 w-36">
-                  {action?.actionStatus || "Pending"}
+                  {action?.actionStatus || ""}
                 </td>
                 <td className="border border-blue-500 px-2 py-1 w-24">
-                  {action?.verification || "Pending"}
+                  {action?.verification || ""}
                 </td>
                 <td className="border border-blue-500 px-2 py-1 w-32">
-                  {action?.comment || "N/A"}
+                  {action?.comment || ""}
                 </td>
                 <td className="border border-blue-500 px-2 py-1 w-36">
-                  {action?.verification || "Pending"}
+                  {action?.verification || ""}
                 </td>
                 <td className="border border-blue-500 px-2 py-1 w-40">
-                  {action?.comment || "On track"}
+                  {action?.comment || ""}
                 </td>
                 {/* Residual hücreler span ile kaplı, burada td yok */}
               </tr>
