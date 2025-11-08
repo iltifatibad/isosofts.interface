@@ -1,6 +1,23 @@
 import React, { useState, useEffect } from "react";
 import BgRiskBody from "./tabledatas/bgrisk.jsx";
+
+export const hCheckboxChange = (setSelectedRows) => (id) => {
+  setSelectedRows((prev) => {
+    const newSet = new Set(prev);
+    if (newSet.has(id)) {
+      newSet.delete(id);
+    } else {
+      newSet.add(id);
+      console.log(newSet);
+    }
+    return newSet;
+  });
+};
+
+
+
 const RisksAssessment = () => {
+  
   // Sample data - gerçek projede API'den veya props'tan gelebilir
   const [risks, setRisks] = useState([
     { id: "kpi", name: "Key Performance Indicators" },
@@ -67,6 +84,7 @@ const RisksAssessment = () => {
   const [deletingId, setDeletingId] = useState(null);
   const [selectedRows, setSelectedRows] = useState(new Set()); // Checkbox state'i ekle
   const [dropdownData, setDropdownData] = useState({});
+  const handleCheckboxChange = hCheckboxChange(setSelectedRows);
   async function getDefaultDropdownList() {
     const url = "http://localhost:8000/api/tablecomponent/dropdownlistitem/";
     try {
@@ -85,7 +103,7 @@ const RisksAssessment = () => {
   // Filtered data based on archived
 
   // Checkbox handler
-  const handleCheckboxChange = (id) => {
+ {/* const handleCheckboxChange = (id) => {
     setSelectedRows((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(id)) {
@@ -95,7 +113,7 @@ const RisksAssessment = () => {
       }
       return newSet;
     });
-  };
+  };*/}
 
   // Seçili row sayısı
   const selectedCount = selectedRows.size;
@@ -642,7 +660,8 @@ const RisksAssessment = () => {
                     </tr>
                   </thead>
                   {/* Table Body */}
-                  <BgRiskBody />
+                  <BgRiskBody selectedRows={selectedRows}
+        onCheckboxChange={handleCheckboxChange} />
                 </table>
               </div>
             </div>

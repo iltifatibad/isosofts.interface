@@ -1,24 +1,13 @@
 // MyTableBody.jsx (ayrı bir dosya olarak kaydedin)
 import React from "react";
 import { useState, useEffect } from "react";
-
-const MyTableBody = () => {
+import {hCheckboxChange} from "../profile.jsx";
+const MyTableBody = ({selectedRows, onCheckboxChange}) => {
   const [showArchived, setShowArchived] = useState(false);
 
-  const [selectedRows, setSelectedRows] = useState(new Set()); // Checkbox state'i ekle
+  
 
-  const handleCheckboxChange = (id) => {
-    setSelectedRows((prev) => {
-      const newSet = new Set(prev);
-      if (newSet.has(id)) {
-        newSet.delete(id);
-      } else {
-        newSet.add(id);
-      }
-      return newSet;
-    });
-  };
-
+  
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -69,7 +58,7 @@ const MyTableBody = () => {
                 rowSpan={numActions}
               >
                 {row.no}
-                <input onClick={handleCheckboxChange} type="checkbox" />
+                <input checked={selectedRows.has(row.id)} onChange={() => onCheckboxChange(row.id)} type="checkbox" />
               </td>
               {/* SWOT - rowspan */}
               <td
