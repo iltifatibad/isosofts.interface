@@ -24,10 +24,10 @@ const MyTableBody = () => {
 
   const [tableData, setTableData] = useState([]);
   useEffect(() => {
-    fetch("../../public/jsondatas/bgrisk.json") // Public klasöründen çek: '/bgrisk.json'
+    fetch("http://localhost:8000/api/register/br/") // Public klasöründen çek: '/bgrisk.json'
       .then((response) => {
         if (!response.ok) {
-          throw new Error("bgrisk.json yüklenemedi");
+          throw new Error("Failed To Get Datas From Database");
         }
         return response.json();
       })
@@ -43,7 +43,7 @@ const MyTableBody = () => {
   }, []);
 
   if (tableData.length > 0) {
-    console.log("Action Plan Length:", tableData[0].actionPlan.length);
+    console.log("Action Plan Length:", tableData[0]?.actionPlan?.length || 0);
   }
   if (loading) return;
   if (error) return;
@@ -68,7 +68,7 @@ const MyTableBody = () => {
                 className="border border-blue-500 px-2 py-1 w-16 sticky left-[-1px] top-0 z-10 bg-white -ml-px"
                 rowSpan={numActions}
               >
-                {row.id}
+                {row.no}
                 <input onClick={handleCheckboxChange} type="checkbox" />
               </td>
               {/* SWOT - rowspan */}
@@ -76,21 +76,21 @@ const MyTableBody = () => {
                 className="border border-blue-500 px-2 py-1 w-20"
                 rowSpan={numActions}
               >
-                {row.swot}
+                {row.swot.value}
               </td>
               {/* PESTLE - rowspan */}
               <td
                 className="border border-blue-500 px-2 py-1 w-20"
                 rowSpan={numActions}
               >
-                {row.pestle}
+                {row.pestle.value}
               </td>
               {/* Interested Party - rowspan */}
               <td
                 className="border border-blue-500 px-2 py-1 w-32"
                 rowSpan={numActions}
               >
-                {row.interestedParty}
+                {row.interestedParty.value}
               </td>
               {/* Risk/Opportunity - rowspan */}
               <td
@@ -118,14 +118,14 @@ const MyTableBody = () => {
                 className="border border-blue-500 px-2 py-1 w-24"
                 rowSpan={numActions}
               >
-                {row.process}
+                {row.process.value}
               </td>
               {/* Existing Risk/Mitigation Action/Exploitation Action - rowspan (içeriği objective'e göre değişebilir, burda generic yap) */}
               <td
                 className="border border-blue-500 px-2 py-1 w-48"
                 rowSpan={numActions}
               >
-                {row.existingRisk || `${row.objective} Action`}{" "}
+                {row.ermeoa.value || `${row.objective} Action`}{" "}
                 {/* Örnek: "Mitigation Action" veya "Exploitation Action" */}
               </td>
               {/* Initial Risk: Severity - rowspan */}
@@ -133,21 +133,21 @@ const MyTableBody = () => {
                 className="border border-blue-500 px-2 py-1 w-20"
                 rowSpan={numActions}
               >
-                {row.initialRisk?.severity || "Medium"}
+                {row.initialRiskSeverity.value|| "Medium"}
               </td>
               {/* Initial Risk: Likelihood - rowspan */}
               <td
                 className="border border-blue-500 px-2 py-1 w-24"
                 rowSpan={numActions}
               >
-                {row.initialRisk?.likelihood || "Possible"}
+                {row.initialRiskLikelyhood.value || "Possible"}
               </td>
               {/* Initial Risk: Risk Level - rowspan */}
               <td
                 className="border border-blue-500 px-2 py-1 w-20"
                 rowSpan={numActions}
               >
-                {row.initialRisk?.riskLevel || "Medium"}
+                Medium
               </td>
               {/* İlk Action Plan'ın detayları (11 td) */}
               <td className="border border-blue-500 px-2 py-1 w-32">
@@ -191,20 +191,20 @@ const MyTableBody = () => {
                 className="border border-blue-500 px-2 py-1 w-24"
                 rowSpan={numActions}
               >
-                {row.initialRisk.severity || "Low"}
+                {row.initialRiskSeverity.value || "Low"}
               </td>
               <td
                 className="border border-blue-500 px-2 py-1 w-24"
                 rowSpan={numActions}
               >
-                {row.initialRisk.likelihood || "Unlikely"}{" "}
+                {row.initialRiskLikelyhood.value || "Unlikely"}{" "}
                 {/* Varsa ekle, yoksa 'Unlikely' gibi */}
               </td>
               <td
                 className="border border-blue-500 px-2 py-1 w-20"
                 rowSpan={numActions}
               >
-                {row.initialRisk.riskLevel || "Low"} {/* Varsa ekle */}
+                 Low {/* Varsa ekle */}
               </td>
             </tr>
             {/* Ek action plan'lar için sub-rows (ilkten sonrasını map'le) */}
