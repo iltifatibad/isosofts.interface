@@ -218,7 +218,7 @@ const RisksAssessment = () => {
       };
       console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
 
-      fetch("http://localhost:8000/api/register/br/", {
+      fetch("http://localhost:8000/api/register/br/one", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload), // Direkt obje – array yapma!
@@ -247,7 +247,7 @@ const RisksAssessment = () => {
         residualRiskLikelyhood: formData.residualRiskLikelyhood,
       };
        console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
-      const url = "http://localhost:8000/api/register/br/" + selectedTable[0].id  + "/";
+      const url = "http://localhost:8000/api/register/br/one/" + selectedTable[0].id;
       fetch(url, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -302,16 +302,22 @@ const RisksAssessment = () => {
     }
   };
 
-  const toggleArchive = (id) => {
-    setTableData((prev) =>
-      prev.map((row) =>
-        row.id === id ? { ...row, archived: !row.archived } : row,
-      ),
-    );
-  };
+  const archiveData = (id) => {
+    fetch("http://localhost:8000/api/register/br/one/" + id + "/archive", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+    }).then((response) => {
+      if (!response.ok) {
+        console.log(" Archiving Failed ")
+      } else {
+        console.log(" Archiving Success ")
+      }
+    }).catch((error) => console.log(" Error While Archiving : ",error));
+ };
 
   // Bulk actions
   const bulkArchive = () => {
+    const row = getSelectedRow();
     setTableData((prev) =>
       prev.map((row) =>
         selectedRows.has(row.id) ? { ...row, archived: !row.archived } : row,
@@ -325,9 +331,9 @@ const RisksAssessment = () => {
     if (row) openEditModal(row);
   };
 
-  const archiveSingle = () => {
+  const archive = () => {
     const row = getSelectedRow();
-    if (row) toggleArchive(row.id);
+    if (row) archiveData(row.id);
   };
 
   return (
@@ -439,7 +445,7 @@ const RisksAssessment = () => {
                       <i className="fas fa-edit"></i>
                     </button>
                     <button
-                      onClick={bulkArchive}
+                      onClick={archive}
                       disabled={selectedCount === 0}
                       className={[
                         "!rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 hover:from-green-600 hover:to-green-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
@@ -540,7 +546,7 @@ const RisksAssessment = () => {
                       <i className="fas fa-edit"></i>
                     </button>
                     <button
-                      onClick={bulkArchive}
+                      onClick={archive}
                       disabled={selectedCount === 0}
                       className={[
                         "!rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 hover:from-green-600 hover:to-green-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
@@ -711,6 +717,7 @@ const RisksAssessment = () => {
                   {/* Table Body */}
                   <BgRiskBody
                     selectedRows={selectedRows}
+                    showArchived={showArchived}
                     onCheckboxChange={handleCheckboxChange}
                   />
                 </table>
