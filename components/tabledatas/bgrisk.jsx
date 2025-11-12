@@ -288,7 +288,7 @@ const MyTableBody = ({ selectedRows, showArchived ,onCheckboxChange }) => {
                 {row.no}
                 <input
                   checked={selectedRows.has(row.id)}
-                  onChange={() => onCheckboxChange(row.id, tableData)}
+                  onChange={() => onCheckboxChange(row.id, archivedData)}
                   type="checkbox"
                 />
               </td>

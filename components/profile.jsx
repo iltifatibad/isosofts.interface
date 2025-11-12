@@ -303,7 +303,21 @@ const RisksAssessment = () => {
   };
 
   const archiveData = (id) => {
-    fetch("http://localhost:8000/api/register/br/one/" + id + "/archive", {
+    if (showArchived) {
+      fetch("http://localhost:8000/api/register/br/one/" + id + "/unarchive", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+    }).then((response) => {
+      if (!response.ok) {
+        console.log(" UnArchiving Failed ")
+      } else {
+        console.log(" UnArchiving Success ")
+      }
+    }).catch((error) => console.log(" Error While UnArchiving : ",error));
+
+    }else {
+      
+fetch("http://localhost:8000/api/register/br/one/" + id + "/archive", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
     }).then((response) => {
@@ -313,7 +327,8 @@ const RisksAssessment = () => {
         console.log(" Archiving Success ")
       }
     }).catch((error) => console.log(" Error While Archiving : ",error));
- };
+    }
+     };
 
   // Bulk actions
   const bulkArchive = () => {
