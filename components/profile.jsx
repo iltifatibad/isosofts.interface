@@ -107,7 +107,7 @@ const RisksAssessment = () => {
     setSelectedTable,
   );
   async function getDefaultDropdownList() {
-    const url = "http://localhost:8000/api/tablecomponent/dropdownlistitem/";
+    const url = "http://localhost:8000/api/tablecomponent/dropdownlistitem";
     try {
       const response = await fetch(url);
       if (!response.ok) {
@@ -304,9 +304,12 @@ const RisksAssessment = () => {
 
   const archiveData = (id) => {
     if (showArchived) {
-      fetch("http://localhost:8000/api/register/br/one/" + id + "/unarchive", {
+      fetch("http://localhost:8000/api/register/br/all/unarchive", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+      "ids": [id]
+    })
     }).then((response) => {
       if (!response.ok) {
         console.log(" UnArchiving Failed ")
@@ -317,9 +320,10 @@ const RisksAssessment = () => {
 
     }else {
       
-fetch("http://localhost:8000/api/register/br/one/" + id + "/archive", {
+fetch("http://localhost:8000/api/register/br/all/archive", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({"ids" : [id]})
     }).then((response) => {
       if (!response.ok) {
         console.log(" Archiving Failed ")
