@@ -64,6 +64,7 @@ const RisksAssessment = () => {
   const [selectedRisk, setSelectedRisk] = useState("");
   const [isOpenReg, setIsOpenReg] = useState(false);
   const [showArchived, setShowArchived] = useState(false);
+  const [showDeleted, setShowDeleted] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [modalMode, setModalMode] = useState("add");
   const [editingRow, setEditingRow] = useState(null);
@@ -128,8 +129,18 @@ const RisksAssessment = () => {
   const getSelectedRow = () => selectedTable[0];
 
   // Handlers
-  const toggleArchiveView = () => setShowArchived(!showArchived);
-
+  const toggleArchiveView = () => {
+    setShowArchived(!showArchived);
+    if (showDeleted) {
+      setShowDeleted(!showDeleted);
+    }
+  }
+  const toggleDeleteView = () => {
+    setShowDeleted(!showDeleted);
+    if (showArchived) {
+      setShowArchived(!showArchived);
+    };
+  }
   const openAddModal = async () => {
     const dropdownData = await getDefaultDropdownList();
     setModalMode("add");
@@ -246,8 +257,9 @@ const RisksAssessment = () => {
         residualRiskSeverity: formData.residualRiskSeverity,
         residualRiskLikelyhood: formData.residualRiskLikelyhood,
       };
-       console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
-      const url = "http://localhost:8000/api/register/br/one/" + selectedTable[0].id;
+      console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
+      const url =
+        "http://localhost:8000/api/register/br/one/" + selectedTable[0].id;
       fetch(url, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -261,7 +273,6 @@ const RisksAssessment = () => {
           }
         })
         .catch((error) => console.error("Hata:", error));
-
     }
     closeModal();
   };
@@ -295,54 +306,58 @@ const RisksAssessment = () => {
 
   // Delete modal'da çağırma
   const handleDeleteConfirm = () => {
-    fetch("http://localhost:8000/api/register/br/all/delete",{
+    fetch("http://localhost:8000/api/register/br/all/delete", {
       method: "PUT",
-      headers: { "Content-Type" : "application/json"},
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        "ids": [...selectedRows]
+        ids: [...selectedRows],
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          console.log(" Failed Deleting Registers ");
+        } else {
+          console.log(" Deleting Success");
+          setShowDeleteModal(false);
+        }
       })
-    }).then((response) => {
-      if (!response.ok) {
-        console.log(" Failed Deleting Registers ")
-      } else {
-        console.log(" Deleting Success")
-        setShowDeleteModal(false);
-      }
-    }).catch((error) => console.log(" Error While Deleting: ", error));
+      .catch((error) => console.log(" Error While Deleting: ", error));
   };
 
   const archiveData = (id) => {
     if (showArchived) {
       fetch("http://localhost:8000/api/register/br/all/unarchive", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-      "ids": [...selectedRows]
-    })
-    }).then((response) => {
-      if (!response.ok) {
-        console.log(" UnArchiving Failed ")
-      } else {
-        console.log(" UnArchiving Success ")
-      }
-    }).catch((error) => console.log(" Error While UnArchiving : ",error));
-
-    }else {
-      
-fetch("http://localhost:8000/api/register/br/all/archive", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({"ids" : [...selectedRows]})
-    }).then((response) => {
-      if (!response.ok) {
-        console.log(selectedRows);
-        console.log(" Archiving Failed ")
-      } else {
-        console.log(" Archiving Success ")
-      }
-    }).catch((error) => console.log(" Error While Archiving : ",error));
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ids: [...selectedRows],
+        }),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            console.log(" UnArchiving Failed ");
+          } else {
+            console.log(" UnArchiving Success ");
+          }
+        })
+        .catch((error) => console.log(" Error While UnArchiving : ", error));
+    } else {
+      fetch("http://localhost:8000/api/register/br/all/archive", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: [...selectedRows] }),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            console.log(selectedRows);
+            console.log(" Archiving Failed ");
+          } else {
+            console.log(" Archiving Success ");
+          }
+        })
+        .catch((error) => console.log(" Error While Archiving : ", error));
     }
-     };
+  };
 
   // Bulk actions
   const bulkArchive = () => {
@@ -443,6 +458,19 @@ fetch("http://localhost:8000/api/register/br/all/archive", {
                     <i className="fas fa-archive mr-2"></i>
                     {showArchived ? "Hide Archived" : "Show Archived"}
                   </button>
+                  <button
+                    onClick={toggleDeleteView}
+                    className={[
+                      "!rounded-button whitespace-nowrap cursor-pointer px-4 py-2 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
+                      showDeleted
+                        ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-600 hover:to-orange-700"
+                        : "bg-gradient-to-r from-gray-500 to-gray-600 text-white hover:from-gray-600 hover:to-gray-700",
+                    ].join(" ")}
+                  >
+                    <i className="fas fa-archive mr-2"></i>
+                    {showDeleted ? "Hide Deleted" : "Show Deleted"}
+                  </button>
+
                   <button
                     onClick={() => {
                       setSelectedOption("datas"); // selectedOption'ı "datas" yap
@@ -545,6 +573,19 @@ fetch("http://localhost:8000/api/register/br/all/archive", {
                     {showArchived ? "Hide Archived" : "Show Archived"}
                   </button>
                   <button
+                    onClick={toggleDeleteView}
+                    className={[
+                      "!rounded-button whitespace-nowrap cursor-pointer px-4 py-2 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
+                      showDeleted
+                        ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-600 hover:to-orange-700"
+                        : "bg-gradient-to-r from-gray-500 to-gray-600 text-white hover:from-gray-600 hover:to-gray-700",
+                    ].join(" ")}
+                  >
+                    <i className="fas fa-archive mr-2"></i>
+                    {showDeleted ? "Hide Deleted" : "Show Deleted"}
+                  </button>
+
+                  <button
                     onClick={() => {
                       setSelectedOption("e-chart"); // selectedOption'ı "datas" yap
                     }}
@@ -591,6 +632,7 @@ fetch("http://localhost:8000/api/register/br/all/archive", {
                         }
                       ></i>
                     </button>
+
                     <button
                       onClick={selectedCount > 0 ? confirmBulkDelete : () => {}} // Bulk delete için güncellendi
                       disabled={selectedCount === 0}
@@ -747,6 +789,7 @@ fetch("http://localhost:8000/api/register/br/all/archive", {
                   <BgRiskBody
                     selectedRows={selectedRows}
                     showArchived={showArchived}
+                    showDeleted={showDeleted}
                     onCheckboxChange={handleCheckboxChange}
                   />
                 </table>
