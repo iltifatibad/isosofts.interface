@@ -134,13 +134,13 @@ const RisksAssessment = () => {
     if (showDeleted) {
       setShowDeleted(!showDeleted);
     }
-  }
+  };
   const toggleDeleteView = () => {
     setShowDeleted(!showDeleted);
     if (showArchived) {
       setShowArchived(!showArchived);
-    };
-  }
+    }
+  };
   const openAddModal = async () => {
     const dropdownData = await getDefaultDropdownList();
     setModalMode("add");
@@ -604,10 +604,10 @@ const RisksAssessment = () => {
                   <div className="flex space-x-2">
                     <button
                       onClick={editSingle}
-                      disabled={selectedCount !== 1}
+                      disabled={!(selectedCount >= 1 && !showDeleted)}
                       className={[
                         "!rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 hover:from-green-600 hover:to-green-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
-                        selectedCount !== 1
+                        !(selectedCount >= 1 && !showDeleted)
                           ? "opacity-50 cursor-not-allowed"
                           : "",
                       ].join(" ")}
@@ -617,10 +617,10 @@ const RisksAssessment = () => {
                     </button>
                     <button
                       onClick={archive}
-                      disabled={selectedCount === 0}
+                      disabled={!(selectedCount >= 1 && !showDeleted)}
                       className={[
                         "!rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 hover:from-green-600 hover:to-green-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
-                        selectedCount === 0
+                        !(selectedCount >= 1 && !showDeleted)
                           ? "opacity-50 cursor-not-allowed"
                           : "bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-600 hover:to-orange-700",
                       ].join(" ")}

@@ -2,8 +2,14 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { hCheckboxChange } from "../profile.jsx";
-const MyTableBody = ({ selectedRows, showArchived, onCheckboxChange, showDeleted }) => {
+const MyTableBody = ({
+  selectedRows,
+  showArchived,
+  onCheckboxChange,
+  showDeleted,
+}) => {
   const [archivedData, setArchivedData] = useState([]);
+  const [deletedData, setDeletedData] = useState([]);
   const getArchivedData = async () => {
     setLoading(true); // Loading başla
     try {
@@ -30,6 +36,34 @@ const MyTableBody = ({ selectedRows, showArchived, onCheckboxChange, showDeleted
       setArchivedData([]); // Normal moda geçince temizle (opsiyonel)
     }
   }, [showArchived]); // Dependency: showArchived değişince
+
+  const getDeletedData = async () => {
+    setLoading(true); // Loading başla
+    try {
+      const response = await fetch(
+        "http://localhost:8000/api/register/br/all?status=deleted",
+      );
+      if (!response.ok) {
+        throw new Error("Failed To Get Datas From Deleted DataBase");
+      }
+      const fetchedData = await response.json();
+      setDeletedData(fetchedData || []); // Veri set et, fallback []
+      console.log("Arşiv verileri:", fetchedData);
+    } catch (err) {
+      console.error("Error While Fetching Deleted Datas:", err);
+      setDeletedData([]); // Hata durumunda boş array set et (null değil!)
+    } finally {
+      setLoading(false); // Loading bitir
+    }
+  };
+  useEffect(() => {
+    if (showDeleted) {
+      getDeletedData(); // Async çağrı
+    } else {
+      setDeletedData([]); // Normal moda geçince temizle (opsiyonel)
+    }
+  }, [showDeleted]); // Dependency: showArchived değişince
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -53,45 +87,436 @@ const MyTableBody = ({ selectedRows, showArchived, onCheckboxChange, showDeleted
       });
   }, []);
 
-  if (tableData.length > 0) {
-    console.log("Action Plan Length:", tableData[0]?.actionPlan?.length || 0);
-  }
   if (loading) return;
   if (error) return;
-  const filteredTableData = tableData.filter(
-    (row) => showArchived || !row.archived,
-  );
 
   if (showDeleted) {
-  // 🟥 Silinmiş dosyalar
-  return (
-    <tbody>
-      <tr>
-        <td colSpan={25} className="text-center py-4 text-red-600 font-semibold">
-          DELETED FILES
-        </td>
-      </tr>
-    </tbody>
-  );
-} else if (showArchived) {
-  // 🟨 Arşivlenmiş dosyalar
-  return (
-    <tbody>
-      {loading ? (
-        <tr>
-          <td colSpan={25} className="text-center py-4">
-            Arşiv verileri yükleniyor...
-          </td>
-        </tr>
-      ) : (
-        archivedData.map((row) => {
+    // 🟥 Silinmiş dosyalar
+    return (
+      <tbody>
+        {loading ? (
+          <tr>
+            <td colSpan={25} className="text-center py-4">
+              Deleted verileri yükleniyor...
+            </td>
+          </tr>
+        ) : (
+          deletedData.map((row) => {
+            const numActions = row.actionPlan ? row.actionPlan.length : 1;
+            const actions = Array.isArray(row.actionPlan)
+              ? row.actionPlan
+              : [row.actionPlan];
+            return (
+              <React.Fragment key={row.id}>
+                {/* Ana row: Rowspan ile ana hücreler ve ilk action'ın detayları */}
+                <tr>
+                  {/* # sütunu - rowspan */}
+                  <td
+                    className="border border-blue-500 px-2 py-1 w-16 sticky left-[-1px] top-0 z-10 bg-white -ml-px"
+                    rowSpan={numActions}
+                  >
+                    {row.no}
+                    <input
+                      checked={selectedRows.has(row.id)}
+                      onChange={() => onCheckboxChange(row.id, deletedData)}
+                      type="checkbox"
+                    />
+                  </td>
+                  {/* SWOT - rowspan */}
+                  <td
+                    className="border border-blue-500 px-2 py-1 w-20"
+                    rowSpan={numActions}
+                  >
+                    {row.swot.value}
+                  </td>
+                  {/* PESTLE - rowspan */}
+                  <td
+                    className="border border-blue-500 px-2 py-1 w-20"
+                    rowSpan={numActions}
+                  >
+                    {row.pestle.value}
+                  </td>
+                  {/* Interested Party - rowspan */}
+                  <td
+                    className="border border-blue-500 px-2 py-1 w-32"
+                    rowSpan={numActions}
+                  >
+                    {row.interestedParty.value}
+                  </td>
+                  {/* Risk/Opportunity - rowspan */}
+                  <td
+                    className="border border-blue-500 px-2 py-1 w-32"
+                    rowSpan={numActions}
+                  >
+                    {row.riskOpportunity}
+                  </td>
+                  {/* Objective - rowspan */}
+                  <td
+                    className="border border-blue-500 px-2 py-1 w-28"
+                    rowSpan={numActions}
+                  >
+                    {row.objective}
+                  </td>
+                  {/* KPI - rowspan */}
+                  <td
+                    className="border border-blue-500 px-2 py-1 w-20"
+                    rowSpan={numActions}
+                  >
+                    {row.kpi}
+                  </td>
+                  {/* Process - rowspan */}
+                  <td
+                    className="border border-blue-500 px-2 py-1 w-24"
+                    rowSpan={numActions}
+                  >
+                    {row.process.value}
+                  </td>
+                  {/* Existing Risk/Mitigation Action/Exploitation Action - rowspan */}
+                  <td
+                    className="border border-blue-500 px-2 py-1 w-48"
+                    rowSpan={numActions}
+                  >
+                    {row.ermeoa.value || `${row.objective} Action`}
+                  </td>
+                  {/* Initial Risk: Severity - rowspan */}
+                  <td
+                    className="border border-blue-500 px-2 py-1 w-20"
+                    rowSpan={numActions}
+                  >
+                    {row.initialRiskSeverity || ""}
+                  </td>
+                  {/* Initial Risk: Likelihood - rowspan */}
+                  <td
+                    className="border border-blue-500 px-2 py-1 w-24"
+                    rowSpan={numActions}
+                  >
+                    {row.initialRiskLikelyhood || ""}
+                  </td>
+                  {/* Initial Risk: Risk Level - rowspan */}
+                  <td
+                    className="border border-blue-500 px-2 py-1 w-20"
+                    rowSpan={numActions}
+                  >
+                    Medium
+                  </td>
+                  {/* İlk Action Plan'ın detayları */}
+                  <td className="border border-blue-500 px-2 py-1 w-32">
+                    {actions[0]?.action || ""}
+                  </td>
+                  <td className="border border-blue-500 px-2 py-1 w-32">
+                    {actions[0]?.raiseDate || ""}
+                  </td>
+                  <td className="border border-blue-500 px-2 py-1 w-24">
+                    {actions[0]?.resources || ""}
+                  </td>
+                  <td className="border border-blue-500 px-2 py-1 w-28">
+                    {actions[0]?.function || ""}
+                  </td>
+                  <td className="border border-blue-500 px-2 py-1 w-28">
+                    {actions[0]?.responsible || ""}
+                  </td>
+                  <td className="border border-blue-500 px-2 py-1 w-24">
+                    {actions[0]?.deadline || ""}
+                  </td>
+                  <td className="border border-blue-500 px-2 py-1 w-36">
+                    {actions[0]?.actionConfirmation || ""}
+                  </td>
+                  <td className="border border-blue-500 px-2 py-1 w-24">
+                    {actions[0]?.actionStatus || ""}
+                  </td>
+                  <td className="border border-blue-500 px-2 py-1 w-24">
+                    {actions[0]?.completionDate || ""}
+                  </td>
+                  <td className="border border-blue-500 px-2 py-1 w-32">
+                    {actions[0]?.statusOfVerification || ""}
+                  </td>
+                  <td className="border border-blue-500 px-2 py-1 w-40">
+                    {actions[0]?.comment || ""}
+                  </td>
+                  {/* Residual Risk/Opportunity Level - rowspan */}
+                  <td
+                    className="border border-blue-500 px-2 py-1 w-24"
+                    rowSpan={numActions}
+                  >
+                    {row.residualRiskSeverity || ""}
+                  </td>
+                  <td
+                    className="border border-blue-500 px-2 py-1 w-24"
+                    rowSpan={numActions}
+                  >
+                    {row.residualRiskLikelyhood || ""}
+                  </td>
+                  <td
+                    className="border border-blue-500 px-2 py-1 w-20"
+                    rowSpan={numActions}
+                  >
+                    Low
+                  </td>
+                </tr>
+                {/* Ek action plan'lar */}
+                {actions.slice(1).map((action, actionIndex) => (
+                  <tr key={`${row.id}-action-${actionIndex}`}>
+                    <td className="border border-blue-500 px-2 py-1 w-32">
+                      {action?.action || ""}
+                    </td>
+                    <td className="border border-blue-500 px-2 py-1 w-32">
+                      {action?.raiseDate || ""}
+                    </td>
+                    <td className="border border-blue-500 px-2 py-1 w-24">
+                      {action?.resources || ""}
+                    </td>
+                    <td className="border border-blue-500 px-2 py-1 w-28">
+                      {action?.function || ""}
+                    </td>
+                    <td className="border border-blue-500 px-2 py-1 w-28">
+                      {action?.responsible || ""}
+                    </td>
+                    <td className="border border-blue-500 px-2 py-1 w-24">
+                      {action?.deadline || ""}
+                    </td>
+                    <td className="border border-blue-500 px-2 py-1 w-36">
+                      {action?.actionStatus || ""}
+                    </td>
+                    <td className="border border-blue-500 px-2 py-1 w-24">
+                      {action?.verification || ""}
+                    </td>
+                    <td className="border border-blue-500 px-2 py-1 w-32">
+                      {action?.comment || ""}
+                    </td>
+                    <td className="border border-blue-500 px-2 py-1 w-36">
+                      {action?.verification || ""}
+                    </td>
+                    <td className="border border-blue-500 px-2 py-1 w-40">
+                      {action?.comment || ""}
+                    </td>
+                  </tr>
+                ))}
+              </React.Fragment>
+            );
+          })
+        )}
+      </tbody>
+    );
+  } else if (showArchived) {
+    // 🟨 Arşivlenmiş dosyalar
+    return (
+      <tbody>
+        {loading ? (
+          <tr>
+            <td colSpan={25} className="text-center py-4">
+              Arşiv verileri yükleniyor...
+            </td>
+          </tr>
+        ) : (
+          archivedData.map((row) => {
+            const numActions = row.actionPlan ? row.actionPlan.length : 1;
+            const actions = Array.isArray(row.actionPlan)
+              ? row.actionPlan
+              : [row.actionPlan];
+            return (
+              <React.Fragment key={row.id}>
+                {/* Ana row: Rowspan ile ana hücreler ve ilk action'ın detayları */}
+                <tr>
+                  {/* # sütunu - rowspan */}
+                  <td
+                    className="border border-blue-500 px-2 py-1 w-16 sticky left-[-1px] top-0 z-10 bg-white -ml-px"
+                    rowSpan={numActions}
+                  >
+                    {row.no}
+                    <input
+                      checked={selectedRows.has(row.id)}
+                      onChange={() => onCheckboxChange(row.id, archivedData)}
+                      type="checkbox"
+                    />
+                  </td>
+                  {/* SWOT - rowspan */}
+                  <td
+                    className="border border-blue-500 px-2 py-1 w-20"
+                    rowSpan={numActions}
+                  >
+                    {row.swot.value}
+                  </td>
+                  {/* PESTLE - rowspan */}
+                  <td
+                    className="border border-blue-500 px-2 py-1 w-20"
+                    rowSpan={numActions}
+                  >
+                    {row.pestle.value}
+                  </td>
+                  {/* Interested Party - rowspan */}
+                  <td
+                    className="border border-blue-500 px-2 py-1 w-32"
+                    rowSpan={numActions}
+                  >
+                    {row.interestedParty.value}
+                  </td>
+                  {/* Risk/Opportunity - rowspan */}
+                  <td
+                    className="border border-blue-500 px-2 py-1 w-32"
+                    rowSpan={numActions}
+                  >
+                    {row.riskOpportunity}
+                  </td>
+                  {/* Objective - rowspan */}
+                  <td
+                    className="border border-blue-500 px-2 py-1 w-28"
+                    rowSpan={numActions}
+                  >
+                    {row.objective}
+                  </td>
+                  {/* KPI - rowspan */}
+                  <td
+                    className="border border-blue-500 px-2 py-1 w-20"
+                    rowSpan={numActions}
+                  >
+                    {row.kpi}
+                  </td>
+                  {/* Process - rowspan */}
+                  <td
+                    className="border border-blue-500 px-2 py-1 w-24"
+                    rowSpan={numActions}
+                  >
+                    {row.process.value}
+                  </td>
+                  {/* Existing Risk/Mitigation Action/Exploitation Action - rowspan */}
+                  <td
+                    className="border border-blue-500 px-2 py-1 w-48"
+                    rowSpan={numActions}
+                  >
+                    {row.ermeoa.value || `${row.objective} Action`}
+                  </td>
+                  {/* Initial Risk: Severity - rowspan */}
+                  <td
+                    className="border border-blue-500 px-2 py-1 w-20"
+                    rowSpan={numActions}
+                  >
+                    {row.initialRiskSeverity || ""}
+                  </td>
+                  {/* Initial Risk: Likelihood - rowspan */}
+                  <td
+                    className="border border-blue-500 px-2 py-1 w-24"
+                    rowSpan={numActions}
+                  >
+                    {row.initialRiskLikelyhood || ""}
+                  </td>
+                  {/* Initial Risk: Risk Level - rowspan */}
+                  <td
+                    className="border border-blue-500 px-2 py-1 w-20"
+                    rowSpan={numActions}
+                  >
+                    Medium
+                  </td>
+                  {/* İlk Action Plan'ın detayları */}
+                  <td className="border border-blue-500 px-2 py-1 w-32">
+                    {actions[0]?.action || ""}
+                  </td>
+                  <td className="border border-blue-500 px-2 py-1 w-32">
+                    {actions[0]?.raiseDate || ""}
+                  </td>
+                  <td className="border border-blue-500 px-2 py-1 w-24">
+                    {actions[0]?.resources || ""}
+                  </td>
+                  <td className="border border-blue-500 px-2 py-1 w-28">
+                    {actions[0]?.function || ""}
+                  </td>
+                  <td className="border border-blue-500 px-2 py-1 w-28">
+                    {actions[0]?.responsible || ""}
+                  </td>
+                  <td className="border border-blue-500 px-2 py-1 w-24">
+                    {actions[0]?.deadline || ""}
+                  </td>
+                  <td className="border border-blue-500 px-2 py-1 w-36">
+                    {actions[0]?.actionConfirmation || ""}
+                  </td>
+                  <td className="border border-blue-500 px-2 py-1 w-24">
+                    {actions[0]?.actionStatus || ""}
+                  </td>
+                  <td className="border border-blue-500 px-2 py-1 w-24">
+                    {actions[0]?.completionDate || ""}
+                  </td>
+                  <td className="border border-blue-500 px-2 py-1 w-32">
+                    {actions[0]?.statusOfVerification || ""}
+                  </td>
+                  <td className="border border-blue-500 px-2 py-1 w-40">
+                    {actions[0]?.comment || ""}
+                  </td>
+                  {/* Residual Risk/Opportunity Level - rowspan */}
+                  <td
+                    className="border border-blue-500 px-2 py-1 w-24"
+                    rowSpan={numActions}
+                  >
+                    {row.residualRiskSeverity || ""}
+                  </td>
+                  <td
+                    className="border border-blue-500 px-2 py-1 w-24"
+                    rowSpan={numActions}
+                  >
+                    {row.residualRiskLikelyhood || ""}
+                  </td>
+                  <td
+                    className="border border-blue-500 px-2 py-1 w-20"
+                    rowSpan={numActions}
+                  >
+                    Low
+                  </td>
+                </tr>
+                {/* Ek action plan'lar */}
+                {actions.slice(1).map((action, actionIndex) => (
+                  <tr key={`${row.id}-action-${actionIndex}`}>
+                    <td className="border border-blue-500 px-2 py-1 w-32">
+                      {action?.action || ""}
+                    </td>
+                    <td className="border border-blue-500 px-2 py-1 w-32">
+                      {action?.raiseDate || ""}
+                    </td>
+                    <td className="border border-blue-500 px-2 py-1 w-24">
+                      {action?.resources || ""}
+                    </td>
+                    <td className="border border-blue-500 px-2 py-1 w-28">
+                      {action?.function || ""}
+                    </td>
+                    <td className="border border-blue-500 px-2 py-1 w-28">
+                      {action?.responsible || ""}
+                    </td>
+                    <td className="border border-blue-500 px-2 py-1 w-24">
+                      {action?.deadline || ""}
+                    </td>
+                    <td className="border border-blue-500 px-2 py-1 w-36">
+                      {action?.actionStatus || ""}
+                    </td>
+                    <td className="border border-blue-500 px-2 py-1 w-24">
+                      {action?.verification || ""}
+                    </td>
+                    <td className="border border-blue-500 px-2 py-1 w-32">
+                      {action?.comment || ""}
+                    </td>
+                    <td className="border border-blue-500 px-2 py-1 w-36">
+                      {action?.verification || ""}
+                    </td>
+                    <td className="border border-blue-500 px-2 py-1 w-40">
+                      {action?.comment || ""}
+                    </td>
+                  </tr>
+                ))}
+              </React.Fragment>
+            );
+          })
+        )}
+      </tbody>
+    );
+  } else {
+    // 🟩 Normal (aktif) tablo
+    return (
+      <tbody>
+        {tableData.map((row) => {
           const numActions = row.actionPlan ? row.actionPlan.length : 1;
           const actions = Array.isArray(row.actionPlan)
             ? row.actionPlan
             : [row.actionPlan];
+
           return (
             <React.Fragment key={row.id}>
-              {/* Ana row: Rowspan ile ana hücreler ve ilk action'ın detayları */}
+              {/* Ana row */}
               <tr>
                 {/* # sütunu - rowspan */}
                 <td
@@ -101,7 +526,7 @@ const MyTableBody = ({ selectedRows, showArchived, onCheckboxChange, showDeleted
                   {row.no}
                   <input
                     checked={selectedRows.has(row.id)}
-                    onChange={() => onCheckboxChange(row.id, archivedData)}
+                    onChange={() => onCheckboxChange(row.id, tableData)}
                     type="checkbox"
                   />
                 </td>
@@ -154,35 +579,35 @@ const MyTableBody = ({ selectedRows, showArchived, onCheckboxChange, showDeleted
                 >
                   {row.process.value}
                 </td>
-                {/* Existing Risk/Mitigation Action/Exploitation Action - rowspan */}
+                {/* Existing Risk / Mitigation / Exploitation */}
                 <td
                   className="border border-blue-500 px-2 py-1 w-48"
                   rowSpan={numActions}
                 >
                   {row.ermeoa.value || `${row.objective} Action`}
                 </td>
-                {/* Initial Risk: Severity - rowspan */}
+                {/* Initial Risk: Severity */}
                 <td
                   className="border border-blue-500 px-2 py-1 w-20"
                   rowSpan={numActions}
                 >
                   {row.initialRiskSeverity || ""}
                 </td>
-                {/* Initial Risk: Likelihood - rowspan */}
+                {/* Initial Risk: Likelihood */}
                 <td
                   className="border border-blue-500 px-2 py-1 w-24"
                   rowSpan={numActions}
                 >
                   {row.initialRiskLikelyhood || ""}
                 </td>
-                {/* Initial Risk: Risk Level - rowspan */}
+                {/* Initial Risk: Risk Level */}
                 <td
                   className="border border-blue-500 px-2 py-1 w-20"
                   rowSpan={numActions}
                 >
                   Medium
                 </td>
-                {/* İlk Action Plan'ın detayları */}
+                {/* İlk Action Plan */}
                 <td className="border border-blue-500 px-2 py-1 w-32">
                   {actions[0]?.action || ""}
                 </td>
@@ -216,7 +641,7 @@ const MyTableBody = ({ selectedRows, showArchived, onCheckboxChange, showDeleted
                 <td className="border border-blue-500 px-2 py-1 w-40">
                   {actions[0]?.comment || ""}
                 </td>
-                {/* Residual Risk/Opportunity Level - rowspan */}
+                {/* Residual Risk */}
                 <td
                   className="border border-blue-500 px-2 py-1 w-24"
                   rowSpan={numActions}
@@ -236,7 +661,7 @@ const MyTableBody = ({ selectedRows, showArchived, onCheckboxChange, showDeleted
                   Low
                 </td>
               </tr>
-              {/* Ek action plan'lar */}
+              {/* Ek action planlar */}
               {actions.slice(1).map((action, actionIndex) => (
                 <tr key={`${row.id}-action-${actionIndex}`}>
                   <td className="border border-blue-500 px-2 py-1 w-32">
@@ -276,147 +701,10 @@ const MyTableBody = ({ selectedRows, showArchived, onCheckboxChange, showDeleted
               ))}
             </React.Fragment>
           );
-        })
-      )}
-    </tbody>
-  );
-} else {
-  // 🟩 Normal (aktif) tablo
-  return (
-    <tbody>
-      {tableData.map((row) => {
-        const numActions = row.actionPlan ? row.actionPlan.length : 1;
-        const actions = Array.isArray(row.actionPlan)
-          ? row.actionPlan
-          : [row.actionPlan];
-
-        return (
-          <React.Fragment key={row.id}>
-            {/* Ana row */}
-            <tr>
-              {/* # sütunu - rowspan */}
-              <td
-                className="border border-blue-500 px-2 py-1 w-16 sticky left-[-1px] top-0 z-10 bg-white -ml-px"
-                rowSpan={numActions}
-              >
-                {row.no}
-                <input
-                  checked={selectedRows.has(row.id)}
-                  onChange={() => onCheckboxChange(row.id, tableData)}
-                  type="checkbox"
-                />
-              </td>
-              {/* SWOT - rowspan */}
-              <td className="border border-blue-500 px-2 py-1 w-20" rowSpan={numActions}>
-                {row.swot.value}
-              </td>
-              {/* PESTLE - rowspan */}
-              <td className="border border-blue-500 px-2 py-1 w-20" rowSpan={numActions}>
-                {row.pestle.value}
-              </td>
-              {/* Interested Party - rowspan */}
-              <td className="border border-blue-500 px-2 py-1 w-32" rowSpan={numActions}>
-                {row.interestedParty.value}
-              </td>
-              {/* Risk/Opportunity - rowspan */}
-              <td className="border border-blue-500 px-2 py-1 w-32" rowSpan={numActions}>
-                {row.riskOpportunity}
-              </td>
-              {/* Objective - rowspan */}
-              <td className="border border-blue-500 px-2 py-1 w-28" rowSpan={numActions}>
-                {row.objective}
-              </td>
-              {/* KPI - rowspan */}
-              <td className="border border-blue-500 px-2 py-1 w-20" rowSpan={numActions}>
-                {row.kpi}
-              </td>
-              {/* Process - rowspan */}
-              <td className="border border-blue-500 px-2 py-1 w-24" rowSpan={numActions}>
-                {row.process.value}
-              </td>
-              {/* Existing Risk / Mitigation / Exploitation */}
-              <td className="border border-blue-500 px-2 py-1 w-48" rowSpan={numActions}>
-                {row.ermeoa.value || `${row.objective} Action`}
-              </td>
-              {/* Initial Risk: Severity */}
-              <td className="border border-blue-500 px-2 py-1 w-20" rowSpan={numActions}>
-                {row.initialRiskSeverity || ""}
-              </td>
-              {/* Initial Risk: Likelihood */}
-              <td className="border border-blue-500 px-2 py-1 w-24" rowSpan={numActions}>
-                {row.initialRiskLikelyhood || ""}
-              </td>
-              {/* Initial Risk: Risk Level */}
-              <td className="border border-blue-500 px-2 py-1 w-20" rowSpan={numActions}>
-                Medium
-              </td>
-              {/* İlk Action Plan */}
-              <td className="border border-blue-500 px-2 py-1 w-32">
-                {actions[0]?.action || ""}
-              </td>
-              <td className="border border-blue-500 px-2 py-1 w-32">
-                {actions[0]?.raiseDate || ""}
-              </td>
-              <td className="border border-blue-500 px-2 py-1 w-24">
-                {actions[0]?.resources || ""}
-              </td>
-              <td className="border border-blue-500 px-2 py-1 w-28">
-                {actions[0]?.function || ""}
-              </td>
-              <td className="border border-blue-500 px-2 py-1 w-28">
-                {actions[0]?.responsible || ""}
-              </td>
-              <td className="border border-blue-500 px-2 py-1 w-24">
-                {actions[0]?.deadline || ""}
-              </td>
-              <td className="border border-blue-500 px-2 py-1 w-36">
-                {actions[0]?.actionConfirmation || ""}
-              </td>
-              <td className="border border-blue-500 px-2 py-1 w-24">
-                {actions[0]?.actionStatus || ""}
-              </td>
-              <td className="border border-blue-500 px-2 py-1 w-24">
-                {actions[0]?.completionDate || ""}
-              </td>
-              <td className="border border-blue-500 px-2 py-1 w-32">
-                {actions[0]?.statusOfVerification || ""}
-              </td>
-              <td className="border border-blue-500 px-2 py-1 w-40">
-                {actions[0]?.comment || ""}
-              </td>
-              {/* Residual Risk */}
-              <td className="border border-blue-500 px-2 py-1 w-24" rowSpan={numActions}>
-                {row.residualRiskSeverity || ""}
-              </td>
-              <td className="border border-blue-500 px-2 py-1 w-24" rowSpan={numActions}>
-                {row.residualRiskLikelyhood || ""}
-              </td>
-              <td className="border border-blue-500 px-2 py-1 w-20" rowSpan={numActions}>
-                Low
-              </td>
-            </tr>
-            {/* Ek action planlar */}
-            {actions.slice(1).map((action, actionIndex) => (
-              <tr key={`${row.id}-action-${actionIndex}`}>
-                <td className="border border-blue-500 px-2 py-1 w-32">{action?.action || ""}</td>
-                <td className="border border-blue-500 px-2 py-1 w-32">{action?.raiseDate || ""}</td>
-                <td className="border border-blue-500 px-2 py-1 w-24">{action?.resources || ""}</td>
-                <td className="border border-blue-500 px-2 py-1 w-28">{action?.function || ""}</td>
-                <td className="border border-blue-500 px-2 py-1 w-28">{action?.responsible || ""}</td>
-                <td className="border border-blue-500 px-2 py-1 w-24">{action?.deadline || ""}</td>
-                <td className="border border-blue-500 px-2 py-1 w-36">{action?.actionStatus || ""}</td>
-                <td className="border border-blue-500 px-2 py-1 w-24">{action?.verification || ""}</td>
-                <td className="border border-blue-500 px-2 py-1 w-32">{action?.comment || ""}</td>
-                <td className="border border-blue-500 px-2 py-1 w-36">{action?.verification || ""}</td>
-                <td className="border border-blue-500 px-2 py-1 w-40">{action?.comment || ""}</td>
-              </tr>
-            ))}
-          </React.Fragment>
-        );
-      })}
-    </tbody>
-  );
-}
+        })}
+      </tbody>
+    );
+  }
 };
 
 export default MyTableBody;
