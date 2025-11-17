@@ -155,11 +155,12 @@ const RisksAssessment = () => {
     }
   };
 
-  
   const openAddModal = async () => {
-    const dropdownData = await getDefaultDropdownList();
+    
     setModalMode("add");
     setEditingRow(null);
+    const dropdownData = await getDefaultDropdownList();
+    if (activeHeader){
     setFormData({
       swot: "",
       pestle: "",
@@ -174,10 +175,41 @@ const RisksAssessment = () => {
       residualRiskSeverity: 0,
       residualRiskLikelyhood: 0,
     });
-    setShowModal(true);
+    setShowModal(true);}
+   else {
+    setFormData({
+      title:"",
+      raiseDate:"",
+      resources:"",
+      currency:"",
+      relativeFunction:"",
+      responsible:"",
+      deadline:"",
+      confirmation:"",
+      status:"",
+      completionData:"",
+      verificationStatus:"",
+      comment:"",
+      january:"",
+      february:"",
+      march:"",
+      april:"",
+      may:"",
+      june:"",
+      july:"",
+      august:"",
+      september:"",
+      october:"",
+      november:"",
+      decemer:"",
+    })
+  }
   };
 
   const openEditModal = async (row) => {
+    if(activeHeader){
+      
+    }
     const dropdownData = await getDefaultDropdownList();
     setModalMode("edit");
     setEditingRow(row);
@@ -322,43 +354,41 @@ const RisksAssessment = () => {
   // Delete modal'da çağırma
   const handleDeleteConfirm = () => {
     if (!showDeleted) {
-      
- fetch("http://localhost:8000/api/register/br/all/delete", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        ids: [...selectedRows],
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          console.log(" Failed Deleting Registers ");
-        } else {
-          console.log(" Deleting Success");
-          setShowDeleteModal(false);
-        }
+      fetch("http://localhost:8000/api/register/br/all/delete", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ids: [...selectedRows],
+        }),
       })
-      .catch((error) => console.log(" Error While Deleting: ", error));
+        .then((response) => {
+          if (!response.ok) {
+            console.log(" Failed Deleting Registers ");
+          } else {
+            console.log(" Deleting Success");
+            setShowDeleteModal(false);
+          }
+        })
+        .catch((error) => console.log(" Error While Deleting: ", error));
     } else {
-      
- fetch("http://localhost:8000/api/register/br/all/undelete", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        ids: [...selectedRows],
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          console.log(" Failed Deleting Registers ");
-        } else {
-          console.log(" Deleting Success");
-          setShowDeleteModal(false);
-        }
+      fetch("http://localhost:8000/api/register/br/all/undelete", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ids: [...selectedRows],
+        }),
       })
-      .catch((error) => console.log(" Error While Deleting: ", error));
+        .then((response) => {
+          if (!response.ok) {
+            console.log(" Failed Deleting Registers ");
+          } else {
+            console.log(" Deleting Success");
+            setShowDeleteModal(false);
+          }
+        })
+        .catch((error) => console.log(" Error While Deleting: ", error));
     }
-     };
+  };
 
   const archiveData = (id) => {
     if (showArchived) {
@@ -506,7 +536,7 @@ const RisksAssessment = () => {
                     <i className="fas fa-archive mr-2"></i>
                     {showDeleted ? "Hide Deleted" : "Show Deleted"}
                   </button>
-                <button
+                  <button
                     onClick={toggleActionView}
                     className={[
                       "!rounded-button whitespace-nowrap cursor-pointer px-4 py-2 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
@@ -518,7 +548,6 @@ const RisksAssessment = () => {
                     <i className="fas fa-archive mr-2"></i>
                     {showAction ? "Hide Action" : "Show Action"}
                   </button>
-
 
                   <button
                     onClick={() => {
@@ -578,8 +607,11 @@ const RisksAssessment = () => {
                       ].join(" ")}
                       title="Delete Selected"
                     >
-                      <i className={
-                        showDeleted ? "fas fa-trash-restore" : "fas fa-trash"}></i>
+                      <i
+                        className={
+                          showDeleted ? "fas fa-trash-restore" : "fas fa-trash"
+                        }
+                      ></i>
                     </button>
                   </div>
                 </div>
@@ -634,7 +666,7 @@ const RisksAssessment = () => {
                     <i className="fas fa-archive mr-2"></i>
                     {showDeleted ? "Hide Deleted" : "Show Deleted"}
                   </button>
-                <button
+                  <button
                     onClick={toggleActionView}
                     className={[
                       "!rounded-button whitespace-nowrap cursor-pointer px-4 py-2 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
@@ -646,7 +678,6 @@ const RisksAssessment = () => {
                     <i className="fas fa-archive mr-2"></i>
                     {showAction ? "Hide Action" : "Show Action"}
                   </button>
-
 
                   <button
                     onClick={() => {
@@ -707,22 +738,26 @@ const RisksAssessment = () => {
                       ].join(" ")}
                       title="Delete Selected"
                     >
-                       <i className={
-                        showDeleted ? "fas fa-trash-restore" : "fas fa-trash"}></i>
-
+                      <i
+                        className={
+                          showDeleted ? "fas fa-trash-restore" : "fas fa-trash"
+                        }
+                      ></i>
                     </button>
                   </div>
                 </div>
               </div>
               <div className="overflow-x-auto max-h-[75vh] overflow-y-auto">
                 {" "}
-                  <table>
+                <table>
                   <BgHeaders activeHeader={activeHeader} />
                   <BgRiskBody
                     selectedRows={selectedRows}
                     showArchived={showArchived}
                     showDeleted={showDeleted}
                     onCheckboxChange={handleCheckboxChange}
+                    activeHeader={activeHeader}
+                    selectedTable={selectedTable}
                   />
                 </table>
               </div>
@@ -742,7 +777,8 @@ const RisksAssessment = () => {
         </div>
       </div>
       {/* Add/Edit Modal */}
-      {showModal && (
+      {showModal &&
+        (activeHeader ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           <div className="bg-white !rounded-button shadow-xl max-w-4xl w-full mx-4 max-h-screen overflow-y-auto">
             <div className="p-6 border-b border-blue-100">
@@ -1143,7 +1179,189 @@ const RisksAssessment = () => {
             </div>
           </div>
         </div>
-      )}
+      ) :
+        
+(
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="bg-white !rounded-button shadow-xl max-w-4xl w-full mx-4 max-h-screen overflow-y-auto">
+            <div className="p-6 border-b border-blue-100">
+              <h3 className="text-xl font-semibold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
+                {modalMode === "add" ? "Add New Risk" : "Edit Risk"}
+              </h3>
+            </div>
+            <div className="p-6">
+              <div className="grid md:grid-cols-2 gap-6">
+                
+                <div className="space-y-4">
+                 { <div>
+                     <label className="block text-sm font-medium text-gray-700 mb-2">
+                       Action Plan
+                     </label>
+                     <div className="space-y-3">
+                       <div className="grid grid-cols-3 gap-2">
+                         <input
+                           value={formData.actionPlan.action}
+                           onChange={(e) =>
+                             handleFormChange(
+                               "actionPlan.action",
+                               e.target.value,
+                             )
+                           }
+                           type="text"
+                           placeholder="Action"
+                           className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                         />
+                         <input
+                           value={formData.actionPlan.raiseDate}
+                           onChange={(e) =>
+                             handleFormChange(
+                               "actionPlan.raiseDate",
+                               e.target.value,
+                             )
+                           }
+                           type="text"
+                           placeholder="Raise Date"
+                           className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                         />
+                         <input
+                           value={formData.actionPlan.resources}
+                           onChange={(e) =>
+                             handleFormChange(
+                               "actionPlan.resources",
+                               e.target.value,
+                             )
+                           }
+                          type="text"
+                           placeholder="Resources"
+                           className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                         />
+                       </div>
+                       <div className="grid grid-cols-3 gap-2">
+                         <input
+                           value={formData.actionPlan.function}
+                           onChange={(e) =>
+                             handleFormChange(
+                               "actionPlan.function",
+                               e.target.value,
+                             )
+                           }
+                           type="text"
+                           placeholder="Relative Function"
+                          className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                         />
+                         <input
+                           value={formData.actionPlan.responsible}
+                           onChange={(e) =>
+                             handleFormChange(
+                               "actionPlan.responsible",
+                               e.target.value,
+                             )
+                           }
+                           type="text"
+                           placeholder="Responsible"
+                           className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                         />
+                         <input
+                          value={formData.actionPlan.deadline}
+                           onChange={(e) =>
+                             handleFormChange(
+                               "actionPlan.deadline",
+                               e.target.value,
+                             )
+                           }
+                           type="text"
+                           placeholder="Deadline"
+                           className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                         />
+                       </div>
+                       <div className="grid grid-cols-3 gap-2">
+                         <input
+                           value={formData.actionPlan.actionConfirmation}
+                           onChange={(e) =>
+                            handleFormChange(
+                               "actionPlan.actionConfirmation",
+                               e.target.value,
+                             )
+                           }
+                           type="text"
+                           placeholder="Action Confirmation"
+                           className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                         />
+                         <input
+                           value={formData.actionPlan.actionStatus}
+                           onChange={(e) =>
+                             handleFormChange(
+                               "actionPlan.actionStatus",
+                               e.target.value,
+                             )
+                           }
+                           type="text"
+                           placeholder="Action Status"
+                           className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                         />
+                         <input
+                           value={formData.actionPlan.compilationDate}
+                           onChange={(e) =>
+                             handleFormChange(
+                               "actionPlan.compilationDate",
+                               e.target.value,
+                             )
+                           }
+                           type="text"
+                           placeholder="Compilation Date"
+                           className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                         />
+                       </div>
+                       <div className="grid grid-cols-2 gap-2">
+                         <input
+                           value={formData.actionPlan.verification}
+                           onChange={(e) =>
+                             handleFormChange(
+                               "actionPlan.verification",
+                               e.target.value,
+                             )
+                           }
+                           type="text"
+                           placeholder="Status Of Verification"
+                           className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                         />
+                         <input
+                           value={formData.actionPlan.comment}
+                           onChange={(e) =>
+                             handleFormChange(
+                               "actionPlan.comment",
+                               e.target.value,
+                             )
+                           }
+                           type="text"
+                           placeholder="Comment"
+                           className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                         />
+                       </div>
+                     </div>
+                   </div> }
+                   <div className="grid grid-cols-3 gap-2">
+                 </div>
+                </div>
+              </div>
+            </div>
+            <div className="p-6 border-t border-blue-100 flex justify-end space-x-4">
+              <button
+                onClick={closeModal}
+                className="!rounded-button whitespace-nowrap cursor-pointer border-2 border-gray-300 text-gray-600 px-6 py-2 hover:bg-gray-50 transition-all duration-300"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={saveRisk}
+                className="!rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-2 hover:from-blue-600 hover:to-blue-800 transition-all duration-300"
+              >
+                {modalMode === "add" ? "Add Risk" : "Update Risk"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )      ) }
       {/* Delete Confirmation Modal */}
       {showDeleteModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
