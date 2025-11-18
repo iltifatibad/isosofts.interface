@@ -99,53 +99,56 @@ const MyTableBody = ({
   }, [showArchived, showDeleted]);
 
   const getAllActions = async (selectedRows) => {
-  setLoading(true);
-  
-  // Set'i Array'e çevir (bu kritik kısım!)
-  const selectedRowsArray = [...selectedRows];
-  
-  if (selectedRowsArray.length === 0) {
-    console.error("Seçili satır yok!"); // Hata kontrolü
-    setLoading(false);
-    return; // Erken çık
-  }
-  
-  const firstRowId = selectedRowsArray[0]; // Artık ID'yi alabilirsin: "I234884J501LA657g6S20N2Nc2V71p"
-  const url = `http://localhost:8000/api/register/component/action/all?registerId=${firstRowId}&status=active`;
-  
-  console.log("URL:", url); // Debug: URL'yi konsola yazdır, registerId'yi kontrol et
-  
-  fetch(url, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => {
-      console.log("AAA", selectedRows); // Bu zaten Set'i gösteriyor
-      if (!response.ok) {
-        throw new Error(`Failed To Get Actions: ${response.status} - ${response.statusText}`);
-      }
-      return response.json();
-    })
-    .then((data) => {
-      // Başarılı veriyi işle, örneğin setActions(data);
-      console.log("Fetched data:", data); // Debug için ekle
-      setLoading(false);
-    })
-    .catch((err) => {
-      console.error("Fetch hatası:", err); // Hata detayını logla
-      setError(err.message);
-      setLoading(false);
-    });
-};
+    setLoading(true);
 
-useEffect(() => {
-  if (!activeHeader && selectedRows.size > 0) { // selectedRows.size ile Set'in boş olup olmadığını kontrol et
-    getAllActions(selectedRows);
-    console.log("Function Running");
-  }
-}, [activeHeader, selectedRows]); // Dependency array ekle: selectedRows değişirse tekrar çalışsın
+    // Set'i Array'e çevir (bu kritik kısım!)
+    const selectedRowsArray = [...selectedRows];
+
+    if (selectedRowsArray.length === 0) {
+      console.error("Seçili satır yok!"); // Hata kontrolü
+      setLoading(false);
+      return; // Erken çık
+    }
+
+    const firstRowId = selectedRowsArray[0]; // Artık ID'yi alabilirsin: "I234884J501LA657g6S20N2Nc2V71p"
+    const url = `http://localhost:8000/api/register/component/action/all?registerId=${firstRowId}&status=active`;
+
+    console.log("URL:", url); // Debug: URL'yi konsola yazdır, registerId'yi kontrol et
+
+    fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        console.log("AAA", selectedRows); // Bu zaten Set'i gösteriyor
+        if (!response.ok) {
+          throw new Error(
+            `Failed To Get Actions: ${response.status} - ${response.statusText}`,
+          );
+        }
+        return response.json();
+      })
+      .then((data) => {
+        // Başarılı veriyi işle, örneğin setActions(data);
+        console.log("Fetched data:", data); // Debug için ekle
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Fetch hatası:", err); // Hata detayını logla
+        setError(err.message);
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    if (!activeHeader && selectedRows.size > 0) {
+      // selectedRows.size ile Set'in boş olup olmadığını kontrol et
+      getAllActions(selectedRows);
+      console.log("Function Running");
+    }
+  }, [activeHeader, selectedRows]); // Dependency array ekle: selectedRows değişirse tekrar çalışsın
   if (loading) return;
   if (error) return;
 
