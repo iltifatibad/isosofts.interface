@@ -35,6 +35,32 @@ export const hCheckboxChange =
     });
   };
 
+export const hCheckboxChangeForActions = (setSelectedRows, setSelectedTable) => (id, table) => {
+  const selectedItem = table.find((item) => item.id === id);
+  setSelectedTable((prev) => {
+    const exists = prev.find((item) => item.id === id);
+    let newTables;
+    if (exists) {
+      newTables = prev.filter((item) => item.id !== id);
+    } else {
+      newTables = [...prev, selectedItem];
+    }
+    console.log(" Selected Tables For Actions ", newTables);
+    return newTables;
+  });
+  setSelectedRows((prev) => {
+    const newSet = new Set(prev);
+    if (newSet.has(id)) {
+      newSet.delete(id);
+    } else {
+      newSet.add(id);
+    }
+
+    console.log(" Selected Rows For Actions :", Array.from(newSet));
+    return newSet;
+  });
+};
+
 const RisksAssessment = () => {
   // Sample data - gerçek projede API'den veya props'tan gelebilir
   const [risks, setRisks] = useState([
@@ -101,7 +127,7 @@ const RisksAssessment = () => {
     residualRiskLikelihood: "",
   });
 
-  const [formDataAction, setFormDataAction] = useState({
+  const [actionData, setActionData] = useState({
     actionPlan: [
       {
         title: "",
@@ -137,10 +163,16 @@ const RisksAssessment = () => {
   const [deletingId, setDeletingId] = useState(null);
   const [selectedRows, setSelectedRows] = useState(new Set()); // Checkbox state'i ekle
   const [dropdownData, setDropdownData] = useState({});
+  const [selectedRowsForActions, setSelectedRowsForActions] = useState(new Set());
+  const [selectedTableForActions, setSelectedTableForActions] = useState([]);
   const handleCheckboxChange = hCheckboxChange(
     setSelectedRows,
     setSelectedTable,
   );
+  const handleCheckboxChangeForActions = hCheckboxChangeForActions(
+    setSelectedRowsForActions,
+    setSelectedTableForActions,
+  )
   async function getDefaultDropdownList() {
     const url = "http://localhost:8000/api/tablecomponent/dropdownlistitem";
     try {
@@ -161,7 +193,7 @@ const RisksAssessment = () => {
   // Seçili row sayısı
   const selectedCount = selectedRows.size;
   const getSelectedRow = () => selectedTable[0];
-
+  const getSelectedRowForAction = () => selectedTableForActions[0];
   // Handlers
   const toggleArchiveView = () => {
     setShowArchived(!showArchived);
@@ -214,7 +246,7 @@ const RisksAssessment = () => {
       });
       setShowModal(true);
     } else {
-      setFormDataAction({
+      setActionData({
         title: "",
         raiseDate: "",
         resources: "",
@@ -246,13 +278,8 @@ const RisksAssessment = () => {
 
   const openEditModal = async (row) => {
     if (activeHeader) {
-    }
-    const dropdownData = await getDefaultDropdownList();
-    setModalMode("edit");
-    setEditingRow(row);
-
-    setShowModal(true);
-    setFormData({
+      
+setFormData({
       swot: row.swot.id,
       pestle: row.pestle.id,
       interestedParty: row.interestedParty.id,
@@ -266,7 +293,44 @@ const RisksAssessment = () => {
       residualRiskSeverity: row.residualRiskSeverity,
       residualRiskLikelyhood: row.residualRiskLikelyhood,
     });
-  };
+    }else {
+      setActionData({
+  actionPlan: [
+    {
+      title: row.title,
+  raiseDate: row.raiseDate,
+  resources: String(row.resources ?? ""),
+  currency: "", // ✨ aynen kalacak
+  relativeFunction: row.relativeFunction?.id || "",
+  responsible: row.responsible?.id || "",
+  deadline: row.deadline,
+  confirmation: row.confirmation?.id || "",
+  status: row.status?.id || "",
+  completionData: row.completionDate || "",
+  verificationStatus: row.verificationStatus?.id || "",
+  comment: row.comment || "",
+      january: "",
+      february: "",
+      march: "",
+      april: "",
+      may: "",
+      june: "",
+      july: "",
+      august: "",
+      september: "",
+      october: "",
+      november: "",
+      december: "",
+    }
+  ]
+});
+    }
+    const dropdownData = await getDefaultDropdownList();
+    setModalMode("edit");
+    setEditingRow(row);
+
+    setShowModal(true);
+      };
 
   const handleFormChange = (arg1, arg2) => {
     const parsePath = (path) =>
@@ -303,7 +367,7 @@ const RisksAssessment = () => {
       return newObj;
     };
 
-    const setter = showAction ? setFormDataAction : setFormData;
+    const setter = showAction ? setActionData : setFormData;
 
     if (typeof arg1 === "string") {
       const pathArr = parsePath(arg1);
@@ -352,19 +416,19 @@ const RisksAssessment = () => {
       } else {
         const payload = {
           registerId: Array.from(selectedRows)[0],
-          title: formDataAction.actionPlan[0]?.title || "",
-          raiseDate: formDataAction.actionPlan[0]?.raiseDate || "",
-          currency: formDataAction.actionPlan[0]?.currency || "",
+          title: actionData.actionPlan[0]?.title || "",
+          raiseDate: actionData.actionPlan[0]?.raiseDate || "",
+          currency: actionData.actionPlan[0]?.currency || "",
           relativeFunction:
-            formDataAction.actionPlan[0]?.relativeFunction || "",
-          responsible: formDataAction.actionPlan[0]?.responsible || "",
-          deadline: formDataAction.actionPlan[0]?.deadline || "",
-          confirmation: formDataAction.actionPlan[0]?.confirmation || "",
-          status: formDataAction.actionPlan[0]?.status || "",
-          completionDate: formDataAction.actionPlan[0]?.completionData || "",
+            actionData.actionPlan[0]?.relativeFunction || "",
+          responsible: actionData.actionPlan[0]?.responsible || "",
+          deadline: actionData.actionPlan[0]?.deadline || "",
+          confirmation: actionData.actionPlan[0]?.confirmation || "",
+          status: actionData.actionPlan[0]?.status || "",
+          completionDate: actionData.actionPlan[0]?.completionData || "",
           verificationStatus:
-            formDataAction.actionPlan[0]?.verificationStatus || "",
-          comment: formDataAction.actionPlan[0]?.comment || "",
+            actionData.actionPlan[0]?.verificationStatus || "",
+          comment: actionData.actionPlan[0]?.comment || "",
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
 
@@ -384,6 +448,7 @@ const RisksAssessment = () => {
       }
       // Sadece backend beklediği alanları al (diğerlerini sil)
     } else {
+      if (!showAction) {
       const payload = {
         swot: formData.swot,
         pestle: formData.pestle,
@@ -414,6 +479,55 @@ const RisksAssessment = () => {
           }
         })
         .catch((error) => console.error("Hata:", error));
+    } else {
+      const payload = setActionData({
+  actionPlan: [
+    {
+      title: actionData.actionPlan[0].title,
+  raiseDate: actionData.actionPlan[0].raiseDate,
+  resources: String(actionData.actionPlan[0].resources ?? ""),
+  currency: "", // ✨ aynen kalacak
+  relativeFunction: actionData.relativeFunction?.id || "",
+  responsible: actionData.responsible?.id || "",
+  deadline: actionData.deadline,
+  confirmation: actionData.confirmation?.id || "",
+  status: actionData.status?.id || "",
+  completionData: actionData.completionDate || "",
+  verificationStatus: actionData.verificationStatus?.id || "",
+  comment: actionData.comment || "",
+      january: "",
+      february: "",
+      march: "",
+      april: "",
+      may: "",
+      june: "",
+      july: "",
+      august: "",
+      september: "",
+      october: "",
+      november: "",
+      december: "",
+    }
+  ]
+});
+;
+      console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
+      const url =
+        "http://localhost:8000/api/register/component/action/one/" + selectedTable[0].id;
+      fetch(url, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload), // Direkt obje – array yapma!
+      })
+        .then((response) => {
+          if (!response.ok) {
+            console.error("Kaydetme başarısız:", response.statusText);
+          } else {
+            console.log("Kayıt başarıyla kaydedildi.");
+          }
+        })
+        .catch((error) => console.error("Hata:", error));
+    }
     }
     closeModal();
   };
@@ -531,7 +645,13 @@ const RisksAssessment = () => {
   };
 
   const editSingle = () => {
-    const row = getSelectedRow();
+    let row;
+    if(activeHeader){
+      row = getSelectedRow();
+    }else{
+      row = getSelectedRowForAction();
+      console.log("SELECTED ROW FOR EDIT ACTION",row);
+    }
     if (row) openEditModal(row);
   };
 
@@ -849,9 +969,11 @@ const RisksAssessment = () => {
                   <BgHeaders activeHeader={activeHeader} />
                   <BgRiskBody
                     selectedRows={selectedRows}
+                    selectedRowsForActions={selectedRowsForActions}
                     showArchived={showArchived}
                     showDeleted={showDeleted}
                     onCheckboxChange={handleCheckboxChange}
+                    onCheckboxChangeForActions={handleCheckboxChangeForActions}
                     activeHeader={activeHeader}
                     selectedTable={selectedTable}
                   />
@@ -1158,7 +1280,7 @@ const RisksAssessment = () => {
                                 </label>
                                 <input
                                   value={
-                                    formDataAction?.actionPlan?.[0]?.title || ""
+                                    actionData?.actionPlan?.[0]?.title || ""
                                   }
                                   onChange={(e) =>
                                     handleFormChange(
@@ -1179,7 +1301,7 @@ const RisksAssessment = () => {
                                 </label>
                                 <input
                                   value={
-                                    formDataAction.actionPlan?.[0]?.raiseDate ||
+                                    actionData.actionPlan?.[0]?.raiseDate ||
                                     ""
                                   }
                                   onChange={(e) =>
@@ -1200,7 +1322,7 @@ const RisksAssessment = () => {
                                 </label>
                                 <input
                                   value={
-                                    formDataAction.actionPlan?.[0]?.resources ||
+                                    actionData.actionPlan?.[0]?.resources ||
                                     ""
                                   }
                                   onChange={(e) =>
@@ -1225,7 +1347,7 @@ const RisksAssessment = () => {
                                 </label>
                                 <select
                                   value={
-                                    formDataAction.actionPlan?.[0]
+                                    actionData.actionPlan?.[0]
                                       ?.relativeFunction || ""
                                   }
                                   onChange={(e) =>
@@ -1254,7 +1376,7 @@ const RisksAssessment = () => {
                                 </label>
                                 <select
                                   value={
-                                    formDataAction.actionPlan?.[0]
+                                    actionData.actionPlan?.[0]
                                       ?.responsible || ""
                                   }
                                   onChange={(e) =>
@@ -1281,7 +1403,7 @@ const RisksAssessment = () => {
                                 </label>
                                 <input
                                   value={
-                                    formDataAction.actionPlan?.[0]?.deadline ||
+                                    actionData.actionPlan?.[0]?.deadline ||
                                     ""
                                   }
                                   onChange={(e) =>
@@ -1305,7 +1427,7 @@ const RisksAssessment = () => {
                                 </label>
                                 <select
                                   value={
-                                    formDataAction.actionPlan?.[0]
+                                    actionData.actionPlan?.[0]
                                       ?.confirmation || ""
                                   }
                                   onChange={(e) =>
@@ -1332,7 +1454,7 @@ const RisksAssessment = () => {
                                 </label>
                                 <select
                                   value={
-                                    formDataAction.actionPlan?.[0]?.status || ""
+                                    actionData.actionPlan?.[0]?.status || ""
                                   }
                                   onChange={(e) =>
                                     handleFormChange(
@@ -1358,7 +1480,7 @@ const RisksAssessment = () => {
                                 </label>
                                 <input
                                   value={
-                                    formDataAction.actionPlan?.[0]
+                                    actionData.actionPlan?.[0]
                                       ?.completionData || ""
                                   }
                                   onChange={(e) =>
@@ -1382,7 +1504,7 @@ const RisksAssessment = () => {
                                 </label>
                                 <select
                                   value={
-                                    formDataAction.actionPlan?.[0]
+                                    actionData.actionPlan?.[0]
                                       ?.verificationStatus || ""
                                   }
                                   onChange={(e) =>
@@ -1409,7 +1531,7 @@ const RisksAssessment = () => {
                                 </label>
                                 <input
                                   value={
-                                    formDataAction.actionPlan?.[0]?.comment ||
+                                    actionData.actionPlan?.[0]?.comment ||
                                     ""
                                   }
                                   onChange={(e) =>

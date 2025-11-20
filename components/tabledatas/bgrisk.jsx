@@ -4,8 +4,10 @@ import { useState, useEffect } from "react";
 import { hCheckboxChange } from "../profile.jsx";
 const MyTableBody = ({
   selectedRows,
+  selectedRowsForActions,
   showArchived,
   onCheckboxChange,
+  onCheckboxChangeForActions,
   showDeleted,
   activeHeader,
   selectedTable,
@@ -614,8 +616,8 @@ const MyTableBody = ({
                   >
                     {selectedTable[0].no}
                     <input
-                      checked={selectedRows.has(row.id)}
-                      onChange={() => onCheckboxChange(row.id, deletedData)}
+                      checked={selectedRowsForActions.has(actionData[index].id)}
+                      onChange={() => onCheckboxChangeForActions(actionData[index].id, actionData)}
                       type="checkbox"
                     />
                   </td>
