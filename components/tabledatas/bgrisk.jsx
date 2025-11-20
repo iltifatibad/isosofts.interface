@@ -13,6 +13,8 @@ const MyTableBody = ({
   console.log("ACTIVE HEADERRRRR : ", activeHeader);
   const [archivedData, setArchivedData] = useState([]);
   const [deletedData, setDeletedData] = useState([]);
+  const [actionData, setActionData] = useState([]);
+  const [editData, setEditData] = useState([]);
   const getArchivedData = async () => {
     setLoading(true); // Loading başla
     try {
@@ -133,6 +135,7 @@ const MyTableBody = ({
       .then((data) => {
         // Başarılı veriyi işle, örneğin setActions(data);
         console.log("Fetched data:", data); // Debug için ekle
+        setActionData(data);
         setLoading(false);
       })
       .catch((err) => {
@@ -593,8 +596,8 @@ const MyTableBody = ({
               Deleted verileri yükleniyor...
             </td>
           </tr>
-        ) : selectedTable && selectedTable.length > 0 ? (
-          selectedTable.map((row) => {
+        ) : selectedTable && actionData && selectedTable.length > 0 ? (
+          actionData.map((row,index) => {
             const numActions = row.actionPlan ? row.actionPlan.length : 1;
             const actions = Array.isArray(row.actionPlan)
               ? row.actionPlan
@@ -609,7 +612,7 @@ const MyTableBody = ({
                     className="border border-blue-500 px-2 py-1 w-16 sticky left-[-1px] top-0 z-10 bg-white -ml-px"
                     rowSpan={numActions}
                   >
-                    {row.no}
+                    {selectedTable[0].no}
                     <input
                       checked={selectedRows.has(row.id)}
                       onChange={() => onCheckboxChange(row.id, deletedData)}
@@ -618,79 +621,43 @@ const MyTableBody = ({
                   </td>
                   {/* İlk Action Plan'ın detayları */}
                   <td className="border border-blue-500 px-2 py-1 w-32">
-                    {actions[0]?.action || ""}
+                    {actionData?.[index]?.title || ""}
                   </td>
                   <td className="border border-blue-500 px-2 py-1 w-32">
-                    {actions[0]?.raiseDate || ""}
+                    {actionData?.[index]?.raiseDate || ""}
                   </td>
                   <td className="border border-blue-500 px-2 py-1 w-24">
-                    {actions[0]?.resources || ""}
+                    {actionData?.[index]?.resources?.toString() || ""}
                   </td>
                   <td className="border border-blue-500 px-2 py-1 w-28">
-                    {actions[0]?.function || ""}
+                    {actionData?.[index]?.relativeFunction?.value || ""}
                   </td>
                   <td className="border border-blue-500 px-2 py-1 w-28">
-                    {actions[0]?.responsible || ""}
+                    {actionData?.[index]?.responsible?.value || ""}
                   </td>
                   <td className="border border-blue-500 px-2 py-1 w-24">
-                    {actions[0]?.deadline || ""}
+                    {actionData?.[index]?.deadline || ""}
                   </td>
                   <td className="border border-blue-500 px-2 py-1 w-36">
-                    {actions[0]?.actionConfirmation || ""}
+                    {actionData?.[index]?.confirmation?.value || ""}
                   </td>
                   <td className="border border-blue-500 px-2 py-1 w-24">
-                    {actions[0]?.actionStatus || ""}
+                    {actionData?.[index]?.status?.value.toString() || ""}
                   </td>
                   <td className="border border-blue-500 px-2 py-1 w-24">
-                    {actions[0]?.completionDate || ""}
+                    {actionData?.[index]?.completionDate || ""}
                   </td>
                   <td className="border border-blue-500 px-2 py-1 w-32">
-                    {actions[0]?.statusOfVerification || ""}
+                    {actionData?.[index]?.verificationStatus?.value || ""}
                   </td>
                   <td className="border border-blue-500 px-2 py-1 w-40">
-                    {actions[0]?.comment || ""}
+                    {actionData?.[index]?.comment || ""}
                   </td>
                   {/* Residual Risk/Opportunity Level - rowspan */}
                 </tr>
 
                 {/* Ek action plan'lar */}
-                {actions.slice(1).map((action, actionIndex) => (
-                  <tr key={`${row.id}-action-${actionIndex}`}>
-                    <td className="border border-blue-500 px-2 py-1 w-32">
-                      {action?.action || ""}
-                    </td>
-                    <td className="border border-blue-500 px-2 py-1 w-32">
-                      {action?.raiseDate || ""}
-                    </td>
-                    <td className="border border-blue-500 px-2 py-1 w-24">
-                      {action?.resources || ""}
-                    </td>
-                    <td className="border border-blue-500 px-2 py-1 w-28">
-                      {action?.function || ""}
-                    </td>
-                    <td className="border border-blue-500 px-2 py-1 w-28">
-                      {action?.responsible || ""}
-                    </td>
-                    <td className="border border-blue-500 px-2 py-1 w-24">
-                      {action?.deadline || ""}
-                    </td>
-                    <td className="border border-blue-500 px-2 py-1 w-36">
-                      {action?.actionStatus || ""}
-                    </td>
-                    <td className="border border-blue-500 px-2 py-1 w-24">
-                      {action?.verification || ""}
-                    </td>
-                    <td className="border border-blue-500 px-2 py-1 w-32">
-                      {action?.comment || ""}
-                    </td>
-                    <td className="border border-blue-500 px-2 py-1 w-36">
-                      {action?.verification || ""}
-                    </td>
-                    <td className="border border-blue-500 px-2 py-1 w-40">
-                      {action?.comment || ""}
-                    </td>
-                  </tr>
-                ))}
+                
               </React.Fragment>
             );
           })

@@ -269,69 +269,41 @@ const RisksAssessment = () => {
   };
 
   const handleFormChange = (arg1, arg2) => {
-  if (!showAction) {
-    // Burayı değiştirmiyoruz
-    if (typeof arg1 === "string") {
-      const updateNested = (obj, pathArr, val) => {
-        const newObj = { ...(obj || {}) };
-        let current = newObj;
-        for (let i = 0; i < pathArr.length - 1; i++) {
-          const key = pathArr[i];
-          if (!current[key]) current[key] = {};
-          current[key] = { ...current[key] };
-          current = current[key];
-        }
-        current[pathArr[pathArr.length - 1]] = val;
-        return newObj;
-      };
-      const pathArr = arg1.split(".");
-      setFormData((prev) => updateNested(prev, pathArr, arg2));
-    } else if (arg1 && typeof arg1 === "object") {
-      setFormData((prev) => ({ ...(prev || {}), ...arg1 }));
-    } else {
-      console.warn("handleFormChange: Beklenen string path veya obje");
-    }
-  } else {
-    // showAction === true kısmını düzeltiyoruz
     const parsePath = (path) =>
       path
-        .split(".")
-        .map((part) =>
-          part.includes("[")
-            ? part
-                .split(/\[|\]/)
-                .filter(Boolean)
-                .map((v) => (isNaN(v) ? v : Number(v)))
-            : part
-        )
-        .flat();
+        .replace(/\]/g, "")
+        .split(/\.|\[/)
+        .map((p) => (isNaN(p) ? p : Number(p)));
 
     const updateNested = (obj, pathArr, val) => {
-      const newObj = { ...(obj || {}) };
+      // Derin clone: array veya object
+      const newObj = Array.isArray(obj) ? [...obj] : { ...obj };
       let current = newObj;
 
       for (let i = 0; i < pathArr.length - 1; i++) {
         const key = pathArr[i];
+        const nextKey = pathArr[i + 1];
+
         if (typeof key === "number") {
-          current[key] = current[key] ? [...current[key]] : [];
+          current[key] = current[key] ? { ...current[key] } : {};
           current = current[key];
         } else {
-          current[key] = current[key] ? { ...current[key] } : {};
+          current[key] =
+            current[key] && typeof current[key] === "object"
+              ? { ...current[key] }
+              : typeof nextKey === "number"
+                ? []
+                : {};
           current = current[key];
         }
       }
 
       const lastKey = pathArr[pathArr.length - 1];
-      if (typeof lastKey === "number") {
-        current[lastKey] = val;
-      } else {
-        current[lastKey] = val;
-      }
-
+      current[lastKey] = val;
       return newObj;
     };
 
-    const setter = setFormDataAction;
+    const setter = showAction ? setFormDataAction : setFormData;
 
     if (typeof arg1 === "string") {
       const pathArr = parsePath(arg1);
@@ -341,44 +313,76 @@ const RisksAssessment = () => {
     } else {
       console.warn("handleFormChange: Beklenen string path veya obje");
     }
-  }
-};
-
+  };
 
   const closeModal = () => setShowModal(false);
 
   const saveRisk = () => {
     if (modalMode === "add") {
-      // Sadece backend beklediği alanları al (diğerlerini sil)
-      const payload = {
-        swot: formData.swot,
-        pestle: formData.pestle,
-        interestedParty: formData.interestedParty,
-        riskOpportunity: formData.riskOpportunity,
-        objective: formData.objective,
-        kpi: formData.kpi,
-        process: formData.process,
-        ermeoa: formData.ermeoa,
-        initialRiskSeverity: formData.initialRiskSeverity, // Number
-        initialRiskLikelyhood: formData.initialRiskLikelyhood, // Number, spelling uyumlu
-        residualRiskSeverity: formData.residualRiskSeverity,
-        residualRiskLikelyhood: formData.residualRiskLikelyhood,
-      };
-      console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
+      if (!showAction) {
+        const payload = {
+          swot: formData.swot,
+          pestle: formData.pestle,
+          interestedParty: formData.interestedParty,
+          riskOpportunity: formData.riskOpportunity,
+          objective: formData.objective,
+          kpi: formData.kpi,
+          process: formData.process,
+          ermeoa: formData.ermeoa,
+          initialRiskSeverity: formData.initialRiskSeverity, // Number
+          initialRiskLikelyhood: formData.initialRiskLikelyhood, // Number, spelling uyumlu
+          residualRiskSeverity: formData.residualRiskSeverity,
+          residualRiskLikelyhood: formData.residualRiskLikelyhood,
+        };
+        console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
 
-      fetch("http://localhost:8000/api/register/br/one", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload), // Direkt obje – array yapma!
-      })
-        .then((response) => {
-          if (!response.ok) {
-            console.error("Kaydetme başarısız:", response.statusText);
-          } else {
-            console.log("Kayıt başarıyla kaydedildi.");
-          }
+        fetch("http://localhost:8000/api/register/br/one", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload), // Direkt obje – array yapma!
         })
-        .catch((error) => console.error("Hata:", error));
+          .then((response) => {
+            if (!response.ok) {
+              console.error("Kaydetme başarısız:", response.statusText);
+            } else {
+              console.log("Kayıt başarıyla kaydedildi.");
+            }
+          })
+          .catch((error) => console.error("Hata:", error));
+      } else {
+        const payload = {
+          registerId: Array.from(selectedRows)[0],
+          title: formDataAction.actionPlan[0]?.title || "",
+          raiseDate: formDataAction.actionPlan[0]?.raiseDate || "",
+          currency: formDataAction.actionPlan[0]?.currency || "",
+          relativeFunction:
+            formDataAction.actionPlan[0]?.relativeFunction || "",
+          responsible: formDataAction.actionPlan[0]?.responsible || "",
+          deadline: formDataAction.actionPlan[0]?.deadline || "",
+          confirmation: formDataAction.actionPlan[0]?.confirmation || "",
+          status: formDataAction.actionPlan[0]?.status || "",
+          completionDate: formDataAction.actionPlan[0]?.completionData || "",
+          verificationStatus:
+            formDataAction.actionPlan[0]?.verificationStatus || "",
+          comment: formDataAction.actionPlan[0]?.comment || "",
+        };
+        console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
+
+        fetch("http://localhost:8000/api/register/component/action/one", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload), // Direkt obje – array yapma!
+        })
+          .then((response) => {
+            if (!response.ok) {
+              console.error("Kaydetme başarısız:", response.statusText);
+            } else {
+              console.log("Kayıt başarıyla kaydedildi.");
+            }
+          })
+          .catch((error) => console.error("Hata:", error));
+      }
+      // Sadece backend beklediği alanları al (diğerlerini sil)
     } else {
       const payload = {
         swot: formData.swot,
@@ -1135,180 +1139,295 @@ const RisksAssessment = () => {
                 </h3>
               </div>
               <div className="p-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-4">
-                    {
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Action Plan
-                        </label>
-                        <div className="space-y-3">
-                          <div className="grid grid-cols-3 gap-2">
-                            <input
-                              value={
-                                formDataAction?.actionPlan?.[0]?.title || ""
-                              } // [0] ekle, fallback ''
-                              onChange={(e) =>
-                                handleFormChange(
-                                  "actionPlan[0].title", // Path'i düzelt: index ve field
-                                  e.target.value,
-                                )
-                              }
-                              type="text"
-                              placeholder="Action"
-                              className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                            />{" "}
-                            <input
-                              value={
-                                formDataAction.actionPlan?.[0]?.raiseDate || ""
-                              }
-                              onChange={(e) =>
-                                handleFormChange(
-                                  "actionPlan.raiseDate",
-                                  e.target.value,
-                                )
-                              }
-                              type="text"
-                              placeholder="Raise Date"
-                              className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                            />
-                            <input
-                              value={
-                                formDataAction.actionPlan?.[0]?.resources || ""
-                              }
-                              onChange={(e) =>
-                                handleFormChange(
-                                  "actionPlan.resources",
-                                  e.target.value,
-                                )
-                              }
-                              type="text"
-                              placeholder="Resources"
-                              className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                            />
-                          </div>
-                          <div className="grid grid-cols-3 gap-2">
-                            <input
-                              value={
-                                formDataAction.actionPlan?.[0]?.relativeFunction || ""
-                              }
-                              onChange={(e) =>
-                                handleFormChange(
-                                  "actionPlan.function",
-                                  e.target.value,
-                                )
-                              }
-                              type="text"
-                              placeholder="Relative Function"
-                              className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                            />
-                            <input
-                              value={
-                                formDataAction.actionPlan?.[0]?.responsible || ""
-                              }
-                              onChange={(e) =>
-                                handleFormChange(
-                                  "actionPlan.responsible",
-                                  e.target.value,
-                                )
-                              }
-                              type="text"
-                              placeholder="Responsible"
-                              className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                            />
-                            <input
-                              value={
-                                formDataAction.actionPlan?.[0]?.deadline || ""
-                              }
-                              onChange={(e) =>
-                                handleFormChange(
-                                  "actionPlan.deadline",
-                                  e.target.value,
-                                )
-                              }
-                              type="text"
-                              placeholder="Deadline"
-                              className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                            />
-                          </div>
-                          <div className="grid grid-cols-3 gap-2">
-                            <input
-                              value={
-                                formDataAction.actionPlan?.[0]?.actionConfirmation || ""
-                              }
-                              onChange={(e) =>
-                                handleFormChange(
-                                  "actionPlan.actionConfirmation",
-                                  e.target.value,
-                                )
-                              }
-                              type="text"
-                              placeholder="Action Confirmation"
-                              className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                            />
-                            <input
-                              value={
-                                formDataAction.actionPlan?.[0]?.status || ""
-                              }
-                              onChange={(e) =>
-                                handleFormChange(
-                                  "actionPlan.actionStatus",
-                                  e.target.value,
-                                )
-                              }
-                              type="text"
-                              placeholder="Action Status"
-                              className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                            />
-                            <input
-                              value={
-                                formDataAction.actionPlan?.[0]?.compilationData || ""
-                              }
-                              onChange={(e) =>
-                                handleFormChange(
-                                  "actionPlan.compilationDate",
-                                  e.target.value,
-                                )
-                              }
-                              type="text"
-                              placeholder="Compilation Date"
-                              className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                            />
-                          </div>
-                          <div className="grid grid-cols-2 gap-2">
-                            <input
-                              value={
-                                formDataAction.actionPlan?.[0]?.verificationStatus || ""
-                              }
-                              onChange={(e) =>
-                                handleFormChange(
-                                  "actionPlan.verification",
-                                  e.target.value,
-                                )
-                              }
-                              type="text"
-                              placeholder="Status Of Verification"
-                              className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                            />
-                            <input
-                              value={
-                                formDataAction.actionPlan?.[0]?.comment || ""
-                              }
-                              onChange={(e) =>
-                                handleFormChange(
-                                  "actionPlan.comment",
-                                  e.target.value,
-                                )
-                              }
-                              type="text"
-                              placeholder="Comment"
-                              className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                            />
+                <div className="grid md:grid-cols-1 gap-6">
+                  <div className="space-y-6">
+                    <div className="grid md:grid-cols-1 gap-6">
+                      <div className="space-y-6">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Action Plan
+                          </label>
+
+                          <div className="space-y-6">
+                            {/* Row 1 */}
+                            <div className="grid grid-cols-3 gap-4">
+                              {/* Action */}
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                  Action
+                                </label>
+                                <input
+                                  value={
+                                    formDataAction?.actionPlan?.[0]?.title || ""
+                                  }
+                                  onChange={(e) =>
+                                    handleFormChange(
+                                      "actionPlan[0].title",
+                                      e.target.value,
+                                    )
+                                  }
+                                  type="text"
+                                  placeholder="Action"
+                                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
+                                />
+                              </div>
+
+                              {/* Raise Date with Label */}
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                  Raise Date
+                                </label>
+                                <input
+                                  value={
+                                    formDataAction.actionPlan?.[0]?.raiseDate ||
+                                    ""
+                                  }
+                                  onChange={(e) =>
+                                    handleFormChange(
+                                      "actionPlan[0].raiseDate",
+                                      e.target.value,
+                                    )
+                                  }
+                                  type="date"
+                                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                                />
+                              </div>
+
+                              {/* Resources */}
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                  Resources
+                                </label>
+                                <input
+                                  value={
+                                    formDataAction.actionPlan?.[0]?.resources ||
+                                    ""
+                                  }
+                                  onChange={(e) =>
+                                    handleFormChange(
+                                      "actionPlan[0].resources",
+                                      e.target.value,
+                                    )
+                                  }
+                                  type="text"
+                                  placeholder="Resources"
+                                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
+                                />
+                              </div>
+                            </div>
+
+                            {/* Row 2 */}
+                            <div className="grid grid-cols-3 gap-4">
+                              {/* Relative Function */}
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                  Relative Function
+                                </label>
+                                <select
+                                  value={
+                                    formDataAction.actionPlan?.[0]
+                                      ?.relativeFunction || ""
+                                  }
+                                  onChange={(e) =>
+                                    handleFormChange(
+                                      "actionPlan[0].relativeFunction",
+                                      e.target.value,
+                                    )
+                                  }
+                                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                                >
+                                  <option value="">Seçiniz</option>
+                                  {dropdownData?.relativeFunction?.map(
+                                    (item) => (
+                                      <option key={item.id} value={item.id}>
+                                        {item.value}
+                                      </option>
+                                    ),
+                                  )}
+                                </select>
+                              </div>
+
+                              {/* Responsible */}
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                  Responsible
+                                </label>
+                                <select
+                                  value={
+                                    formDataAction.actionPlan?.[0]
+                                      ?.responsible || ""
+                                  }
+                                  onChange={(e) =>
+                                    handleFormChange(
+                                      "actionPlan[0].responsible",
+                                      e.target.value,
+                                    )
+                                  }
+                                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                                >
+                                  <option value="">Seçiniz</option>
+                                  {dropdownData?.responsible?.map((item) => (
+                                    <option key={item.id} value={item.id}>
+                                      {item.value}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+
+                              {/* Deadline (Calendar) */}
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                  Deadline
+                                </label>
+                                <input
+                                  value={
+                                    formDataAction.actionPlan?.[0]?.deadline ||
+                                    ""
+                                  }
+                                  onChange={(e) =>
+                                    handleFormChange(
+                                      "actionPlan[0].deadline",
+                                      e.target.value,
+                                    )
+                                  }
+                                  type="date"
+                                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                                />
+                              </div>
+                            </div>
+
+                            {/* Row 3 */}
+                            <div className="grid grid-cols-3 gap-4">
+                              {/* Action Confirmation */}
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                  Action Confirmation
+                                </label>
+                                <select
+                                  value={
+                                    formDataAction.actionPlan?.[0]
+                                      ?.confirmation || ""
+                                  }
+                                  onChange={(e) =>
+                                    handleFormChange(
+                                      "actionPlan[0].confirmation",
+                                      e.target.value,
+                                    )
+                                  }
+                                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                                >
+                                  <option value="">Seçiniz</option>
+                                  {dropdownData?.confirmation?.map((item) => (
+                                    <option key={item.id} value={item.id}>
+                                      {item.value}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+
+                              {/* Action Status */}
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                  Action Status
+                                </label>
+                                <select
+                                  value={
+                                    formDataAction.actionPlan?.[0]?.status || ""
+                                  }
+                                  onChange={(e) =>
+                                    handleFormChange(
+                                      "actionPlan[0].status",
+                                      e.target.value,
+                                    )
+                                  }
+                                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                                >
+                                  <option value="">Seçiniz</option>
+                                  {dropdownData?.status?.map((item) => (
+                                    <option key={item.id} value={item.id}>
+                                      {item.value}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+
+                              {/* Completion Date (Calendar) */}
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                  Completion Date
+                                </label>
+                                <input
+                                  value={
+                                    formDataAction.actionPlan?.[0]
+                                      ?.completionData || ""
+                                  }
+                                  onChange={(e) =>
+                                    handleFormChange(
+                                      "actionPlan[0].completionData",
+                                      e.target.value,
+                                    )
+                                  }
+                                  type="date"
+                                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                                />
+                              </div>
+                            </div>
+
+                            {/* Row 4 */}
+                            <div className="grid grid-cols-2 gap-4">
+                              {/* Verification Status */}
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                  Verification Status
+                                </label>
+                                <select
+                                  value={
+                                    formDataAction.actionPlan?.[0]
+                                      ?.verificationStatus || ""
+                                  }
+                                  onChange={(e) =>
+                                    handleFormChange(
+                                      "actionPlan[0].verificationStatus",
+                                      e.target.value,
+                                    )
+                                  }
+                                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                                >
+                                  <option value="">Seçiniz</option>
+                                  {dropdownData?.status?.map((item) => (
+                                    <option key={item.id} value={item.id}>
+                                      {item.value}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+
+                              {/* Comment */}
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                  Comment
+                                </label>
+                                <input
+                                  value={
+                                    formDataAction.actionPlan?.[0]?.comment ||
+                                    ""
+                                  }
+                                  onChange={(e) =>
+                                    handleFormChange(
+                                      "actionPlan[0].comment",
+                                      e.target.value,
+                                    )
+                                  }
+                                  type="text"
+                                  placeholder="Comment"
+                                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
+                                />
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    }
-                    <div className="grid grid-cols-3 gap-2"></div>
+                    </div>
                   </div>
                 </div>
               </div>
