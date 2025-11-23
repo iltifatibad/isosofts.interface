@@ -139,7 +139,7 @@ const RisksAssessment = () => {
         deadline: "",
         confirmation: "",
         status: "",
-        completionData: "",
+        completionDate: "",
         verificationStatus: "",
         comment: "",
         january: "",
@@ -256,7 +256,7 @@ const RisksAssessment = () => {
         deadline: "",
         confirmation: "",
         status: "",
-        completionData: "",
+        completionDate: "",
         verificationStatus: "",
         comment: "",
         january: "",
@@ -306,7 +306,7 @@ setFormData({
   deadline: row.deadline,
   confirmation: row.confirmation?.id || "",
   status: row.status?.id || "",
-  completionData: row.completionDate || "",
+  completionDate: row.completionDate || "",
   verificationStatus: row.verificationStatus?.id || "",
   comment: row.comment || "",
       january: "",
@@ -425,7 +425,7 @@ setFormData({
           deadline: actionData.actionPlan[0]?.deadline || "",
           confirmation: actionData.actionPlan[0]?.confirmation || "",
           status: actionData.actionPlan[0]?.status || "",
-          completionDate: actionData.actionPlan[0]?.completionData || "",
+          completionDate: actionData.actionPlan[0]?.completionDate || "",
           verificationStatus:
             actionData.actionPlan[0]?.verificationStatus || "",
           comment: actionData.actionPlan[0]?.comment || "",
@@ -480,7 +480,7 @@ setFormData({
         })
         .catch((error) => console.error("Hata:", error));
     } else {
-      const payload = setActionData({
+      setActionData({
   actionPlan: [
     {
       title: actionData.actionPlan[0].title,
@@ -492,7 +492,7 @@ setFormData({
   deadline: actionData.deadline,
   confirmation: actionData.confirmation?.id || "",
   status: actionData.status?.id || "",
-  completionData: actionData.completionDate || "",
+  completionDate: actionData.completionDate || "",
   verificationStatus: actionData.verificationStatus?.id || "",
   comment: actionData.comment || "",
       january: "",
@@ -511,9 +511,10 @@ setFormData({
   ]
 });
 ;
+     const payload = { ...actionData.actionPlan[0] };;   
       console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
       const url =
-        "http://localhost:8000/api/register/component/action/one/" + selectedTable[0].id;
+        "http://localhost:8000/api/register/component/action/one/" + selectedTableForActions[0].id;
       fetch(url, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -1301,7 +1302,7 @@ setFormData({
                                 </label>
                                 <input
                                   value={
-                                    actionData.actionPlan?.[0]?.raiseDate ||
+                                    actionData?.actionPlan?.[0]?.raiseDate ||
                                     ""
                                   }
                                   onChange={(e) =>
@@ -1481,11 +1482,11 @@ setFormData({
                                 <input
                                   value={
                                     actionData.actionPlan?.[0]
-                                      ?.completionData || ""
+                                      ?.completionDate || ""
                                   }
                                   onChange={(e) =>
                                     handleFormChange(
-                                      "actionPlan[0].completionData",
+                                      "actionPlan[0].completionDate",
                                       e.target.value,
                                     )
                                   }
