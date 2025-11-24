@@ -160,231 +160,259 @@ const MyTableBody = ({
   if (showDeleted) {
     // 🟥 Silinmiş dosyalar
     return (
-      <tbody>
+      <tbody className="text-sm">
         {loading ? (
           <tr>
-            <td colSpan={25} className="text-center py-4">
+            <td colSpan={25} className="text-center py-4 text-gray-600">
               Deleted verileri yükleniyor...
             </td>
           </tr>
-        ) : deletedData && deletedData.length > 0 ? (
+        ) : !deletedData || deletedData.length === 0 ? (
+          <tr>
+            <td colSpan={25} className="text-center py-4 text-gray-500">
+              No Data
+            </td>
+          </tr>
+        ) : (
           deletedData.map((row) => {
             const numActions = row.actionPlan ? row.actionPlan.length : 1;
             const actions = Array.isArray(row.actionPlan)
               ? row.actionPlan
               : [row.actionPlan];
 
+            const SoftBadge = ({ value, color }) =>
+              value ? (
+                <span
+                  className={`inline-block px-2 py-1 rounded-full text-sm font-medium shadow-sm ${color}`}
+                >
+                  {value}
+                </span>
+              ) : null;
+
             return (
               <React.Fragment key={row.id}>
-                {/* Ana row: Rowspan ile ana hücreler ve ilk action'ın detayları */}
-                <tr>
-                  {/* # sütunu - rowspan */}
+                {/* Ana row */}
+                <tr className="hover:bg-gray-50">
                   <td
-                    className="border border-blue-500 px-2 py-1 w-16 sticky left-[-1px] top-0 z-10 bg-white -ml-px"
+                    className="border border-gray-200 px-2 py-1 w-16 sticky left-0 top-0 z-10 bg-white"
                     rowSpan={numActions}
                   >
-                    {row.no}
-                    <input
-                      checked={selectedRows.has(row.id)}
-                      onChange={() => onCheckboxChange(row.id, deletedData)}
-                      type="checkbox"
+                    <div className="flex items-center gap-1">
+                      <span className="font-semibold">{row.no}</span>
+                      <input
+                        checked={selectedRows.has(row.id)}
+                        onChange={() => onCheckboxChange(row.id, deletedData)}
+                        type="checkbox"
+                        className="ml-2 h-4 w-4 text-blue-600"
+                      />
+                    </div>
+                  </td>
+
+                  {/* SWOT */}
+                  <td
+                    className="border border-gray-200 px-2 py-1 w-20"
+                    rowSpan={numActions}
+                  >
+                    <SoftBadge
+                      value={row.swot?.value}
+                      color="bg-rose-100 text-rose-700 border border-rose-200"
                     />
                   </td>
-                  {/* SWOT - rowspan */}
+
+                  {/* PESTLE */}
                   <td
-                    className="border border-blue-500 px-2 py-1 w-20"
+                    className="border border-gray-200 px-2 py-1 w-20"
                     rowSpan={numActions}
                   >
-                    {row.swot.value}
+                    <SoftBadge
+                      value={row.pestle?.value}
+                      color="bg-blue-100 text-blue-700 border border-blue-200"
+                    />
                   </td>
-                  {/* PESTLE - rowspan */}
+
+                  {/* Interested Party */}
                   <td
-                    className="border border-blue-500 px-2 py-1 w-20"
+                    className="border border-gray-200 px-2 py-1 w-32"
                     rowSpan={numActions}
                   >
-                    {row.pestle.value}
+                    <SoftBadge
+                      value={row.interestedParty?.value}
+                      color="bg-green-100 text-green-700 border border-green-200"
+                    />
                   </td>
-                  {/* Interested Party - rowspan */}
+
+                  {/* Text Fields */}
                   <td
-                    className="border border-blue-500 px-2 py-1 w-32"
-                    rowSpan={numActions}
-                  >
-                    {row.interestedParty.value}
-                  </td>
-                  {/* Risk/Opportunity - rowspan */}
-                  <td
-                    className="border border-blue-500 px-2 py-1 w-32"
+                    className="border border-gray-200 px-2 py-1 w-32"
                     rowSpan={numActions}
                   >
                     {row.riskOpportunity}
                   </td>
-                  {/* Objective - rowspan */}
                   <td
-                    className="border border-blue-500 px-2 py-1 w-28"
+                    className="border border-gray-200 px-2 py-1 w-28"
                     rowSpan={numActions}
                   >
                     {row.objective}
                   </td>
-                  {/* KPI - rowspan */}
                   <td
-                    className="border border-blue-500 px-2 py-1 w-20"
+                    className="border border-gray-200 px-2 py-1 w-20"
                     rowSpan={numActions}
                   >
                     {row.kpi}
                   </td>
-                  {/* Process - rowspan */}
+
+                  {/* Process */}
                   <td
-                    className="border border-blue-500 px-2 py-1 w-24"
+                    className="border border-gray-200 px-2 py-1 w-24"
                     rowSpan={numActions}
                   >
-                    {row.process.value}
+                    <SoftBadge
+                      value={row.process?.value}
+                      color="bg-cyan-100 text-cyan-700 border border-cyan-200"
+                    />
                   </td>
-                  {/* Existing Risk/Mitigation Action/Exploitation Action - rowspan */}
+
+                  {/* Ermeoa */}
                   <td
-                    className="border border-blue-500 px-2 py-1 w-48"
+                    className="border border-gray-200 px-2 py-1 w-48"
                     rowSpan={numActions}
                   >
-                    {row.ermeoa.value || `${row.objective} Action`}
+                    {row.ermeoa?.value || `${row.objective} Action`}
                   </td>
-                  {/* Initial Risk: Severity - rowspan */}
+
+                  {/* Initial Risk */}
                   <td
-                    className="border border-blue-500 px-2 py-1 w-20"
+                    className="border border-gray-200 px-2 py-1 w-20"
                     rowSpan={numActions}
                   >
-                    {row.initialRiskSeverity || ""}
-                  </td>
-                  {/* Initial Risk: Likelihood - rowspan */}
-                  <td
-                    className="border border-blue-500 px-2 py-1 w-24"
-                    rowSpan={numActions}
-                  >
-                    {row.initialRiskLikelyhood || ""}
-                  </td>
-                  {/* Initial Risk: Risk Level - rowspan */}
-                  <td
-                    className="border border-blue-500 px-2 py-1 w-20"
-                    rowSpan={numActions}
-                  >
-                    Medium
-                  </td>
-                  {/* İlk Action Plan'ın detayları */}
-                  <td className="border border-blue-500 px-2 py-1 w-32">
-                    {actions[0]?.action || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-32">
-                    {actions[0]?.raiseDate || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-24">
-                    {actions[0]?.resources || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-28">
-                    {actions[0]?.function || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-28">
-                    {actions[0]?.responsible || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-24">
-                    {actions[0]?.deadline || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-36">
-                    {actions[0]?.actionConfirmation || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-24">
-                    {actions[0]?.actionStatus || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-24">
-                    {actions[0]?.completionDate || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-32">
-                    {actions[0]?.statusOfVerification || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-40">
-                    {actions[0]?.comment || ""}
-                  </td>
-                  {/* Residual Risk/Opportunity Level - rowspan */}
-                  <td
-                    className="border border-blue-500 px-2 py-1 w-24"
-                    rowSpan={numActions}
-                  >
-                    {row.residualRiskSeverity || ""}
+                    <SoftBadge
+                      value={row.initialRiskSeverity}
+                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
+                    />
                   </td>
                   <td
-                    className="border border-blue-500 px-2 py-1 w-24"
+                    className="border border-gray-200 px-2 py-1 w-24"
                     rowSpan={numActions}
                   >
-                    {row.residualRiskLikelyhood || ""}
+                    <SoftBadge
+                      value={row.initialRiskLikelyhood}
+                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
+                    />
+                  </td>
+
+                  {/* Risk Level */}
+                  <td
+                    className="border border-gray-200 px-2 py-1 w-20"
+                    rowSpan={numActions}
+                  >
+                    <SoftBadge
+                      value="Medium"
+                      color="bg-yellow-100 text-yellow-700 border border-yellow-200"
+                    />
+                  </td>
+
+                  {/* İlk Action */}
+                  {[
+                    "action",
+                    "raiseDate",
+                    "resources",
+                    "function",
+                    "responsible",
+                    "deadline",
+                    "actionConfirmation",
+                    "actionStatus",
+                    "completionDate",
+                    "statusOfVerification",
+                    "comment",
+                  ].map((field, idx) => (
+                    <td key={idx} className="border border-gray-200 px-2 py-1">
+                      <SoftBadge
+                        value={actions[0]?.[field]}
+                        color="bg-gray-100 text-gray-700 border border-gray-200"
+                      />
+                    </td>
+                  ))}
+
+                  {/* Residual Risk */}
+                  <td
+                    className="border border-gray-200 px-2 py-1 w-24"
+                    rowSpan={numActions}
+                  >
+                    <SoftBadge
+                      value={row.residualRiskSeverity}
+                      color="bg-rose-100 text-rose-700 border border-rose-200"
+                    />
                   </td>
                   <td
-                    className="border border-blue-500 px-2 py-1 w-20"
+                    className="border border-gray-200 px-2 py-1 w-24"
                     rowSpan={numActions}
                   >
-                    Low
+                    <SoftBadge
+                      value={row.residualRiskLikelyhood}
+                      color="bg-rose-100 text-rose-700 border border-rose-200"
+                    />
+                  </td>
+                  <td
+                    className="border border-gray-200 px-2 py-1 w-20"
+                    rowSpan={numActions}
+                  >
+                    <SoftBadge
+                      value="Low"
+                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
+                    />
                   </td>
                 </tr>
 
-                {/* Ek action plan'lar */}
-                {actions.slice(1).map((action, actionIndex) => (
-                  <tr key={`${row.id}-action-${actionIndex}`}>
-                    <td className="border border-blue-500 px-2 py-1 w-32">
-                      {action?.action || ""}
-                    </td>
-                    <td className="border border-blue-500 px-2 py-1 w-32">
-                      {action?.raiseDate || ""}
-                    </td>
-                    <td className="border border-blue-500 px-2 py-1 w-24">
-                      {action?.resources || ""}
-                    </td>
-                    <td className="border border-blue-500 px-2 py-1 w-28">
-                      {action?.function || ""}
-                    </td>
-                    <td className="border border-blue-500 px-2 py-1 w-28">
-                      {action?.responsible || ""}
-                    </td>
-                    <td className="border border-blue-500 px-2 py-1 w-24">
-                      {action?.deadline || ""}
-                    </td>
-                    <td className="border border-blue-500 px-2 py-1 w-36">
-                      {action?.actionStatus || ""}
-                    </td>
-                    <td className="border border-blue-500 px-2 py-1 w-24">
-                      {action?.verification || ""}
-                    </td>
-                    <td className="border border-blue-500 px-2 py-1 w-32">
-                      {action?.comment || ""}
-                    </td>
-                    <td className="border border-blue-500 px-2 py-1 w-36">
-                      {action?.verification || ""}
-                    </td>
-                    <td className="border border-blue-500 px-2 py-1 w-40">
-                      {action?.comment || ""}
-                    </td>
+                {/* Ek Actions */}
+                {actions.slice(1).map((action, i) => (
+                  <tr
+                    key={`${row.id}-action-${i}`}
+                    className="hover:bg-gray-50"
+                  >
+                    {[
+                      "action",
+                      "raiseDate",
+                      "resources",
+                      "function",
+                      "responsible",
+                      "deadline",
+                      "actionConfirmation",
+                      "actionStatus",
+                      "completionDate",
+                      "statusOfVerification",
+                      "comment",
+                    ].map((field, idx) => (
+                      <td
+                        key={idx}
+                        className="border border-gray-200 px-2 py-1"
+                      >
+                        <SoftBadge
+                          value={action?.[field]}
+                          color="bg-gray-100 text-gray-700 border border-gray-200"
+                        />
+                      </td>
+                    ))}
                   </tr>
                 ))}
               </React.Fragment>
             );
           })
-        ) : (
-          <tr>
-            <td colSpan={25} className="text-center py-4">
-              No Data
-            </td>
-          </tr>
         )}
       </tbody>
     );
   } else if (showArchived) {
     // 🟨 Arşivlenmiş dosyalar
     return (
-      <tbody>
+      <tbody className="text-sm">
         {loading ? (
           <tr>
-            <td colSpan={25} className="text-center py-4">
+            <td colSpan={25} className="text-center py-4 text-gray-600">
               Arşiv verileri yükleniyor...
             </td>
           </tr>
         ) : !archivedData || archivedData.length === 0 ? (
           <tr>
-            <td colSpan={25} className="text-center py-4">
+            <td colSpan={25} className="text-center py-4 text-gray-500">
               No Data
             </td>
           </tr>
@@ -395,192 +423,218 @@ const MyTableBody = ({
               ? row.actionPlan
               : [row.actionPlan];
 
+            const SoftBadge = ({ value, color }) =>
+              value ? (
+                <span
+                  className={`inline-block px-2 py-1 rounded-full text-sm font-medium shadow-sm ${color}`}
+                >
+                  {value}
+                </span>
+              ) : null;
+
             return (
               <React.Fragment key={row.id}>
                 {/* Ana row */}
-                <tr>
+                <tr className="hover:bg-gray-50">
                   <td
-                    className="border border-blue-500 px-2 py-1 w-16 sticky left-[-1px] top-0 z-10 bg-white -ml-px"
+                    className="border border-gray-200 px-2 py-1 w-16 sticky left-0 top-0 z-10 bg-white"
                     rowSpan={numActions}
                   >
-                    {row.no}
-                    <input
-                      checked={selectedRows.has(row.id)}
-                      onChange={() => onCheckboxChange(row.id, archivedData)}
-                      type="checkbox"
+                    <div className="flex items-center gap-1">
+                      <span className="font-semibold">{row.no}</span>
+                      <input
+                        checked={selectedRows.has(row.id)}
+                        onChange={() => onCheckboxChange(row.id, archivedData)}
+                        type="checkbox"
+                        className="ml-2 h-4 w-4 text-blue-600"
+                      />
+                    </div>
+                  </td>
+
+                  {/* SWOT */}
+                  <td
+                    className="border border-gray-200 px-2 py-1 w-20"
+                    rowSpan={numActions}
+                  >
+                    <SoftBadge
+                      value={row.swot?.value}
+                      color="bg-rose-100 text-rose-700 border border-rose-200"
                     />
                   </td>
 
+                  {/* PESTLE */}
                   <td
-                    className="border border-blue-500 px-2 py-1 w-20"
+                    className="border border-gray-200 px-2 py-1 w-20"
                     rowSpan={numActions}
                   >
-                    {row.swot?.value}
+                    <SoftBadge
+                      value={row.pestle?.value}
+                      color="bg-blue-100 text-blue-700 border border-blue-200"
+                    />
                   </td>
 
+                  {/* Interested Party */}
                   <td
-                    className="border border-blue-500 px-2 py-1 w-20"
+                    className="border border-gray-200 px-2 py-1 w-32"
                     rowSpan={numActions}
                   >
-                    {row.pestle?.value}
+                    <SoftBadge
+                      value={row.interestedParty?.value}
+                      color="bg-green-100 text-green-700 border border-green-200"
+                    />
                   </td>
 
+                  {/* Text Fields */}
                   <td
-                    className="border border-blue-500 px-2 py-1 w-32"
-                    rowSpan={numActions}
-                  >
-                    {row.interestedParty?.value}
-                  </td>
-
-                  <td
-                    className="border border-blue-500 px-2 py-1 w-32"
+                    className="border border-gray-200 px-2 py-1 w-32"
                     rowSpan={numActions}
                   >
                     {row.riskOpportunity}
                   </td>
-
                   <td
-                    className="border border-blue-500 px-2 py-1 w-28"
+                    className="border border-gray-200 px-2 py-1 w-28"
                     rowSpan={numActions}
                   >
                     {row.objective}
                   </td>
-
                   <td
-                    className="border border-blue-500 px-2 py-1 w-20"
+                    className="border border-gray-200 px-2 py-1 w-20"
                     rowSpan={numActions}
                   >
                     {row.kpi}
                   </td>
 
+                  {/* Process */}
                   <td
-                    className="border border-blue-500 px-2 py-1 w-24"
+                    className="border border-gray-200 px-2 py-1 w-24"
                     rowSpan={numActions}
                   >
-                    {row.process?.value}
+                    <SoftBadge
+                      value={row.process?.value}
+                      color="bg-cyan-100 text-cyan-700 border border-cyan-200"
+                    />
                   </td>
 
+                  {/* Ermeoa */}
                   <td
-                    className="border border-blue-500 px-2 py-1 w-48"
+                    className="border border-gray-200 px-2 py-1 w-48"
                     rowSpan={numActions}
                   >
                     {row.ermeoa?.value || `${row.objective} Action`}
                   </td>
 
+                  {/* Initial Risk */}
                   <td
-                    className="border border-blue-500 px-2 py-1 w-20"
+                    className="border border-gray-200 px-2 py-1 w-20"
                     rowSpan={numActions}
                   >
-                    {row.initialRiskSeverity || ""}
+                    <SoftBadge
+                      value={row.initialRiskSeverity}
+                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
+                    />
+                  </td>
+                  <td
+                    className="border border-gray-200 px-2 py-1 w-24"
+                    rowSpan={numActions}
+                  >
+                    <SoftBadge
+                      value={row.initialRiskLikelyhood}
+                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
+                    />
                   </td>
 
+                  {/* Risk Level */}
                   <td
-                    className="border border-blue-500 px-2 py-1 w-24"
+                    className="border border-gray-200 px-2 py-1 w-20"
                     rowSpan={numActions}
                   >
-                    {row.initialRiskLikelyhood || ""}
-                  </td>
-
-                  <td
-                    className="border border-blue-500 px-2 py-1 w-20"
-                    rowSpan={numActions}
-                  >
-                    Medium
+                    <SoftBadge
+                      value="Medium"
+                      color="bg-yellow-100 text-yellow-700 border border-yellow-200"
+                    />
                   </td>
 
                   {/* İlk Action */}
-                  <td className="border border-blue-500 px-2 py-1 w-32">
-                    {actions[0]?.action || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-32">
-                    {actions[0]?.raiseDate || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-24">
-                    {actions[0]?.resources || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-28">
-                    {actions[0]?.function || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-28">
-                    {actions[0]?.responsible || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-24">
-                    {actions[0]?.deadline || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-36">
-                    {actions[0]?.actionConfirmation || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-24">
-                    {actions[0]?.actionStatus || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-24">
-                    {actions[0]?.completionDate || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-32">
-                    {actions[0]?.statusOfVerification || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-40">
-                    {actions[0]?.comment || ""}
-                  </td>
+                  {[
+                    "action",
+                    "raiseDate",
+                    "resources",
+                    "function",
+                    "responsible",
+                    "deadline",
+                    "actionConfirmation",
+                    "actionStatus",
+                    "completionDate",
+                    "statusOfVerification",
+                    "comment",
+                  ].map((field, idx) => (
+                    <td key={idx} className="border border-gray-200 px-2 py-1">
+                      <SoftBadge
+                        value={actions[0]?.[field]}
+                        color="bg-gray-100 text-gray-700 border border-gray-200"
+                      />
+                    </td>
+                  ))}
 
+                  {/* Residual Risk */}
                   <td
-                    className="border border-blue-500 px-2 py-1 w-24"
+                    className="border border-gray-200 px-2 py-1 w-24"
                     rowSpan={numActions}
                   >
-                    {row.residualRiskSeverity || ""}
+                    <SoftBadge
+                      value={row.residualRiskSeverity}
+                      color="bg-rose-100 text-rose-700 border border-rose-200"
+                    />
                   </td>
-
                   <td
-                    className="border border-blue-500 px-2 py-1 w-24"
+                    className="border border-gray-200 px-2 py-1 w-24"
                     rowSpan={numActions}
                   >
-                    {row.residualRiskLikelyhood || ""}
+                    <SoftBadge
+                      value={row.residualRiskLikelyhood}
+                      color="bg-rose-100 text-rose-700 border border-rose-200"
+                    />
                   </td>
-
                   <td
-                    className="border border-blue-500 px-2 py-1 w-20"
+                    className="border border-gray-200 px-2 py-1 w-20"
                     rowSpan={numActions}
                   >
-                    Low
+                    <SoftBadge
+                      value="Low"
+                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
+                    />
                   </td>
                 </tr>
 
                 {/* Ek Actions */}
-                {actions.slice(1).map((action, actionIndex) => (
-                  <tr key={`${row.id}-action-${actionIndex}`}>
-                    <td className="border border-blue-500 px-2 py-1 w-32">
-                      {action?.action || ""}
-                    </td>
-                    <td className="border border-blue-500 px-2 py-1 w-32">
-                      {action?.raiseDate || ""}
-                    </td>
-                    <td className="border border-blue-500 px-2 py-1 w-24">
-                      {action?.resources || ""}
-                    </td>
-                    <td className="border border-blue-500 px-2 py-1 w-28">
-                      {action?.function || ""}
-                    </td>
-                    <td className="border border-blue-500 px-2 py-1 w-28">
-                      {action?.responsible || ""}
-                    </td>
-                    <td className="border border-blue-500 px-2 py-1 w-24">
-                      {action?.deadline || ""}
-                    </td>
-                    <td className="border border-blue-500 px-2 py-1 w-36">
-                      {action?.actionStatus || ""}
-                    </td>
-                    <td className="border border-blue-500 px-2 py-1 w-24">
-                      {action?.verification || ""}
-                    </td>
-                    <td className="border border-blue-560 px-2 py-2 w-32">
-                      {action?.comment || ""}
-                    </td>
-                    <td className="border border-blue-500 px-2 py-1 w-36">
-                      {action?.verification || ""}
-                    </td>
-                    <td className="border border-blue-500 px-2 py-1 w-40">
-                      {action?.comment || ""}
-                    </td>
+                {actions.slice(1).map((action, i) => (
+                  <tr
+                    key={`${row.id}-action-${i}`}
+                    className="hover:bg-gray-50"
+                  >
+                    {[
+                      "action",
+                      "raiseDate",
+                      "resources",
+                      "function",
+                      "responsible",
+                      "deadline",
+                      "actionConfirmation",
+                      "actionStatus",
+                      "completionDate",
+                      "statusOfVerification",
+                      "comment",
+                    ].map((field, idx) => (
+                      <td
+                        key={idx}
+                        className="border border-gray-200 px-2 py-1"
+                      >
+                        <SoftBadge
+                          value={action?.[field]}
+                          color="bg-gray-100 text-gray-700 border border-gray-200"
+                        />
+                      </td>
+                    ))}
                   </tr>
                 ))}
               </React.Fragment>
@@ -599,67 +653,97 @@ const MyTableBody = ({
             </td>
           </tr>
         ) : selectedTable && actionData && selectedTable.length > 0 ? (
-          actionData.map((row,index) => {
+          actionData.map((row, index) => {
             const numActions = row.actionPlan ? row.actionPlan.length : 1;
-            const actions = Array.isArray(row.actionPlan)
-              ? row.actionPlan
-              : [row.actionPlan];
+
+            // Soft badge
+            const SoftBadge = ({ value }) =>
+              value ? (
+                <span className="px-2 py-1 rounded-full bg-gray-100 text-gray-700 text-xs font-medium">
+                  {value}
+                </span>
+              ) : null;
 
             return (
               <React.Fragment key={row.id}>
-                {/* Ana row: Rowspan ile ana hücreler ve ilk action'ın detayları */}
                 <tr>
-                  {/* # sütunu - rowspan */}
+                  {/* # column */}
                   <td
-                    className="border border-blue-500 px-2 py-1 w-16 sticky left-[-1px] top-0 z-10 bg-white -ml-px"
+                    className="border-b border-gray-200 px-2 py-1 w-16 sticky left-[-1px] top-0 z-10 bg-white -ml-px"
                     rowSpan={numActions}
                   >
                     {selectedTable[0].no}
+
                     <input
                       checked={selectedRowsForActions.has(actionData[index].id)}
-                      onChange={() => onCheckboxChangeForActions(actionData[index].id, actionData)}
+                      onChange={() =>
+                        onCheckboxChangeForActions(
+                          actionData[index].id,
+                          actionData,
+                        )
+                      }
                       type="checkbox"
+                      className="ml-2"
                     />
                   </td>
-                  {/* İlk Action Plan'ın detayları */}
-                  <td className="border border-blue-500 px-2 py-1 w-32">
-                    {actionData?.[index]?.title || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-32">
-                    {actionData?.[index]?.raiseDate || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-24">
-                    {actionData?.[index]?.resources?.toString() || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-28">
-                    {actionData?.[index]?.relativeFunction?.value || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-28">
-                    {actionData?.[index]?.responsible?.value || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-24">
-                    {actionData?.[index]?.deadline || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-36">
-                    {actionData?.[index]?.confirmation?.value || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-24">
-                    {actionData?.[index]?.status?.value.toString() || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-24">
-                    {actionData?.[index]?.completionDate || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-32">
-                    {actionData?.[index]?.verificationStatus?.value || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-40">
-                    {actionData?.[index]?.comment || ""}
-                  </td>
-                  {/* Residual Risk/Opportunity Level - rowspan */}
-                </tr>
 
-                {/* Ek action plan'lar */}
-                
+                  {/* FIRST ACTION PLAN FIELDS */}
+                  <td className="border-b border-gray-200 px-2 py-1 w-32">
+                    <SoftBadge value={actionData?.[index]?.title} />
+                  </td>
+
+                  <td className="border-b border-gray-200 px-2 py-1 w-32">
+                    <SoftBadge value={actionData?.[index]?.raiseDate} />
+                  </td>
+
+                  <td className="border-b border-gray-200 px-2 py-1 w-24">
+                    <SoftBadge
+                      value={actionData?.[index]?.resources?.toString() || ""}
+                    />
+                  </td>
+
+                  <td className="border-b border-gray-200 px-2 py-1 w-28">
+                    <SoftBadge
+                      value={actionData?.[index]?.relativeFunction?.value}
+                    />
+                  </td>
+
+                  <td className="border-b border-gray-200 px-2 py-1 w-28">
+                    <SoftBadge
+                      value={actionData?.[index]?.responsible?.value}
+                    />
+                  </td>
+
+                  <td className="border-b border-gray-200 px-2 py-1 w-24">
+                    <SoftBadge value={actionData?.[index]?.deadline} />
+                  </td>
+
+                  <td className="border-b border-gray-200 px-2 py-1 w-36">
+                    <SoftBadge
+                      value={actionData?.[index]?.confirmation?.value}
+                    />
+                  </td>
+
+                  <td className="border-b border-gray-200 px-2 py-1 w-24">
+                    <SoftBadge
+                      value={actionData?.[index]?.status?.value?.toString()}
+                    />
+                  </td>
+
+                  <td className="border-b border-gray-200 px-2 py-1 w-24">
+                    <SoftBadge value={actionData?.[index]?.completionDate} />
+                  </td>
+
+                  <td className="border-b border-gray-200 px-2 py-1 w-32">
+                    <SoftBadge
+                      value={actionData?.[index]?.verificationStatus?.value}
+                    />
+                  </td>
+
+                  <td className="border-b border-gray-200 px-2 py-1 w-40">
+                    <SoftBadge value={actionData?.[index]?.comment} />
+                  </td>
+                </tr>
               </React.Fragment>
             );
           })
@@ -675,22 +759,21 @@ const MyTableBody = ({
   } else {
     // 🟩 Normal (aktif) tablo
     return (
-      <tbody>
+      <tbody className="text-sm">
         {loading ? (
           <tr>
-            <td colSpan={25} className="text-center py-4">
+            <td colSpan={25} className="text-center py-6 text-gray-600">
               Arşiv verileri yükleniyor...
             </td>
           </tr>
         ) : !tableData || tableData.length === 0 ? (
           <tr>
-            <td colSpan={25} className="text-center py-4">
+            <td colSpan={25} className="text-center py-6 text-gray-500">
               No Data
             </td>
           </tr>
         ) : (
           tableData.map((row) => {
-
             const numActions = row.actions ? row.actions.length : 1;
             const actions = Array.isArray(row.actions)
               ? row.actions
@@ -698,189 +781,231 @@ const MyTableBody = ({
 
             return (
               <React.Fragment key={row.id}>
-                <tr>
+                <tr className="hover:bg-gray-50">
+                  {/* ID + Checkbox */}
                   <td
-                    className="border border-blue-500 px-2 py-1 w-16 sticky left-[-1px] top-0 z-10 bg-white -ml-px"
+                    className="border border-gray-200 px-3 py-2 w-16 sticky left-[-1px] top-0 z-10 bg-white"
                     rowSpan={numActions}
                   >
-                    {row.no}
-                    <input
-                      checked={selectedRows.has(row.id)}
-                      onChange={() => onCheckboxChange(row.id, tableData)}
-                      type="checkbox"
-                    />
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-gray-700">
+                        {row.no}
+                      </span>
+                      <input
+                        type="checkbox"
+                        checked={selectedRows.has(row.id)}
+                        onChange={() => onCheckboxChange(row.id, tableData)}
+                        className="h-4 w-4 text-blue-600 rounded"
+                      />
+                    </div>
                   </td>
 
+                  {/* SWOT */}
                   <td
-                    className="border border-blue-500 px-2 py-1 w-20"
+                    className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={numActions}
                   >
-                    {row.swot?.value}
+                    {row.swot?.value && (
+                      <span className="inline-block px-3 py-1 bg-rose-100 text-rose-700 border border-rose-200 rounded-full shadow-sm">
+                        {row.swot.value}
+                      </span>
+                    )}
                   </td>
 
+                  {/* PESTLE */}
                   <td
-                    className="border border-blue-500 px-2 py-1 w-20"
+                    className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={numActions}
                   >
-                    {row.pestle?.value}
+                    {row.pestle?.value && (
+                      <span className="inline-block px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 rounded-full shadow-sm">
+                        {row.pestle.value}
+                      </span>
+                    )}
                   </td>
 
+                  {/* Interested Party */}
                   <td
-                    className="border border-blue-500 px-2 py-1 w-32"
+                    className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={numActions}
                   >
-                    {row.interestedParty?.value}
+                    {row.interestedParty?.value && (
+                      <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
+                        {row.interestedParty.value}
+                      </span>
+                    )}
                   </td>
 
+                  {/* Text Fields */}
                   <td
-                    className="border border-blue-500 px-2 py-1 w-32"
+                    className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={numActions}
                   >
                     {row.riskOpportunity}
                   </td>
 
                   <td
-                    className="border border-blue-500 px-2 py-1 w-28"
+                    className="border border-gray-200 px-3 py-2 w-28"
                     rowSpan={numActions}
                   >
                     {row.objective}
                   </td>
 
                   <td
-                    className="border border-blue-500 px-2 py-1 w-20"
+                    className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={numActions}
                   >
                     {row.kpi}
                   </td>
 
+                  {/* Process */}
                   <td
-                    className="border border-blue-500 px-2 py-1 w-24"
+                    className="border border-gray-200 px-3 py-2 w-24"
                     rowSpan={numActions}
                   >
-                    {row.process?.value}
+                    {row.process?.value && (
+                      <span className="inline-block px-3 py-1 bg-cyan-100 text-cyan-700 border border-cyan-200 rounded-full shadow-sm">
+                        {row.process.value}
+                      </span>
+                    )}
                   </td>
 
+                  {/* Ermeoa */}
                   <td
-                    className="border border-blue-500 px-2 py-1 w-48"
+                    className="border border-gray-200 px-3 py-2 w-48"
                     rowSpan={numActions}
                   >
                     {row.ermeoa?.value || `${row.objective} Action`}
                   </td>
 
+                  {/* Initial Risk Severity */}
                   <td
-                    className="border border-blue-500 px-2 py-1 w-20"
+                    className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={numActions}
                   >
-                    {row.initialRiskSeverity || ""}
+                    {row.initialRiskSeverity && (
+                      <span className="inline-block px-3 py-1 bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-full shadow-sm">
+                        {row.initialRiskSeverity}
+                      </span>
+                    )}
                   </td>
 
+                  {/* Likelyhood */}
                   <td
-                    className="border border-blue-500 px-2 py-1 w-24"
+                    className="border border-gray-200 px-3 py-2 w-24"
                     rowSpan={numActions}
                   >
-                    {row.initialRiskLikelyhood || ""}
+                    {row.initialRiskLikelyhood && (
+                      <span className="inline-block px-3 py-1 bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-full shadow-sm">
+                        {row.initialRiskLikelyhood}
+                      </span>
+                    )}
                   </td>
 
+                  {/* Risk Level */}
                   <td
-                    className="border border-blue-500 px-2 py-1 w-20"
+                    className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={numActions}
                   >
-                    Medium
+                    <span className="inline-block px-3 py-1 bg-yellow-100 text-yellow-700 border border-yellow-200 rounded-full shadow-sm">
+                      Medium
+                    </span>
                   </td>
 
-                  {/* İlk Action Plan */}
-                  <td className="border border-blue-500 px-2 py-1 w-32">
-                    {actions[0]?.title || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-32">
-                    {actions[0]?.raiseDate || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-24">
-                    {actions[0]?.resources || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-28">
-                    {actions[0]?.relativeFunction.value || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-28">
-                    {actions[0]?.responsible.value || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-24">
-                    {actions[0]?.deadline || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-36">
-                    {actions[0]?.confirmation.value || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-24">
-                    {actions[0]?.status.value || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-24">
-                    {actions[0]?.completionDate || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-32">
-                    {actions[0]?.verificationStatus.value || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-40">
-                    {actions[0]?.comment || ""}
-                  </td>
+                  {/* First Action */}
+                  {[
+                    "title",
+                    "raiseDate",
+                    "resources",
+                    "relativeFunction.value",
+                    "responsible.value",
+                    "deadline",
+                    "confirmation.value",
+                    "status.value",
+                    "completionDate",
+                    "verificationStatus.value",
+                    "comment",
+                  ].map((field, idx) => {
+                    const value = field.includes(".")
+                      ? field.split(".").reduce((o, i) => o?.[i], actions[0])
+                      : actions[0]?.[field];
 
+                    return (
+                      <td
+                        key={idx}
+                        className="border border-gray-200 px-3 py-2"
+                      >
+                        {value && (
+                          <span className="inline-block px-3 py-1 bg-gray-100 text-gray-700 border border-gray-200 rounded-full shadow-sm">
+                            {value}
+                          </span>
+                        )}
+                      </td>
+                    );
+                  })}
+
+                  {/* Residual Severity */}
                   <td
-                    className="border border-blue-500 px-2 py-1 w-24"
+                    className="border border-gray-200 px-3 py-2 w-24"
                     rowSpan={numActions}
                   >
-                    {row.residualRiskSeverity || ""}
+                    {row.residualRiskSeverity && (
+                      <span className="inline-block px-3 py-1 bg-rose-100 text-rose-700 border border-rose-200 rounded-full shadow-sm">
+                        {row.residualRiskSeverity}
+                      </span>
+                    )}
                   </td>
 
+                  {/* Residual Likelyhood */}
                   <td
-                    className="border border-blue-500 px-2 py-1 w-24"
+                    className="border border-gray-200 px-3 py-2 w-24"
                     rowSpan={numActions}
                   >
-                    {row.residualRiskLikelyhood || ""}
+                    {row.residualRiskLikelyhood && (
+                      <span className="inline-block px-3 py-1 bg-rose-100 text-rose-700 border border-rose-200 rounded-full shadow-sm">
+                        {row.residualRiskLikelyhood}
+                      </span>
+                    )}
                   </td>
 
+                  {/* Final Risk Level */}
                   <td
-                    className="border border-blue-500 px-2 py-1 w-20"
+                    className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={numActions}
                   >
-                    Low
+                    <span className="inline-block px-3 py-1 bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-full shadow-sm">
+                      Low
+                    </span>
                   </td>
                 </tr>
 
-                {/* Ek Action Planlar */}
-                {actions.slice(1).map((action, actionIndex) => (
-                  <tr key={`${row.id}-action-${actionIndex}`}>
-                   <td className="border border-blue-500 px-2 py-1 w-32">
-                    {action?.title || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-32">
-                    {action?.raiseDate || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-24">
-                    {action?.resources || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-28">
-                    {action?.relativeFunction.value || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-28">
-                    {action?.responsible.value || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-24">
-                    {action?.deadline || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-36">
-                    {action?.confirmation.value || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-24">
-                    {action?.status.value || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-24">
-                    {action?.completionDate || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-32">
-                    {action?.verificationStatus.value || ""}
-                  </td>
-                  <td className="border border-blue-500 px-2 py-1 w-40">
-                    {action?.comment || ""}
-                  </td>
+                {/* Ek Actions */}
+                {actions.slice(1).map((action, i) => (
+                  <tr key={i} className="hover:bg-gray-50">
+                    {Object.values({
+                      title: action?.title,
+                      raiseDate: action?.raiseDate,
+                      resources: action?.resources,
+                      rel: action?.relativeFunction?.value,
+                      resp: action?.responsible?.value,
+                      deadline: action?.deadline,
+                      conf: action?.confirmation?.value,
+                      status: action?.status?.value,
+                      comp: action?.completionDate,
+                      ver: action?.verificationStatus?.value,
+                      comment: action?.comment,
+                    }).map((val, idx) => (
+                      <td
+                        key={idx}
+                        className="border border-gray-200 px-3 py-2"
+                      >
+                        {val && (
+                          <span className="inline-block px-3 py-1 bg-gray-100 text-gray-700 border border-gray-200 rounded-full shadow-sm">
+                            {val}
+                          </span>
+                        )}
+                      </td>
+                    ))}
                   </tr>
                 ))}
               </React.Fragment>
