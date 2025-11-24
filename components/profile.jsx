@@ -723,15 +723,20 @@ setFormData({
                 <div className="flex space-x-3 items-center">
                   <button
                     onClick={openAddModal}
-                    className="!rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 hover:from-green-600 hover:to-green-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm"
+                    disabled={selectedCount === 0}
+                    className={["!rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 hover:from-green-600 hover:to-green-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
+                    !(selectedCount >= 1) ? "opacity-50 cursor-not-allowed" : "",].join(" ")}
+                    
                   >
                     <i className="fas fa-plus mr-2"></i>
                     {!showAction ? "Add Risk" : "Add Action"}
                   </button>
                   <button
                     onClick={toggleArchiveView}
+                    disabled={selectedCount === 0}
                     className={[
                       "!rounded-button whitespace-nowrap cursor-pointer px-4 py-2 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
+                       !(selectedCount >= 1) ? "opacity-50 cursor-not-allowed" : "",
                       showArchived
                         ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-600 hover:to-orange-700"
                         : "bg-gradient-to-r from-gray-500 to-gray-600 text-white hover:from-gray-600 hover:to-gray-700",
@@ -742,8 +747,10 @@ setFormData({
                   </button>
                   <button
                     onClick={toggleDeleteView}
+                    disabled={selectedCount===0}
                     className={[
                       "!rounded-button whitespace-nowrap cursor-pointer px-4 py-2 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
+                      !(selectedCount >= 1) ? "opacity-50 cursor-not-allowed" : "",
                       showDeleted
                         ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-600 hover:to-orange-700"
                         : "bg-gradient-to-r from-gray-500 to-gray-600 text-white hover:from-gray-600 hover:to-gray-700",
@@ -754,8 +761,10 @@ setFormData({
                   </button>
                   <button
                     onClick={toggleActionView}
+                    disabled={selectedRowsForActions !== 1}
                     className={[
                       "!rounded-button whitespace-nowrap cursor-pointer px-4 py-2 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
+                      !(selectedCount >= 1) ? "opacity-50 cursor-not-allowed" : "",
                       showAction
                         ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-600 hover:to-orange-700"
                         : "bg-gradient-to-r from-gray-500 to-gray-600 text-white hover:from-gray-600 hover:to-gray-700",
@@ -885,8 +894,10 @@ setFormData({
                   </button>
                   <button
                     onClick={toggleActionView}
+                    disabled={selectedCount !== 1}
                     className={[
                       "!rounded-button whitespace-nowrap cursor-pointer px-4 py-2 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
+                      !(selectedCount >= 1) ? "opacity-50 cursor-not-allowed" : "",
                       showAction
                         ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-600 hover:to-orange-700"
                         : "bg-gradient-to-r from-gray-500 to-gray-600 text-white hover:from-gray-600 hover:to-gray-700",
@@ -928,11 +939,14 @@ setFormData({
                     </button>
                     <button
                       onClick={archive}
-                      disabled={!(selectedCount >= 1 && !showDeleted)}
+                      disabled={!(selectedCount >= 1 && !showDeleted) || !(activeHeader)}
                       className={[
                         "!rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 hover:from-green-600 hover:to-green-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
                         !(selectedCount >= 1 && !showDeleted)
                           ? "opacity-50 cursor-not-allowed"
+                          : "bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-600 hover:to-orange-700",
+                        !(activeHeader)
+                        ? "opacity-50 cursor-not-allowed"
                           : "bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-600 hover:to-orange-700",
                       ].join(" ")}
                       title="Archive/Restore Selected"
