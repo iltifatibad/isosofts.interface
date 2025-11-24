@@ -944,6 +944,7 @@ const MyTableBody = ({
                     );
                   })}
 
+  
                   {/* Residual Severity */}
                   <td
                     className="border border-gray-200 px-3 py-2 w-24"
@@ -1008,6 +1009,9 @@ const MyTableBody = ({
                     ))}
                   </tr>
                 ))}
+
+               
+                
               </React.Fragment>
             );
           })
