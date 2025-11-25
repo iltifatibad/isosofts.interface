@@ -259,7 +259,7 @@ const RisksAssessment = () => {
         completionDate: "",
         verificationStatus: "",
         comment: "",
-        january: "",
+        january: "10",
         february: "",
         march: "",
         april: "",
@@ -397,7 +397,7 @@ setFormData({
           initialRiskLikelyhood: formData.initialRiskLikelyhood, // Number, spelling uyumlu
           residualRiskSeverity: formData.residualRiskSeverity,
           residualRiskLikelyhood: formData.residualRiskLikelyhood,
-        };
+                  };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
 
         fetch("http://localhost:8000/api/register/br/one", {
@@ -429,6 +429,8 @@ setFormData({
           verificationStatus:
             actionData.actionPlan[0]?.verificationStatus || "",
           comment: actionData.actionPlan[0]?.comment || "",
+          january:"m1WXo10BJh118LYf66ECRJtP6xf9R0",
+          february:"6IP329ScE59k1dd8m32GV4f3g6lZ2H"
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
 

@@ -570,85 +570,100 @@ const MyTableBody = ({
 
             return (
               <React.Fragment key={row.id}>
-                <tr>
-                  {/* # column */}
-                  <td
-                    className="border-b border-gray-200 px-2 py-1 w-16 sticky left-[-1px] top-0 z-10 bg-white -ml-px"
-                    rowSpan={numActions}
-                  >
-                    {selectedTable[0].no}
-
-                    <input
-                      checked={selectedRowsForActions.has(actionData[index].id)}
-                      onChange={() =>
-                        onCheckboxChangeForActions(
-                          actionData[index].id,
-                          actionData,
-                        )
-                      }
-                      type="checkbox"
-                      className="ml-2"
-                    />
-                  </td>
-
-                  {/* FIRST ACTION PLAN FIELDS */}
-                  <td className="border-b border-gray-200 px-2 py-1 w-32">
-                    <SoftBadge value={actionData?.[index]?.title} />
-                  </td>
-
-                  <td className="border-b border-gray-200 px-2 py-1 w-32">
-                    <SoftBadge value={actionData?.[index]?.raiseDate} />
-                  </td>
-
-                  <td className="border-b border-gray-200 px-2 py-1 w-24">
-                    <SoftBadge
-                      value={actionData?.[index]?.resources?.toString() || ""}
-                    />
-                  </td>
-
-                  <td className="border-b border-gray-200 px-2 py-1 w-28">
-                    <SoftBadge
-                      value={actionData?.[index]?.relativeFunction?.value}
-                    />
-                  </td>
-
-                  <td className="border-b border-gray-200 px-2 py-1 w-28">
-                    <SoftBadge
-                      value={actionData?.[index]?.responsible?.value}
-                    />
-                  </td>
-
-                  <td className="border-b border-gray-200 px-2 py-1 w-24">
-                    <SoftBadge value={actionData?.[index]?.deadline} />
-                  </td>
-
-                  <td className="border-b border-gray-200 px-2 py-1 w-36">
-                    <SoftBadge
-                      value={actionData?.[index]?.confirmation?.value}
-                    />
-                  </td>
-
-                  <td className="border-b border-gray-200 px-2 py-1 w-24">
-                    <SoftBadge
-                      value={actionData?.[index]?.status?.value?.toString()}
-                    />
-                  </td>
-
-                  <td className="border-b border-gray-200 px-2 py-1 w-24">
-                    <SoftBadge value={actionData?.[index]?.completionDate} />
-                  </td>
-
-                  <td className="border-b border-gray-200 px-2 py-1 w-32">
-                    <SoftBadge
-                      value={actionData?.[index]?.verificationStatus?.value}
-                    />
-                  </td>
-
-                  <td className="border-b border-gray-200 px-2 py-1 w-40">
-                    <SoftBadge value={actionData?.[index]?.comment} />
-                  </td>
-                </tr>
-              </React.Fragment>
+  <tr>
+    {/* # column */}
+    <td
+      className="border-b border-gray-200 px-2 py-1 w-16 sticky left-[-1px] top-0 z-10 bg-white -ml-px"
+      rowSpan={numActions}
+    >
+      {selectedTable[0].no}
+      <input
+        checked={selectedRowsForActions.has(actionData[index].id)}
+        onChange={() =>
+          onCheckboxChangeForActions(
+            actionData[index].id,
+            actionData,
+          )
+        }
+        type="checkbox"
+        className="ml-2"
+      />
+    </td>
+    {/* FIRST ACTION PLAN FIELDS */}
+    <td className="border-b border-gray-200 px-2 py-1 w-32">
+      <SoftBadge value={actionData?.[index]?.title} />
+    </td>
+    <td className="border-b border-gray-200 px-2 py-1 w-32">
+      <SoftBadge value={actionData?.[index]?.raiseDate} />
+    </td>
+    <td className="border-b border-gray-200 px-2 py-1 w-24">
+      <SoftBadge
+        value={actionData?.[index]?.resources?.toString() || ""}
+      />
+    </td>
+    <td className="border-b border-gray-200 px-2 py-1 w-28">
+      <SoftBadge
+        value={actionData?.[index]?.relativeFunction?.value}
+      />
+    </td>
+    <td className="border-b border-gray-200 px-2 py-1 w-28">
+      <SoftBadge
+        value={actionData?.[index]?.responsible?.value}
+      />
+    </td>
+    <td className="border-b border-gray-200 px-2 py-1 w-24">
+      <SoftBadge value={actionData?.[index]?.deadline} />
+    </td>
+    <td className="border-b border-gray-200 px-2 py-1 w-36">
+      <SoftBadge
+        value={actionData?.[index]?.confirmation?.value}
+      />
+    </td>
+    <td className="border-b border-gray-200 px-2 py-1 w-24">
+      <SoftBadge
+        value={actionData?.[index]?.status?.value?.toString()}
+      />
+    </td>
+    <td className="border-b border-gray-200 px-2 py-1 w-24">
+      <SoftBadge value={actionData?.[index]?.completionDate} />
+    </td>
+    <td className="border-b border-gray-200 px-2 py-1 w-32">
+      <SoftBadge
+        value={actionData?.[index]?.verificationStatus?.value}
+      />
+    </td>
+    <td className="border-b border-gray-200 px-2 py-1 w-40">
+      <SoftBadge value={actionData?.[index]?.comment} />
+    </td>
+    {/* MONITORING MONTH COLUMNS */}
+    {[
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ].map((month) => (
+      <td
+        key={`${actionData?.[index]?.id}-${month}`}
+        className="border-b border-gray-200 px-2 py-1 w-24"
+      >
+        {/* Assuming monitoring data is stored in actionData[index].monitoring[month] or similar; adjust as needed */}
+        <SoftBadge
+          value={
+            actionData?.[index]?.[month.toLowerCase()]?.value ||
+            ""
+          }        />
+      </td>
+    ))}
+  </tr>
+</React.Fragment>
             );
           })
         ) : (
