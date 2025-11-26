@@ -35,31 +35,32 @@ export const hCheckboxChange =
     });
   };
 
-export const hCheckboxChangeForActions = (setSelectedRows, setSelectedTable) => (id, table) => {
-  const selectedItem = table.find((item) => item.id === id);
-  setSelectedTable((prev) => {
-    const exists = prev.find((item) => item.id === id);
-    let newTables;
-    if (exists) {
-      newTables = prev.filter((item) => item.id !== id);
-    } else {
-      newTables = [...prev, selectedItem];
-    }
-    console.log(" Selected Tables For Actions ", newTables);
-    return newTables;
-  });
-  setSelectedRows((prev) => {
-    const newSet = new Set(prev);
-    if (newSet.has(id)) {
-      newSet.delete(id);
-    } else {
-      newSet.add(id);
-    }
+export const hCheckboxChangeForActions =
+  (setSelectedRows, setSelectedTable) => (id, table) => {
+    const selectedItem = table.find((item) => item.id === id);
+    setSelectedTable((prev) => {
+      const exists = prev.find((item) => item.id === id);
+      let newTables;
+      if (exists) {
+        newTables = prev.filter((item) => item.id !== id);
+      } else {
+        newTables = [...prev, selectedItem];
+      }
+      console.log(" Selected Tables For Actions ", newTables);
+      return newTables;
+    });
+    setSelectedRows((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
 
-    console.log(" Selected Rows For Actions :", Array.from(newSet));
-    return newSet;
-  });
-};
+      console.log(" Selected Rows For Actions :", Array.from(newSet));
+      return newSet;
+    });
+  };
 
 const RisksAssessment = () => {
   // Sample data - gerçek projede API'den veya props'tan gelebilir
@@ -92,6 +93,7 @@ const RisksAssessment = () => {
   const [isOpenReg, setIsOpenReg] = useState(false);
   const [showArchived, setShowArchived] = useState(false);
   const [showDeleted, setShowDeleted] = useState(false);
+  const [showDeletedAction, setShowDeletedAction] = useState(false);
   const [showAction, setShowAction] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [modalMode, setModalMode] = useState("add");
@@ -163,7 +165,9 @@ const RisksAssessment = () => {
   const [deletingId, setDeletingId] = useState(null);
   const [selectedRows, setSelectedRows] = useState(new Set()); // Checkbox state'i ekle
   const [dropdownData, setDropdownData] = useState({});
-  const [selectedRowsForActions, setSelectedRowsForActions] = useState(new Set());
+  const [selectedRowsForActions, setSelectedRowsForActions] = useState(
+    new Set(),
+  );
   const [selectedTableForActions, setSelectedTableForActions] = useState([]);
   const handleCheckboxChange = hCheckboxChange(
     setSelectedRows,
@@ -172,7 +176,7 @@ const RisksAssessment = () => {
   const handleCheckboxChangeForActions = hCheckboxChangeForActions(
     setSelectedRowsForActions,
     setSelectedTableForActions,
-  )
+  );
   async function getDefaultDropdownList() {
     const url = "http://localhost:8000/api/tablecomponent/dropdownlistitem";
     try {
@@ -203,16 +207,31 @@ const RisksAssessment = () => {
       }
       setShowDeleted(false);
       setShowAction(false);
+      setShowDeletedAction(false);
     }
   };
   const toggleDeleteView = () => {
-    setShowDeleted(!showDeleted);
-    if (showArchived || showAction) {
-      if (!activeHeader) {
+    if (activeHeader) {
+      setShowDeleted(!showDeleted);
+      if (!activeHeader && showDeletedAction === false) {
         setActiveHeader(!activeHeader);
       }
-      setShowArchived(false);
-      setShowAction(false);
+    } else {
+      if (showDeletedAction === false) {
+        setShowDeleted(!showDeleted);
+        setShowDeletedAction((prev) => {
+          const newValue = !prev;
+          console.log("Yeni değer:", newValue);
+          return newValue;
+        });
+      } else {
+        setShowDeleted(!showDeleted);
+        setShowDeletedAction((prev) => {
+          const newValue = !prev;
+          console.log("Yeni değer:", newValue);
+          return newValue;
+        });
+      }
     }
   };
 
@@ -278,59 +297,58 @@ const RisksAssessment = () => {
 
   const openEditModal = async (row) => {
     if (activeHeader) {
-      
-setFormData({
-      swot: row.swot.id,
-      pestle: row.pestle.id,
-      interestedParty: row.interestedParty.id,
-      process: row.process.id,
-      riskOpportunity: row.riskOpportunity,
-      objective: row.objective,
-      kpi: row.kpi,
-      ermeoa: row.ermeoa,
-      initialRiskSeverity: row.initialRiskSeverity,
-      initialRiskLikelyhood: row.initialRiskLikelyhood,
-      residualRiskSeverity: row.residualRiskSeverity,
-      residualRiskLikelyhood: row.residualRiskLikelyhood,
-    });
-    }else {
+      setFormData({
+        swot: row.swot.id,
+        pestle: row.pestle.id,
+        interestedParty: row.interestedParty.id,
+        process: row.process.id,
+        riskOpportunity: row.riskOpportunity,
+        objective: row.objective,
+        kpi: row.kpi,
+        ermeoa: row.ermeoa,
+        initialRiskSeverity: row.initialRiskSeverity,
+        initialRiskLikelyhood: row.initialRiskLikelyhood,
+        residualRiskSeverity: row.residualRiskSeverity,
+        residualRiskLikelyhood: row.residualRiskLikelyhood,
+      });
+    } else {
       setActionData({
-  actionPlan: [
-    {
-      title: row.title,
-  raiseDate: row.raiseDate,
-  resources: row.resources,
-  currency: "", // ✨ aynen kalacak
-  relativeFunction: row.relativeFunction?.id || "",
-  responsible: row.responsible?.id || "",
-  deadline: row.deadline,
-  confirmation: row.confirmation?.id || "",
-  status: row.status?.id || "",
-  completionDate: row.completionDate || "",
-  verificationStatus: row.verificationStatus?.id || "",
-  comment: row.comment || "",
-      january: "",
-      february: "",
-      march: "",
-      april: "",
-      may: "",
-      june: "",
-      july: "",
-      august: "",
-      september: "",
-      october: "",
-      november: "",
-      december: "",
-    }
-  ]
-});
+        actionPlan: [
+          {
+            title: row.title,
+            raiseDate: row.raiseDate,
+            resources: row.resources,
+            currency: "", // ✨ aynen kalacak
+            relativeFunction: row.relativeFunction?.id || "",
+            responsible: row.responsible?.id || "",
+            deadline: row.deadline,
+            confirmation: row.confirmation?.id || "",
+            status: row.status?.id || "",
+            completionDate: row.completionDate || "",
+            verificationStatus: row.verificationStatus?.id || "",
+            comment: row.comment || "",
+            january: "",
+            february: "",
+            march: "",
+            april: "",
+            may: "",
+            june: "",
+            july: "",
+            august: "",
+            september: "",
+            october: "",
+            november: "",
+            december: "",
+          },
+        ],
+      });
     }
     const dropdownData = await getDefaultDropdownList();
     setModalMode("edit");
     setEditingRow(row);
 
     setShowModal(true);
-      };
+  };
 
   const handleFormChange = (arg1, arg2) => {
     const parsePath = (path) =>
@@ -397,7 +415,7 @@ setFormData({
           initialRiskLikelyhood: formData.initialRiskLikelyhood, // Number, spelling uyumlu
           residualRiskSeverity: formData.residualRiskSeverity,
           residualRiskLikelyhood: formData.residualRiskLikelyhood,
-                  };
+        };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
 
         fetch("http://localhost:8000/api/register/br/one", {
@@ -419,8 +437,7 @@ setFormData({
           title: actionData.actionPlan[0]?.title || "",
           raiseDate: actionData.actionPlan[0]?.raiseDate || "",
           currency: actionData.actionPlan[0]?.currency || "",
-          relativeFunction:
-            actionData.actionPlan[0]?.relativeFunction || "",
+          relativeFunction: actionData.actionPlan[0]?.relativeFunction || "",
           responsible: actionData.actionPlan[0]?.responsible || "",
           deadline: actionData.actionPlan[0]?.deadline || "",
           confirmation: actionData.actionPlan[0]?.confirmation || "",
@@ -429,8 +446,8 @@ setFormData({
           verificationStatus:
             actionData.actionPlan[0]?.verificationStatus || "",
           comment: actionData.actionPlan[0]?.comment || "",
-          january:"m1WXo10BJh118LYf66ECRJtP6xf9R0",
-          february:"6IP329ScE59k1dd8m32GV4f3g6lZ2H"
+          january: "m1WXo10BJh118LYf66ECRJtP6xf9R0",
+          february: "6IP329ScE59k1dd8m32GV4f3g6lZ2H",
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
 
@@ -451,86 +468,86 @@ setFormData({
       // Sadece backend beklediği alanları al (diğerlerini sil)
     } else {
       if (!showAction) {
-      const payload = {
-        swot: formData.swot,
-        pestle: formData.pestle,
-        interestedParty: formData.interestedParty,
-        riskOpportunity: formData.riskOpportunity,
-        objective: formData.objective,
-        kpi: formData.kpi,
-        process: formData.process,
-        ermeoa: formData.ermeoa,
-        initialRiskSeverity: formData.initialRiskSeverity, // Number
-        initialRiskLikelyhood: formData.initialRiskLikelyhood, // Number, spelling uyumlu
-        residualRiskSeverity: formData.residualRiskSeverity,
-        residualRiskLikelyhood: formData.residualRiskLikelyhood,
-      };
-      console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
-      const url =
-        "http://localhost:8000/api/register/br/one/" + selectedTable[0].id;
-      fetch(url, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload), // Direkt obje – array yapma!
-      })
-        .then((response) => {
-          if (!response.ok) {
-            console.error("Kaydetme başarısız:", response.statusText);
-          } else {
-            console.log("Kayıt başarıyla kaydedildi.");
-          }
+        const payload = {
+          swot: formData.swot,
+          pestle: formData.pestle,
+          interestedParty: formData.interestedParty,
+          riskOpportunity: formData.riskOpportunity,
+          objective: formData.objective,
+          kpi: formData.kpi,
+          process: formData.process,
+          ermeoa: formData.ermeoa,
+          initialRiskSeverity: formData.initialRiskSeverity, // Number
+          initialRiskLikelyhood: formData.initialRiskLikelyhood, // Number, spelling uyumlu
+          residualRiskSeverity: formData.residualRiskSeverity,
+          residualRiskLikelyhood: formData.residualRiskLikelyhood,
+        };
+        console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
+        const url =
+          "http://localhost:8000/api/register/br/one/" + selectedTable[0].id;
+        fetch(url, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload), // Direkt obje – array yapma!
         })
-        .catch((error) => console.error("Hata:", error));
-    } else {
-      setActionData({
-  actionPlan: [
-    {
-      title: actionData.actionPlan[0].title,
-  raiseDate: actionData.actionPlan[0].raiseDate,
-  resources: actionData.actionPlan[0].resources,
-  currency: "", // ✨ aynen kalacak
-  relativeFunction: actionData.relativeFunction?.id || "",
-  responsible: actionData.responsible?.id || "",
-  deadline: actionData.deadline,
-  confirmation: actionData.confirmation?.id || "",
-  status: actionData.status?.id || "",
-  completionDate: actionData.completionDate || "",
-  verificationStatus: actionData.verificationStatus?.id || "",
-  comment: actionData.comment || "",
-      january: "",
-      february: "",
-      march: "",
-      april: "",
-      may: "",
-      june: "",
-      july: "",
-      august: "",
-      september: "",
-      october: "",
-      november: "",
-      december: "",
-    }
-  ]
-});
-;
-     const payload = { ...actionData.actionPlan[0] };;   
-      console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
-      const url =
-        "http://localhost:8000/api/register/component/action/one/" + selectedTableForActions[0].id;
-      fetch(url, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload), // Direkt obje – array yapma!
-      })
-        .then((response) => {
-          if (!response.ok) {
-            console.error("Kaydetme başarısız:", response.statusText);
-          } else {
-            console.log("Kayıt başarıyla kaydedildi.");
-          }
+          .then((response) => {
+            if (!response.ok) {
+              console.error("Kaydetme başarısız:", response.statusText);
+            } else {
+              console.log("Kayıt başarıyla kaydedildi.");
+            }
+          })
+          .catch((error) => console.error("Hata:", error));
+      } else {
+        setActionData({
+          actionPlan: [
+            {
+              title: actionData.actionPlan[0].title,
+              raiseDate: actionData.actionPlan[0].raiseDate,
+              resources: actionData.actionPlan[0].resources,
+              currency: "", // ✨ aynen kalacak
+              relativeFunction: actionData.relativeFunction?.id || "",
+              responsible: actionData.responsible?.id || "",
+              deadline: actionData.deadline,
+              confirmation: actionData.confirmation?.id || "",
+              status: actionData.status?.id || "",
+              completionDate: actionData.completionDate || "",
+              verificationStatus: actionData.verificationStatus?.id || "",
+              comment: actionData.comment || "",
+              january: "",
+              february: "",
+              march: "",
+              april: "",
+              may: "",
+              june: "",
+              july: "",
+              august: "",
+              september: "",
+              october: "",
+              november: "",
+              december: "",
+            },
+          ],
+        });
+        const payload = { ...actionData.actionPlan[0] };
+        console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
+        const url =
+          "http://localhost:8000/api/register/component/action/one/" +
+          selectedTableForActions[0].id;
+        fetch(url, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload), // Direkt obje – array yapma!
         })
-        .catch((error) => console.error("Hata:", error));
-    }
+          .then((response) => {
+            if (!response.ok) {
+              console.error("Kaydetme başarısız:", response.statusText);
+            } else {
+              console.log("Kayıt başarıyla kaydedildi.");
+            }
+          })
+          .catch((error) => console.error("Hata:", error));
+      }
     }
     closeModal();
   };
@@ -649,11 +666,11 @@ setFormData({
 
   const editSingle = () => {
     let row;
-    if(activeHeader){
+    if (activeHeader) {
       row = getSelectedRow();
-    }else{
+    } else {
       row = getSelectedRowForAction();
-      console.log("SELECTED ROW FOR EDIT ACTION",row);
+      console.log("SELECTED ROW FOR EDIT ACTION", row);
     }
     if (row) openEditModal(row);
   };
@@ -726,9 +743,12 @@ setFormData({
                   <button
                     onClick={openAddModal}
                     disabled={selectedCount === 0}
-                    className={["!rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 hover:from-green-600 hover:to-green-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
-                    !(selectedCount >= 1) ? "opacity-50 cursor-not-allowed" : "",].join(" ")}
-                    
+                    className={[
+                      "!rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 hover:from-green-600 hover:to-green-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
+                      !(selectedCount >= 1)
+                        ? "opacity-50 cursor-not-allowed"
+                        : "",
+                    ].join(" ")}
                   >
                     <i className="fas fa-plus mr-2"></i>
                     {!showAction ? "Add Risk" : "Add Action"}
@@ -738,7 +758,9 @@ setFormData({
                     disabled={selectedCount === 0}
                     className={[
                       "!rounded-button whitespace-nowrap cursor-pointer px-4 py-2 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
-                       !(selectedCount >= 1) ? "opacity-50 cursor-not-allowed" : "",
+                      !(selectedCount >= 1)
+                        ? "opacity-50 cursor-not-allowed"
+                        : "",
                       showArchived
                         ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-600 hover:to-orange-700"
                         : "bg-gradient-to-r from-gray-500 to-gray-600 text-white hover:from-gray-600 hover:to-gray-700",
@@ -749,10 +771,12 @@ setFormData({
                   </button>
                   <button
                     onClick={toggleDeleteView}
-                    disabled={selectedCount===0}
+                    disabled={selectedCount === 0}
                     className={[
                       "!rounded-button whitespace-nowrap cursor-pointer px-4 py-2 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
-                      !(selectedCount >= 1) ? "opacity-50 cursor-not-allowed" : "",
+                      !(selectedCount >= 1)
+                        ? "opacity-50 cursor-not-allowed"
+                        : "",
                       showDeleted
                         ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-600 hover:to-orange-700"
                         : "bg-gradient-to-r from-gray-500 to-gray-600 text-white hover:from-gray-600 hover:to-gray-700",
@@ -766,7 +790,9 @@ setFormData({
                     disabled={selectedRowsForActions !== 1}
                     className={[
                       "!rounded-button whitespace-nowrap cursor-pointer px-4 py-2 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
-                      !(selectedCount >= 1) ? "opacity-50 cursor-not-allowed" : "",
+                      !(selectedCount >= 1)
+                        ? "opacity-50 cursor-not-allowed"
+                        : "",
                       showAction
                         ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-600 hover:to-orange-700"
                         : "bg-gradient-to-r from-gray-500 to-gray-600 text-white hover:from-gray-600 hover:to-gray-700",
@@ -892,14 +918,22 @@ setFormData({
                     ].join(" ")}
                   >
                     <i className="fas fa-archive mr-2"></i>
-                    {showDeleted ? "Hide Deleted" : "Show Deleted"}
+                    {activeHeader
+                      ? showDeleted
+                        ? "Hide Deleted"
+                        : "Show Deleted"
+                      : !showDeleted
+                        ? "Show Deleted Action"
+                        : "Hide Deleted Action"}
                   </button>
                   <button
                     onClick={toggleActionView}
                     disabled={selectedCount !== 1}
                     className={[
                       "!rounded-button whitespace-nowrap cursor-pointer px-4 py-2 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
-                      !(selectedCount >= 1) ? "opacity-50 cursor-not-allowed" : "",
+                      !(selectedCount >= 1)
+                        ? "opacity-50 cursor-not-allowed"
+                        : "",
                       showAction
                         ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-600 hover:to-orange-700"
                         : "bg-gradient-to-r from-gray-500 to-gray-600 text-white hover:from-gray-600 hover:to-gray-700",
@@ -941,14 +975,16 @@ setFormData({
                     </button>
                     <button
                       onClick={archive}
-                      disabled={!(selectedCount >= 1 && !showDeleted) || !(activeHeader)}
+                      disabled={
+                        !(selectedCount >= 1 && !showDeleted) || !activeHeader
+                      }
                       className={[
                         "!rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 hover:from-green-600 hover:to-green-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
                         !(selectedCount >= 1 && !showDeleted)
                           ? "opacity-50 cursor-not-allowed"
                           : "bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-600 hover:to-orange-700",
-                        !(activeHeader)
-                        ? "opacity-50 cursor-not-allowed"
+                        !activeHeader
+                          ? "opacity-50 cursor-not-allowed"
                           : "bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-600 hover:to-orange-700",
                       ].join(" ")}
                       title="Archive/Restore Selected"
@@ -1318,8 +1354,7 @@ setFormData({
                                 </label>
                                 <input
                                   value={
-                                    actionData?.actionPlan?.[0]?.raiseDate ||
-                                    ""
+                                    actionData?.actionPlan?.[0]?.raiseDate || ""
                                   }
                                   onChange={(e) =>
                                     handleFormChange(
@@ -1339,8 +1374,7 @@ setFormData({
                                 </label>
                                 <input
                                   value={
-                                    actionData.actionPlan?.[0]?.resources ||
-                                    ""
+                                    actionData.actionPlan?.[0]?.resources || ""
                                   }
                                   onChange={(e) =>
                                     handleFormChange(
@@ -1393,8 +1427,8 @@ setFormData({
                                 </label>
                                 <select
                                   value={
-                                    actionData.actionPlan?.[0]
-                                      ?.responsible || ""
+                                    actionData.actionPlan?.[0]?.responsible ||
+                                    ""
                                   }
                                   onChange={(e) =>
                                     handleFormChange(
@@ -1420,8 +1454,7 @@ setFormData({
                                 </label>
                                 <input
                                   value={
-                                    actionData.actionPlan?.[0]?.deadline ||
-                                    ""
+                                    actionData.actionPlan?.[0]?.deadline || ""
                                   }
                                   onChange={(e) =>
                                     handleFormChange(
@@ -1444,8 +1477,8 @@ setFormData({
                                 </label>
                                 <select
                                   value={
-                                    actionData.actionPlan?.[0]
-                                      ?.confirmation || ""
+                                    actionData.actionPlan?.[0]?.confirmation ||
+                                    ""
                                   }
                                   onChange={(e) =>
                                     handleFormChange(
@@ -1548,8 +1581,7 @@ setFormData({
                                 </label>
                                 <input
                                   value={
-                                    actionData.actionPlan?.[0]?.comment ||
-                                    ""
+                                    actionData.actionPlan?.[0]?.comment || ""
                                   }
                                   onChange={(e) =>
                                     handleFormChange(
