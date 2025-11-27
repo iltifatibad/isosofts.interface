@@ -76,7 +76,7 @@ const MyTableBody = ({
 
 const getDeletedActionData = async () => {
     setLoading(true); // Loading başla
-    const selectedRowsArray = [...selectedRowsForActions];
+    const selectedRowsArray = [...selectedRows];
     try {
       const firstRowId = selectedRowsArray[0]; 
       const url = `http://localhost:8000/api/register/component/action/all?registerId=${firstRowId}&status=deleted`;
