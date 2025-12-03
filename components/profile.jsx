@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import BgRiskBody from "./tabledatas/bgrisk.jsx";
 import BgHeaders from "./tableheaders/tableheards.jsx";
 import ReactECharts from "echarts-for-react";
+
 export const hCheckboxChange =
   (setSelectedRows, setSelectedTable) => (id, table) => {
     // id'ye uygun objeyi bul
