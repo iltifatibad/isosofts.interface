@@ -901,11 +901,11 @@ const RisksAssessment = () => {
                       setSelectedOption("datas"); // selectedOption'ı "datas" yap
                     }}
                     className={[
-                      "!rounded-button whitespace-nowrap cursor-pointer bg-white text-red-600 px-4 py-2 hover:bg-gray-50 hover:text-red-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
+                      "!rounded-button whitespace-nowrap cursor-pointer bg-white text-blue-600 px-4 py-2 hover:bg-gray-50 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
                       selectedOption ? "" : "",
                     ].join(" ")}
                   >
-                    <i className="fas fa-archive mr-2 text-red-600 hover:text-red-700"></i>
+                    <i className="fas fa-archive mr-2 text-blue-600 hover:text-blue-700"></i>
                     {selectedOption ? "Data" : "E-Chart"}
                   </button>{" "}
                 </div>
@@ -1017,29 +1017,29 @@ const RisksAssessment = () => {
 
                   <button
                     onClick={openAddModal}
-                    className="!rounded-button whitespace-nowrap cursor-pointer bg-white text-red-600 px-4 py-2 hover:bg-gray-50 hover:text-red-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm"
+                    className="!rounded-button whitespace-nowrap cursor-pointer bg-white text-blue-600 px-4 py-2 hover:bg-gray-50 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm"
                   >
-                    <i className="fas fa-plus mr-2 text-red-600 hover:text-red-700"></i>
+                    <i className="fas fa-plus mr-2 text-blue-600 hover:text-blue-700"></i>
                     {!showAction ? "Add Risk" : "Add Action"}
                   </button>
                   <button
                     onClick={toggleArchiveView}
                     className={[
-                      "!rounded-button whitespace-nowrap cursor-pointer bg-white text-red-600 px-4 py-2 hover:bg-gray-50 hover:text-red-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
+                      "!rounded-button whitespace-nowrap cursor-pointer bg-white text-blue-600 px-4 py-2 hover:bg-gray-50 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
                       showArchived ? "" : "",
                     ].join(" ")}
                   >
-                    <i className="fas fa-archive mr-2 text-red-600 hover:text-red-700"></i>
+                    <i className="fas fa-archive mr-2 text-blue-600 hover:text-blue-700"></i>
                     {showArchived ? "Hide Archived" : "Show Archived"}
                   </button>
                   <button
                     onClick={toggleDeleteView}
                     className={[
-                      "!rounded-button whitespace-nowrap cursor-pointer bg-white text-red-600 px-4 py-2 hover:bg-gray-50 hover:text-red-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
+                      "!rounded-button whitespace-nowrap cursor-pointer bg-white text-blue-600 px-4 py-2 hover:bg-gray-50 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
                       showDeleted ? "" : "",
                     ].join(" ")}
                   >
-                    <i className="fas fa-archive mr-2 text-red-600 hover:text-red-700"></i>
+                    <i className="fas fa-archive mr-2 text-blue-600 hover:text-blue-700"></i>
                     {activeHeader
                       ? showDeleted
                         ? "Hide Deleted"
@@ -1052,14 +1052,14 @@ const RisksAssessment = () => {
                     onClick={toggleActionView}
                     disabled={selectedCount !== 1}
                     className={[
-                      "!rounded-button whitespace-nowrap cursor-pointer bg-white text-red-600 px-4 py-2 hover:bg-gray-50 hover:text-red-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
+                      "!rounded-button whitespace-nowrap cursor-pointer bg-white text-blue-600 px-4 py-2 hover:bg-gray-50 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
                       !(selectedCount >= 1)
                         ? "opacity-50 cursor-not-allowed"
                         : "",
                       showAction ? "" : "",
                     ].join(" ")}
                   >
-                    <i className="fas fa-archive mr-2 text-red-600 hover:text-red-700"></i>
+                    <i className="fas fa-archive mr-2 text-blue-600 hover:text-blue-700"></i>
                     {showAction ? "Hide Action" : "Show Action"}
                   </button>
                   {/* Actions butonları */}
@@ -1068,14 +1068,14 @@ const RisksAssessment = () => {
                       onClick={editSingle}
                       disabled={!(selectedCount >= 1 && !showDeleted)}
                       className={[
-                        "!rounded-button whitespace-nowrap cursor-pointer bg-white text-red-600 px-4 py-2 hover:bg-gray-50 hover:text-red-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
+                        "!rounded-button whitespace-nowrap cursor-pointer bg-white text-blue-600 px-4 py-2 hover:bg-gray-50 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
                         !(selectedCount >= 1 && !showDeleted)
                           ? "opacity-50 cursor-not-allowed"
                           : "",
                       ].join(" ")}
                       title="Edit (Single Selection Only)"
                     >
-                      <i className="fas fa-edit text-red-600 hover:text-red-700"></i>
+                      <i className="fas fa-edit text-blue-600 hover:text-blue-700"></i>
                     </button>
                     <button
                       onClick={archive}
@@ -1083,7 +1083,7 @@ const RisksAssessment = () => {
                         !(selectedCount >= 1 && !showDeleted) || !activeHeader
                       }
                       className={[
-                        "!rounded-button whitespace-nowrap cursor-pointer bg-white text-red-600 px-4 py-2 hover:bg-gray-50 hover:text-red-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
+                        "!rounded-button whitespace-nowrap cursor-pointer bg-white text-blue-600 px-4 py-2 hover:bg-gray-50 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
                         !(selectedCount >= 1 && !showDeleted)
                           ? "opacity-50 cursor-not-allowed"
                           : "",
@@ -1092,14 +1092,14 @@ const RisksAssessment = () => {
                       title="Archive/Restore Selected"
                     >
                       <i
-                        className={`fas ${showArchived ? "fa-undo" : "fa-archive"} text-red-600 hover:text-red-700`}
+                        className={`fas ${showArchived ? "fa-undo" : "fa-archive"} text-blue-600 hover:text-blue-700`}
                       ></i>
                     </button>
                     <button
                       onClick={selectedCount > 0 ? confirmBulkDelete : () => {}}
                       disabled={selectedCount === 0}
                       className={[
-                        "!rounded-button whitespace-nowrap cursor-pointer bg-white text-red-600 px-4 py-2 hover:bg-gray-50 hover:text-red-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
+                        "!rounded-button whitespace-nowrap cursor-pointer bg-white text-blue-600 px-4 py-2 hover:bg-gray-50 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
                         selectedCount === 0
                           ? "opacity-50 cursor-not-allowed"
                           : "",
@@ -1115,7 +1115,7 @@ const RisksAssessment = () => {
                             : showDeletedAction
                               ? "fa-trash-restore"
                               : "fa-trash"
-                        } text-red-600 hover:text-red-700`}
+                        } text-blue-600 hover:text-blue-700`}
                       ></i>
                     </button>
                   </div>
@@ -1126,11 +1126,11 @@ const RisksAssessment = () => {
                   <button
                     onClick={() => setSelectedOption("e-chart")}
                     className={[
-                      "!rounded-button whitespace-nowrap cursor-pointer bg-white text-red-600 px-4 py-2 hover:bg-gray-50 hover:text-red-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
+                      "!rounded-button whitespace-nowrap cursor-pointer bg-white text-blue-600 px-4 py-2 hover:bg-gray-50 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
                       selectedOption ? "" : "",
                     ].join(" ")}
                   >
-                    <i className="fas fa-archive mr-2 text-red-600 hover:text-red-700"></i>
+                    <i className="fas fa-archive mr-2 text-blue-600 hover:text-blue-700"></i>
                     {selectedOption ? "E-Chart" : "Data"}
                   </button>{" "}
                 </div>
