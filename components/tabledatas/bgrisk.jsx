@@ -13,7 +13,7 @@ const MyTableBody = ({
   activeHeader,
   selectedTable,
   refresh,
-  setRefresh
+  setRefresh,
 }) => {
   console.log("ACTIVE HEADERRRRR : ", activeHeader);
   const [archivedData, setArchivedData] = useState([]);
@@ -31,27 +31,45 @@ const MyTableBody = ({
         throw new Error("Failed To Get Datas From Archived DataBase");
       }
       const fetchedData = await response.json();
-      setArchivedData(fetchedData || []); // Veri set et, fallback []
+      setArchivedData(fetchedData || []);
       console.log("Arşiv verileri:", fetchedData);
     } catch (err) {
       console.error("Error While Fetching Archived Datas:", err);
-      setArchivedData([]); // Hata durumunda boş array set et (null değil!)
+      setArchivedData([]); 
     } finally {
-      setLoading(false); // Loading bitir
+      setLoading(false); 
     }
   };
 
   useEffect(() => {
-  if (refresh) {
-    const timer = setTimeout(() => {
-      getAll();
-      setRefresh(false);
-    }, 500);
+    if (refresh) {
+      if (!showArchived & !showDeleted & !showDeletedAction & activeHeader) {
+        const timer = setTimeout(() => {
+          getAll();
+          setRefresh(false);
+        }, 500);
 
-    return () => clearTimeout(timer); // cleanup
-  }
-}, [refresh]);
-  
+        return () => clearTimeout(timer); // cleanup
+      } else if (showArchived) {
+      const timer = setTimeout(() => {
+        getArchivedData();
+        setRefresh(false);
+      }, 500);
+
+      return () => clearTimeout(timer); // cleanup
+
+      } else if (showDeleted) {
+        const timer = setTimeout(() => {
+          getDeletedData();
+          setRefresh(false);
+        }, 500);
+
+        return () => clearTimeout(timer); // cleanup
+
+      }
+    }
+  }, [refresh]);
+
   useEffect(() => {
     if (showArchived) {
       getArchivedData(); // Async çağrı

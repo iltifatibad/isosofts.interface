@@ -565,7 +565,7 @@ const RisksAssessment = () => {
             }
           })
           .catch((error) => console.error("Hata:", error));
-          setRefresh(true);
+        setRefresh(true);
       }
       // Sadece backend beklediği alanları al (diğerlerini sil)
     } else {
@@ -600,7 +600,7 @@ const RisksAssessment = () => {
             }
           })
           .catch((error) => console.error("Hata:", error));
-          setRefresh(true)
+        setRefresh(true);
       } else {
         setActionData({
           actionPlan: [
@@ -650,7 +650,7 @@ const RisksAssessment = () => {
             }
           })
           .catch((error) => console.error("Hata:", error));
-          setRefresh(true);
+        setRefresh(true);
       }
     }
     closeModal();
@@ -721,7 +721,7 @@ const RisksAssessment = () => {
             }
           })
           .catch((error) => console.log(" Error While Deleting: ", error));
-          setRefresh(true);
+        setRefresh(true);
       }
     } else {
       if (!showDeletedAction) {
@@ -745,7 +745,7 @@ const RisksAssessment = () => {
             }
           })
           .catch((error) => console.log(" Error While Deleting: ", error));
-          setRefresh(true);
+        setRefresh(true);
       } else {
         console.log("CCC: ", selectedRowsForActions);
         fetch(
@@ -767,7 +767,7 @@ const RisksAssessment = () => {
             }
           })
           .catch((error) => console.log(" Error While Deleting: ", error));
-          setRefresh(true);
+        setRefresh(true);
       }
     }
   };
@@ -789,7 +789,7 @@ const RisksAssessment = () => {
           }
         })
         .catch((error) => console.log(" Error While UnArchiving : ", error));
-        setRefresh(true);
+      setRefresh(true);
     } else {
       fetch("http://localhost:8000/api/register/br/all/archive", {
         method: "PUT",
@@ -805,7 +805,7 @@ const RisksAssessment = () => {
           }
         })
         .catch((error) => console.log(" Error While Archiving : ", error));
-        setRefresh(true);
+      setRefresh(true);
     }
   };
 
@@ -1818,8 +1818,7 @@ const RisksAssessment = () => {
                                 </label>
                                 <select
                                   value={
-                                    actionData.actionPlan?.[0]
-                                      ?.april || ""
+                                    actionData.actionPlan?.[0]?.april || ""
                                   }
                                   onChange={(e) =>
                                     handleFormChange(
@@ -1947,8 +1946,7 @@ const RisksAssessment = () => {
                                 </label>
                                 <select
                                   value={
-                                    actionData.actionPlan?.[0]
-                                      ?.september || ""
+                                    actionData.actionPlan?.[0]?.september || ""
                                   }
                                   onChange={(e) =>
                                     handleFormChange(
