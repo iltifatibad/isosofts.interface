@@ -7,8 +7,7 @@ export const hCheckboxChange =
   (setSelectedRows, setSelectedTable) => (id, table) => {
     // id'ye uygun objeyi bul
     const selectedItem = table.find((item) => item.id === id);
-
-    // Seçili tabloları güncelle
+    
     setSelectedTable((prev) => {
       const exists = prev.find((item) => item.id === id);
       let newTables;
