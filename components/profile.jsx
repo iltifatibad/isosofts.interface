@@ -2,9 +2,6 @@ import React, { useState, useEffect } from "react";
 import BgRiskBody from "./tabledatas/bgrisk.jsx";
 import BgHeaders from "./tableheaders/tableheards.jsx";
 
-import HsHeaders from "./tableheaders/hsrheaders.jsx";
-import HsrBody from "./tabledatas/hsr.jsx";
-
 
 import ReactECharts from "echarts-for-react";
 
@@ -12,7 +9,7 @@ export const hCheckboxChange =
   (setSelectedRows, setSelectedTable) => (id, table) => {
     // id'ye uygun objeyi bul
     const selectedItem = table.find((item) => item.id === id);
-    
+
     setSelectedTable((prev) => {
       const exists = prev.find((item) => item.id === id);
       let newTables;
@@ -221,26 +218,11 @@ const RisksAssessment = () => {
     ermeoa: "",
     initialRiskSeverity: "",
     initialRiskLikelihood: "",
-    actionPlan: [
-      {
-        action: "",
-        raiseDate: "",
-        resources: "",
-        function: "",
-        responsible: "",
-        deadline: "",
-        actionConfirmation: "",
-        actionStatus: "",
-        compilationData: "",
-        verification: "",
-        comment: "",
-      },
-    ],
     residualRiskSeverity: "",
     residualRiskLikelihood: "",
   });
 
-    const [formDataHs, setFormDataHs] = useState({
+  const [formDataHs, setFormDataHs] = useState({
     id: 0,
     process: "",
     hazard: "",
@@ -340,6 +322,7 @@ const RisksAssessment = () => {
   // Handlers
   const toggleArchiveView = () => {
     setShowArchived(!showArchived);
+    selectedRows.clear();
     if (showDeleted || showAction) {
       if (!activeHeader) {
         setActiveHeader(!activeHeader);
@@ -351,6 +334,7 @@ const RisksAssessment = () => {
   };
   const toggleDeleteView = () => {
     console.log("ACTIVE HEADERRRRR : ", activeHeader);
+    selectedRows.clear();
     if (activeHeader) {
       setShowDeleted((prev) => !prev);
     } else {
@@ -420,20 +404,20 @@ const RisksAssessment = () => {
 
   const openEditModal = async (row) => {
     if (activeHeader) {
-          setFormData({
-          swot: row.swot.id,
-          pestle: row.pestle.id,
-          interestedParty: row.interestedParty.id,
-          process: row.process.id,
-          riskOpportunity: row.riskOpportunity,
-          objective: row.objective,
-          kpi: row.kpi,
-          ermeoa: row.ermeoa,
-          initialRiskSeverity: row.initialRiskSeverity,
-          initialRiskLikelyhood: row.initialRiskLikelyhood,
-          residualRiskSeverity: row.residualRiskSeverity,
-          residualRiskLikelyhood: row.residualRiskLikelyhood,
-        });
+      setFormData({
+        swot: row.swot.id || String(row.swot),
+        pestle: row.pestle.id || String(row.pestle),
+        interestedParty: row.interestedParty.id || String(row.interestedParty),
+        process: row.process.id || String(row.process),
+        riskOpportunity: row.riskOpportunity,
+        objective: row.objective,
+        kpi: row.kpi,
+        ermeoa: row.ermeoa,
+        initialRiskSeverity: row.initialRiskSeverity,
+        initialRiskLikelyhood: row.initialRiskLikelyhood,
+        residualRiskSeverity: row.residualRiskSeverity,
+        residualRiskLikelyhood: row.residualRiskLikelyhood,
+      });
     } else {
       setActionData({
         actionPlan: [
@@ -441,7 +425,7 @@ const RisksAssessment = () => {
             title: row.title,
             raiseDate: row.raiseDate,
             resources: row.resources,
-            currency: "", // ✨ aynen kalacak
+            currency: "", 
             relativeFunction: row.relativeFunction?.id || "",
             responsible: row.responsible?.id || "",
             deadline: row.deadline,
@@ -514,7 +498,7 @@ const RisksAssessment = () => {
     } else if (selectedRisk === "bg-reg") {
       setter = setFormData;
     } else {
-      setter = setFormData; // default fallback
+      setter = setFormData; 
     }
 
     if (typeof arg1 === "string") {
@@ -532,7 +516,7 @@ const RisksAssessment = () => {
   const saveRisk = () => {
     if (modalMode === "add") {
       if (!showAction) {
-          const payload = {
+        const payload = {
           swot: formData.swot,
           pestle: formData.pestle,
           interestedParty: formData.interestedParty,
@@ -547,7 +531,7 @@ const RisksAssessment = () => {
           residualRiskLikelyhood: formData.residualRiskLikelyhood,
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
-        
+
         fetch("http://localhost:8000/api/register/br/one", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -562,7 +546,6 @@ const RisksAssessment = () => {
           })
           .catch((error) => console.error("Hata:", error));
         setRefresh(true);
-        
       } else {
         const payload = {
           registerId: Array.from(selectedRows)[0],
@@ -576,7 +559,7 @@ const RisksAssessment = () => {
           status: actionData.actionPlan[0]?.status || "",
           completionDate: actionData.actionPlan[0]?.completionDate || "",
           verificationStatus:
-          actionData.actionPlan[0]?.verificationStatus || "",
+            actionData.actionPlan[0]?.verificationStatus || "",
           comment: actionData.actionPlan[0]?.comment || "",
           january: actionData.actionPlan[0]?.january || "",
           february: actionData.actionPlan[0]?.february || "",
@@ -612,6 +595,7 @@ const RisksAssessment = () => {
     } else {
       if (!showAction) {
         const payload = {
+          id: selectedTable[0].id,
           swot: formData.swot,
           pestle: formData.pestle,
           interestedParty: formData.interestedParty,
@@ -637,7 +621,9 @@ const RisksAssessment = () => {
             if (!response.ok) {
               console.error("Kaydetme başarısız:", response.statusText);
             } else {
-              console.log("Kayıt başarıyla kaydedildi.");
+              setSelectedTable([payload]);
+              setFormData([payload]);
+    console.log("Kayıt başarıyla kaydedildi. Yeni state:", [payload]);
             }
           })
           .catch((error) => console.error("Hata:", error));
@@ -1130,24 +1116,24 @@ const RisksAssessment = () => {
               </div>
 
               {/* Tablo */}
-                  <div className="overflow-x-auto max-h-[75vh] overflow-y-auto">
-                    <table>
-                      <BgHeaders activeHeader={activeHeader} />
-                      <BgRiskBody
-                        selectedRows={selectedRows}
-                        selectedRowsForActions={selectedRowsForActions}
-                        showArchived={showArchived}
-                        showDeleted={showDeleted}
-                        showDeletedAction={showDeletedAction}
-                        onCheckboxChange={handleCheckboxChange}
-                        onCheckboxChangeForActions={handleCheckboxChangeForActions}
-                        activeHeader={activeHeader}
-                        selectedTable={selectedTable}
-                        refresh={refresh}
-                        setRefresh={setRefresh}
-                      />
-                    </table>
-                  </div>
+              <div className="overflow-x-auto max-h-[75vh] overflow-y-auto">
+                <table>
+                  <BgHeaders activeHeader={activeHeader} />
+                  <BgRiskBody
+                    selectedRows={selectedRows}
+                    selectedRowsForActions={selectedRowsForActions}
+                    showArchived={showArchived}
+                    showDeleted={showDeleted}
+                    showDeletedAction={showDeletedAction}
+                    onCheckboxChange={handleCheckboxChange}
+                    onCheckboxChangeForActions={handleCheckboxChangeForActions}
+                    activeHeader={activeHeader}
+                    selectedTable={selectedTable}
+                    refresh={refresh}
+                    setRefresh={setRefresh}
+                  />
+                </table>
+              </div>
             </div>
           ) : (
             <div className="bg-white !rounded-button shadow-lg p-8 text-center">

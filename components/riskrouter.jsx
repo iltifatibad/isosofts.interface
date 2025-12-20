@@ -2,19 +2,15 @@ import React, { useState, useEffect } from "react";
 import BgRiskBody from "./tabledatas/bgrisk.jsx";
 import BgHeaders from "./tableheaders/tableheards.jsx";
 
-import HsHeaders from "./tableheaders/hsrheaders.jsx";
-import HsrBody from "./tabledatas/hsr.jsx";
-
 
 import ReactECharts from "echarts-for-react";
 import RisksAssessment from "./profile.jsx";
-import HsrProfile from "./hsrprofile.jsx";
 
 export const hCheckboxChange =
   (setSelectedRows, setSelectedTable) => (id, table) => {
     // id'ye uygun objeyi bul
     const selectedItem = table.find((item) => item.id === id);
-    
+
     setSelectedTable((prev) => {
       const exists = prev.find((item) => item.id === id);
       let newTables;
@@ -242,7 +238,7 @@ const RiskRouter = () => {
     residualRiskLikelihood: "",
   });
 
-    const [formDataHs, setFormDataHs] = useState({
+  const [formDataHs, setFormDataHs] = useState({
     id: 0,
     process: "",
     hazard: "",
@@ -374,37 +370,36 @@ const RiskRouter = () => {
     setEditingRow(null);
     const dropdownData = await getDefaultDropdownList();
     if (activeHeader) {
-      if (selectedRisk == "bg-reg"){
-      setFormData({
-        swot: "",
-        pestle: "",
-        interestedParty: "",
-        riskOpportunity: "",
-        objective: "",
-        kpi: "",
-        process: "",
-        ermeoa: "",
-        initialRiskSeverity: 0,
-        initialRiskLikelyhood: 0,
-        residualRiskSeverity: 0,
-        residualRiskLikelyhood: 0,
-      });
-      setShowModal(true);
+      if (selectedRisk == "bg-reg") {
+        setFormData({
+          swot: "",
+          pestle: "",
+          interestedParty: "",
+          riskOpportunity: "",
+          objective: "",
+          kpi: "",
+          process: "",
+          ermeoa: "",
+          initialRiskSeverity: 0,
+          initialRiskLikelyhood: 0,
+          residualRiskSeverity: 0,
+          residualRiskLikelyhood: 0,
+        });
+        setShowModal(true);
       } else if (selectedRisk == "hs-reg") {
         setFormDataHs({
-        process: "",
-        hazard: "",
-        risk: "",
-        affectedPositions: "",
-        ERMA: "",
-        initialRiskSeverity: 0,
-        initialRiskLikelyhood: 0,
-        residualRiskSeverity: 0,
-        residualRiskLikelyhood: 0,
-      });
-      setShowModal(true);
+          process: "",
+          hazard: "",
+          risk: "",
+          affectedPositions: "",
+          ERMA: "",
+          initialRiskSeverity: 0,
+          initialRiskLikelyhood: 0,
+          residualRiskSeverity: 0,
+          residualRiskLikelyhood: 0,
+        });
+        setShowModal(true);
       }
-
     } else {
       setActionData({
         title: "",
@@ -438,8 +433,8 @@ const RiskRouter = () => {
 
   const openEditModal = async (row) => {
     if (activeHeader) {
-      if (selectedRisk == "bg-reg"){
-          setFormData({
+      if (selectedRisk == "bg-reg") {
+        setFormData({
           swot: row.swot.id,
           pestle: row.pestle.id,
           interestedParty: row.interestedParty.id,
@@ -453,20 +448,19 @@ const RiskRouter = () => {
           residualRiskSeverity: row.residualRiskSeverity,
           residualRiskLikelyhood: row.residualRiskLikelyhood,
         });
-      } else if(selectedRisk == "hs-reg"){
-          setFormDataHs({
-              process: row.hazard.id,
-              hazard: "",
-              risk: "",
-              affectedPositions: "",
-              ERMA: "",
-              initialRiskSeverity: 0,
-              initialRiskLikelyhood: 0,
-              residualRiskSeverity: 0,
-              residualRiskLikelyhood: 0,
-            });
+      } else if (selectedRisk == "hs-reg") {
+        setFormDataHs({
+          process: row.hazard.id,
+          hazard: "",
+          risk: "",
+          affectedPositions: "",
+          ERMA: "",
+          initialRiskSeverity: 0,
+          initialRiskLikelyhood: 0,
+          residualRiskSeverity: 0,
+          residualRiskLikelyhood: 0,
+        });
       }
-
     } else {
       setActionData({
         actionPlan: [
@@ -567,67 +561,36 @@ const RiskRouter = () => {
   const saveRisk = () => {
     if (modalMode === "add") {
       if (!showAction) {
-        if (selectedRisk == "bg-reg"){
-                   const payload = {
-          swot: formData.swot,
-          pestle: formData.pestle,
-          interestedParty: formData.interestedParty,
-          riskOpportunity: formData.riskOpportunity,
-          objective: formData.objective,
-          kpi: formData.kpi,
-          process: formData.process,
-          ermeoa: formData.ermeoa,
-          initialRiskSeverity: formData.initialRiskSeverity, // Number
-          initialRiskLikelyhood: formData.initialRiskLikelyhood, // Number, spelling uyumlu
-          residualRiskSeverity: formData.residualRiskSeverity,
-          residualRiskLikelyhood: formData.residualRiskLikelyhood,
-        };
-        console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
-        
-        fetch("http://localhost:8000/api/register/br/one", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload), // Direkt obje – array yapma!
-        })
-          .then((response) => {
-            if (!response.ok) {
-              console.error("Kaydetme başarısız:", response.statusText);
-            } else {
-              console.log("Kayıt başarıyla kaydedildi.");
-            }
-          })
-          .catch((error) => console.error("Hata:", error));
-        setRefresh(true);
-        } else if (selectedRisk == "hs-reg"){
           const payload = {
-          process: formDataHs.process,
-          hazard: formDataHs.hazard,
-          risk: formDataHs.risk,
-          affectedPositions: formDataHs.affectedPositions,
-          erma: formDataHs.ERMA,
-          initialRiskSeverity: formDataHs.initialRiskSeverity, // Number
-          initialRiskLikelyhood: formDataHs.initialRiskLikelyhood, // Number, spelling uyumlu
-          residualRiskSeverity: formDataHs.residualRiskSeverity,
-          residualRiskLikelyhood: formDataHs.residualRiskLikelyhood,
-        };
-        console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
-        
-        fetch("http://localhost:8000/api/register/hsr/one", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload), // Direkt obje – array yapma!
-        })
-          .then((response) => {
-            if (!response.ok) {
-              console.error("Kaydetme başarısız:", response.statusText);
-            } else {
-              console.log("Kayıt başarıyla kaydedildi.");
-            }
+            swot: formData.swot,
+            pestle: formData.pestle,
+            interestedParty: formData.interestedParty,
+            riskOpportunity: formData.riskOpportunity,
+            objective: formData.objective,
+            kpi: formData.kpi,
+            process: formData.process,
+            ermeoa: formData.ermeoa,
+            initialRiskSeverity: formData.initialRiskSeverity, // Number
+            initialRiskLikelyhood: formData.initialRiskLikelyhood, // Number, spelling uyumlu
+            residualRiskSeverity: formData.residualRiskSeverity,
+            residualRiskLikelyhood: formData.residualRiskLikelyhood,
+          };
+          console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
+
+          fetch("http://localhost:8000/api/register/br/one", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload), // Direkt obje – array yapma!
           })
-          .catch((error) => console.error("Hata:", error));
-        setRefresh(true);
-        }
- 
+            .then((response) => {
+              if (!response.ok) {
+                console.error("Kaydetme başarısız:", response.statusText);
+              } else {
+                console.log("Kayıt başarıyla kaydedildiG.");
+              }
+            })
+            .catch((error) => console.error("Hata:", error));
+          setRefresh(true);       
       } else {
         const payload = {
           registerId: Array.from(selectedRows)[0],
@@ -641,7 +604,7 @@ const RiskRouter = () => {
           status: actionData.actionPlan[0]?.status || "",
           completionDate: actionData.actionPlan[0]?.completionDate || "",
           verificationStatus:
-          actionData.actionPlan[0]?.verificationStatus || "",
+            actionData.actionPlan[0]?.verificationStatus || "",
           comment: actionData.actionPlan[0]?.comment || "",
           january: actionData.actionPlan[0]?.january || "",
           february: actionData.actionPlan[0]?.february || "",
@@ -667,16 +630,18 @@ const RiskRouter = () => {
             if (!response.ok) {
               console.error("Kaydetme başarısız:", response.statusText);
             } else {
-              console.log("Kayıt başarıyla kaydedildi.");
+              console.log("Kayıt başarıyla kaydedildia.");
             }
           })
           .catch((error) => console.error("Hata:", error));
         setRefresh(true);
       }
       // Sadece backend beklediği alanları al (diğerlerini sil)
-    } else {
+    } 
+    else if (modalMode === "edit" ){
       if (!showAction) {
         const payload = {
+          id: selectedTable[0].id,
           swot: formData.swot,
           pestle: formData.pestle,
           interestedParty: formData.interestedParty,
@@ -702,7 +667,7 @@ const RiskRouter = () => {
             if (!response.ok) {
               console.error("Kaydetme başarısız:", response.statusText);
             } else {
-              console.log("Kayıt başarıyla kaydedildi.");
+              console.log("Kayıt başarıyla kaydedildiiiii.");
             }
           })
           .catch((error) => console.error("Hata:", error));
@@ -752,7 +717,7 @@ const RiskRouter = () => {
             if (!response.ok) {
               console.error("Kaydetme başarısız:", response.statusText);
             } else {
-              console.log("Kayıt başarıyla kaydedildi.");
+              console.log("Kayıt başarıyla kaydedildiF.");
             }
           })
           .catch((error) => console.error("Hata:", error));
@@ -980,7 +945,10 @@ const RiskRouter = () => {
                   <button
                     onClick={() => {
                       setSelectedRisk(risk.id);
-                      console.log("SELECTED RISK (henüz state güncellenmeden):", risk.id);
+                      console.log(
+                        "SELECTED RISK (henüz state güncellenmeden):",
+                        risk.id,
+                      );
                     }}
                     className={[
                       "w-full text-left px-4 py-3 !rounded-button transition-all duration-300 cursor-pointer", // whitespace-nowrap kaldırıldı (önceki sorun için)
@@ -997,9 +965,7 @@ const RiskRouter = () => {
           </nav>
         </div>{" "}
         {selectedRisk === "bg-reg" ? (
-              <RisksAssessment />
-        ) : selectedRisk === "hs-reg" ? (
-              <HsrProfile />
+          <RisksAssessment />
         ) : null}
       </div>
     </div>

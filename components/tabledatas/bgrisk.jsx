@@ -35,9 +35,9 @@ const MyTableBody = ({
       console.log("Arşiv verileri:", fetchedData);
     } catch (err) {
       console.error("Error While Fetching Archived Datas:", err);
-      setArchivedData([]); 
+      setArchivedData([]);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
@@ -51,13 +51,12 @@ const MyTableBody = ({
 
         return () => clearTimeout(timer); // cleanup
       } else if (showArchived) {
-      const timer = setTimeout(() => {
-        getArchivedData();
-        setRefresh(false);
-      }, 500);
+        const timer = setTimeout(() => {
+          getArchivedData();
+          setRefresh(false);
+        }, 500);
 
-      return () => clearTimeout(timer); // cleanup
-
+        return () => clearTimeout(timer); // cleanup
       } else if (showDeleted) {
         const timer = setTimeout(() => {
           getDeletedData();
@@ -65,7 +64,11 @@ const MyTableBody = ({
         }, 500);
 
         return () => clearTimeout(timer); // cleanup
-
+      } else if (!activeHeader) {
+        const timer = setTimeout(() => {
+          getAllActions(selectedRows);
+          setRefresh(false);
+        }, 500);
       }
     }
   }, [refresh]);
@@ -345,7 +348,7 @@ const MyTableBody = ({
                     className="border border-gray-200 px-2 py-1 w-48"
                     rowSpan={1}
                   >
-                    {row.ermeoa?.value || `${row.objective} Action`}
+                    {row.ermeoa?.value || `${row.ermeoa}`}
                   </td>
 
                   {/* Initial Risk */}
@@ -543,7 +546,7 @@ const MyTableBody = ({
                     className="border border-gray-200 px-2 py-1 w-48"
                     rowSpan={1}
                   >
-                    {row.ermeoa?.value || `${row.objective}`}
+                    {row.ermeoa?.value || `${row.ermeoa}`}
                   </td>
 
                   {/* Initial Risk */}
@@ -1023,7 +1026,7 @@ const MyTableBody = ({
                     className="border border-gray-200 px-3 py-2 w-48"
                     rowSpan={1}
                   >
-                    {row.ermeoa?.value || `${row.objective} Action`}
+                    {row.ermeoa?.value || `${row.ermeoa}`}
                   </td>
 
                   {/* Initial Risk Severity */}

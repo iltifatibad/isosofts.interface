@@ -1,0 +1,46 @@
+ const [formDataHs, setFormDataHs] = useState({
+    id: 0,
+    process: "",
+    hazard: "",
+    risk: "",
+    affectedPositions: "",
+    ERMA: "",
+    initialRiskSeverity: "",
+    initialRiskLikelihood: "",
+    actionPlan: [
+      {
+        action: "",
+        raiseDate: "",
+        resources: "",
+        function: "",
+        responsible: "",
+        deadline: "",
+        actionConfirmation: "",
+        actionStatus: "",
+        compilationData: "",
+        verification: "",
+        comment: "",
+      },
+    ],
+    residualRiskSeverity: "",
+    residualRiskLikelihood: "",
+  });
+
+
+          const payload = {
+          swot: formData.swot,
+          pestle: formData.pestle,
+          interestedParty: formData.interestedParty,
+          riskOpportunity: formData.riskOpportunity,
+          objective: formData.objective,
+          kpi: formData.kpi,
+          process: formData.process,
+          ermeoa: formData.ermeoa,
+          initialRiskSeverity: formData.initialRiskSeverity, // Number
+          initialRiskLikelyhood: formData.initialRiskLikelyhood, // Number, spelling uyumlu
+          residualRiskSeverity: formData.residualRiskSeverity,
+          residualRiskLikelyhood: formData.residualRiskLikelyhood,
+        };
+
+
+selectedTable Is An Object
