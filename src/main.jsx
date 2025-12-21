@@ -9,7 +9,6 @@ import Profile from "../components/profile.jsx";
 import RiskRouter from "../components/riskrouter.jsx";
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
     <BrowserRouter>
       <Nav />
       <Routes>
@@ -18,5 +17,4 @@ createRoot(document.getElementById("root")).render(
         <Route path="/app" element={<App />} />
       </Routes>
     </BrowserRouter>
-  </StrictMode>,
 );

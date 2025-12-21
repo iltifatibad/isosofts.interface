@@ -1,67 +1,9 @@
-const [selectedRowsForActions, setSelectedRowsForActions] = useState(
-    new Set(),
-  );
+                                BG-RISK
+Risk Elave Et                 | DONE
+Risk Sil ( Tek / Toplu )      | DONE
+Risk Archivle ( Tek / Toplu ) | DONE
+Risk Editle                   | DONE
 
-
-  setActionData({
-        actionPlan: [
-          {
-            title: row.title,
-            raiseDate: row.raiseDate,
-            resources: row.resources,
-            currency: "", 
-            relativeFunction: row.relativeFunction?.id || "",
-            responsible: row.responsible?.id || "",
-            deadline: row.deadline,
-            confirmation: row.confirmation?.id || "",
-            status: row.status?.id || "",
-            completionDate: row.completionDate || "",
-            verificationStatus: row.verificationStatus?.id || "",
-            comment: row.comment || "",
-            january: row.january.id || "",
-            february: row.february.id || "",
-            march: row.march.id || "",
-            april: row.april.id || "",
-            may: row.may.id || "",
-            june: row.june.id || "",
-            july: row.july.id || "",
-            august: row.august.id || "",
-            september: row.september.id || "",
-            october: row.october.id || "",
-            november: row.november.id || "",
-            december: row.december.id || "",
-          },
-        ],
-      });
-
-
-  const [actionData, setActionData] = useState({
-    actionPlan: [
-      {
-        title: "",
-        raiseDate: "",
-        resources: "",
-        currency: "",
-        relativeFunction: "",
-        responsible: "",
-        deadline: "",
-        confirmation: "",
-        status: "",
-        completionDate: "",
-        verificationStatus: "",
-        comment: "",
-        january: "",
-        february: "",
-        march: "",
-        april: "",
-        may: "",
-        june: "",
-        july: "",
-        august: "",
-        september: "",
-        october: "",
-        november: "",
-        december: "",
-      },
-    ],
-  });
+Action Elave Et               | DONE
+Action Sil ( Tek / Toplu )    | DONE
+Action Editle                 | DONE

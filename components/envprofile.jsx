@@ -1,6 +1,6 @@
 import React, { useState, useEffect, act } from "react";
-import BgRiskBody from "./tabledatas/bgrisk.jsx";
-import BgHeaders from "./tableheaders/tableheards.jsx";
+import EnvBody from "./tabledatas/envrisk.jsx";
+import EnvHeaders from "./tableheaders/envheaders.jsx";
 
 
 import ReactECharts from "echarts-for-react";
@@ -65,7 +65,7 @@ export const hCheckboxChangeForActions =
     });
   };
 
-const RisksAssessment = () => {
+const EnvProfile = () => {
   const kpiGaugeOption = {
     tooltip: { formatter: "{a}<br/>{c}%" },
     series: [
@@ -206,20 +206,24 @@ const RisksAssessment = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalMode, setModalMode] = useState("add");
   const [editingRow, setEditingRow] = useState(null);
+  //////////////////////////////////////
   const [formData, setFormData] = useState({
     id: 0,
-    swot: "",
-    pestle: "",
-    interestedParty: "",
-    riskOpportunity: "",
-    objective: "",
-    kpi: "",
     process: "",
-    ermeoa: "",
-    initialRiskSeverity: "",
-    initialRiskLikelihood: "",
-    residualRiskSeverity: "",
-    residualRiskLikelihood: "",
+    aspect: "",
+    impact: "",
+    affectedReceptors: "",
+    existingControls: "",
+    idosProbability: 0,
+    idosSeverity: 0,
+    idosDuration: 0,
+    idosScale: 0,
+    riskLevel: 0,
+    rdosProbability: 0,
+    rdosSeverity: 0,
+    rdosDuration: 0,
+    rdosScale: 0,
+    riskLevel: 0,
   });
 
   const [formDataHs, setFormDataHs] = useState({
@@ -227,7 +231,7 @@ const RisksAssessment = () => {
     process: "",
     hazard: "",
     risk: "",
-    affectedPositions: "",
+    affectedPosition: "",
     ERMA: "",
     initialRiskSeverity: "",
     initialRiskLikelihood: "",
@@ -362,19 +366,22 @@ const RisksAssessment = () => {
     setEditingRow(null);
     const dropdownData = await getDefaultDropdownList();
     if (activeHeader) {
-      setFormData({
-        swot: "",
-        pestle: "",
-        interestedParty: "",
-        riskOpportunity: "",
-        objective: "",
-        kpi: "",
-        process: "",
-        ermeoa: "",
-        initialRiskSeverity: 0,
-        initialRiskLikelyhood: 0,
-        residualRiskSeverity: 0,
-        residualRiskLikelyhood: 0,
+    setFormData({
+    id: 0,
+    process: "",
+    aspect: "",
+    impact: "",
+    affectedReceptors: "",
+    existingControls: "",
+    idosProbability: 0,
+    idosSeverity: 0,
+    idosDuration: 0,
+    idosScale: 0,
+    rdosProbability: 0,
+    rdosSeverity: 0,
+    rdosDuration: 0,
+    rdosScale: 0,
+    riskLevel: 0,
       });
       setShowModal(true);
     } else {
@@ -411,18 +418,20 @@ const RisksAssessment = () => {
   const openEditModal = async (row) => {
     if (activeHeader) {
       setFormData({
-        swot: row.swot.id || String(row.swot),
-        pestle: row.pestle.id || String(row.pestle),
-        interestedParty: row.interestedParty.id || String(row.interestedParty),
         process: row.process.id || String(row.process),
-        riskOpportunity: row.riskOpportunity,
-        objective: row.objective,
-        kpi: row.kpi,
-        ermeoa: row.ermeoa,
-        initialRiskSeverity: row.initialRiskSeverity,
-        initialRiskLikelyhood: row.initialRiskLikelyhood,
-        residualRiskSeverity: row.residualRiskSeverity,
-        residualRiskLikelyhood: row.residualRiskLikelyhood,
+        aspect: row.aspect.id || String(row.aspect),
+        impact: row.impact,
+        affectedReceptors: row.affectedReceptors.id || String(row.affectedReceptors),
+        existingControls: row.existingControls,
+        riskOfViolation: row.riskOfViolation,
+        idosProbability: row.idosProbability,
+        idosSeverity: row.idosSeverity,
+        idosDuration: row.idosDuration,
+        idosScale: row.idosScale,
+        rdosProbability: row.rdosProbability,
+        rdosSeverity: row.rdosSeverity,
+        rdosDuration: row.rdosDuration,
+        rdosScale: row.rdosScale,
       });
     } else {
       setActionData({
@@ -501,7 +510,7 @@ const RisksAssessment = () => {
     let setter;
     if (showAction) {
       setter = setActionData;
-    } else if (selectedRisk === "bg-reg") {
+    } else if (selectedRisk === "env-reg") {
       setter = setFormData;
     } else {
       setter = setFormData; 
@@ -523,22 +532,25 @@ const RisksAssessment = () => {
     if (modalMode === "add") {
       if (!showAction) {
         const payload = {
-          swot: formData.swot,
-          pestle: formData.pestle,
-          interestedParty: formData.interestedParty,
-          riskOpportunity: formData.riskOpportunity,
-          objective: formData.objective,
-          kpi: formData.kpi,
           process: formData.process,
-          ermeoa: formData.ermeoa,
-          initialRiskSeverity: formData.initialRiskSeverity, // Number
-          initialRiskLikelyhood: formData.initialRiskLikelyhood, // Number, spelling uyumlu
-          residualRiskSeverity: formData.residualRiskSeverity,
-          residualRiskLikelyhood: formData.residualRiskLikelyhood,
+          aspect: formData.aspect,
+          impact: formData.impact,
+          affectedReceptors: formData.affectedReceptors,
+          existingControls: formData.existingControls,
+          riskOfViolation: formData.riskOfViolation,
+          idosProbability: formData.idosProbability,
+          idosSeverity: formData.idosSeverity,
+          idosDuration: formData.idosDuration,
+          idosScale: formData.idosScale,
+
+          rdosProbability: formData.rdosProbability,
+          rdosSeverity: formData.rdosSeverity,
+          rdosDuration: formData.rdosDuration,
+          rdosScale: formData.rdosScale,
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
 
-        fetch("http://localhost:8000/api/register/br/one", {
+        fetch("http://localhost:8000/api/register/eai/one", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload), // Direkt obje – array yapma!
@@ -603,22 +615,24 @@ const RisksAssessment = () => {
       if (!showAction) {
         const payload = {
           id: selectedTable[0].id,
-          swot: formData.swot,
-          pestle: formData.pestle,
-          interestedParty: formData.interestedParty,
-          riskOpportunity: formData.riskOpportunity,
-          objective: formData.objective,
-          kpi: formData.kpi,
           process: formData.process,
-          ermeoa: formData.ermeoa,
-          initialRiskSeverity: formData.initialRiskSeverity, // Number
-          initialRiskLikelyhood: formData.initialRiskLikelyhood, // Number, spelling uyumlu
-          residualRiskSeverity: formData.residualRiskSeverity,
-          residualRiskLikelyhood: formData.residualRiskLikelyhood,
+          aspect: formData.aspect,
+          impact: formData.impact,
+          affectedReceptors: formData.affectedReceptors,
+          existingControls: formData.existingControls,
+          riskOfViolation: formData.riskOfViolation,
+          idosProbability: formData.idosProbability,
+          idosSeverity: formData.idosSeverity,
+          idosDuration: formData.idosDuration,
+          idosScale: formData.idosScale,
+          rdosProbability: formData.rdosProbability,
+          rdosSeverity: formData.rdosSeverity,
+          rdosDuration: formData.rdosDuration,
+          rdosScale: formData.rdosScale,
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
         const url =
-          "http://localhost:8000/api/register/br/one/" + selectedTable[0].id;
+          "http://localhost:8000/api/register/eai/one/" + selectedTable[0].id;
         fetch(url, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -730,7 +744,7 @@ const RisksAssessment = () => {
   const handleDeleteConfirm = () => {
     if (activeHeader) {
       if (!showDeleted) {
-        fetch("http://localhost:8000/api/register/br/all/delete", {
+        fetch("http://localhost:8000/api/register/eai/all/delete", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -750,7 +764,7 @@ const RisksAssessment = () => {
           })
           .catch((error) => console.log(" Error While Deleting: ", error));
       } else {
-        fetch("http://localhost:8000/api/register/br/all/undelete", {
+        fetch("http://localhost:8000/api/register/eai/all/undelete", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -827,7 +841,7 @@ const RisksAssessment = () => {
 
   const archiveData = (id) => {
     if (showArchived) {
-      fetch("http://localhost:8000/api/register/br/all/unarchive", {
+      fetch("http://localhost:8000/api/register/eai/all/unarchive", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -846,7 +860,7 @@ const RisksAssessment = () => {
         .catch((error) => console.log(" Error While UnArchiving : ", error));
       setRefresh(true);
     } else {
-      fetch("http://localhost:8000/api/register/br/all/archive", {
+      fetch("http://localhost:8000/api/register/eai/all/archive", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ids: [...selectedRows] }),
@@ -1148,8 +1162,8 @@ const RisksAssessment = () => {
               {/* Tablo */}
               <div className="overflow-x-auto max-h-[75vh] overflow-y-auto">
                 <table>
-                  <BgHeaders activeHeader={activeHeader} />
-                  <BgRiskBody
+                  <EnvHeaders activeHeader={activeHeader} />
+                  <EnvBody
                     selectedRows={selectedRows}
                     selectedRowsForActions={selectedRowsForActions}
                     showArchived={showArchived}
@@ -1194,115 +1208,10 @@ const RisksAssessment = () => {
                   <div className="space-y-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        SWOT
-                      </label>
-                      <select
-                        value={formData.swot || ""} // Null-safe
-                        onChange={(e) => {
-                          console.log(
-                            "Select onChange tetiklendi! Yeni value:",
-                            e.target.value,
-                          ); // Debug: Bu çıkmıyorsa onChange patlıyor
-                          handleFormChange("swot", e.target.value); // String path + value – obje değil!
-                        }}
-                      >
-                        <option value="">Seçiniz</option>
-                        {dropdownData?.swot?.map((item) => (
-                          <option key={item.id} value={item.id}>
-                            {item.value}
-                          </option>
-                        ))}
-                      </select>{" "}
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        PESTLE
-                      </label>
-                      <select
-                        value={formData.pestle || ""} // Null-safe
-                        onChange={(e) => {
-                          console.log(
-                            "Select onChange tetiklendi! Yeni value:",
-                            e.target.value,
-                          ); // Debug: Bu çıkmıyorsa onChange patlıyor
-                          handleFormChange("pestle", e.target.value); // String path + value – obje değil!
-                        }}
-                      >
-                        <option value="">Seçiniz</option>
-                        {dropdownData?.pestle?.map((item) => (
-                          <option key={item.id} value={item.id}>
-                            {item.value}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Interested Party
-                      </label>
-                      <select
-                        value={formData.interestedParty}
-                        onChange={(e) => {
-                          console.log(
-                            "Select onChange tetiklendi! Yeni value:",
-                            e.target.value,
-                          ); // Debug: Bu çıkmıyorsa onChange patlıyor
-                          handleFormChange("interestedParty", e.target.value); // String path + value – obje değil!
-                        }}
-                      >
-                        <option value="">Seçiniz</option>
-                        {dropdownData?.interestedParty?.map((item) => (
-                          <option key={item.id} value={item.id}>
-                            {item.value}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Risk / Opportunity
-                      </label>
-                      <input
-                        value={formData.riskOpportunity}
-                        onChange={(e) =>
-                          handleFormChange("riskOpportunity", e.target.value)
-                        }
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Objective
-                      </label>
-                      <input
-                        value={formData.objective}
-                        onChange={(e) =>
-                          handleFormChange("objective", e.target.value)
-                        }
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        KPI
-                      </label>
-                      <input
-                        value={formData.kpi}
-                        onChange={(e) =>
-                          handleFormChange("kpi", e.target.value)
-                        }
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
                         Process
                       </label>
                       <select
-                        value={formData.process}
+                        value={formData.process || ""} // Null-safe
                         onChange={(e) => {
                           console.log(
                             "Select onChange tetiklendi! Yeni value:",
@@ -1317,16 +1226,73 @@ const RisksAssessment = () => {
                             {item.value}
                           </option>
                         ))}
+                      </select>{" "}
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Aspect
+                      </label>
+                      <select
+                        value={formData.aspect || ""} // Null-safe
+                        onChange={(e) => {
+                          console.log(
+                            "Select onChange tetiklendi! Yeni value:",
+                            e.target.value,
+                          ); // Debug: Bu çıkmıyorsa onChange patlıyor
+                          handleFormChange("aspect", e.target.value); // String path + value – obje değil!
+                        }}
+                      >
+                        <option value="">Seçiniz</option>
+                        {dropdownData?.aspect?.map((item) => (
+                          <option key={item.id} value={item.id}>
+                            {item.value}
+                          </option>
+                        ))}
+                      </select>{" "}
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Impact
+                      </label>
+                      <input
+                        value={formData.impact}
+                        onChange={(e) =>
+                          handleFormChange("impact", e.target.value)
+                        }
+                        type="text"
+                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Affected Receptors
+                      </label>
+                      <select
+                        value={formData.affectedReceptors}
+                        onChange={(e) => {
+                          console.log(
+                            "Select onChange tetiklendi! Yeni value:",
+                            e.target.value,
+                          ); // Debug: Bu çıkmıyorsa onChange patlıyor
+                          handleFormChange("affectedReceptors", e.target.value); // String path + value – obje değil!
+                        }}
+                      >
+                        <option value="">Seçiniz</option>
+                        {dropdownData?.affectedReceptors?.map((item) => (
+                          <option key={item.id} value={item.id}>
+                            {item.value}
+                          </option>
+                        ))}
                       </select>
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Existing Risk Mitigation
+                        Existing Controls
                       </label>
                       <input
-                        value={formData.ermeoa}
+                        value={formData.existingControls}
                         onChange={(e) =>
-                          handleFormChange("ermeoa", e.target.value)
+                          handleFormChange("existingControls", e.target.value)
                         }
                         type="text"
                         className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
@@ -1336,18 +1302,18 @@ const RisksAssessment = () => {
                   <div className="space-y-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Initial Risk
+                        Initial Probability
                       </label>
                       <div className="grid grid-cols-3 gap-2">
                         <select
-                          value={formData.initialRiskSeverity}
+                          value={formData.idosProbability}
                           onChange={(e) => {
                             console.log(
                               "Select onChange tetiklendi! Yeni value:",
                               e.target.value,
                             ); // Debug: Bu çıkmıyorsa onChange patlıyor
                             const newValue = parseInt(e.target.value, 10) || 0;
-                            handleFormChange("initialRiskSeverity", newValue); // String path + value – obje değil!
+                            handleFormChange("idosProbability", newValue); // String path + value – obje değil!
                           }}
                         >
                           <option value="">Seçiniz</option>
@@ -1357,15 +1323,22 @@ const RisksAssessment = () => {
                           <option>4</option>
                           <option>5</option>
                         </select>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Initial Severity
+                      </label>
+                      <div className="grid grid-cols-3 gap-2">
                         <select
-                          value={formData.initialRiskLikelyhood}
+                          value={formData.idosSeverity}
                           onChange={(e) => {
                             console.log(
                               "Select onChange tetiklendi! Yeni value:",
                               e.target.value,
                             ); // Debug: Bu çıkmıyorsa onChange patlıyor
                             const newValue = parseInt(e.target.value, 10) || 0;
-                            handleFormChange("initialRiskLikelyhood", newValue); // String path + value – obje değil!
+                            handleFormChange("idosSeverity", newValue); // String path + value – obje değil!
                           }}
                         >
                           <option value="">Seçiniz</option>
@@ -1378,18 +1351,18 @@ const RisksAssessment = () => {
                       </div>
                     </div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Residual Risk / Opportunity Level
+                      Initial Duration
                     </label>
                     <div className="grid grid-cols-3 gap-2">
                       <select
-                        value={formData.residualRiskSeverity}
+                        value={formData.idosDuration}
                         onChange={(e) => {
                           console.log(
                             "Select onChange tetiklendi! Yeni value:",
                             e.target.value,
                           ); // Debug: Bu çıkmıyorsa onChange patlıyor
                           const newValue = parseInt(e.target.value, 10) || 0;
-                          handleFormChange("residualRiskSeverity", newValue); // String path + value – obje değil!
+                          handleFormChange("idosDuration", newValue); // String path + value – obje değil!
                         }}
                       >
                         <option value="">Seçiniz</option>
@@ -1399,15 +1372,118 @@ const RisksAssessment = () => {
                         <option>4</option>
                         <option>5</option>
                       </select>
+                    </div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Initial Scale
+                    </label>
+                    <div className="grid grid-cols-3 gap-2">
                       <select
-                        value={formData.residualRiskLikelyhood}
+                        value={formData.idosScale}
                         onChange={(e) => {
                           console.log(
                             "Select onChange tetiklendi! Yeni value:",
                             e.target.value,
                           ); // Debug: Bu çıkmıyorsa onChange patlıyor
                           const newValue = parseInt(e.target.value, 10) || 0;
-                          handleFormChange("residualRiskLikelyhood", newValue); // String path + value – obje değil!
+                          handleFormChange("idosScale", newValue); // String path + value – obje değil!
+                        }}
+                      >
+                        <option value="">Seçiniz</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Residual Probability
+                      </label>
+                      <div className="grid grid-cols-3 gap-2">
+                        <select
+                          value={formData.rdosProbability}
+                          onChange={(e) => {
+                            console.log(
+                              "Select onChange tetiklendi! Yeni value:",
+                              e.target.value,
+                            ); // Debug: Bu çıkmıyorsa onChange patlıyor
+                            const newValue = parseInt(e.target.value, 10) || 0;
+                            handleFormChange("rdosProbability", newValue); // String path + value – obje değil!
+                          }}
+                        >
+                          <option value="">Seçiniz</option>
+                          <option>1</option>
+                          <option>2</option>
+                          <option>3</option>
+                          <option>4</option>
+                          <option>5</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Residual Severity
+                      </label>
+                      <div className="grid grid-cols-3 gap-2">
+                        <select
+                          value={formData.rdosSeverity}
+                          onChange={(e) => {
+                            console.log(
+                              "Select onChange tetiklendi! Yeni value:",
+                              e.target.value,
+                            ); // Debug: Bu çıkmıyorsa onChange patlıyor
+                            const newValue = parseInt(e.target.value, 10) || 0;
+                            handleFormChange("rdosSeverity", newValue); // String path + value – obje değil!
+                          }}
+                        >
+                          <option value="">Seçiniz</option>
+                          <option>1</option>
+                          <option>2</option>
+                          <option>3</option>
+                          <option>4</option>
+                          <option>5</option>
+                        </select>
+                      </div>
+                    </div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                       Residual Duration
+                    </label>
+                    <div className="grid grid-cols-3 gap-2">
+                      <select
+                        value={formData.rdosDuration}
+                        onChange={(e) => {
+                          console.log(
+                            "Select onChange tetiklendi! Yeni value:",
+                            e.target.value,
+                          ); // Debug: Bu çıkmıyorsa onChange patlıyor
+                          const newValue = parseInt(e.target.value, 10) || 0;
+                          handleFormChange("rdosDuration", newValue); // String path + value – obje değil!
+                        }}
+                      >
+                        <option value="">Seçiniz</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                      </select>
+                    </div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Residual Scale
+                    </label>
+                    <div className="grid grid-cols-3 gap-2">
+                      <select
+                        value={formData.rdosScale}
+                        onChange={(e) => {
+                          console.log(
+                            "Select onChange tetiklendi! Yeni value:",
+                            e.target.value,
+                          ); // Debug: Bu çıkmıyorsa onChange patlıyor
+                          const newValue = parseInt(e.target.value, 10) || 0;
+                          handleFormChange("rdosScale", newValue); // String path + value – obje değil!
                         }}
                       >
                         <option value="">Seçiniz</option>
@@ -2117,4 +2193,4 @@ const RisksAssessment = () => {
   );
 };
 
-export default RisksAssessment;
+export default EnvProfile;
