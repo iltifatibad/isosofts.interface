@@ -2,7 +2,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { hCheckboxChange } from "../profile.jsx";
-const DocBody = ({
+const FbBody = ({
   selectedRows,
   selectedRowsForActions,
   showArchived,
@@ -552,24 +552,25 @@ const DocBody = ({
     );
   } else if (!activeHeader && showDeletedAction === false) {
     return (
-      <tbody>
+      <tbody className="text-sm">
         {loading ? (
           <tr>
-            <td colSpan={25} className="text-center py-4">
-              Deleted verileri yükleniyor...
+            <td colSpan={25} className="text-center py-6 text-gray-600">
+              Arşiv verileri yükleniyor...
             </td>
           </tr>
-        ) : selectedTable && actionData && selectedTable.length > 0 ? (
-          actionData.map((row, index) => {
-            const numActions = row.actionPlan ? row.actionPlan.length : 1;
-
-            // Soft badge
-            const SoftBadge = ({ value }) =>
-              value ? (
-                <span className="px-2 py-1 rounded-full bg-gray-100 text-gray-700 text-xs font-medium">
-                  {value}
-                </span>
-              ) : null;
+        ) : !tableData || tableData.length === 0 ? (
+          <tr>
+            <td colSpan={25} className="text-center py-6 text-gray-500">
+              No Data
+            </td>
+          </tr>
+        ) : (
+          tableData.map((row, index) => {
+            const numActions = row.actions ? row.actions.length : 1;
+            const actions = Array.isArray(row.actions)
+              ? row.actions
+              : [row.actions];
 
             return (
               <React.Fragment key={row.id}>
@@ -580,131 +581,178 @@ const DocBody = ({
                       : "bg-green-100 hover:bg-green-200"
                   }`}
                 >
-                  {/* # column */}
+                  {/* ID + Checkbox */}
                   <td
-                    className="border-b border-gray-200 px-2 py-1 w-16 sticky left-[-1px] top-0 z-10 bg-white -ml-px"
-                    rowSpan={numActions}
+                    className="border border-gray-200 px-3 py-2 w-16 sticky left-[-1px] top-0 z-10 bg-white"
+                    rowSpan={1}
                   >
-                    {selectedTable[0].no}
-                    <input
-                      checked={selectedRowsForActions.has(actionData[index].id)}
-                      onChange={() =>
-                        onCheckboxChangeForActions(
-                          actionData[index].id,
-                          actionData,
-                        )
-                      }
-                      type="checkbox"
-                      className="ml-2"
-                    />
-                  </td>
-                  {/* FIRST ACTION PLAN FIELDS */}
-                  <td className="border-b border-gray-200 px-2 py-1 w-32">
-                    <SoftBadge value={actionData?.[index]?.title} />
-                  </td>
-                  <td className="border-b border-gray-200 px-2 py-1 w-32">
-                    <SoftBadge value={actionData?.[index]?.raiseDate} />
-                  </td>
-                  <td className="border-b border-gray-200 px-2 py-1 w-24">
-                    <SoftBadge
-                      value={actionData?.[index]?.resources?.toString() || ""}
-                    />
-                  </td>
-                  <td className="border-b border-gray-200 px-2 py-1 w-28">
-                    <SoftBadge
-                      value={actionData?.[index]?.relativeFunction?.value}
-                    />
-                  </td>
-                  <td className="border-b border-gray-200 px-2 py-1 w-28">
-                    <SoftBadge
-                      value={actionData?.[index]?.responsible?.value}
-                    />
-                  </td>
-                  <td className="border-b border-gray-200 px-2 py-1 w-24">
-                    <SoftBadge value={actionData?.[index]?.deadline} />
-                  </td>
-                  <td className="border-b border-gray-200 px-2 py-1 w-36">
-                    <SoftBadge
-                      value={actionData?.[index]?.confirmation?.value}
-                    />
-                  </td>
-                  <td className="border-b border-gray-200 px-2 py-1 w-24">
-                    <SoftBadge
-                      value={actionData?.[index]?.status?.value?.toString()}
-                    />
-                  </td>
-                  <td className="border-b border-gray-200 px-2 py-1 w-24">
-                    <SoftBadge value={actionData?.[index]?.completionDate} />
-                  </td>
-                  <td className="border-b border-gray-200 px-2 py-1 w-32">
-                    <SoftBadge
-                      value={actionData?.[index]?.verificationStatus?.value}
-                    />
-                  </td>
-                  <td className="border-b border-gray-200 px-2 py-1 w-40">
-                    <SoftBadge value={actionData?.[index]?.comment} />
-                  </td>
-                  {/* MONITORING MONTH COLUMNS */}
-                  {[
-                    "January",
-                    "February",
-                    "March",
-                    "April",
-                    "May",
-                    "June",
-                    "July",
-                    "August",
-                    "September",
-                    "October",
-                    "November",
-                    "December",
-                  ].map((month) => (
-                    <td
-                      key={`${actionData?.[index]?.id}-${month}`}
-                      className="border-b border-gray-200 px-2 py-1 w-24"
-                    >
-                      {/* Assuming monitoring data is stored in actionData[index].monitoring[month] or similar; adjust as needed */}
-                      <SoftBadge
-                        value={
-                          actionData?.[index]?.[month.toLowerCase()]?.value ||
-                          ""
-                        }
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-gray-700">
+                        {row.no}
+                      </span>
+                      <input
+                        type="checkbox"
+                        checked={selectedRows.has(row.id)}
+                        onChange={() => onCheckboxChange(row.id, tableData)}
+                        className="h-4 w-4 text-blue-600 rounded"
                       />
-                    </td>
-                  ))}
+                    </div>
+                  </td>
+
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.name && (
+                      <span className="inline-block px-3 py-1 bg-rose-100 text-rose-700 border border-rose-200 rounded-full shadow-sm">
+                        {row.name}
+                      </span>
+                    )}
+                  </td>
+
+                  {/* Job Number */}
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    <span className="inline-block px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 rounded-full shadow-sm">
+                      {row.origin?.value}
+                    </span>
+                  </td>
+
+                  {/* Job Start Date */}
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.number && (
+                      <span className="inline-block px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 rounded-full shadow-sm">
+                        {row.number}
+                      </span>
+                    )}
+                  </td>
+                    
+                  {/* Job Completion Date */}
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-32"
+                    rowSpan={1}
+                  >
+                    {row.revNumber && (
+                      <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
+                        {row.revNumber}
+                      </span>
+                    )}
+                  </td>
+
+                  {/* Scope */}
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-32"
+                    rowSpan={1}
+                  >
+                    {row.issuer && (
+                      <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
+                        {row.issuer}
+                      </span>
+                    )}
+                  </td>
+
+                  {/* Name Of Customer */}
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-32"
+                    rowSpan={1}
+                  >
+                    {row.approver && (
+                      <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
+                        {row.approver}
+                      </span>
+                    )}
+                  </td>
+
+                  {/* Type Of Finding */}
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-28"
+                    rowSpan={1}
+                  >
+                    {row.issueDate}
+                  </td>
+                  
+                  {/* Quality Of Services */}
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.nextReviewDate}
+                  </td>
+
+                  {/* Communication */}
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.nextReviewDate}
+                  </td>
+
+                  {/* On Time Delivery */}
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.actual?.value}
+                  </td>
+
+                  {/* Documentation */}
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.actual?.value}
+                  </td>
+
+                  {/* Health And Safety */}
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.actual?.value}
+                  </td>
+
+                  {/* Envinroment */}
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.actual?.value}
+                  </td>
+
+
                 </tr>
               </React.Fragment>
             );
           })
-        ) : (
-          <tr>
-            <td colSpan={25} className="text-center py-4">
-              No Data
-            </td>
-          </tr>
         )}
       </tbody>
     );
   } else if (!activeHeader && showDeletedAction === true) {
     return (
-      <tbody>
+      <tbody className="text-sm">
         {loading ? (
           <tr>
-            <td colSpan={25} className="text-center py-4">
-              Deleted verileri yükleniyor...
+            <td colSpan={25} className="text-center py-6 text-gray-600">
+              Arşiv verileri yükleniyor...
             </td>
           </tr>
-        ) : selectedTable && deletedActionData && selectedTable.length > 0 ? (
-          deletedActionData.map((row, index) => {
-            const numActions = row.actionPlan ? row.actionPlan.length : 1;
-            console.log("WORKINGGGGG !!!");
-            // Soft badge
-            const SoftBadge = ({ value }) =>
-              value ? (
-                <span className="px-2 py-1 rounded-full bg-gray-100 text-gray-700 text-xs font-medium">
-                  {value}
-                </span>
-              ) : null;
+        ) : !tableData || tableData.length === 0 ? (
+          <tr>
+            <td colSpan={25} className="text-center py-6 text-gray-500">
+              No Data
+            </td>
+          </tr>
+        ) : (
+          tableData.map((row, index) => {
+            const numActions = row.actions ? row.actions.length : 1;
+            const actions = Array.isArray(row.actions)
+              ? row.actions
+              : [row.actions];
 
             return (
               <React.Fragment key={row.id}>
@@ -715,120 +763,154 @@ const DocBody = ({
                       : "bg-green-100 hover:bg-green-200"
                   }`}
                 >
-                  {/* # column */}
+                  {/* ID + Checkbox */}
                   <td
-                    className="border-b border-gray-200 px-2 py-1 w-16 sticky left-[-1px] top-0 z-10 bg-white -ml-px"
-                    rowSpan={numActions}
+                    className="border border-gray-200 px-3 py-2 w-16 sticky left-[-1px] top-0 z-10 bg-white"
+                    rowSpan={1}
                   >
-                    {selectedTable[0].no}
-                    <input
-                      checked={selectedRowsForActions.has(
-                        deletedActionData[index].id,
-                      )}
-                      onChange={() =>
-                        onCheckboxChangeForActions(
-                          deletedActionData[index].id,
-                          deletedActionData,
-                        )
-                      }
-                      type="checkbox"
-                      className="ml-2"
-                    />
-                  </td>
-                  {/* FIRST ACTION PLAN FIELDS */}
-                  <td className="border-b border-gray-200 px-2 py-1 w-32">
-                    <SoftBadge value={deletedActionData?.[index]?.title} />
-                  </td>
-                  <td className="border-b border-gray-200 px-2 py-1 w-32">
-                    <SoftBadge value={deletedActionData?.[index]?.raiseDate} />
-                  </td>
-                  <td className="border-b border-gray-200 px-2 py-1 w-24">
-                    <SoftBadge
-                      value={
-                        deletedActionData?.[index]?.resources?.toString() || ""
-                      }
-                    />
-                  </td>
-                  <td className="border-b border-gray-200 px-2 py-1 w-28">
-                    <SoftBadge
-                      value={
-                        deletedActionData?.[index]?.relativeFunction?.value
-                      }
-                    />
-                  </td>
-                  <td className="border-b border-gray-200 px-2 py-1 w-28">
-                    <SoftBadge
-                      value={deletedActionData?.[index]?.responsible?.value}
-                    />
-                  </td>
-                  <td className="border-b border-gray-200 px-2 py-1 w-24">
-                    <SoftBadge value={deletedActionData?.[index]?.deadline} />
-                  </td>
-                  <td className="border-b border-gray-200 px-2 py-1 w-36">
-                    <SoftBadge
-                      value={deletedActionData?.[index]?.confirmation?.value}
-                    />
-                  </td>
-                  <td className="border-b border-gray-200 px-2 py-1 w-24">
-                    <SoftBadge
-                      value={deletedActionData?.[
-                        index
-                      ]?.status?.value?.toString()}
-                    />
-                  </td>
-                  <td className="border-b border-gray-200 px-2 py-1 w-24">
-                    <SoftBadge
-                      value={deletedActionData?.[index]?.completionDate}
-                    />
-                  </td>
-                  <td className="border-b border-gray-200 px-2 py-1 w-32">
-                    <SoftBadge
-                      value={
-                        deletedActionData?.[index]?.verificationStatus?.value
-                      }
-                    />
-                  </td>
-                  <td className="border-b border-gray-200 px-2 py-1 w-40">
-                    <SoftBadge value={deletedActionData?.[index]?.comment} />
-                  </td>
-                  {/* MONITORING MONTH COLUMNS */}
-                  {[
-                    "January",
-                    "February",
-                    "March",
-                    "April",
-                    "May",
-                    "June",
-                    "July",
-                    "August",
-                    "September",
-                    "October",
-                    "November",
-                    "December",
-                  ].map((month) => (
-                    <td
-                      key={`$deletedActionData?.[index]?.id}-${month}`}
-                      className="border-b border-gray-200 px-2 py-1 w-24"
-                    >
-                      {/* Assuming monitoring data is stored indeletedActionData[index].monitoring[month] or similar; adjust as needed */}
-                      <SoftBadge
-                        value={
-                          deletedActionData?.[index]?.[month.toLowerCase()]
-                            ?.value || ""
-                        }
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-gray-700">
+                        {row.no}
+                      </span>
+                      <input
+                        type="checkbox"
+                        checked={selectedRows.has(row.id)}
+                        onChange={() => onCheckboxChange(row.id, tableData)}
+                        className="h-4 w-4 text-blue-600 rounded"
                       />
-                    </td>
-                  ))}
+                    </div>
+                  </td>
+
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.name && (
+                      <span className="inline-block px-3 py-1 bg-rose-100 text-rose-700 border border-rose-200 rounded-full shadow-sm">
+                        {row.name}
+                      </span>
+                    )}
+                  </td>
+
+                  {/* Job Number */}
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    <span className="inline-block px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 rounded-full shadow-sm">
+                      {row.origin?.value}
+                    </span>
+                  </td>
+
+                  {/* Job Start Date */}
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.number && (
+                      <span className="inline-block px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 rounded-full shadow-sm">
+                        {row.number}
+                      </span>
+                    )}
+                  </td>
+                    
+                  {/* Job Completion Date */}
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-32"
+                    rowSpan={1}
+                  >
+                    {row.revNumber && (
+                      <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
+                        {row.revNumber}
+                      </span>
+                    )}
+                  </td>
+
+                  {/* Scope */}
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-32"
+                    rowSpan={1}
+                  >
+                    {row.issuer && (
+                      <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
+                        {row.issuer}
+                      </span>
+                    )}
+                  </td>
+
+                  {/* Name Of Customer */}
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-32"
+                    rowSpan={1}
+                  >
+                    {row.approver && (
+                      <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
+                        {row.approver}
+                      </span>
+                    )}
+                  </td>
+
+                  {/* Type Of Finding */}
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-28"
+                    rowSpan={1}
+                  >
+                    {row.issueDate}
+                  </td>
+                  
+                  {/* Quality Of Services */}
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.nextReviewDate}
+                  </td>
+
+                  {/* Communication */}
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.nextReviewDate}
+                  </td>
+
+                  {/* On Time Delivery */}
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.actual?.value}
+                  </td>
+
+                  {/* Documentation */}
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.actual?.value}
+                  </td>
+
+                  {/* Health And Safety */}
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.actual?.value}
+                  </td>
+
+                  {/* Envinroment */}
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.actual?.value}
+                  </td>
+
+
                 </tr>
               </React.Fragment>
             );
           })
-        ) : (
-          <tr>
-            <td colSpan={25} className="text-center py-4">
-              No Data
-            </td>
-          </tr>
         )}
       </tbody>
     );
@@ -893,7 +975,7 @@ const DocBody = ({
                     )}
                   </td>
 
-                  {/* Serial Name */}
+                  {/* Job Number */}
                   <td
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
@@ -903,6 +985,7 @@ const DocBody = ({
                     </span>
                   </td>
 
+                  {/* Job Start Date */}
                   <td
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
@@ -913,7 +996,8 @@ const DocBody = ({
                       </span>
                     )}
                   </td>
-
+                    
+                  {/* Job Completion Date */}
                   <td
                     className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
@@ -925,7 +1009,7 @@ const DocBody = ({
                     )}
                   </td>
 
-                  {/* Certificate No */}
+                  {/* Scope */}
                   <td
                     className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
@@ -937,7 +1021,7 @@ const DocBody = ({
                     )}
                   </td>
 
-                  {/* Inspection Frequency */}
+                  {/* Name Of Customer */}
                   <td
                     className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
@@ -949,13 +1033,15 @@ const DocBody = ({
                     )}
                   </td>
 
+                  {/* Type Of Finding */}
                   <td
                     className="border border-gray-200 px-3 py-2 w-28"
                     rowSpan={1}
                   >
                     {row.issueDate}
                   </td>
-
+                  
+                  {/* Quality Of Services */}
                   <td
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
@@ -963,7 +1049,7 @@ const DocBody = ({
                     {row.nextReviewDate}
                   </td>
 
-                  {/* Days Left To Next Review */}
+                  {/* Communication */}
                   <td
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
@@ -971,12 +1057,39 @@ const DocBody = ({
                     {row.nextReviewDate}
                   </td>
 
+                  {/* On Time Delivery */}
                   <td
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
                     {row.actual?.value}
                   </td>
+
+                  {/* Documentation */}
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.actual?.value}
+                  </td>
+
+                  {/* Health And Safety */}
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.actual?.value}
+                  </td>
+
+                  {/* Envinroment */}
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.actual?.value}
+                  </td>
+
+
                 </tr>
               </React.Fragment>
             );
@@ -987,4 +1100,4 @@ const DocBody = ({
   }
 };
 
-export default DocBody;
+export default FbBody;

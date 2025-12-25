@@ -72,8 +72,7 @@ const HsBody = ({
           setRefresh(false);
         }, 500);
         return () => clearTimeout(timer); // cleanup
-
-      } else if (activeHeader == false & showDeletedAction == true) {
+      } else if ((activeHeader == false) & (showDeletedAction == true)) {
         const timer = setTimeout(() => {
           getDeletedActionData();
           console.log("HERE HERE HERE");
@@ -132,7 +131,6 @@ const HsBody = ({
       const fetchedData = await response.json();
       setDeletedActionData(fetchedData || []); // Veri set et, fallback []
       console.log("Arşiv Action verileri:", fetchedData);
-      
     } catch (err) {
       console.error("Error While Fetching Deleted Datas:", err);
       setDeletedActionData([]); // Hata durumunda boş array set et (null değil!)
@@ -233,15 +231,14 @@ const HsBody = ({
   }, [activeHeader, selectedRows]); // Dependency array ekle: selectedRows değişirse tekrar çalışsın
   if (loading) return;
   if (error) return;
- const SoftBadge = ({ value, color }) =>
-              value ? (
-                <span
-                  className={`inline-block px-2 py-1 rounded-full text-sm font-medium shadow-sm ${color}`}
-                >
-                  {value}
-                </span>
-              ) : null;
-
+  const SoftBadge = ({ value, color }) =>
+    value ? (
+      <span
+        className={`inline-block px-2 py-1 rounded-full text-sm font-medium shadow-sm ${color}`}
+      >
+        {value}
+      </span>
+    ) : null;
 
   if (showDeleted) {
     return (
@@ -924,7 +921,7 @@ const HsBody = ({
                       />
                     </div>
                   </td>
-                                    {/* Process */}
+                  {/* Process */}
                   <td
                     className="border border-gray-200 px-2 py-1 w-20"
                     rowSpan={1}
@@ -1034,7 +1031,6 @@ const HsBody = ({
                       color="bg-emerald-100 text-emerald-700 border border-emerald-200"
                     />
                   </td>
-                  
                 </tr>
               </React.Fragment>
             );

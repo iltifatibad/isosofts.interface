@@ -13,7 +13,6 @@ import EarProfile from "./earprofile.jsx";
 import MocProfile from "./mocprofile.jsx";
 import FProfile from "./flog.jsx";
 import AoProfile from "./aoprofile.jsx";
-import MRMProfile from "./mrmprofile.jsx";
 
 const RiskRouter = () => {
   // Sample data - gerçek projede API'den veya props'tan gelebilir
@@ -126,8 +125,6 @@ const RiskRouter = () => {
           <FProfile />
         ) : selectedRisk === "ao-reg" ? (
           <AoProfile />
-        ) : selectedRisk === "mr-reg" ? (
-          <MRMProfile />
         ) : null}
       </div>
     </div>

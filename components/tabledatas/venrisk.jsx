@@ -2,7 +2,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { hCheckboxChange } from "../profile.jsx";
-const EnvBody = ({
+const VenBody = ({
   selectedRows,
   selectedRowsForActions,
   showArchived,
@@ -27,7 +27,7 @@ const EnvBody = ({
     setLoading(true); // Loading başla
     try {
       const response = await fetch(
-        "http://localhost:8000/api/register/eai/all?status=archived",
+        "http://localhost:8000/api/register/doc/all?status=archived",
       );
       if (!response.ok) {
         throw new Error("Failed To Get Datas From Archived DataBase");
@@ -95,7 +95,7 @@ const EnvBody = ({
     setLoading(true); // Loading başla
     try {
       const response = await fetch(
-        "http://localhost:8000/api/register/eai/all?status=deleted",
+        "http://localhost:8000/api/register/doc/all?status=deleted",
       );
       if (!response.ok) {
         throw new Error("Failed To Get Datas From Deleted DataBase");
@@ -152,7 +152,7 @@ const EnvBody = ({
   const [tableData, setTableData] = useState([]);
   const getAll = async () => {
     setLoading(true);
-    fetch("http://localhost:8000/api/register/eai/all")
+    fetch("http://localhost:8000/api/register/doc/all")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed To Get Datas From Database");
@@ -231,14 +231,6 @@ const EnvBody = ({
   }, [activeHeader, selectedRows]); // Dependency array ekle: selectedRows değişirse tekrar çalışsın
   if (loading) return;
   if (error) return;
-  const SoftBadge = ({ value, color }) =>
-    value ? (
-      <span
-        className={`inline-block px-2 py-1 rounded-full text-sm font-medium shadow-sm ${color}`}
-      >
-        {value}
-      </span>
-    ) : null;
 
   if (showDeleted) {
     return (
@@ -295,160 +287,100 @@ const EnvBody = ({
                       />
                     </div>
                   </td>
-
-                  {/* Process */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-20"
+                    className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    <SoftBadge
-                      value={row.process?.value}
-                      color="bg-rose-100 text-rose-700 border border-rose-200"
-                    />
+                    {row.name && (
+                      <span className="inline-block px-3 py-1 bg-rose-100 text-rose-700 border border-rose-200 rounded-full shadow-sm">
+                        {row.name}
+                      </span>
+                    )}
                   </td>
 
-                  {/* Aspect */}
+                  {/* Serial Name */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-32"
+                    className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    <SoftBadge
-                      value={row.aspect?.value}
-                      color="bg-green-100 text-green-700 border border-green-200"
-                    />
+                    <span className="inline-block px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 rounded-full shadow-sm">
+                      {row.origin?.value}
+                    </span>
                   </td>
 
-                  {/* Impact */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-32"
+                    className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    <SoftBadge
-                      value={row.impact}
-                      color="bg-green-100 text-green-700 border border-green-200"
-                    />
+                    {row.number && (
+                      <span className="inline-block px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 rounded-full shadow-sm">
+                        {row.number}
+                      </span>
+                    )}
                   </td>
 
-                  {/* Affected Receptors */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-32"
+                    className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
                   >
-                    <SoftBadge
-                      value={row.affectedReceptors?.value}
-                      color="bg-green-100 text-green-700 border border-green-200"
-                    />
+                    {row.revNumber && (
+                      <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
+                        {row.revNumber}
+                      </span>
+                    )}
                   </td>
 
-                  {/* Existing Controls */}
+                  {/* Certificate No */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-32"
+                    className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
                   >
-                    <SoftBadge
-                      value={row.existingControls}
-                      color="bg-green-100 text-green-700 border border-green-200"
-                    />
+                    {row.issuer && (
+                      <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
+                        {row.issuer}
+                      </span>
+                    )}
                   </td>
 
-                  {/* Probability */}
+                  {/* Inspection Frequency */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-32"
+                    className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
                   >
-                    {row.idosProbabilty}
+                    {row.approver && (
+                      <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
+                        {row.approver}
+                      </span>
+                    )}
                   </td>
 
-                  {/* Severity */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-20"
+                    className="border border-gray-200 px-3 py-2 w-28"
                     rowSpan={1}
                   >
-                    <SoftBadge
-                      value={row.idosSeverity}
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
-                  </td>
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-24"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.idosDuration}
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
+                    {row.issueDate}
                   </td>
 
-                  {/* İlk Action */}
-
-                  {/* Residual Risk */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-24"
+                    className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    <SoftBadge
-                      value={row.idosScale}
-                      color="bg-rose-100 text-rose-700 border border-rose-200"
-                    />
-                  </td>
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-20"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value="Low"
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
+                    {row.nextReviewDate}
                   </td>
 
-                  {/* Probability */}
+                  {/* Days Left To Next Review */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-32"
+                    className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    {row.rdosProbability}
+                    {row.nextReviewDate}
                   </td>
 
-                  {/* Severity */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-20"
+                    className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    <SoftBadge
-                      value={row.rdosSeverity}
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
-                  </td>
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-24"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.rdosDuration}
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
-                  </td>
-
-                  {/* İlk Action */}
-
-                  {/* Residual Risk */}
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-24"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.rdosScale}
-                      color="bg-rose-100 text-rose-700 border border-rose-200"
-                    />
-                  </td>
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-20"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value="Low"
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
+                    {row.actual?.value}
                   </td>
                 </tr>
 
@@ -514,160 +446,100 @@ const EnvBody = ({
                       />
                     </div>
                   </td>
-
-                  {/* Process */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-20"
+                    className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    <SoftBadge
-                      value={row.process?.value}
-                      color="bg-rose-100 text-rose-700 border border-rose-200"
-                    />
+                    {row.name && (
+                      <span className="inline-block px-3 py-1 bg-rose-100 text-rose-700 border border-rose-200 rounded-full shadow-sm">
+                        {row.name}
+                      </span>
+                    )}
                   </td>
 
-                  {/* Aspect */}
+                  {/* Serial Name */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-32"
+                    className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    <SoftBadge
-                      value={row.aspect?.value}
-                      color="bg-green-100 text-green-700 border border-green-200"
-                    />
+                    <span className="inline-block px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 rounded-full shadow-sm">
+                      {row.origin?.value}
+                    </span>
                   </td>
 
-                  {/* Impact */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-32"
+                    className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    <SoftBadge
-                      value={row.impact}
-                      color="bg-green-100 text-green-700 border border-green-200"
-                    />
+                    {row.number && (
+                      <span className="inline-block px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 rounded-full shadow-sm">
+                        {row.number}
+                      </span>
+                    )}
                   </td>
 
-                  {/* Affected Receptors */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-32"
+                    className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
                   >
-                    <SoftBadge
-                      value={row.affectedReceptors?.value}
-                      color="bg-green-100 text-green-700 border border-green-200"
-                    />
+                    {row.revNumber && (
+                      <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
+                        {row.revNumber}
+                      </span>
+                    )}
                   </td>
 
-                  {/* Existing Controls */}
+                  {/* Certificate No */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-32"
+                    className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
                   >
-                    <SoftBadge
-                      value={row.existingControls}
-                      color="bg-green-100 text-green-700 border border-green-200"
-                    />
+                    {row.issuer && (
+                      <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
+                        {row.issuer}
+                      </span>
+                    )}
                   </td>
 
-                  {/* Probability */}
+                  {/* Inspection Frequency */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-32"
+                    className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
                   >
-                    {row.idosProbability}
+                    {row.approver && (
+                      <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
+                        {row.approver}
+                      </span>
+                    )}
                   </td>
 
-                  {/* Severity */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-20"
+                    className="border border-gray-200 px-3 py-2 w-28"
                     rowSpan={1}
                   >
-                    <SoftBadge
-                      value={row.idosSeverity}
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
-                  </td>
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-24"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.idosDuration}
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
+                    {row.issueDate}
                   </td>
 
-                  {/* İlk Action */}
-
-                  {/* Residual Risk */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-24"
+                    className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    <SoftBadge
-                      value={row.idosScale}
-                      color="bg-rose-100 text-rose-700 border border-rose-200"
-                    />
-                  </td>
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-20"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value="Low"
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
+                    {row.nextReviewDate}
                   </td>
 
-                  {/* Probability */}
+                  {/* Days Left To Next Review */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-32"
+                    className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    {row.rdosProbability}
+                    {row.nextReviewDate}
                   </td>
 
-                  {/* Severity */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-20"
+                    className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    <SoftBadge
-                      value={row.rdosSeverity}
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
-                  </td>
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-24"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.rdosDuration}
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
-                  </td>
-
-                  {/* İlk Action */}
-
-                  {/* Residual Risk */}
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-24"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.rdosScale}
-                      color="bg-rose-100 text-rose-700 border border-rose-200"
-                    />
-                  </td>
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-20"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value="Low"
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
+                    {row.actual?.value}
                   </td>
                 </tr>
 
@@ -1009,159 +881,137 @@ const EnvBody = ({
                       />
                     </div>
                   </td>
-                  {/* Process */}
+
                   <td
-                    className="border border-gray-200 px-2 py-1 w-20"
+                    className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    <SoftBadge
-                      value={row.process?.value}
-                      color="bg-rose-100 text-rose-700 border border-rose-200"
-                    />
+                    {row.name && (
+                      <span className="inline-block px-3 py-1 bg-rose-100 text-rose-700 border border-rose-200 rounded-full shadow-sm">
+                        {row.name}
+                      </span>
+                    )}
                   </td>
 
-                  {/* Aspect */}
+                  {/* Serial Name */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-32"
+                    className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    <SoftBadge
-                      value={row.aspect?.value}
-                      color="bg-green-100 text-green-700 border border-green-200"
-                    />
+                    <span className="inline-block px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 rounded-full shadow-sm">
+                      {row.origin?.value}
+                    </span>
                   </td>
 
-                  {/* Impact */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-32"
+                    className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    <SoftBadge
-                      value={row.impact}
-                      color="bg-green-100 text-green-700 border border-green-200"
-                    />
+                    {row.number && (
+                      <span className="inline-block px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 rounded-full shadow-sm">
+                        {row.number}
+                      </span>
+                    )}
                   </td>
 
-                  {/* Affected Receptors */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-32"
+                    className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
                   >
-                    <SoftBadge
-                      value={row.affectedReceptors?.value}
-                      color="bg-green-100 text-green-700 border border-green-200"
-                    />
+                    {row.revNumber && (
+                      <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
+                        {row.revNumber}
+                      </span>
+                    )}
                   </td>
 
-                  {/* Existing Controls */}
+                  {/* Certificate No */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-32"
+                    className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
                   >
-                    <SoftBadge
-                      value={row.existingControls}
-                      color="bg-green-100 text-green-700 border border-green-200"
-                    />
+                    {row.issuer && (
+                      <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
+                        {row.issuer}
+                      </span>
+                    )}
                   </td>
 
-                  {/* Probability */}
+                  {/* Inspection Frequency */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-32"
+                    className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
                   >
-                    {row.idosProbability}
+                    {row.approver && (
+                      <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
+                        {row.approver}
+                      </span>
+                    )}
                   </td>
 
-                  {/* Severity */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-20"
+                    className="border border-gray-200 px-3 py-2 w-28"
                     rowSpan={1}
                   >
-                    <SoftBadge
-                      value={row.idosSeverity}
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
-                  </td>
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-24"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.idosDuration}
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
+                    {row.issueDate}
                   </td>
 
-                  {/* İlk Action */}
-
-                  {/* Residual Risk */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-24"
+                    className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    <SoftBadge
-                      value={row.idosScale}
-                      color="bg-rose-100 text-rose-700 border border-rose-200"
-                    />
-                  </td>
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-20"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value="Low"
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
+                    {row.nextReviewDate}
                   </td>
 
-                  {/* Probability */}
+                  {/* Days Left To Next Review */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-32"
+                    className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    {row.rdosProbability}
+                    {row.nextReviewDate}
                   </td>
 
-                  {/* Severity */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-20"
+                    className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    <SoftBadge
-                      value={row.rdosSeverity}
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
+                    {row.actual?.value}
                   </td>
                   <td
-                    className="border border-gray-200 px-2 py-1 w-24"
+                    className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    <SoftBadge
-                      value={row.rdosDuration}
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
-                  </td>
-
-                  {/* İlk Action */}
-
-                  {/* Residual Risk */}
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-24"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.rdosScale}
-                      color="bg-rose-100 text-rose-700 border border-rose-200"
-                    />
+                    {row.actual?.value}
                   </td>
                   <td
-                    className="border border-gray-200 px-2 py-1 w-20"
+                    className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    <SoftBadge
-                      value="Low"
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
+                    {row.actual?.value}
+                  </td>
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.actual?.value}
+                  </td>
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.actual?.value}
+                  </td>
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.actual?.value}
+                  </td>
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.actual?.value}
                   </td>
                 </tr>
               </React.Fragment>
@@ -1173,4 +1023,4 @@ const EnvBody = ({
   }
 };
 
-export default EnvBody;
+export default VenBody;

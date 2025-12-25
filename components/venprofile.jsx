@@ -1,6 +1,6 @@
 import React, { useState, useEffect, act } from "react";
-import LegBody from "./tabledatas/legrisk.jsx";
-import LegHeaders from "./tableheaders/legheaders.jsx";
+import VenBody from "./tabledatas/venrisk.jsx";
+import VenHeaders from "./tableheaders/venheaders.jsx";
 
 import ReactECharts from "echarts-for-react";
 
@@ -64,7 +64,7 @@ export const hCheckboxChangeForActions =
     });
   };
 
-const LegProfile = () => {
+const VenProfile = () => {
   const kpiGaugeOption = {
     tooltip: { formatter: "{a}<br/>{c}%" },
     series: [
@@ -205,30 +205,30 @@ const LegProfile = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalMode, setModalMode] = useState("add");
   const [editingRow, setEditingRow] = useState(null);
-  //////////////////////////////////////
   const [formData, setFormData] = useState({
-    id: 0,
-    process: "",
-    legislation: "",
-    section: "",
-    requirement: "",
-    riskOfViolation: "",
-    affectedPosition: "",
-    initialRiskSeverity: 0,
-    initialRiskLikelihood: 0,
-    residualRiskSeverity: 0,
-    residualRiskLikelihood: 0,
+    name: "",
+    origin: "",
+    number: "",
+    type: "",
+    depntFunctionName: "",
+    serialNumber: "",
+    revNumber: "",
+    issuer: "",
+    approver: "",
+    issueDate: "",
+    nextReviewDate: "",
+    actual: 0,
   });
 
   const [formDataHs, setFormDataHs] = useState({
     id: 0,
-    process: "",
-    hazard: "",
-    risk: "",
-    affectedPosition: "",
-    ERMA: "",
-    initialRiskSeverity: "",
-    initialRiskLikelihood: "",
+    name: "",
+    serialNumber: "",
+    certificateNo: "",
+    inspectionFrequency: "",
+    icd: "",
+    nvcd: "",
+    competencyStatus: 0,
     actionPlan: [
       {
         action: "",
@@ -361,17 +361,18 @@ const LegProfile = () => {
     const dropdownData = await getDefaultDropdownList();
     if (activeHeader) {
       setFormData({
-        id: 0,
-        process: "",
-        legislation: "",
-        section: "",
-        requirement: "",
-        riskOfViolation: "",
-        affectedPosition: "",
-        initialRiskSeverity: 0,
-        initialRiskLikelihood: 0,
-        residualRiskSeverity: 0,
-        residualRiskLikelihood: 0,
+        name: "",
+        origin: "",
+        number: "",
+        depntFunctionName: "",
+        type: "",
+        serialNumber: "",
+        revNumber: "",
+        issuer: "",
+        approver: "",
+        issueDate: "",
+        nextReviewDate: "",
+        actual: 0,
       });
       setShowModal(true);
     } else {
@@ -408,16 +409,19 @@ const LegProfile = () => {
   const openEditModal = async (row) => {
     if (activeHeader) {
       setFormData({
-        process: row.process.id || String(row.process),
-        legislation: row.legislation,
-        section: row.section,
-        requirement: row.requirement,
-        affectedPosition: String(row.affectedPosition),
-        riskOfViolation: row.riskOfViolation,
-        initialRiskSeverity: row.initialRiskSeverity,
-        initialRiskLikelyhood: row.initialRiskLikelyhood,
-        residualRiskSeverity: row.residualRiskSeverity,
-        residualRiskLikelyhood: row.residualRiskLikelyhood,
+        name: row.name,
+        origin: row.origin.id || String(row.origin),
+        number: row.number,
+        depntFunctionName:
+          row.origin.depntFunctionName || String(row.depntFunctionName),
+        type: row.type.id || String(row.type),
+        serialNumber: row.serialNumber,
+        revNumber: row.revNumber,
+        issuer: row.issuer,
+        approver: row.approver,
+        issueDate: row.issueDate,
+        nextReviewDate: row.nextReviewDate,
+        actual: row.actual,
       });
     } else {
       setActionData({
@@ -502,7 +506,7 @@ const LegProfile = () => {
     let setter;
     if (showAction) {
       setter = setActionData;
-    } else if (selectedRisk === "leg-reg") {
+    } else if (selectedRisk === "ven-reg") {
       setter = setFormData;
     } else {
       setter = setFormData;
@@ -524,20 +528,22 @@ const LegProfile = () => {
     if (modalMode === "add") {
       if (!showAction) {
         const payload = {
-          process: formData.process,
-          legislation: formData.legislation,
-          section: formData.section,
-          affectedPositions: formData.affectedPosition,
-          requirement: formData.requirement,
-          riskOfViolation: formData.riskOfViolation,
-          initialRiskSeverity: formData.initialRiskSeverity, // Number
-          initialRiskLikelyhood: formData.initialRiskLikelyhood, // Number, spelling uyumlu
-          residualRiskSeverity: formData.residualRiskSeverity,
-          residualRiskLikelyhood: formData.residualRiskLikelyhood,
+          name: formData.name,
+          origin: formData.origin,
+          number: formData.number,
+          type: parseInt(formData.type),
+          depntFunctionName: parseInt(formData.depntFunctionName),
+          serialNumber: formData.serialNumber,
+          revNumber: formData.revNumber,
+          issuer: formData.issuer,
+          approver: formData.approver,
+          issueDate: formData.issueDate,
+          nextReviewDate: formData.nextReviewDate,
+          actual: formData.actual,
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
 
-        fetch("http://localhost:8000/api/register/leg/one", {
+        fetch("http://localhost:8000/api/register/ven/one", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload), // Direkt obje – array yapma!
@@ -601,22 +607,22 @@ const LegProfile = () => {
     } else {
       if (!showAction) {
         const payload = {
-          id: selectedTable[0].id,
-          process: formData.process,
-          legislation: formData.legislation,
-          section: formData.section,
-          affectedPositions: formData.affectedPosition,
-          affectedPosition: formData.affectedPosition,
-          requirement: formData.requirement,
-          riskOfViolation: formData.riskOfViolation,
-          initialRiskSeverity: formData.initialRiskSeverity, // Number
-          initialRiskLikelyhood: formData.initialRiskLikelyhood, // Number, spelling uyumlu
-          residualRiskSeverity: formData.residualRiskSeverity,
-          residualRiskLikelyhood: formData.residualRiskLikelyhood,
+          name: formData.name,
+          origin: formData.origin,
+          number: formData.number,
+          type: formData.type,
+          depntFunctionName: formData.depntFunctionName,
+          serialNumber: formData.serialNumber,
+          revNumber: formData.revNumber,
+          issuer: formData.issuer,
+          approver: formData.approver,
+          issueDate: formData.issueDate,
+          nextReviewDate: formData.nextReviewDate,
+          actual: formData.actual,
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
         const url =
-          "http://localhost:8000/api/register/leg/one/" + selectedTable[0].id;
+          "http://localhost:8000/api/register/ven/one/" + selectedTable[0].id;
         fetch(url, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -727,7 +733,7 @@ const LegProfile = () => {
   const handleDeleteConfirm = () => {
     if (activeHeader) {
       if (!showDeleted) {
-        fetch("http://localhost:8000/api/register/leg/all/delete", {
+        fetch("http://localhost:8000/api/register/ven/all/delete", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -747,7 +753,7 @@ const LegProfile = () => {
           })
           .catch((error) => console.log(" Error While Deleting: ", error));
       } else {
-        fetch("http://localhost:8000/api/register/leg/all/undelete", {
+        fetch("http://localhost:8000/api/register/ven/all/undelete", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -824,7 +830,7 @@ const LegProfile = () => {
 
   const archiveData = (id) => {
     if (showArchived) {
-      fetch("http://localhost:8000/api/register/leg/all/unarchive", {
+      fetch("http://localhost:8000/api/register/ven/all/unarchive", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -843,7 +849,7 @@ const LegProfile = () => {
         .catch((error) => console.log(" Error While UnArchiving : ", error));
       setRefresh(true);
     } else {
-      fetch("http://localhost:8000/api/register/leg/all/archive", {
+      fetch("http://localhost:8000/api/register/ven/all/archive", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ids: [...selectedRows] }),
@@ -1147,8 +1153,8 @@ const LegProfile = () => {
               {/* Tablo */}
               <div className="overflow-x-auto max-h-[75vh] overflow-y-auto">
                 <table>
-                  <LegHeaders activeHeader={activeHeader} />
-                  <LegBody
+                  <VenHeaders activeHeader={activeHeader} />
+                  <VenBody
                     selectedRows={selectedRows}
                     selectedRowsForActions={selectedRowsForActions}
                     showArchived={showArchived}
@@ -1193,186 +1199,200 @@ const LegProfile = () => {
                   <div className="space-y-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Process
+                        Name
+                      </label>
+                      <input
+                        value={formData.name}
+                        onChange={(e) =>
+                          handleFormChange("name", e.target.value)
+                        }
+                        type="text"
+                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Origin
                       </label>
                       <select
-                        value={formData.process || ""} // Null-safe
+                        value={formData.origin || ""} // Null-safe
                         onChange={(e) => {
                           console.log(
                             "Select onChange tetiklendi! Yeni value:",
                             e.target.value,
                           ); // Debug: Bu çıkmıyorsa onChange patlıyor
-                          handleFormChange("process", e.target.value); // String path + value – obje değil!
+                          handleFormChange("origin", e.target.value); // String path + value – obje değil!
                         }}
                       >
                         <option value="">Seçiniz</option>
-                        {dropdownData?.process?.map((item) => (
-                          <option key={item.id} value={item.id}>
-                            {item.value}
-                          </option>
-                        ))}
-                      </select>{" "}
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Legislation
-                      </label>
-                      <input
-                        value={formData.legislation}
-                        onChange={(e) =>
-                          handleFormChange("legislation", e.target.value)
-                        }
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Section
-                      </label>
-                      <input
-                        value={formData.section}
-                        onChange={(e) =>
-                          handleFormChange("section", e.target.value)
-                        }
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Requirement
-                      </label>
-                      <input
-                        value={formData.requirement}
-                        onChange={(e) =>
-                          handleFormChange("requirement", e.target.value)
-                        }
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Risk Of Violation
-                      </label>
-                      <input
-                        value={formData.riskOfViolation}
-                        onChange={(e) =>
-                          handleFormChange("riskOfViolation", e.target.value)
-                        }
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Affected Position
-                      </label>
-                      <select
-                        value={formData.affectedPosition}
-                        onChange={(e) => {
-                          console.log(
-                            "Select onChange tetiklendi! Yeni value:",
-                            e.target.value,
-                          ); // Debug: Bu çıkmıyorsa onChange patlıyor
-                          handleFormChange("affectedPosition", e.target.value); // String path + value – obje değil!
-                        }}
-                      >
-                        <option value="">Seçiniz</option>
-                        {dropdownData?.affectedPosition?.map((item) => (
+                        {dropdownData?.documentOrigin?.map((item) => (
                           <option key={item.id} value={item.id}>
                             {item.value}
                           </option>
                         ))}
                       </select>
                     </div>
-                  </div>
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Initial Risk
-                      </label>
-                      <div className="grid grid-cols-3 gap-2">
+
+                    {formData.origin === "Su1o957i68896Jz58zz3hkW9C62H25" && (
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Departamen / Function Name
+                        </label>
                         <select
-                          value={formData.initialRiskSeverity}
+                          value={formData.depntFunctionName?.id || ""} // Null-safe
                           onChange={(e) => {
                             console.log(
                               "Select onChange tetiklendi! Yeni value:",
                               e.target.value,
                             ); // Debug: Bu çıkmıyorsa onChange patlıyor
-                            const newValue = parseInt(e.target.value, 10) || 0;
-                            handleFormChange("initialRiskSeverity", newValue); // String path + value – obje değil!
-                          }}
-                        >
-                          <option value="">Seçiniz</option>
-                          <option>1</option>
-                          <option>2</option>
-                          <option>3</option>
-                          <option>4</option>
-                          <option>5</option>
-                        </select>
-                        <select
-                          value={formData.initialRiskLikelyhood}
-                          onChange={(e) => {
-                            console.log(
-                              "Select onChange tetiklendi! Yeni value:",
+                            handleFormChange(
+                              "depntFunctionName.id",
                               e.target.value,
-                            ); // Debug: Bu çıkmıyorsa onChange patlıyor
-                            const newValue = parseInt(e.target.value, 10) || 0;
-                            handleFormChange("initialRiskLikelyhood", newValue); // String path + value – obje değil!
+                            ); // String path + value – obje değil!
                           }}
                         >
                           <option value="">Seçiniz</option>
-                          <option>1</option>
-                          <option>2</option>
-                          <option>3</option>
-                          <option>4</option>
-                          <option>5</option>
+                          {dropdownData?.depntFunctionName?.map((item) => (
+                            <option key={item.id} value={item.id}>
+                              {item.value}
+                            </option>
+                          ))}
                         </select>
                       </div>
+                    )}
+
+                    {formData.origin === "Su1o957i68896Jz58zz3hkW9C62H25" && (
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Type
+                        </label>
+                        <select
+                          value={formData.type?.id || ""} // Null-safe
+                          onChange={(e) => {
+                            console.log(
+                              "Select onChange tetiklendi! Yeni value:",
+                              e.target.value,
+                            ); // Debug: Bu çıkmıyorsa onChange patlıyor
+                            handleFormChange("type.id", e.target.value); // String path + value – obje değil!
+                          }}
+                        >
+                          <option value="">Seçiniz</option>
+                          {dropdownData?.documentType?.map((item) => (
+                            <option key={item.id} value={item.id}>
+                              {item.value}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
+
+                    {formData.origin === "phA8k3tQ0Veosm24712C95944uynfa" && (
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Number
+                        </label>
+                        <input
+                          value={formData.number?.id}
+                          onChange={(e) =>
+                            handleFormChange("number", e.target.value)
+                          }
+                          type="text"
+                          className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                        />
+                      </div>
+                    )}
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Revision Number
+                      </label>
+                      <input
+                        value={formData.revNumber}
+                        onChange={(e) =>
+                          handleFormChange("revNumber", e.target.value)
+                        }
+                        type="text"
+                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      />
                     </div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Residual Risk / Opportunity Level
-                    </label>
-                    <div className="grid grid-cols-3 gap-2">
+                    {/* <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        R
+                      </label>
+                      <input
+                        value={formData.ncd}
+                        onChange={(e) =>
+                          handleFormChange("ncd", e.target.value)
+                        }
+                        type="text"
+                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      />
+                    </div> */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Issuer
+                      </label>
+                      <input
+                        value={formData.issuer}
+                        onChange={(e) =>
+                          handleFormChange("issuer", e.target.value)
+                        }
+                        type="text"
+                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Approver
+                      </label>
+                      <input
+                        value={formData.approver}
+                        onChange={(e) =>
+                          handleFormChange("approver", e.target.value)
+                        }
+                        type="text"
+                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Issue Date
+                      </label>
+                      <input
+                        value={formData.issueDate}
+                        onChange={(e) =>
+                          handleFormChange("issueDate", e.target.value)
+                        }
+                        type="text"
+                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Next Review Date
+                      </label>
+                      <input
+                        value={formData.nextReviewDate}
+                        onChange={(e) =>
+                          handleFormChange("nextReviewDate", e.target.value)
+                        }
+                        type="text"
+                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Actual
+                      </label>
                       <select
-                        value={formData.residualRiskSeverity}
-                        onChange={(e) => {
-                          console.log(
-                            "Select onChange tetiklendi! Yeni value:",
-                            e.target.value,
-                          ); // Debug: Bu çıkmıyorsa onChange patlıyor
-                          const newValue = parseInt(e.target.value, 10) || 0;
-                          handleFormChange("residualRiskSeverity", newValue); // String path + value – obje değil!
-                        }}
+                        value={formData.actual}
+                        onChange={(e) =>
+                          handleFormChange("actual", e.target.value)
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                       >
-                        <option value="">Seçiniz</option>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                      </select>
-                      <select
-                        value={formData.residualRiskLikelyhood}
-                        onChange={(e) => {
-                          console.log(
-                            "Select onChange tetiklendi! Yeni value:",
-                            e.target.value,
-                          ); // Debug: Bu çıkmıyorsa onChange patlıyor
-                          const newValue = parseInt(e.target.value, 10) || 0;
-                          handleFormChange("residualRiskLikelyhood", newValue); // String path + value – obje değil!
-                        }}
-                      >
-                        <option value="">Seçiniz</option>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                        <option value={0}>0</option>
+                        <option value={1}>1</option>
                       </select>
                     </div>
                   </div>
@@ -2076,4 +2096,4 @@ const LegProfile = () => {
   );
 };
 
-export default LegProfile;
+export default VenProfile;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, act } from "react";
-import LegBody from "./tabledatas/legrisk.jsx";
-import LegHeaders from "./tableheaders/legheaders.jsx";
+import AoBody from "./tabledatas/aorisk.jsx";
+import AoHeaders from "./tableheaders/aoheaders.jsx";
 
 import ReactECharts from "echarts-for-react";
 
@@ -64,7 +64,7 @@ export const hCheckboxChangeForActions =
     });
   };
 
-const LegProfile = () => {
+const AoProfile = () => {
   const kpiGaugeOption = {
     tooltip: { formatter: "{a}<br/>{c}%" },
     series: [
@@ -1147,8 +1147,8 @@ const LegProfile = () => {
               {/* Tablo */}
               <div className="overflow-x-auto max-h-[75vh] overflow-y-auto">
                 <table>
-                  <LegHeaders activeHeader={activeHeader} />
-                  <LegBody
+                  <AoHeaders activeHeader={activeHeader} />
+                  <AoBody
                     selectedRows={selectedRows}
                     selectedRowsForActions={selectedRowsForActions}
                     showArchived={showArchived}
@@ -2076,4 +2076,4 @@ const LegProfile = () => {
   );
 };
 
-export default LegProfile;
+export default AoProfile;

@@ -1,101 +1,69 @@
 import React from "react";
 
-const EnvHeaders = ({ activeHeader }) => {
+const EarHeaders = ({ activeHeader }) => {
   if (activeHeader) {
     return (
       <thead>
-        {/* MAIN HEADER */}
-        <tr className="h-[52px]">
+        {/* First header row - fixed height for sticky positioning */}
+        <tr className="h-13">
           <th
+            className="min-w-15 border-r border-blue-500 sticky left-[-1px] top-0 z-21 bg-white -ml-px"
             rowSpan={2}
-            className="min-w-[60px] border-r border-blue-500 sticky left-0 top-0 z-30 bg-white"
           >
             #
           </th>
           <th
+            className="min-w-15 border-r border-blue-500 sticky top-0 z-20 bg-blue-100"
             rowSpan={2}
-            className="min-w-[120px] border-r border-blue-500 sticky top-0 z-20 bg-blue-100"
           >
-            Process
+            Employee
           </th>
           <th
+            className="min-w-15 border-r border-blue-500 sticky top-0 z-20 bg-blue-100"
             rowSpan={2}
-            className="min-w-[120px] border-r border-blue-500 sticky top-0 z-20 bg-blue-100"
           >
-            Aspect
+            Position
           </th>
           <th
+            className="min-w-15 border-r border-blue-500 sticky top-0 z-20 bg-blue-100"
             rowSpan={2}
-            className="min-w-[120px] border-r border-blue-500 sticky top-0 z-20 bg-blue-100"
           >
-            Impact
+            Line Manager
           </th>
           <th
+            className="min-w-15 border-r border-blue-500 sticky top-0 z-20 bg-blue-100"
             rowSpan={2}
-            className="min-w-[160px] border-r border-blue-500 sticky top-0 z-20 bg-blue-100"
           >
-            Affected Receptors
+            Employment Start Date
           </th>
           <th
+            className="min-w-50 border-r border-blue-500 sticky top-0 z-20 bg-blue-100"
             rowSpan={2}
-            className="min-w-[200px] border-r border-blue-500 sticky top-0 z-20 bg-blue-100"
           >
-            Existing Controls
+            Appraisal Date
+          </th>
+          <th
+            className="min-w-50 border-r border-blue-500 sticky top-0 z-20 bg-blue-100"
+            rowSpan={2}
+          >
+            Appraisal Type
+          </th>
+          <th
+            className="min-w-15 border-r border-blue-500 sticky top-0 z-20 bg-blue-100"
+            rowSpan={2}
+          >
+            Tasks Completion Appraisal
           </th>
 
           <th
-            colSpan={5}
-            className="border-r border-blue-500 sticky top-0 z-20 bg-blue-100"
-            style={{ minWidth: 600 }}
+            className="min-w-15 border-r border-blue-500 sticky top-0 z-20 bg-blue-100"
+            rowSpan={2}
           >
-            Initial Determinations Of Significance
-          </th>
-
-          <th
-            colSpan={5}
-            className="border-r border-blue-500 sticky top-0 z-20 bg-blue-100"
-            style={{ minWidth: 600 }}
-          >
-            Residual Determinations Of Significance
+            Skills Appraisal
           </th>
         </tr>
 
-        {/* SUB HEADERS — TEK SATIR */}
-        <tr className="h-[48px]">
-          {/* Initial */}
-          <th className="min-w-[120px] border-r border-blue-500 sticky top-[52px] z-20 bg-blue-200">
-            Probability
-          </th>
-          <th className="min-w-[120px] border-r border-blue-500 sticky top-[52px] z-20 bg-blue-200">
-            Severity
-          </th>
-          <th className="min-w-[120px] border-r border-blue-500 sticky top-[52px] z-20 bg-blue-200">
-            Duration
-          </th>
-          <th className="min-w-[120px] border-r border-blue-500 sticky top-[52px] z-20 bg-blue-200">
-            Scale
-          </th>
-          <th className="min-w-[120px] border-r border-blue-500 sticky top-[52px] z-20 bg-blue-200">
-            Risk Level
-          </th>
-
-          {/* Residual */}
-          <th className="min-w-[120px] border-r border-blue-500 sticky top-[52px] z-20 bg-blue-200">
-            Probability
-          </th>
-          <th className="min-w-[120px] border-r border-blue-500 sticky top-[52px] z-20 bg-blue-200">
-            Severity
-          </th>
-          <th className="min-w-[120px] border-r border-blue-500 sticky top-[52px] z-20 bg-blue-200">
-            Duration
-          </th>
-          <th className="min-w-[120px] border-r border-blue-500 sticky top-[52px] z-20 bg-blue-200">
-            Scale
-          </th>
-          <th className="min-w-[120px] border-r border-blue-500 sticky top-[52px] z-20 bg-blue-200">
-            Risk Level
-          </th>
-        </tr>
+        {/* Second header row - fixed height, sticky at top-12 (48px) */}
       </thead>
     );
   } else {
@@ -189,4 +157,4 @@ const EnvHeaders = ({ activeHeader }) => {
   }
 };
 
-export default EnvHeaders;
+export default EarHeaders;

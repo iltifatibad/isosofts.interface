@@ -1,6 +1,6 @@
 import React, { useState, useEffect, act } from "react";
-import LegBody from "./tabledatas/legrisk.jsx";
-import LegHeaders from "./tableheaders/legheaders.jsx";
+import FBody from "./tabledatas/frisk.jsx";
+import FHeaders from "./tableheaders/fheaders.jsx";
 
 import ReactECharts from "echarts-for-react";
 
@@ -64,7 +64,7 @@ export const hCheckboxChangeForActions =
     });
   };
 
-const LegProfile = () => {
+const FProfile = () => {
   const kpiGaugeOption = {
     tooltip: { formatter: "{a}<br/>{c}%" },
     series: [
@@ -502,7 +502,7 @@ const LegProfile = () => {
     let setter;
     if (showAction) {
       setter = setActionData;
-    } else if (selectedRisk === "leg-reg") {
+    } else if (selectedRisk === "fl-reg") {
       setter = setFormData;
     } else {
       setter = setFormData;
@@ -1147,8 +1147,8 @@ const LegProfile = () => {
               {/* Tablo */}
               <div className="overflow-x-auto max-h-[75vh] overflow-y-auto">
                 <table>
-                  <LegHeaders activeHeader={activeHeader} />
-                  <LegBody
+                  <FHeaders activeHeader={activeHeader} />
+                  <FBody
                     selectedRows={selectedRows}
                     selectedRowsForActions={selectedRowsForActions}
                     showArchived={showArchived}
@@ -2076,4 +2076,4 @@ const LegProfile = () => {
   );
 };
 
-export default LegProfile;
+export default FProfile;

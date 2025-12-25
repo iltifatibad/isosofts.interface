@@ -2,7 +2,6 @@ import React, { useState, useEffect, act } from "react";
 import TrBody from "./tabledatas/trrisk.jsx";
 import TrHeaders from "./tableheaders/trheaders.jsx";
 
-
 import ReactECharts from "echarts-for-react";
 
 export const hCheckboxChange =
@@ -334,7 +333,7 @@ const TrProfile = () => {
     console.log("ACTIVE HEADERRRRR : ", activeHeader);
     if (activeHeader) {
       setShowDeleted((prev) => !prev);
-      setShowArchived((false));
+      setShowArchived(false);
       selectedRows.clear();
       setSelectedTable([]);
     } else {
@@ -359,14 +358,14 @@ const TrProfile = () => {
     const dropdownData = await getDefaultDropdownList();
     if (activeHeader) {
       setFormData({
-            name: "",
-    serialNumber: "",
-    clname: "",
-    certificateNo: "",
-    inspectionFrequency: "",
-    icd: "",
-    nvcd: "",
-    competencyStatus: 0,
+        name: "",
+        serialNumber: "",
+        clname: "",
+        certificateNo: "",
+        inspectionFrequency: "",
+        icd: "",
+        nvcd: "",
+        competencyStatus: 0,
       });
       setShowModal(true);
     } else {
@@ -417,17 +416,23 @@ const TrProfile = () => {
           {
             title: row.title,
             raiseDate: row.raiseDate,
-            resources: parseInt(row.resources?.id) || parseInt(row.resources) || 0,
-            currency: "", 
-            relativeFunction: row.relativeFunction?.id || String(row.relativeFunction) || "",
+            resources:
+              parseInt(row.resources?.id) || parseInt(row.resources) || 0,
+            currency: "",
+            relativeFunction:
+              row.relativeFunction?.id || String(row.relativeFunction) || "",
             responsible: row.responsible?.id || String(row.responsible) || "",
             deadline: row.deadline,
-            confirmation: row.confirmation?.id || String(row.confirmation) || "",
+            confirmation:
+              row.confirmation?.id || String(row.confirmation) || "",
             status: row.status?.id || parseInt(row.status) || "",
             completionDate: row.completionDate || "",
-            verificationStatus: row.verificationStatus?.id || parseInt(row.verificationStatus) || "",
+            verificationStatus:
+              row.verificationStatus?.id ||
+              parseInt(row.verificationStatus) ||
+              "",
             comment: row.comment || "",
-            january: row.january?.id || String(row.january) ||"",
+            january: row.january?.id || String(row.january) || "",
             february: row.february?.id || String(row.february) || "",
             march: row.march?.id || String(row.march) || "",
             april: row.april?.id || String(row.april) || "",
@@ -491,7 +496,7 @@ const TrProfile = () => {
     } else if (selectedRisk === "tr-reg") {
       setter = setFormData;
     } else {
-      setter = setFormData; 
+      setter = setFormData;
     }
 
     if (typeof arg1 === "string") {
@@ -606,9 +611,9 @@ const TrProfile = () => {
             } else {
               setSelectedTable([payload]);
               setFormData([payload]);
-            console.log("Kayıt başarıyla kaydedildi. Yeni state:", [payload]);
-                    }
-                  })
+              console.log("Kayıt başarıyla kaydedildi. Yeni state:", [payload]);
+            }
+          })
           .catch((error) => console.error("Hata:", error));
         setRefresh(true);
       } else {
@@ -663,7 +668,6 @@ const TrProfile = () => {
               setActionData([payload]);
               setSelectedTableForActions([payload]);
               console.log("SELECTED actionData ", actionData);
-
 
               console.log("Kayıt başarıyla kaydedildi.");
             }
@@ -1038,7 +1042,7 @@ const TrProfile = () => {
                     disabled={selectedCount !== 1}
                     className={[
                       "!rounded-button whitespace-nowrap cursor-pointer bg-white text-blue-600 px-4 py-2 hover:bg-gray-50 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
-                      !(selectedCount >= 1 && selectedCount <2)
+                      !(selectedCount >= 1 && selectedCount < 2)
                         ? "opacity-50 cursor-not-allowed"
                         : "",
                       showAction ? "" : "",
@@ -1051,7 +1055,9 @@ const TrProfile = () => {
                   <div className="flex space-x-2">
                     <button
                       onClick={editSingle}
-                      disabled={!(selectedCount === 1 || selectedCountForActions === 1)}
+                      disabled={
+                        !(selectedCount === 1 || selectedCountForActions === 1)
+                      }
                       className={[
                         "!rounded-button whitespace-nowrap cursor-pointer bg-white text-blue-600 px-4 py-2 hover:bg-gray-50 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
                         !(selectedCount === 1 || selectedCountForActions === 1)
@@ -1238,15 +1244,15 @@ const TrProfile = () => {
                         Competency Status
                       </label>
                       <select
-                          value={formData.competencyStatus}
-                          onChange={(e) =>
-                              handleFormChange("competencyStatus", e.target.value)
-                          }
-                          className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                        value={formData.competencyStatus}
+                        onChange={(e) =>
+                          handleFormChange("competencyStatus", e.target.value)
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                       >
-                          <option value="">Seçiniz</option>
-                          <option value="0">0</option>
-                          <option value="1">1</option>
+                        <option value="">Seçiniz</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
                       </select>
                     </div>
                   </div>
@@ -1402,11 +1408,13 @@ const TrProfile = () => {
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
                                   <option value="">Seçiniz</option>
-                                  {dropdownData?.affectedPosition?.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.value}
-                                    </option>
-                                  ))}
+                                  {dropdownData?.affectedPosition?.map(
+                                    (item) => (
+                                      <option key={item.id} value={item.id}>
+                                        {item.value}
+                                      </option>
+                                    ),
+                                  )}
                                 </select>
                               </div>
 

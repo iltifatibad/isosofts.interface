@@ -1,6 +1,6 @@
 import React, { useState, useEffect, act } from "react";
-import LegBody from "./tabledatas/legrisk.jsx";
-import LegHeaders from "./tableheaders/legheaders.jsx";
+import MRMBody from "./tabledatas/mrmrisk.jsx";
+import MRMHeaders from "./tableheaders/mrmheaders.jsx";
 
 import ReactECharts from "echarts-for-react";
 
@@ -64,7 +64,7 @@ export const hCheckboxChangeForActions =
     });
   };
 
-const LegProfile = () => {
+const MRMProfile = () => {
   const kpiGaugeOption = {
     tooltip: { formatter: "{a}<br/>{c}%" },
     series: [
@@ -502,7 +502,7 @@ const LegProfile = () => {
     let setter;
     if (showAction) {
       setter = setActionData;
-    } else if (selectedRisk === "leg-reg") {
+    } else if (selectedRisk === "mr-reg") {
       setter = setFormData;
     } else {
       setter = setFormData;
@@ -1147,8 +1147,8 @@ const LegProfile = () => {
               {/* Tablo */}
               <div className="overflow-x-auto max-h-[75vh] overflow-y-auto">
                 <table>
-                  <LegHeaders activeHeader={activeHeader} />
-                  <LegBody
+                  <MRMHeaders activeHeader={activeHeader} />
+                  <MRMBody
                     selectedRows={selectedRows}
                     selectedRowsForActions={selectedRowsForActions}
                     showArchived={showArchived}
@@ -2076,4 +2076,4 @@ const LegProfile = () => {
   );
 };
 
-export default LegProfile;
+export default MRMProfile;

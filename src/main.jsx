@@ -9,12 +9,12 @@ import Profile from "../components/profile.jsx";
 import RiskRouter from "../components/riskrouter.jsx";
 
 createRoot(document.getElementById("root")).render(
-    <BrowserRouter>
-      <Nav />
-      <Routes>
-        <Route path="/" element={<Mai />} />
-        <Route path="/profile" element={<RiskRouter />} />
-        <Route path="/app" element={<App />} />
-      </Routes>
-    </BrowserRouter>
+  <BrowserRouter>
+    <Nav />
+    <Routes>
+      <Route path="/" element={<Mai />} />
+      <Route path="/profile" element={<RiskRouter />} />
+      <Route path="/app" element={<App />} />
+    </Routes>
+  </BrowserRouter>,
 );

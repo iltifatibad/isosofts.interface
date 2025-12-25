@@ -72,8 +72,7 @@ const TrBody = ({
           setRefresh(false);
         }, 500);
         return () => clearTimeout(timer); // cleanup
-
-      } else if (activeHeader == false & showDeletedAction == true) {
+      } else if ((activeHeader == false) & (showDeletedAction == true)) {
         const timer = setTimeout(() => {
           getDeletedActionData();
           console.log("HERE HERE HERE");
@@ -132,7 +131,6 @@ const TrBody = ({
       const fetchedData = await response.json();
       setDeletedActionData(fetchedData || []); // Veri set et, fallback []
       console.log("Arşiv Action verileri:", fetchedData);
-      
     } catch (err) {
       console.error("Error While Fetching Deleted Datas:", err);
       setDeletedActionData([]); // Hata durumunda boş array set et (null değil!)
@@ -290,7 +288,7 @@ const TrBody = ({
                     </div>
                   </td>
 
-                                    <td
+                  <td
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
@@ -336,7 +334,7 @@ const TrBody = ({
                     )}
                   </td>
 
-                {/* Inspection Frequency */}
+                  {/* Inspection Frequency */}
                   <td
                     className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
@@ -426,7 +424,7 @@ const TrBody = ({
                     </div>
                   </td>
 
-                                    <td
+                  <td
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
@@ -472,7 +470,7 @@ const TrBody = ({
                     )}
                   </td>
 
-                {/* Inspection Frequency */}
+                  {/* Inspection Frequency */}
                   <td
                     className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
@@ -884,7 +882,7 @@ const TrBody = ({
                     )}
                   </td>
 
-                {/* Inspection Frequency */}
+                  {/* Inspection Frequency */}
                   <td
                     className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}

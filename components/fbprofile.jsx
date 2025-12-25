@@ -1,6 +1,6 @@
 import React, { useState, useEffect, act } from "react";
-import LegBody from "./tabledatas/legrisk.jsx";
-import LegHeaders from "./tableheaders/legheaders.jsx";
+import FbBody from "./tabledatas/fbrisk.jsx";
+import FbHeaders from "./tableheaders/fbheaders.jsx";
 
 import ReactECharts from "echarts-for-react";
 
@@ -64,7 +64,7 @@ export const hCheckboxChangeForActions =
     });
   };
 
-const LegProfile = () => {
+const FbProfile = () => {
   const kpiGaugeOption = {
     tooltip: { formatter: "{a}<br/>{c}%" },
     series: [
@@ -502,7 +502,7 @@ const LegProfile = () => {
     let setter;
     if (showAction) {
       setter = setActionData;
-    } else if (selectedRisk === "leg-reg") {
+    } else if (selectedRisk === "fb-reg") {
       setter = setFormData;
     } else {
       setter = setFormData;
@@ -1026,7 +1026,7 @@ const LegProfile = () => {
                     className="!rounded-button whitespace-nowrap cursor-pointer bg-white text-blue-600 px-4 py-2 hover:bg-gray-50 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm"
                   >
                     <i className="fas fa-plus mr-2 text-blue-600 hover:text-blue-700"></i>
-                    {!showAction ? "Add Risk" : "Add Action"}
+                    {!showAction ? "Add Risk" : "Add Feedback"}
                   </button>
                   <button
                     onClick={toggleArchiveView}
@@ -1051,8 +1051,8 @@ const LegProfile = () => {
                         ? "Hide Deleted"
                         : "Show Deleted"
                       : showDeletedAction
-                        ? "Hide Deleted Action"
-                        : "Show Deleted Action"}
+                        ? "Hide Deleted Feedback"
+                        : "Show Deleted Feedback"}
                   </button>
                   <button
                     onClick={toggleActionView}
@@ -1066,7 +1066,7 @@ const LegProfile = () => {
                     ].join(" ")}
                   >
                     <i className="fas fa-archive mr-2 text-blue-600 hover:text-blue-700"></i>
-                    {showAction ? "Hide Action" : "Show Action"}
+                    {showAction ? "Hide Feedback" : "Show Feedback"}
                   </button>
                   {/* Actions butonları */}
                   <div className="flex space-x-2">
@@ -1147,8 +1147,8 @@ const LegProfile = () => {
               {/* Tablo */}
               <div className="overflow-x-auto max-h-[75vh] overflow-y-auto">
                 <table>
-                  <LegHeaders activeHeader={activeHeader} />
-                  <LegBody
+                  <FbHeaders activeHeader={activeHeader} />
+                  <FbBody
                     selectedRows={selectedRows}
                     selectedRowsForActions={selectedRowsForActions}
                     showArchived={showArchived}
@@ -2035,7 +2035,7 @@ const LegProfile = () => {
                   onClick={saveRisk}
                   className="!rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-2 hover:from-blue-600 hover:to-blue-800 transition-all duration-300"
                 >
-                  {modalMode === "add" ? "Add Action" : "Update Action"}
+                  {modalMode === "add" ? "Add Feedback" : "Update Action"}
                 </button>
               </div>
             </div>
@@ -2076,4 +2076,4 @@ const LegProfile = () => {
   );
 };
 
-export default LegProfile;
+export default FbProfile;

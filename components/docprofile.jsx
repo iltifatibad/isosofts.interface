@@ -2,7 +2,6 @@ import React, { useState, useEffect, act } from "react";
 import DocBody from "./tabledatas/docrisk.jsx";
 import DocHeaders from "./tableheaders/docheaders.jsx";
 
-
 import ReactECharts from "echarts-for-react";
 
 export const hCheckboxChange =
@@ -207,18 +206,18 @@ const DocProfile = () => {
   const [modalMode, setModalMode] = useState("add");
   const [editingRow, setEditingRow] = useState(null);
   const [formData, setFormData] = useState({
-          name: "",
-          origin: "",
-          number: "",
-          type: "",
-          depntFunctionName: "",
-          serialNumber: "",
-          revNumber: "",
-          issuer: "",
-          approver: "",
-          issueDate: "",
-          nextReviewDate: "",
-          actual: 0,
+    name: "",
+    origin: "",
+    number: "",
+    type: "",
+    depntFunctionName: "",
+    serialNumber: "",
+    revNumber: "",
+    issuer: "",
+    approver: "",
+    issueDate: "",
+    nextReviewDate: "",
+    actual: 0,
   });
 
   const [formDataHs, setFormDataHs] = useState({
@@ -337,7 +336,7 @@ const DocProfile = () => {
     console.log("ACTIVE HEADERRRRR : ", activeHeader);
     if (activeHeader) {
       setShowDeleted((prev) => !prev);
-      setShowArchived((false));
+      setShowArchived(false);
       selectedRows.clear();
       setSelectedTable([]);
     } else {
@@ -362,18 +361,18 @@ const DocProfile = () => {
     const dropdownData = await getDefaultDropdownList();
     if (activeHeader) {
       setFormData({
-          name: "",
-          origin: "",
-          number: "",
-          depntFunctionName: "",
-          type: "",
-          serialNumber: "",
-          revNumber: "",
-          issuer: "",
-          approver: "",
-          issueDate: "",
-          nextReviewDate: "",
-          actual: 0,
+        name: "",
+        origin: "",
+        number: "",
+        depntFunctionName: "",
+        type: "",
+        serialNumber: "",
+        revNumber: "",
+        issuer: "",
+        approver: "",
+        issueDate: "",
+        nextReviewDate: "",
+        actual: 0,
       });
       setShowModal(true);
     } else {
@@ -410,18 +409,19 @@ const DocProfile = () => {
   const openEditModal = async (row) => {
     if (activeHeader) {
       setFormData({
-          name: row.name,
-          origin: row.origin.id || String(row.origin),
-          number: row.number,
-          depntFunctionName: row.origin.depntFunctionName || String(row.depntFunctionName),
-          type: row.type.id || String(row.type),
-          serialNumber: row.serialNumber,
-          revNumber: row.revNumber,
-          issuer: row.issuer,
-          approver: row.approver,
-          issueDate: row.issueDate,
-          nextReviewDate: row.nextReviewDate,
-          actual: row.actual,
+        name: row.name,
+        origin: row.origin.id || String(row.origin),
+        number: row.number,
+        depntFunctionName:
+          row.origin.depntFunctionName || String(row.depntFunctionName),
+        type: row.type.id || String(row.type),
+        serialNumber: row.serialNumber,
+        revNumber: row.revNumber,
+        issuer: row.issuer,
+        approver: row.approver,
+        issueDate: row.issueDate,
+        nextReviewDate: row.nextReviewDate,
+        actual: row.actual,
       });
     } else {
       setActionData({
@@ -429,17 +429,23 @@ const DocProfile = () => {
           {
             title: row.title,
             raiseDate: row.raiseDate,
-            resources: parseInt(row.resources?.id) || parseInt(row.resources) || 0,
-            currency: "", 
-            relativeFunction: row.relativeFunction?.id || String(row.relativeFunction) || "",
+            resources:
+              parseInt(row.resources?.id) || parseInt(row.resources) || 0,
+            currency: "",
+            relativeFunction:
+              row.relativeFunction?.id || String(row.relativeFunction) || "",
             responsible: row.responsible?.id || String(row.responsible) || "",
             deadline: row.deadline,
-            confirmation: row.confirmation?.id || String(row.confirmation) || "",
+            confirmation:
+              row.confirmation?.id || String(row.confirmation) || "",
             status: row.status?.id || parseInt(row.status) || "",
             completionDate: row.completionDate || "",
-            verificationStatus: row.verificationStatus?.id || parseInt(row.verificationStatus) || "",
+            verificationStatus:
+              row.verificationStatus?.id ||
+              parseInt(row.verificationStatus) ||
+              "",
             comment: row.comment || "",
-            january: row.january?.id || String(row.january) ||"",
+            january: row.january?.id || String(row.january) || "",
             february: row.february?.id || String(row.february) || "",
             march: row.march?.id || String(row.march) || "",
             april: row.april?.id || String(row.april) || "",
@@ -503,7 +509,7 @@ const DocProfile = () => {
     } else if (selectedRisk === "doc-reg") {
       setter = setFormData;
     } else {
-      setter = setFormData; 
+      setter = setFormData;
     }
 
     if (typeof arg1 === "string") {
@@ -525,8 +531,8 @@ const DocProfile = () => {
           name: formData.name,
           origin: formData.origin,
           number: formData.number,
-          type: formData.type,
-          depntFunctionName: formData.depntFunctionName,
+          type: parseInt(formData.type),
+          depntFunctionName: parseInt(formData.depntFunctionName),
           serialNumber: formData.serialNumber,
           revNumber: formData.revNumber,
           issuer: formData.issuer,
@@ -601,18 +607,18 @@ const DocProfile = () => {
     } else {
       if (!showAction) {
         const payload = {
-            name: formData.name,
-            origin: formData.origin,
-            number: formData.number,
-            type: formData.type,
-            depntFunctionName: formData.depntFunctionName,
-            serialNumber: formData.serialNumber,
-            revNumber: formData.revNumber,
-            issuer: formData.issuer,
-            approver: formData.approver,
-            issueDate: formData.issueDate,
-            nextReviewDate: formData.nextReviewDate,
-            actual: formData.actual,
+          name: formData.name,
+          origin: formData.origin,
+          number: formData.number,
+          type: formData.type,
+          depntFunctionName: formData.depntFunctionName,
+          serialNumber: formData.serialNumber,
+          revNumber: formData.revNumber,
+          issuer: formData.issuer,
+          approver: formData.approver,
+          issueDate: formData.issueDate,
+          nextReviewDate: formData.nextReviewDate,
+          actual: formData.actual,
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
         const url =
@@ -628,9 +634,9 @@ const DocProfile = () => {
             } else {
               setSelectedTable([payload]);
               setFormData([payload]);
-            console.log("Kayıt başarıyla kaydedildi. Yeni state:", [payload]);
-                    }
-                  })
+              console.log("Kayıt başarıyla kaydedildi. Yeni state:", [payload]);
+            }
+          })
           .catch((error) => console.error("Hata:", error));
         setRefresh(true);
       } else {
@@ -685,7 +691,6 @@ const DocProfile = () => {
               setActionData([payload]);
               setSelectedTableForActions([payload]);
               console.log("SELECTED actionData ", actionData);
-
 
               console.log("Kayıt başarıyla kaydedildi.");
             }
@@ -1060,7 +1065,7 @@ const DocProfile = () => {
                     disabled={selectedCount !== 1}
                     className={[
                       "!rounded-button whitespace-nowrap cursor-pointer bg-white text-blue-600 px-4 py-2 hover:bg-gray-50 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
-                      !(selectedCount >= 1 && selectedCount <2)
+                      !(selectedCount >= 1 && selectedCount < 2)
                         ? "opacity-50 cursor-not-allowed"
                         : "",
                       showAction ? "" : "",
@@ -1073,7 +1078,9 @@ const DocProfile = () => {
                   <div className="flex space-x-2">
                     <button
                       onClick={editSingle}
-                      disabled={!(selectedCount === 1 || selectedCountForActions === 1)}
+                      disabled={
+                        !(selectedCount === 1 || selectedCountForActions === 1)
+                      }
                       className={[
                         "!rounded-button whitespace-nowrap cursor-pointer bg-white text-blue-600 px-4 py-2 hover:bg-gray-50 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
                         !(selectedCount === 1 || selectedCountForActions === 1)
@@ -1225,54 +1232,57 @@ const DocProfile = () => {
                         ))}
                       </select>
                     </div>
-                        
+
                     {formData.origin === "Su1o957i68896Jz58zz3hkW9C62H25" && (
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           Departamen / Function Name
                         </label>
                         <select
-                        value={formData.depntFunctionName || ""} // Null-safe
-                        onChange={(e) => {
-                          console.log(
-                            "Select onChange tetiklendi! Yeni value:",
-                            e.target.value,
-                          ); // Debug: Bu çıkmıyorsa onChange patlıyor
-                          handleFormChange("depntFunctionName.id", e.target.value); // String path + value – obje değil!
-                        }}
-                      >
-                        <option value="">Seçiniz</option>
-                        {dropdownData?.depntFunctionName?.map((item) => (
-                          <option key={item.id} value={item.id}>
-                            {item.value}
-                          </option>
-                        ))}
-                      </select>
+                          value={formData.depntFunctionName?.id || ""} // Null-safe
+                          onChange={(e) => {
+                            console.log(
+                              "Select onChange tetiklendi! Yeni value:",
+                              e.target.value,
+                            ); // Debug: Bu çıkmıyorsa onChange patlıyor
+                            handleFormChange(
+                              "depntFunctionName.id",
+                              e.target.value,
+                            ); // String path + value – obje değil!
+                          }}
+                        >
+                          <option value="">Seçiniz</option>
+                          {dropdownData?.depntFunctionName?.map((item) => (
+                            <option key={item.id} value={item.id}>
+                              {item.value}
+                            </option>
+                          ))}
+                        </select>
                       </div>
                     )}
 
-                      {formData.origin === "Su1o957i68896Jz58zz3hkW9C62H25" && (
+                    {formData.origin === "Su1o957i68896Jz58zz3hkW9C62H25" && (
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           Type
                         </label>
                         <select
-                        value={formData.type || ""} // Null-safe
-                        onChange={(e) => {
-                          console.log(
-                            "Select onChange tetiklendi! Yeni value:",
-                            e.target.value,
-                          ); // Debug: Bu çıkmıyorsa onChange patlıyor
-                          handleFormChange("type.id", e.target.value); // String path + value – obje değil!
-                        }}
-                      >
-                        <option value="">Seçiniz</option>
-                        {dropdownData?.documentType?.map((item) => (
-                          <option key={item.id} value={item.id}>
-                            {item.value}
-                          </option>
-                        ))}
-                      </select>
+                          value={formData.type?.id || ""} // Null-safe
+                          onChange={(e) => {
+                            console.log(
+                              "Select onChange tetiklendi! Yeni value:",
+                              e.target.value,
+                            ); // Debug: Bu çıkmıyorsa onChange patlıyor
+                            handleFormChange("type.id", e.target.value); // String path + value – obje değil!
+                          }}
+                        >
+                          <option value="">Seçiniz</option>
+                          {dropdownData?.documentType?.map((item) => (
+                            <option key={item.id} value={item.id}>
+                              {item.value}
+                            </option>
+                          ))}
+                        </select>
                       </div>
                     )}
 
@@ -1282,13 +1292,13 @@ const DocProfile = () => {
                           Number
                         </label>
                         <input
-                        value={formData.number}
-                        onChange={(e) =>
-                          handleFormChange("number", e.target.value)
-                        }
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                      />
+                          value={formData.number?.id}
+                          onChange={(e) =>
+                            handleFormChange("number", e.target.value)
+                          }
+                          type="text"
+                          className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                        />
                       </div>
                     )}
 
@@ -1349,9 +1359,9 @@ const DocProfile = () => {
                         Issue Date
                       </label>
                       <input
-                        value={formData.revNumber}
+                        value={formData.issueDate}
                         onChange={(e) =>
-                          handleFormChange("revNumber", e.target.value)
+                          handleFormChange("issueDate", e.target.value)
                         }
                         type="text"
                         className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
@@ -1362,9 +1372,9 @@ const DocProfile = () => {
                         Next Review Date
                       </label>
                       <input
-                        value={formData.revNumber}
+                        value={formData.nextReviewDate}
                         onChange={(e) =>
-                          handleFormChange("revNumber", e.target.value)
+                          handleFormChange("nextReviewDate", e.target.value)
                         }
                         type="text"
                         className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
@@ -1375,9 +1385,9 @@ const DocProfile = () => {
                         Actual
                       </label>
                       <select
-                        value={formData.revNumber}
+                        value={formData.actual}
                         onChange={(e) =>
-                          handleFormChange("revNumber", e.target.value)
+                          handleFormChange("actual", e.target.value)
                         }
                         className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                       >
@@ -1385,7 +1395,6 @@ const DocProfile = () => {
                         <option value={1}>1</option>
                       </select>
                     </div>
-
                   </div>
                 </div>
               </div>
@@ -1539,11 +1548,13 @@ const DocProfile = () => {
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
                                   <option value="">Seçiniz</option>
-                                  {dropdownData?.affectedPosition?.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.value}
-                                    </option>
-                                  ))}
+                                  {dropdownData?.affectedPosition?.map(
+                                    (item) => (
+                                      <option key={item.id} value={item.id}>
+                                        {item.value}
+                                      </option>
+                                    ),
+                                  )}
                                 </select>
                               </div>
 

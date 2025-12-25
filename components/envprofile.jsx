@@ -2,7 +2,6 @@ import React, { useState, useEffect, act } from "react";
 import EnvBody from "./tabledatas/envrisk.jsx";
 import EnvHeaders from "./tableheaders/envheaders.jsx";
 
-
 import ReactECharts from "echarts-for-react";
 
 export const hCheckboxChange =
@@ -342,7 +341,7 @@ const EnvProfile = () => {
     console.log("ACTIVE HEADERRRRR : ", activeHeader);
     if (activeHeader) {
       setShowDeleted((prev) => !prev);
-      setShowArchived((false));
+      setShowArchived(false);
       selectedRows.clear();
       setSelectedTable([]);
     } else {
@@ -366,22 +365,22 @@ const EnvProfile = () => {
     setEditingRow(null);
     const dropdownData = await getDefaultDropdownList();
     if (activeHeader) {
-    setFormData({
-    id: 0,
-    process: "",
-    aspect: "",
-    impact: "",
-    affectedReceptors: "",
-    existingControls: "",
-    idosProbability: 0,
-    idosSeverity: 0,
-    idosDuration: 0,
-    idosScale: 0,
-    rdosProbability: 0,
-    rdosSeverity: 0,
-    rdosDuration: 0,
-    rdosScale: 0,
-    riskLevel: 0,
+      setFormData({
+        id: 0,
+        process: "",
+        aspect: "",
+        impact: "",
+        affectedReceptors: "",
+        existingControls: "",
+        idosProbability: 0,
+        idosSeverity: 0,
+        idosDuration: 0,
+        idosScale: 0,
+        rdosProbability: 0,
+        rdosSeverity: 0,
+        rdosDuration: 0,
+        rdosScale: 0,
+        riskLevel: 0,
       });
       setShowModal(true);
     } else {
@@ -421,7 +420,8 @@ const EnvProfile = () => {
         process: row.process.id || String(row.process),
         aspect: row.aspect.id || String(row.aspect),
         impact: row.impact,
-        affectedReceptors: row.affectedReceptors.id || String(row.affectedReceptors),
+        affectedReceptors:
+          row.affectedReceptors.id || String(row.affectedReceptors),
         existingControls: row.existingControls,
         riskOfViolation: row.riskOfViolation,
         idosProbability: row.idosProbability,
@@ -439,17 +439,23 @@ const EnvProfile = () => {
           {
             title: row.title,
             raiseDate: row.raiseDate,
-            resources: parseInt(row.resources?.id) || parseInt(row.resources) || 0,
-            currency: "", 
-            relativeFunction: row.relativeFunction?.id || String(row.relativeFunction) || "",
+            resources:
+              parseInt(row.resources?.id) || parseInt(row.resources) || 0,
+            currency: "",
+            relativeFunction:
+              row.relativeFunction?.id || String(row.relativeFunction) || "",
             responsible: row.responsible?.id || String(row.responsible) || "",
             deadline: row.deadline,
-            confirmation: row.confirmation?.id || String(row.confirmation) || "",
+            confirmation:
+              row.confirmation?.id || String(row.confirmation) || "",
             status: row.status?.id || parseInt(row.status) || "",
             completionDate: row.completionDate || "",
-            verificationStatus: row.verificationStatus?.id || parseInt(row.verificationStatus) || "",
+            verificationStatus:
+              row.verificationStatus?.id ||
+              parseInt(row.verificationStatus) ||
+              "",
             comment: row.comment || "",
-            january: row.january?.id || String(row.january) ||"",
+            january: row.january?.id || String(row.january) || "",
             february: row.february?.id || String(row.february) || "",
             march: row.march?.id || String(row.march) || "",
             april: row.april?.id || String(row.april) || "",
@@ -513,7 +519,7 @@ const EnvProfile = () => {
     } else if (selectedRisk === "env-reg") {
       setter = setFormData;
     } else {
-      setter = setFormData; 
+      setter = setFormData;
     }
 
     if (typeof arg1 === "string") {
@@ -644,9 +650,9 @@ const EnvProfile = () => {
             } else {
               setSelectedTable([payload]);
               setFormData([payload]);
-            console.log("Kayıt başarıyla kaydedildi. Yeni state:", [payload]);
-                    }
-                  })
+              console.log("Kayıt başarıyla kaydedildi. Yeni state:", [payload]);
+            }
+          })
           .catch((error) => console.error("Hata:", error));
         setRefresh(true);
       } else {
@@ -701,7 +707,6 @@ const EnvProfile = () => {
               setActionData([payload]);
               setSelectedTableForActions([payload]);
               console.log("SELECTED actionData ", actionData);
-
 
               console.log("Kayıt başarıyla kaydedildi.");
             }
@@ -1076,7 +1081,7 @@ const EnvProfile = () => {
                     disabled={selectedCount !== 1}
                     className={[
                       "!rounded-button whitespace-nowrap cursor-pointer bg-white text-blue-600 px-4 py-2 hover:bg-gray-50 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
-                      !(selectedCount >= 1 && selectedCount <2)
+                      !(selectedCount >= 1 && selectedCount < 2)
                         ? "opacity-50 cursor-not-allowed"
                         : "",
                       showAction ? "" : "",
@@ -1089,7 +1094,9 @@ const EnvProfile = () => {
                   <div className="flex space-x-2">
                     <button
                       onClick={editSingle}
-                      disabled={!(selectedCount === 1 || selectedCountForActions === 1)}
+                      disabled={
+                        !(selectedCount === 1 || selectedCountForActions === 1)
+                      }
                       className={[
                         "!rounded-button whitespace-nowrap cursor-pointer bg-white text-blue-600 px-4 py-2 hover:bg-gray-50 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
                         !(selectedCount === 1 || selectedCountForActions === 1)
@@ -1449,7 +1456,7 @@ const EnvProfile = () => {
                       </div>
                     </div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                       Residual Duration
+                      Residual Duration
                     </label>
                     <div className="grid grid-cols-3 gap-2">
                       <select
@@ -1647,11 +1654,13 @@ const EnvProfile = () => {
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
                                   <option value="">Seçiniz</option>
-                                  {dropdownData?.affectedPosition?.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.value}
-                                    </option>
-                                  ))}
+                                  {dropdownData?.affectedPosition?.map(
+                                    (item) => (
+                                      <option key={item.id} value={item.id}>
+                                        {item.value}
+                                      </option>
+                                    ),
+                                  )}
                                 </select>
                               </div>
 

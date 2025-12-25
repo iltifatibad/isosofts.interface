@@ -72,8 +72,7 @@ const MyTableBody = ({
           setRefresh(false);
         }, 500);
         return () => clearTimeout(timer); // cleanup
-
-      } else if (activeHeader == false & showDeletedAction == true) {
+      } else if ((activeHeader == false) & (showDeletedAction == true)) {
         const timer = setTimeout(() => {
           getDeletedActionData();
           console.log("HERE HERE HERE");
@@ -132,7 +131,6 @@ const MyTableBody = ({
       const fetchedData = await response.json();
       setDeletedActionData(fetchedData || []); // Veri set et, fallback []
       console.log("Arşiv Action verileri:", fetchedData);
-      
     } catch (err) {
       console.error("Error While Fetching Deleted Datas:", err);
       setDeletedActionData([]); // Hata durumunda boş array set et (null değil!)
