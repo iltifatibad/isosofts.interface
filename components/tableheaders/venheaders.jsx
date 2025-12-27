@@ -94,16 +94,16 @@ const VenHeaders = ({ activeHeader }) => {
 
         <tr className="h-[48px]">
           <th className="min-w-[120px] border-r border-blue-500 sticky top-[52px] z-20 bg-blue-200">
-            Probability
+            Quality Of Goods / Services
           </th>
           <th className="min-w-[120px] border-r border-blue-500 sticky top-[52px] z-20 bg-blue-200">
-            Severity
+            Communication
           </th>
           <th className="min-w-[120px] border-r border-blue-500 sticky top-[52px] z-20 bg-blue-200">
-            Duration
+            On - Time Delivery
           </th>
           <th className="min-w-[120px] border-r border-blue-500 sticky top-[52px] z-20 bg-blue-200">
-            Scale
+            Documentation
           </th>
         </tr>
 

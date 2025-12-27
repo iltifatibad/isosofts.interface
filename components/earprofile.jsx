@@ -208,16 +208,14 @@ const EarProfile = () => {
   //////////////////////////////////////
   const [formData, setFormData] = useState({
     id: 0,
-    process: "",
-    legislation: "",
-    section: "",
-    requirement: "",
-    riskOfViolation: "",
-    affectedPosition: "",
-    initialRiskSeverity: 0,
-    initialRiskLikelihood: 0,
-    residualRiskSeverity: 0,
-    residualRiskLikelihood: 0,
+    employee: "",
+    position: "",
+    lineManager: "",
+    esd: "",
+    appraisalDate: "",
+    appraisalType: "",
+    tca: "",
+    skillsAppraisal: "",
   });
 
   const [formDataHs, setFormDataHs] = useState({
@@ -361,17 +359,15 @@ const EarProfile = () => {
     const dropdownData = await getDefaultDropdownList();
     if (activeHeader) {
       setFormData({
-        id: 0,
-        process: "",
-        legislation: "",
-        section: "",
-        requirement: "",
-        riskOfViolation: "",
-        affectedPosition: "",
-        initialRiskSeverity: 0,
-        initialRiskLikelihood: 0,
-        residualRiskSeverity: 0,
-        residualRiskLikelihood: 0,
+    id: 0,
+    employee: "",
+    position: "",
+    lineManager: "",
+    esd: "",
+    appraisalDate: "",
+    appraisalType: "",
+    tca: "",
+    skillsAppraisal: "",
       });
       setShowModal(true);
     } else {
@@ -408,16 +404,15 @@ const EarProfile = () => {
   const openEditModal = async (row) => {
     if (activeHeader) {
       setFormData({
-        process: row.process.id || String(row.process),
-        legislation: row.legislation,
-        section: row.section,
-        requirement: row.requirement,
-        affectedPosition: String(row.affectedPosition),
-        riskOfViolation: row.riskOfViolation,
-        initialRiskSeverity: row.initialRiskSeverity,
-        initialRiskLikelyhood: row.initialRiskLikelyhood,
-        residualRiskSeverity: row.residualRiskSeverity,
-        residualRiskLikelyhood: row.residualRiskLikelyhood,
+            id: 0,
+    employee: row.employee,
+    position: row.position,
+    lineManager: row.lineManager,
+    esd: row.esf,
+    appraisalDate: row.appraisalDate,
+    appraisalType: row.appraisalType,
+    tca: row.tca,
+    skillsAppraisal: row.skillsAppraisal,
       });
     } else {
       setActionData({
@@ -524,20 +519,18 @@ const EarProfile = () => {
     if (modalMode === "add") {
       if (!showAction) {
         const payload = {
-          process: formData.process,
-          legislation: formData.legislation,
-          section: formData.section,
-          affectedPositions: formData.affectedPosition,
-          requirement: formData.requirement,
-          riskOfViolation: formData.riskOfViolation,
-          initialRiskSeverity: formData.initialRiskSeverity, // Number
-          initialRiskLikelyhood: formData.initialRiskLikelyhood, // Number, spelling uyumlu
-          residualRiskSeverity: formData.residualRiskSeverity,
-          residualRiskLikelyhood: formData.residualRiskLikelyhood,
+    employee: formData.employee,
+    position: formData.position,
+    lineManager: formData.lineManager,
+    esd: formData.esf,
+    appraisalDate: formData.appraisalDate,
+    appraisalType: formData.appraisalType,
+    tca: formData.tca,
+    skillsAppraisal: formData.skillsAppraisal,
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
 
-        fetch("http://localhost:8000/api/register/leg/one", {
+        fetch("http://localhost:8000/api/register/ea/one", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload), // Direkt obje – array yapma!
@@ -602,21 +595,18 @@ const EarProfile = () => {
       if (!showAction) {
         const payload = {
           id: selectedTable[0].id,
-          process: formData.process,
-          legislation: formData.legislation,
-          section: formData.section,
-          affectedPositions: formData.affectedPosition,
-          affectedPosition: formData.affectedPosition,
-          requirement: formData.requirement,
-          riskOfViolation: formData.riskOfViolation,
-          initialRiskSeverity: formData.initialRiskSeverity, // Number
-          initialRiskLikelyhood: formData.initialRiskLikelyhood, // Number, spelling uyumlu
-          residualRiskSeverity: formData.residualRiskSeverity,
-          residualRiskLikelyhood: formData.residualRiskLikelyhood,
+              employee: formData.employee,
+    position: formData.position,
+    lineManager: formData.lineManager,
+    esd: formData.esf,
+    appraisalDate: formData.appraisalDate,
+    appraisalType: formData.appraisalType,
+    tca: formData.tca,
+    skillsAppraisal: formData.skillsAppraisal,
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
         const url =
-          "http://localhost:8000/api/register/leg/one/" + selectedTable[0].id;
+          "http://localhost:8000/api/register/ea/one/" + selectedTable[0].id;
         fetch(url, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -727,7 +717,7 @@ const EarProfile = () => {
   const handleDeleteConfirm = () => {
     if (activeHeader) {
       if (!showDeleted) {
-        fetch("http://localhost:8000/api/register/leg/all/delete", {
+        fetch("http://localhost:8000/api/register/ea/all/delete", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -747,7 +737,7 @@ const EarProfile = () => {
           })
           .catch((error) => console.log(" Error While Deleting: ", error));
       } else {
-        fetch("http://localhost:8000/api/register/leg/all/undelete", {
+        fetch("http://localhost:8000/api/register/ea/all/undelete", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -824,7 +814,7 @@ const EarProfile = () => {
 
   const archiveData = (id) => {
     if (showArchived) {
-      fetch("http://localhost:8000/api/register/leg/all/unarchive", {
+      fetch("http://localhost:8000/api/register/ea/all/unarchive", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -843,7 +833,7 @@ const EarProfile = () => {
         .catch((error) => console.log(" Error While UnArchiving : ", error));
       setRefresh(true);
     } else {
-      fetch("http://localhost:8000/api/register/leg/all/archive", {
+      fetch("http://localhost:8000/api/register/ea/all/archive", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ids: [...selectedRows] }),
@@ -1192,35 +1182,13 @@ const EarProfile = () => {
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Process
-                      </label>
-                      <select
-                        value={formData.process || ""} // Null-safe
-                        onChange={(e) => {
-                          console.log(
-                            "Select onChange tetiklendi! Yeni value:",
-                            e.target.value,
-                          ); // Debug: Bu çıkmıyorsa onChange patlıyor
-                          handleFormChange("process", e.target.value); // String path + value – obje değil!
-                        }}
-                      >
-                        <option value="">Seçiniz</option>
-                        {dropdownData?.process?.map((item) => (
-                          <option key={item.id} value={item.id}>
-                            {item.value}
-                          </option>
-                        ))}
-                      </select>{" "}
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Legislation
+                                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Employee Name
                       </label>
                       <input
-                        value={formData.legislation}
+                        value={formData.employee}
                         onChange={(e) =>
-                          handleFormChange("legislation", e.target.value)
+                          handleFormChange("employee", e.target.value)
                         }
                         type="text"
                         className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
@@ -1228,12 +1196,12 @@ const EarProfile = () => {
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Section
+                        Position
                       </label>
                       <input
-                        value={formData.section}
+                        value={formData.position}
                         onChange={(e) =>
-                          handleFormChange("section", e.target.value)
+                          handleFormChange("position", e.target.value)
                         }
                         type="text"
                         className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
@@ -1241,12 +1209,25 @@ const EarProfile = () => {
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Requirement
+                        Line Manager
                       </label>
                       <input
-                        value={formData.requirement}
+                        value={formData.lineManager}
                         onChange={(e) =>
-                          handleFormChange("requirement", e.target.value)
+                          handleFormChange("lineManager", e.target.value)
+                        }
+                        type="text"
+                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        ESD
+                      </label>
+                      <input
+                        value={formData.esd}
+                        onChange={(e) =>
+                          handleFormChange("esd", e.target.value)
                         }
                         type="text"
                         className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
@@ -1255,12 +1236,12 @@ const EarProfile = () => {
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Risk Of Violation
+                        Appraisal Date
                       </label>
                       <input
-                        value={formData.riskOfViolation}
+                        value={formData.appraisalDate}
                         onChange={(e) =>
-                          handleFormChange("riskOfViolation", e.target.value)
+                          handleFormChange("appraisalDate", e.target.value)
                         }
                         type="text"
                         className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
@@ -1269,111 +1250,44 @@ const EarProfile = () => {
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Affected Position
+                        Appraisal Type
                       </label>
-                      <select
-                        value={formData.affectedPosition}
-                        onChange={(e) => {
-                          console.log(
-                            "Select onChange tetiklendi! Yeni value:",
-                            e.target.value,
-                          ); // Debug: Bu çıkmıyorsa onChange patlıyor
-                          handleFormChange("affectedPosition", e.target.value); // String path + value – obje değil!
-                        }}
-                      >
-                        <option value="">Seçiniz</option>
-                        {dropdownData?.affectedPosition?.map((item) => (
-                          <option key={item.id} value={item.id}>
-                            {item.value}
-                          </option>
-                        ))}
-                      </select>
+                      <input
+                        value={formData.appraisalType}
+                        onChange={(e) =>
+                          handleFormChange("appraisalType", e.target.value)
+                        }
+                        type="text"
+                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      />
                     </div>
                   </div>
                   <div className="space-y-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Initial Risk
+                        TCA
                       </label>
-                      <div className="grid grid-cols-3 gap-2">
-                        <select
-                          value={formData.initialRiskSeverity}
-                          onChange={(e) => {
-                            console.log(
-                              "Select onChange tetiklendi! Yeni value:",
-                              e.target.value,
-                            ); // Debug: Bu çıkmıyorsa onChange patlıyor
-                            const newValue = parseInt(e.target.value, 10) || 0;
-                            handleFormChange("initialRiskSeverity", newValue); // String path + value – obje değil!
-                          }}
-                        >
-                          <option value="">Seçiniz</option>
-                          <option>1</option>
-                          <option>2</option>
-                          <option>3</option>
-                          <option>4</option>
-                          <option>5</option>
-                        </select>
-                        <select
-                          value={formData.initialRiskLikelyhood}
-                          onChange={(e) => {
-                            console.log(
-                              "Select onChange tetiklendi! Yeni value:",
-                              e.target.value,
-                            ); // Debug: Bu çıkmıyorsa onChange patlıyor
-                            const newValue = parseInt(e.target.value, 10) || 0;
-                            handleFormChange("initialRiskLikelyhood", newValue); // String path + value – obje değil!
-                          }}
-                        >
-                          <option value="">Seçiniz</option>
-                          <option>1</option>
-                          <option>2</option>
-                          <option>3</option>
-                          <option>4</option>
-                          <option>5</option>
-                        </select>
-                      </div>
+                      <input
+                        value={formData.tca}
+                        onChange={(e) =>
+                          handleFormChange("tca", e.target.value)
+                        }
+                        type="text"
+                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      />
                     </div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Residual Risk / Opportunity Level
-                    </label>
-                    <div className="grid grid-cols-3 gap-2">
-                      <select
-                        value={formData.residualRiskSeverity}
-                        onChange={(e) => {
-                          console.log(
-                            "Select onChange tetiklendi! Yeni value:",
-                            e.target.value,
-                          ); // Debug: Bu çıkmıyorsa onChange patlıyor
-                          const newValue = parseInt(e.target.value, 10) || 0;
-                          handleFormChange("residualRiskSeverity", newValue); // String path + value – obje değil!
-                        }}
-                      >
-                        <option value="">Seçiniz</option>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                      </select>
-                      <select
-                        value={formData.residualRiskLikelyhood}
-                        onChange={(e) => {
-                          console.log(
-                            "Select onChange tetiklendi! Yeni value:",
-                            e.target.value,
-                          ); // Debug: Bu çıkmıyorsa onChange patlıyor
-                          const newValue = parseInt(e.target.value, 10) || 0;
-                          handleFormChange("residualRiskLikelyhood", newValue); // String path + value – obje değil!
-                        }}
-                      >
-                        <option value="">Seçiniz</option>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                      </select>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Skills Appraisal
+                      </label>
+                      <input
+                        value={formData.skillsAppraisal}
+                        onChange={(e) =>
+                          handleFormChange("skillsAppraisal", e.target.value)
+                        }
+                        type="text"
+                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      />
                     </div>
                   </div>
                 </div>

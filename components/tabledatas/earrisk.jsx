@@ -27,7 +27,7 @@ const EarBody = ({
     setLoading(true); // Loading başla
     try {
       const response = await fetch(
-        "http://localhost:8000/api/register/leg/all?status=archived",
+        "http://localhost:8000/api/register/ea/all?status=archived",
       );
       if (!response.ok) {
         throw new Error("Failed To Get Datas From Archived DataBase");
@@ -95,7 +95,7 @@ const EarBody = ({
     setLoading(true); // Loading başla
     try {
       const response = await fetch(
-        "http://localhost:8000/api/register/leg/all?status=deleted",
+        "http://localhost:8000/api/register/ea/all?status=deleted",
       );
       if (!response.ok) {
         throw new Error("Failed To Get Datas From Deleted DataBase");
@@ -152,7 +152,7 @@ const EarBody = ({
   const [tableData, setTableData] = useState([]);
   const getAll = async () => {
     setLoading(true);
-    fetch("http://localhost:8000/api/register/leg/all")
+    fetch("http://localhost:8000/api/register/ea/all")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed To Get Datas From Database");
@@ -955,7 +955,7 @@ const EarBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.process?.value}
+                      value={row.employeeName}
                       color="bg-rose-100 text-rose-700 border border-rose-200"
                     />
                   </td>
@@ -966,7 +966,7 @@ const EarBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.legislation}
+                      value={row.position}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -977,7 +977,7 @@ const EarBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.section}
+                      value={row.lineManager}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -988,7 +988,7 @@ const EarBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.requirement}
+                      value={row.esd}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -999,7 +999,7 @@ const EarBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.riskOfViolation}
+                      value={row.apprasialDate}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -1009,7 +1009,7 @@ const EarBody = ({
                     className="border border-gray-200 px-2 py-1 w-32"
                     rowSpan={1}
                   >
-                    {row.affectedPositions?.value}
+                    {row.apprasialType}
                   </td>
 
                   {/* Initial Risk */}
@@ -1018,7 +1018,7 @@ const EarBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.initialRiskSeverity}
+                      value={row.tca}
                       color="bg-emerald-100 text-emerald-700 border border-emerald-200"
                     />
                   </td>
@@ -1030,7 +1030,7 @@ const EarBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.residualRiskSeverity}
+                      value={row.skillsAppraisal}
                       color="bg-rose-100 text-rose-700 border border-rose-200"
                     />
                   </td>

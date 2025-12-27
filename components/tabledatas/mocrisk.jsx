@@ -27,7 +27,7 @@ const MocBody = ({
     setLoading(true); // Loading başla
     try {
       const response = await fetch(
-        "http://localhost:8000/api/register/leg/all?status=archived",
+        "http://localhost:8000/api/register/moc/all?status=archived",
       );
       if (!response.ok) {
         throw new Error("Failed To Get Datas From Archived DataBase");
@@ -95,7 +95,7 @@ const MocBody = ({
     setLoading(true); // Loading başla
     try {
       const response = await fetch(
-        "http://localhost:8000/api/register/leg/all?status=deleted",
+        "http://localhost:8000/api/register/moc/all?status=deleted",
       );
       if (!response.ok) {
         throw new Error("Failed To Get Datas From Deleted DataBase");
@@ -152,7 +152,7 @@ const MocBody = ({
   const [tableData, setTableData] = useState([]);
   const getAll = async () => {
     setLoading(true);
-    fetch("http://localhost:8000/api/register/leg/all")
+    fetch("http://localhost:8000/api/register/moc/all")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed To Get Datas From Database");
@@ -282,7 +282,7 @@ const MocBody = ({
                   }`}
                 >
                   {/* ID + Checkbox */}
-                  <td
+                                    <td
                     className="border border-gray-200 px-3 py-2 w-16 sticky left-[-1px] top-0 z-10 bg-white"
                     rowSpan={1}
                   >
@@ -304,7 +304,7 @@ const MocBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.process?.value}
+                      value={row.issuer}
                       color="bg-rose-100 text-rose-700 border border-rose-200"
                     />
                   </td>
@@ -315,7 +315,7 @@ const MocBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.legislation}
+                      value={row.reasonOfChange}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -326,7 +326,7 @@ const MocBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.section}
+                      value={row.process?.value}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -337,7 +337,7 @@ const MocBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.requirement}
+                      value={row.action}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -348,7 +348,7 @@ const MocBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.riskOfViolation}
+                      value={row.risks}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -434,8 +434,7 @@ const MocBody = ({
                       : "bg-green-100 hover:bg-green-200"
                   }`}
                 >
-                  {/* ID + Checkbox */}
-                  <td
+                                    <td
                     className="border border-gray-200 px-3 py-2 w-16 sticky left-[-1px] top-0 z-10 bg-white"
                     rowSpan={1}
                   >
@@ -457,7 +456,7 @@ const MocBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.process?.value}
+                      value={row.issuer}
                       color="bg-rose-100 text-rose-700 border border-rose-200"
                     />
                   </td>
@@ -468,7 +467,7 @@ const MocBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.legislation}
+                      value={row.reasonOfChange}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -479,7 +478,7 @@ const MocBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.section}
+                      value={row.process?.value}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -490,7 +489,7 @@ const MocBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.requirement}
+                      value={row.action}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -501,7 +500,7 @@ const MocBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.riskOfViolation}
+                      value={row.risks}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -536,8 +535,6 @@ const MocBody = ({
                       color="bg-yellow-100 text-yellow-700 border border-yellow-200"
                     />
                   </td>
-
-                  {/* İlk Action */}
                 </tr>
 
                 {/* Ek Actions */}
@@ -884,7 +881,7 @@ const MocBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.process?.value}
+                      value={row.issuer}
                       color="bg-rose-100 text-rose-700 border border-rose-200"
                     />
                   </td>
@@ -895,7 +892,7 @@ const MocBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.legislation}
+                      value={row.reasonOfChange}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -906,7 +903,7 @@ const MocBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.section}
+                      value={row.process?.value}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -917,7 +914,7 @@ const MocBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.requirement}
+                      value={row.action}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -928,7 +925,7 @@ const MocBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.riskOfViolation}
+                      value={row.risks}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>

@@ -208,12 +208,11 @@ const MocProfile = () => {
   //////////////////////////////////////
   const [formData, setFormData] = useState({
     id: 0,
+    issuer: "",
+    reasonOfChange: "",
     process: "",
-    legislation: "",
-    section: "",
-    requirement: "",
-    riskOfViolation: "",
-    affectedPosition: "",
+    action: "",
+    risks: "",
     initialRiskSeverity: 0,
     initialRiskLikelihood: 0,
     residualRiskSeverity: 0,
@@ -361,17 +360,16 @@ const MocProfile = () => {
     const dropdownData = await getDefaultDropdownList();
     if (activeHeader) {
       setFormData({
-        id: 0,
-        process: "",
-        legislation: "",
-        section: "",
-        requirement: "",
-        riskOfViolation: "",
-        affectedPosition: "",
-        initialRiskSeverity: 0,
-        initialRiskLikelihood: 0,
-        residualRiskSeverity: 0,
-        residualRiskLikelihood: 0,
+    id: 0,
+    issuer: "",
+    reasonOfChange: "",
+    process: "",
+    action: "",
+    risks: "",
+    initialRiskSeverity: 0,
+    initialRiskLikelihood: 0,
+    residualRiskSeverity: 0,
+    residualRiskLikelihood: 0,
       });
       setShowModal(true);
     } else {
@@ -408,12 +406,11 @@ const MocProfile = () => {
   const openEditModal = async (row) => {
     if (activeHeader) {
       setFormData({
+        issuer: row.issuer,
+        reasonOfChange: row.reasonOfChange,
         process: row.process.id || String(row.process),
-        legislation: row.legislation,
-        section: row.section,
-        requirement: row.requirement,
-        affectedPosition: String(row.affectedPosition),
-        riskOfViolation: row.riskOfViolation,
+        action: row.action,
+        risks: row.risks,
         initialRiskSeverity: row.initialRiskSeverity,
         initialRiskLikelyhood: row.initialRiskLikelyhood,
         residualRiskSeverity: row.residualRiskSeverity,
@@ -524,12 +521,11 @@ const MocProfile = () => {
     if (modalMode === "add") {
       if (!showAction) {
         const payload = {
+          issuer: formData.issuer,
+          reasonOfChange: formData.reasonOfChange,
           process: formData.process,
-          legislation: formData.legislation,
-          section: formData.section,
-          affectedPositions: formData.affectedPosition,
-          requirement: formData.requirement,
-          riskOfViolation: formData.riskOfViolation,
+          action: formData.action,
+          risks: formData.risks,
           initialRiskSeverity: formData.initialRiskSeverity, // Number
           initialRiskLikelyhood: formData.initialRiskLikelyhood, // Number, spelling uyumlu
           residualRiskSeverity: formData.residualRiskSeverity,
@@ -537,7 +533,7 @@ const MocProfile = () => {
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
 
-        fetch("http://localhost:8000/api/register/leg/one", {
+        fetch("http://localhost:8000/api/register/moc/one", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload), // Direkt obje – array yapma!
@@ -602,13 +598,11 @@ const MocProfile = () => {
       if (!showAction) {
         const payload = {
           id: selectedTable[0].id,
+          issuer: formData.issuer,
+          reasonOfChange: formData.reasonOfChange,
           process: formData.process,
-          legislation: formData.legislation,
-          section: formData.section,
-          affectedPositions: formData.affectedPosition,
-          affectedPosition: formData.affectedPosition,
-          requirement: formData.requirement,
-          riskOfViolation: formData.riskOfViolation,
+          action: formData.action,
+          risks: formData.risks,
           initialRiskSeverity: formData.initialRiskSeverity, // Number
           initialRiskLikelyhood: formData.initialRiskLikelyhood, // Number, spelling uyumlu
           residualRiskSeverity: formData.residualRiskSeverity,
@@ -616,7 +610,7 @@ const MocProfile = () => {
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
         const url =
-          "http://localhost:8000/api/register/leg/one/" + selectedTable[0].id;
+          "http://localhost:8000/api/register/moc/one/" + selectedTable[0].id;
         fetch(url, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -727,7 +721,7 @@ const MocProfile = () => {
   const handleDeleteConfirm = () => {
     if (activeHeader) {
       if (!showDeleted) {
-        fetch("http://localhost:8000/api/register/leg/all/delete", {
+        fetch("http://localhost:8000/api/register/moc/all/delete", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -747,7 +741,7 @@ const MocProfile = () => {
           })
           .catch((error) => console.log(" Error While Deleting: ", error));
       } else {
-        fetch("http://localhost:8000/api/register/leg/all/undelete", {
+        fetch("http://localhost:8000/api/register/moc/all/undelete", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -824,7 +818,7 @@ const MocProfile = () => {
 
   const archiveData = (id) => {
     if (showArchived) {
-      fetch("http://localhost:8000/api/register/leg/all/unarchive", {
+      fetch("http://localhost:8000/api/register/moc/all/unarchive", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -843,7 +837,7 @@ const MocProfile = () => {
         .catch((error) => console.log(" Error While UnArchiving : ", error));
       setRefresh(true);
     } else {
-      fetch("http://localhost:8000/api/register/leg/all/archive", {
+      fetch("http://localhost:8000/api/register/moc/all/archive", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ids: [...selectedRows] }),
@@ -1193,6 +1187,32 @@ const MocProfile = () => {
                   <div className="space-y-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Issuer
+                      </label>
+                      <input
+                        value={formData.issuer}
+                        onChange={(e) =>
+                          handleFormChange("issuer", e.target.value)
+                        }
+                        type="text"
+                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Reason Of Change
+                      </label>
+                      <input
+                        value={formData.reasonOfChange}
+                        onChange={(e) =>
+                          handleFormChange("reasonOfChange", e.target.value)
+                        }
+                        type="text"
+                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
                         Process
                       </label>
                       <select
@@ -1211,83 +1231,34 @@ const MocProfile = () => {
                             {item.value}
                           </option>
                         ))}
-                      </select>{" "}
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Legislation
-                      </label>
-                      <input
-                        value={formData.legislation}
-                        onChange={(e) =>
-                          handleFormChange("legislation", e.target.value)
-                        }
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Section
-                      </label>
-                      <input
-                        value={formData.section}
-                        onChange={(e) =>
-                          handleFormChange("section", e.target.value)
-                        }
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Requirement
-                      </label>
-                      <input
-                        value={formData.requirement}
-                        onChange={(e) =>
-                          handleFormChange("requirement", e.target.value)
-                        }
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Risk Of Violation
-                      </label>
-                      <input
-                        value={formData.riskOfViolation}
-                        onChange={(e) =>
-                          handleFormChange("riskOfViolation", e.target.value)
-                        }
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Affected Position
-                      </label>
-                      <select
-                        value={formData.affectedPosition}
-                        onChange={(e) => {
-                          console.log(
-                            "Select onChange tetiklendi! Yeni value:",
-                            e.target.value,
-                          ); // Debug: Bu çıkmıyorsa onChange patlıyor
-                          handleFormChange("affectedPosition", e.target.value); // String path + value – obje değil!
-                        }}
-                      >
-                        <option value="">Seçiniz</option>
-                        {dropdownData?.affectedPosition?.map((item) => (
-                          <option key={item.id} value={item.id}>
-                            {item.value}
-                          </option>
-                        ))}
                       </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Action
+                      </label>
+                      <input
+                        value={formData.action}
+                        onChange={(e) =>
+                          handleFormChange("action", e.target.value)
+                        }
+                        type="text"
+                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Risks
+                      </label>
+                      <input
+                        value={formData.risks}
+                        onChange={(e) =>
+                          handleFormChange("risks", e.target.value)
+                        }
+                        type="text"
+                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      />
                     </div>
                   </div>
                   <div className="space-y-4">

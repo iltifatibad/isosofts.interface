@@ -14,6 +14,7 @@ import MocProfile from "./mocprofile.jsx";
 import FProfile from "./flog.jsx";
 import AoProfile from "./aoprofile.jsx";
 import MRMProfile from "./mrmprofile.jsx";
+import CusProfile from "./customerprofile.jsx";
 
 const RiskRouter = () => {
   // Sample data - gerçek projede API'den veya props'tan gelebilir
@@ -115,7 +116,7 @@ const RiskRouter = () => {
         ) : selectedRisk === "ven-reg" ? (
           <VenProfile />
         ) : selectedRisk === "cus-reg" ? (
-          <VenProfile />
+          <CusProfile />
         ) : selectedRisk === "fb-reg" ? (
           <FbProfile />
         ) : selectedRisk === "ear-reg" ? (

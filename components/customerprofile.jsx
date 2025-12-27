@@ -1,6 +1,6 @@
 import React, { useState, useEffect, act } from "react";
-import VenBody from "./tabledatas/venrisk.jsx";
-import VenHeaders from "./tableheaders/venheaders.jsx";
+import CusBody from "./tabledatas/customerrisk.jsx";
+import CusHeaders from "./tableheaders/customerheaders.jsx";
 
 import ReactECharts from "echarts-for-react";
 
@@ -206,18 +206,14 @@ const CusProfile = () => {
   const [modalMode, setModalMode] = useState("add");
   const [editingRow, setEditingRow] = useState(null);
   const [formData, setFormData] = useState({
-    name: "",
-    origin: "",
-    number: "",
-    type: "",
-    depntFunctionName: "",
-    serialNumber: "",
-    revNumber: "",
-    issuer: "",
-    approver: "",
-    issueDate: "",
-    nextReviewDate: "",
-    actual: 0,
+          name: "",
+          regNumber: "",
+          scope1: "",
+          scope2: "",
+          scope3: "",
+          registrationDate: "",
+          reviewDate: "",
+          actual: 0,
   });
 
   const [formDataHs, setFormDataHs] = useState({
@@ -361,18 +357,14 @@ const CusProfile = () => {
     const dropdownData = await getDefaultDropdownList();
     if (activeHeader) {
       setFormData({
-        name: "",
-        origin: "",
-        number: "",
-        depntFunctionName: "",
-        type: "",
-        serialNumber: "",
-        revNumber: "",
-        issuer: "",
-        approver: "",
-        issueDate: "",
-        nextReviewDate: "",
-        actual: 0,
+          name: "",
+          regNumber: "",
+          scope1: "",
+          scope2: "",
+          scope3: "",
+          registrationDate: "",
+          reviewDate: "",
+          actual: 0,
       });
       setShowModal(true);
     } else {
@@ -409,19 +401,15 @@ const CusProfile = () => {
   const openEditModal = async (row) => {
     if (activeHeader) {
       setFormData({
+        id: selectedTable[0].id,
         name: row.name,
-        origin: row.origin.id || String(row.origin),
-        number: row.number,
-        depntFunctionName:
-          row.origin.depntFunctionName || String(row.depntFunctionName),
-        type: row.type.id || String(row.type),
-        serialNumber: row.serialNumber,
-        revNumber: row.revNumber,
-        issuer: row.issuer,
-        approver: row.approver,
-        issueDate: row.issueDate,
-        nextReviewDate: row.nextReviewDate,
-        actual: row.actual,
+        regNumber: row.regNumber,
+        scope1: row.scope1.id || String(row.scope1),
+        scope2: row.scope2.id || String(row.scope2),
+        scope3: row.scope3.id || String(row.scope3),
+        registrationDate: row.registrationDate,
+        reviewDate: row.reviewDate,
+        actual: row.actual.id || String(row.actual),
       });
     } else {
       setActionData({
@@ -506,7 +494,7 @@ const CusProfile = () => {
     let setter;
     if (showAction) {
       setter = setActionData;
-    } else if (selectedRisk === "cus-reg") {
+    } else if (selectedRisk === "ven-reg") {
       setter = setFormData;
     } else {
       setter = setFormData;
@@ -529,17 +517,13 @@ const CusProfile = () => {
       if (!showAction) {
         const payload = {
           name: formData.name,
-          origin: formData.origin,
-          number: formData.number,
-          type: parseInt(formData.type),
-          depntFunctionName: parseInt(formData.depntFunctionName),
-          serialNumber: formData.serialNumber,
-          revNumber: formData.revNumber,
-          issuer: formData.issuer,
-          approver: formData.approver,
-          issueDate: formData.issueDate,
-          nextReviewDate: formData.nextReviewDate,
-          actual: formData.actual,
+          regNumber: formData.regNumber,
+          scope1: formData.scope1,
+          scope2: formData.scope2,
+          scope3: formData.scope3,
+          registrationDate: formData.registrationDate,
+          reviewDate: formData.reviewDate,
+          actual: parseInt(formData.actual),
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
 
@@ -607,18 +591,15 @@ const CusProfile = () => {
     } else {
       if (!showAction) {
         const payload = {
+          id: selectedTable[0].id,
           name: formData.name,
-          origin: formData.origin,
-          number: formData.number,
-          type: formData.type,
-          depntFunctionName: formData.depntFunctionName,
-          serialNumber: formData.serialNumber,
-          revNumber: formData.revNumber,
-          issuer: formData.issuer,
-          approver: formData.approver,
-          issueDate: formData.issueDate,
-          nextReviewDate: formData.nextReviewDate,
-          actual: formData.actual,
+          regNumber: formData.regNumber,
+          scope1: formData.scope1.id || String(formData.scope1),
+          scope2: formData.scope2.id || String(formData.scope2),
+          scope3: formData.scope3.id || String(formData.scope3),
+          registrationDate: formData.registrationDate,
+          reviewDate: formData.reviewDate,
+          actual: parseInt(formData.actual),
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
         const url =
@@ -1153,8 +1134,8 @@ const CusProfile = () => {
               {/* Tablo */}
               <div className="overflow-x-auto max-h-[75vh] overflow-y-auto">
                 <table>
-                  <VenHeaders activeHeader={activeHeader} />
-                  <VenBody
+                  <CusHeaders activeHeader={activeHeader} />
+                  <CusBody
                     selectedRows={selectedRows}
                     selectedRowsForActions={selectedRowsForActions}
                     showArchived={showArchived}
@@ -1212,130 +1193,92 @@ const CusProfile = () => {
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Origin
+                          Reg Number
+                        </label>
+                        <input
+                          value={formData.regNumber}
+                          onChange={(e) =>
+                            handleFormChange("regNumber", e.target.value)
+                          }
+                          type="text"
+                          className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                        />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Scope 1
                       </label>
                       <select
-                        value={formData.origin || ""} // Null-safe
+                        value={formData.scope1 || ""} // Null-safe
                         onChange={(e) => {
                           console.log(
                             "Select onChange tetiklendi! Yeni value:",
                             e.target.value,
                           ); // Debug: Bu çıkmıyorsa onChange patlıyor
-                          handleFormChange("origin", e.target.value); // String path + value – obje değil!
+                          handleFormChange("scope1", e.target.value); // String path + value – obje değil!
                         }}
                       >
                         <option value="">Seçiniz</option>
-                        {dropdownData?.documentOrigin?.map((item) => (
+                        {dropdownData?.scope?.map((item) => (
                           <option key={item.id} value={item.id}>
                             {item.value}
                           </option>
                         ))}
-                      </select>
+                      </select>{" "}
                     </div>
-
-                    {formData.origin === "Su1o957i68896Jz58zz3hkW9C62H25" && (
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Departamen / Function Name
-                        </label>
-                        <select
-                          value={formData.depntFunctionName?.id || ""} // Null-safe
-                          onChange={(e) => {
-                            console.log(
-                              "Select onChange tetiklendi! Yeni value:",
-                              e.target.value,
-                            ); // Debug: Bu çıkmıyorsa onChange patlıyor
-                            handleFormChange(
-                              "depntFunctionName.id",
-                              e.target.value,
-                            ); // String path + value – obje değil!
-                          }}
-                        >
-                          <option value="">Seçiniz</option>
-                          {dropdownData?.depntFunctionName?.map((item) => (
-                            <option key={item.id} value={item.id}>
-                              {item.value}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    )}
-
-                    {formData.origin === "Su1o957i68896Jz58zz3hkW9C62H25" && (
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Type
-                        </label>
-                        <select
-                          value={formData.type?.id || ""} // Null-safe
-                          onChange={(e) => {
-                            console.log(
-                              "Select onChange tetiklendi! Yeni value:",
-                              e.target.value,
-                            ); // Debug: Bu çıkmıyorsa onChange patlıyor
-                            handleFormChange("type.id", e.target.value); // String path + value – obje değil!
-                          }}
-                        >
-                          <option value="">Seçiniz</option>
-                          {dropdownData?.documentType?.map((item) => (
-                            <option key={item.id} value={item.id}>
-                              {item.value}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    )}
-
-                    {formData.origin === "phA8k3tQ0Veosm24712C95944uynfa" && (
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Number
-                        </label>
-                        <input
-                          value={formData.number?.id}
-                          onChange={(e) =>
-                            handleFormChange("number", e.target.value)
-                          }
-                          type="text"
-                          className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                        />
-                      </div>
-                    )}
-
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Revision Number
+                        Scope 2
                       </label>
-                      <input
-                        value={formData.revNumber}
-                        onChange={(e) =>
-                          handleFormChange("revNumber", e.target.value)
-                        }
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                      />
+                      <select
+                        value={formData.scope2 || ""} // Null-safe
+                        onChange={(e) => {
+                          console.log(
+                            "Select onChange tetiklendi! Yeni value:",
+                            e.target.value,
+                          ); // Debug: Bu çıkmıyorsa onChange patlıyor
+                          handleFormChange("scope2", e.target.value); // String path + value – obje değil!
+                        }}
+                      >
+                        <option value="">Seçiniz</option>
+                        {dropdownData?.scope?.map((item) => (
+                          <option key={item.id} value={item.id}>
+                            {item.value}
+                          </option>
+                        ))}
+                      </select>{" "}
                     </div>
-                    {/* <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        R
-                      </label>
-                      <input
-                        value={formData.ncd}
-                        onChange={(e) =>
-                          handleFormChange("ncd", e.target.value)
-                        }
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                      />
-                    </div> */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Issuer
+                        Scope 3
+                      </label>
+                      <select
+                        value={formData.scope3 || ""} // Null-safe
+                        onChange={(e) => {
+                          console.log(
+                            "Select onChange tetiklendi! Yeni value:",
+                            e.target.value,
+                          ); // Debug: Bu çıkmıyorsa onChange patlıyor
+                          handleFormChange("scope3", e.target.value); // String path + value – obje değil!
+                        }}
+                      >
+                        <option value="">Seçiniz</option>
+                        {dropdownData?.scope?.map((item) => (
+                          <option key={item.id} value={item.id}>
+                            {item.value}
+                          </option>
+                        ))}
+                      </select>{" "}
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Reg Date
                       </label>
                       <input
-                        value={formData.issuer}
+                        value={formData.registrationDate}
                         onChange={(e) =>
-                          handleFormChange("issuer", e.target.value)
+                          handleFormChange("registrationDate", e.target.value)
                         }
                         type="text"
                         className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
@@ -1343,38 +1286,12 @@ const CusProfile = () => {
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Approver
+                        Review Date
                       </label>
                       <input
-                        value={formData.approver}
+                        value={formData.reviewDate}
                         onChange={(e) =>
-                          handleFormChange("approver", e.target.value)
-                        }
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Issue Date
-                      </label>
-                      <input
-                        value={formData.issueDate}
-                        onChange={(e) =>
-                          handleFormChange("issueDate", e.target.value)
-                        }
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Next Review Date
-                      </label>
-                      <input
-                        value={formData.nextReviewDate}
-                        onChange={(e) =>
-                          handleFormChange("nextReviewDate", e.target.value)
+                          handleFormChange("reviewDate", e.target.value)
                         }
                         type="text"
                         className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"

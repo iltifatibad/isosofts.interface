@@ -208,16 +208,17 @@ const AoProfile = () => {
   //////////////////////////////////////
   const [formData, setFormData] = useState({
     id: 0,
-    process: "",
-    legislation: "",
-    section: "",
-    requirement: "",
-    riskOfViolation: "",
-    affectedPosition: "",
-    initialRiskSeverity: 0,
-    initialRiskLikelihood: 0,
-    residualRiskSeverity: 0,
-    residualRiskLikelihood: 0,
+    activityDescription: "",
+    auditorInspector: "",
+    auditeeInspectee: "",
+    reviewedPremises: "",
+    reviewedProcess: "",
+    rtic: "",
+    frequency: "",
+    auditDate: "",
+    inspectionFrequency: "",
+    nextAuditDate: "",
+    auditStatus: 0,
   });
 
   const [formDataHs, setFormDataHs] = useState({
@@ -361,17 +362,18 @@ const AoProfile = () => {
     const dropdownData = await getDefaultDropdownList();
     if (activeHeader) {
       setFormData({
-        id: 0,
-        process: "",
-        legislation: "",
-        section: "",
-        requirement: "",
-        riskOfViolation: "",
-        affectedPosition: "",
-        initialRiskSeverity: 0,
-        initialRiskLikelihood: 0,
-        residualRiskSeverity: 0,
-        residualRiskLikelihood: 0,
+    id: 0,
+    activityDescription: "",
+    auditorInspector: "",
+    auditeeInspectee: "",
+    reviewedPremises: "",
+    reviewedProcess: "",
+    rtic: "",
+    frequency: "",
+    auditDate: "",
+    inspectionFrequency: "",
+    nextAuditDate: "",
+    auditStatus: 0,
       });
       setShowModal(true);
     } else {
@@ -408,16 +410,18 @@ const AoProfile = () => {
   const openEditModal = async (row) => {
     if (activeHeader) {
       setFormData({
-        process: row.process.id || String(row.process),
-        legislation: row.legislation,
-        section: row.section,
-        requirement: row.requirement,
-        affectedPosition: String(row.affectedPosition),
-        riskOfViolation: row.riskOfViolation,
-        initialRiskSeverity: row.initialRiskSeverity,
-        initialRiskLikelyhood: row.initialRiskLikelyhood,
-        residualRiskSeverity: row.residualRiskSeverity,
-        residualRiskLikelyhood: row.residualRiskLikelyhood,
+        id: 0,
+        activityDescription: row.activityDescription,
+        auditorInspector: row.auditorInspector,
+        auditeeInspectee: row.auditeeInspectee,
+        reviewedPremises: row.reviewedPremises,
+        reviewedProcess: row.reviewedProcess,
+        rtic: row.rtic,
+        frequency: row.frequency,
+        auditDate: row.auditDate,
+        inspectionFrequency: row.inspectionFrequency,
+        nextAuditDate: row.nextAuditDate,
+        auditStatus: 0,
       });
     } else {
       setActionData({
@@ -502,7 +506,7 @@ const AoProfile = () => {
     let setter;
     if (showAction) {
       setter = setActionData;
-    } else if (selectedRisk === "leg-reg") {
+    } else if (selectedRisk === "aop-reg") {
       setter = setFormData;
     } else {
       setter = setFormData;
@@ -524,20 +528,21 @@ const AoProfile = () => {
     if (modalMode === "add") {
       if (!showAction) {
         const payload = {
-          process: formData.process,
-          legislation: formData.legislation,
-          section: formData.section,
-          affectedPositions: formData.affectedPosition,
-          requirement: formData.requirement,
-          riskOfViolation: formData.riskOfViolation,
-          initialRiskSeverity: formData.initialRiskSeverity, // Number
-          initialRiskLikelyhood: formData.initialRiskLikelyhood, // Number, spelling uyumlu
-          residualRiskSeverity: formData.residualRiskSeverity,
-          residualRiskLikelyhood: formData.residualRiskLikelyhood,
+        activityDescription: formData.activityDescription,
+        auditorInspector: formData.auditorInspector,
+        auditeeInspectee: formData.auditeeInspectee,
+        reviewedPremises: formData.reviewedPremises,
+        reviewedProcess: formData.reviewedProcess,
+        rtic: formData.rtic,
+        frequency: formData.frequency,
+        auditDate: formData.auditDate,
+        inspectionFrequency: formData.inspectionFrequency,
+        nextAuditDate: formData.nextAuditDate,
+        auditStatus: formData.auditStatus,
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
 
-        fetch("http://localhost:8000/api/register/leg/one", {
+        fetch("http://localhost:8000/api/register/aop/one", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload), // Direkt obje – array yapma!
@@ -602,21 +607,21 @@ const AoProfile = () => {
       if (!showAction) {
         const payload = {
           id: selectedTable[0].id,
-          process: formData.process,
-          legislation: formData.legislation,
-          section: formData.section,
-          affectedPositions: formData.affectedPosition,
-          affectedPosition: formData.affectedPosition,
-          requirement: formData.requirement,
-          riskOfViolation: formData.riskOfViolation,
-          initialRiskSeverity: formData.initialRiskSeverity, // Number
-          initialRiskLikelyhood: formData.initialRiskLikelyhood, // Number, spelling uyumlu
-          residualRiskSeverity: formData.residualRiskSeverity,
-          residualRiskLikelyhood: formData.residualRiskLikelyhood,
+          activityDescription: formData.activityDescription,
+          auditorInspector: formData.auditorInspector,
+          auditeeInspectee: formData.auditeeInspectee,
+          reviewedPremises: formData.reviewedPremises,
+          reviewedProcess: formData.reviewedProcess,
+          rtic: formData.rtic,
+          frequency: formData.frequency,
+          auditDate: formData.auditDate,
+          inspectionFrequency: formData.inspectionFrequency,
+          nextAuditDate: formData.nextAuditDate,
+          auditStatus: formData,auditStatus,
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
         const url =
-          "http://localhost:8000/api/register/leg/one/" + selectedTable[0].id;
+          "http://localhost:8000/api/register/aop/one/" + selectedTable[0].id;
         fetch(url, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -727,7 +732,7 @@ const AoProfile = () => {
   const handleDeleteConfirm = () => {
     if (activeHeader) {
       if (!showDeleted) {
-        fetch("http://localhost:8000/api/register/leg/all/delete", {
+        fetch("http://localhost:8000/api/register/aop/all/delete", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -747,7 +752,7 @@ const AoProfile = () => {
           })
           .catch((error) => console.log(" Error While Deleting: ", error));
       } else {
-        fetch("http://localhost:8000/api/register/leg/all/undelete", {
+        fetch("http://localhost:8000/api/register/aop/all/undelete", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -824,7 +829,7 @@ const AoProfile = () => {
 
   const archiveData = (id) => {
     if (showArchived) {
-      fetch("http://localhost:8000/api/register/leg/all/unarchive", {
+      fetch("http://localhost:8000/api/register/aop/all/unarchive", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -843,7 +848,7 @@ const AoProfile = () => {
         .catch((error) => console.log(" Error While UnArchiving : ", error));
       setRefresh(true);
     } else {
-      fetch("http://localhost:8000/api/register/leg/all/archive", {
+      fetch("http://localhost:8000/api/register/aop/all/archive", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ids: [...selectedRows] }),
@@ -1193,34 +1198,12 @@ const AoProfile = () => {
                   <div className="space-y-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Process
-                      </label>
-                      <select
-                        value={formData.process || ""} // Null-safe
-                        onChange={(e) => {
-                          console.log(
-                            "Select onChange tetiklendi! Yeni value:",
-                            e.target.value,
-                          ); // Debug: Bu çıkmıyorsa onChange patlıyor
-                          handleFormChange("process", e.target.value); // String path + value – obje değil!
-                        }}
-                      >
-                        <option value="">Seçiniz</option>
-                        {dropdownData?.process?.map((item) => (
-                          <option key={item.id} value={item.id}>
-                            {item.value}
-                          </option>
-                        ))}
-                      </select>{" "}
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Legislation
+                        Activity Description
                       </label>
                       <input
-                        value={formData.legislation}
+                        value={formData.activityDescription}
                         onChange={(e) =>
-                          handleFormChange("legislation", e.target.value)
+                          handleFormChange("activityDescription", e.target.value)
                         }
                         type="text"
                         className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
@@ -1228,12 +1211,12 @@ const AoProfile = () => {
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Section
+                        Auditor Inspector
                       </label>
                       <input
-                        value={formData.section}
+                        value={formData.auditorInspector}
                         onChange={(e) =>
-                          handleFormChange("section", e.target.value)
+                          handleFormChange("auditorInspector", e.target.value)
                         }
                         type="text"
                         className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
@@ -1241,12 +1224,25 @@ const AoProfile = () => {
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Requirement
+                        Audit Inspectee
                       </label>
                       <input
-                        value={formData.requirement}
+                        value={formData.auditeeInspectee}
                         onChange={(e) =>
-                          handleFormChange("requirement", e.target.value)
+                          handleFormChange("auditeeInspectee", e.target.value)
+                        }
+                        type="text"
+                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Reviewed Premises
+                      </label>
+                      <input
+                        value={formData.reviewedPremises}
+                        onChange={(e) =>
+                          handleFormChange("reviewedPremises", e.target.value)
                         }
                         type="text"
                         className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
@@ -1255,12 +1251,54 @@ const AoProfile = () => {
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Risk Of Violation
+                        Reviewed Process
                       </label>
                       <input
-                        value={formData.riskOfViolation}
+                        value={formData.reviewedProcess}
                         onChange={(e) =>
-                          handleFormChange("riskOfViolation", e.target.value)
+                          handleFormChange("reviewedProcess", e.target.value)
+                        }
+                        type="text"
+                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      />
+                    </div>
+
+                                       <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Inspection Frequency
+                      </label>
+                      <input
+                        value={formData.inspectionFrequency}
+                        onChange={(e) =>
+                          handleFormChange("inspectionFrequency", e.target.value)
+                        }
+                        type="text"
+                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      />
+                    </div>
+
+                                       <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Next Audit Date
+                      </label>
+                      <input
+                        value={formData.nextAuditDate}
+                        onChange={(e) =>
+                          handleFormChange("nextAuditDate", e.target.value)
+                        }
+                        type="text"
+                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      />
+                    </div>
+
+                                       <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Audit Status
+                      </label>
+                      <input
+                        value={formData.auditStatus}
+                        onChange={(e) =>
+                          handleFormChange("auditStatus", e.target.value)
                         }
                         type="text"
                         className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
@@ -1269,111 +1307,46 @@ const AoProfile = () => {
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Affected Position
+                        RTIC
                       </label>
-                      <select
-                        value={formData.affectedPosition}
-                        onChange={(e) => {
-                          console.log(
-                            "Select onChange tetiklendi! Yeni value:",
-                            e.target.value,
-                          ); // Debug: Bu çıkmıyorsa onChange patlıyor
-                          handleFormChange("affectedPosition", e.target.value); // String path + value – obje değil!
-                        }}
-                      >
-                        <option value="">Seçiniz</option>
-                        {dropdownData?.affectedPosition?.map((item) => (
-                          <option key={item.id} value={item.id}>
-                            {item.value}
-                          </option>
-                        ))}
-                      </select>
+                      <input
+                        value={formData.rtic}
+                        onChange={(e) =>
+                          handleFormChange("rtic", e.target.value)
+                        }
+                        type="text"
+                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      />
                     </div>
                   </div>
                   <div className="space-y-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Initial Risk
+                        Frequency
                       </label>
                       <div className="grid grid-cols-3 gap-2">
-                        <select
-                          value={formData.initialRiskSeverity}
-                          onChange={(e) => {
-                            console.log(
-                              "Select onChange tetiklendi! Yeni value:",
-                              e.target.value,
-                            ); // Debug: Bu çıkmıyorsa onChange patlıyor
-                            const newValue = parseInt(e.target.value, 10) || 0;
-                            handleFormChange("initialRiskSeverity", newValue); // String path + value – obje değil!
-                          }}
-                        >
-                          <option value="">Seçiniz</option>
-                          <option>1</option>
-                          <option>2</option>
-                          <option>3</option>
-                          <option>4</option>
-                          <option>5</option>
-                        </select>
-                        <select
-                          value={formData.initialRiskLikelyhood}
-                          onChange={(e) => {
-                            console.log(
-                              "Select onChange tetiklendi! Yeni value:",
-                              e.target.value,
-                            ); // Debug: Bu çıkmıyorsa onChange patlıyor
-                            const newValue = parseInt(e.target.value, 10) || 0;
-                            handleFormChange("initialRiskLikelyhood", newValue); // String path + value – obje değil!
-                          }}
-                        >
-                          <option value="">Seçiniz</option>
-                          <option>1</option>
-                          <option>2</option>
-                          <option>3</option>
-                          <option>4</option>
-                          <option>5</option>
-                        </select>
+                        <input
+                        value={formData.frequency}
+                        onChange={(e) =>
+                          handleFormChange("frequency", e.target.value)
+                        }
+                        type="text"
+                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      />
                       </div>
                     </div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Residual Risk / Opportunity Level
+                      Audit Date
                     </label>
                     <div className="grid grid-cols-3 gap-2">
-                      <select
-                        value={formData.residualRiskSeverity}
-                        onChange={(e) => {
-                          console.log(
-                            "Select onChange tetiklendi! Yeni value:",
-                            e.target.value,
-                          ); // Debug: Bu çıkmıyorsa onChange patlıyor
-                          const newValue = parseInt(e.target.value, 10) || 0;
-                          handleFormChange("residualRiskSeverity", newValue); // String path + value – obje değil!
-                        }}
-                      >
-                        <option value="">Seçiniz</option>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                      </select>
-                      <select
-                        value={formData.residualRiskLikelyhood}
-                        onChange={(e) => {
-                          console.log(
-                            "Select onChange tetiklendi! Yeni value:",
-                            e.target.value,
-                          ); // Debug: Bu çıkmıyorsa onChange patlıyor
-                          const newValue = parseInt(e.target.value, 10) || 0;
-                          handleFormChange("residualRiskLikelyhood", newValue); // String path + value – obje değil!
-                        }}
-                      >
-                        <option value="">Seçiniz</option>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                      </select>
+                      <input
+                        value={formData.auditDate}
+                        onChange={(e) =>
+                          handleFormChange("auditDate", e.target.value)
+                        }
+                        type="text"
+                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      />
                     </div>
                   </div>
                 </div>

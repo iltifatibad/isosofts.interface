@@ -27,7 +27,7 @@ const CusBody = ({
     setLoading(true); // Loading başla
     try {
       const response = await fetch(
-        "http://localhost:8000/api/register/doc/all?status=archived",
+        "http://localhost:8000/api/register/cus/all?status=archived",
       );
       if (!response.ok) {
         throw new Error("Failed To Get Datas From Archived DataBase");
@@ -95,7 +95,7 @@ const CusBody = ({
     setLoading(true); // Loading başla
     try {
       const response = await fetch(
-        "http://localhost:8000/api/register/doc/all?status=deleted",
+        "http://localhost:8000/api/register/cus/all?status=deleted",
       );
       if (!response.ok) {
         throw new Error("Failed To Get Datas From Deleted DataBase");
@@ -152,7 +152,7 @@ const CusBody = ({
   const [tableData, setTableData] = useState([]);
   const getAll = async () => {
     setLoading(true);
-    fetch("http://localhost:8000/api/register/doc/all")
+    fetch("http://localhost:8000/api/register/cus/all")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed To Get Datas From Database");
@@ -274,19 +274,22 @@ const CusBody = ({
                   }`}
                 >
                   <td
-                    className="border border-gray-200 px-2 py-1 w-16 sticky left-0 top-0 z-10 bg-white"
+                    className="border border-gray-200 px-3 py-2 w-16 sticky left-[-1px] top-0 z-10 bg-white"
                     rowSpan={1}
                   >
-                    <div className="flex items-center gap-1">
-                      <span className="font-semibold">{row.no}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-gray-700">
+                        {row.no}
+                      </span>
                       <input
-                        checked={selectedRows.has(row.id)}
-                        onChange={() => onCheckboxChange(row.id, deletedData)}
                         type="checkbox"
-                        className="ml-2 h-4 w-4 text-blue-600"
+                        checked={selectedRows.has(row.id)}
+                        onChange={() => onCheckboxChange(row.id, tableData)}
+                        className="h-4 w-4 text-blue-600 rounded"
                       />
                     </div>
                   </td>
+
                   <td
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
@@ -304,7 +307,7 @@ const CusBody = ({
                     rowSpan={1}
                   >
                     <span className="inline-block px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 rounded-full shadow-sm">
-                      {row.origin?.value}
+                      {row.regNumber}
                     </span>
                   </td>
 
@@ -312,22 +315,19 @@ const CusBody = ({
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    {row.number && (
+                    
                       <span className="inline-block px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 rounded-full shadow-sm">
-                        {row.number}
+                        {row.scope1?.value}
                       </span>
-                    )}
                   </td>
 
                   <td
                     className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
                   >
-                    {row.revNumber && (
                       <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
-                        {row.revNumber}
+                        {row.scope2?.value}
                       </span>
-                    )}
                   </td>
 
                   {/* Certificate No */}
@@ -335,11 +335,9 @@ const CusBody = ({
                     className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
                   >
-                    {row.issuer && (
                       <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
-                        {row.issuer}
+                        {row.scope3?.value}
                       </span>
-                    )}
                   </td>
 
                   {/* Inspection Frequency */}
@@ -347,18 +345,16 @@ const CusBody = ({
                     className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
                   >
-                    {row.approver && (
                       <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
-                        {row.approver}
+                        {row.registrationDate}
                       </span>
-                    )}
                   </td>
 
                   <td
                     className="border border-gray-200 px-3 py-2 w-28"
                     rowSpan={1}
                   >
-                    {row.issueDate}
+                    {row.reviewDate}
                   </td>
 
                   <td
@@ -373,9 +369,45 @@ const CusBody = ({
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    {row.nextReviewDate}
+                    {row.actual}
                   </td>
 
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.qgs}
+                  </td>
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.communication}
+                  </td>
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.otd}
+                  </td>
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.documentation}
+                  </td>
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.hs}
+                  </td>
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.environment}
+                  </td>
                   <td
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
@@ -433,19 +465,22 @@ const CusBody = ({
                   }`}
                 >
                   <td
-                    className="border border-gray-200 px-2 py-1 w-16 sticky left-0 top-0 z-10 bg-white"
+                    className="border border-gray-200 px-3 py-2 w-16 sticky left-[-1px] top-0 z-10 bg-white"
                     rowSpan={1}
                   >
-                    <div className="flex items-center gap-1">
-                      <span className="font-semibold">{row.no}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-gray-700">
+                        {row.no}
+                      </span>
                       <input
-                        checked={selectedRows.has(row.id)}
-                        onChange={() => onCheckboxChange(row.id, archivedData)}
                         type="checkbox"
-                        className="ml-2 h-4 w-4 text-blue-600"
+                        checked={selectedRows.has(row.id)}
+                        onChange={() => onCheckboxChange(row.id, tableData)}
+                        className="h-4 w-4 text-blue-600 rounded"
                       />
                     </div>
                   </td>
+
                   <td
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
@@ -463,7 +498,7 @@ const CusBody = ({
                     rowSpan={1}
                   >
                     <span className="inline-block px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 rounded-full shadow-sm">
-                      {row.origin?.value}
+                      {row.regNumber}
                     </span>
                   </td>
 
@@ -471,22 +506,19 @@ const CusBody = ({
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    {row.number && (
+                    
                       <span className="inline-block px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 rounded-full shadow-sm">
-                        {row.number}
+                        {row.scope1?.value}
                       </span>
-                    )}
                   </td>
 
                   <td
                     className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
                   >
-                    {row.revNumber && (
                       <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
-                        {row.revNumber}
+                        {row.scope2?.value}
                       </span>
-                    )}
                   </td>
 
                   {/* Certificate No */}
@@ -494,11 +526,9 @@ const CusBody = ({
                     className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
                   >
-                    {row.issuer && (
                       <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
-                        {row.issuer}
+                        {row.scope3?.value}
                       </span>
-                    )}
                   </td>
 
                   {/* Inspection Frequency */}
@@ -506,18 +536,16 @@ const CusBody = ({
                     className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
                   >
-                    {row.approver && (
                       <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
-                        {row.approver}
+                        {row.registrationDate}
                       </span>
-                    )}
                   </td>
 
                   <td
                     className="border border-gray-200 px-3 py-2 w-28"
                     rowSpan={1}
                   >
-                    {row.issueDate}
+                    {row.reviewDate}
                   </td>
 
                   <td
@@ -532,9 +560,45 @@ const CusBody = ({
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    {row.nextReviewDate}
+                    {row.actual}
                   </td>
 
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.qgs}
+                  </td>
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.communication}
+                  </td>
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.otd}
+                  </td>
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.documentation}
+                  </td>
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.hs}
+                  </td>
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.environment}
+                  </td>
                   <td
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
@@ -899,7 +963,7 @@ const CusBody = ({
                     rowSpan={1}
                   >
                     <span className="inline-block px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 rounded-full shadow-sm">
-                      {row.origin?.value}
+                      {row.regNumber}
                     </span>
                   </td>
 
@@ -907,22 +971,19 @@ const CusBody = ({
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    {row.number && (
+                    
                       <span className="inline-block px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 rounded-full shadow-sm">
-                        {row.number}
+                        {row.scope1?.value}
                       </span>
-                    )}
                   </td>
 
                   <td
                     className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
                   >
-                    {row.revNumber && (
                       <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
-                        {row.revNumber}
+                        {row.scope2?.value}
                       </span>
-                    )}
                   </td>
 
                   {/* Certificate No */}
@@ -930,11 +991,9 @@ const CusBody = ({
                     className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
                   >
-                    {row.issuer && (
                       <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
-                        {row.issuer}
+                        {row.scope3?.value}
                       </span>
-                    )}
                   </td>
 
                   {/* Inspection Frequency */}
@@ -942,18 +1001,16 @@ const CusBody = ({
                     className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
                   >
-                    {row.approver && (
                       <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
-                        {row.approver}
+                        {row.registrationDate}
                       </span>
-                    )}
                   </td>
 
                   <td
                     className="border border-gray-200 px-3 py-2 w-28"
                     rowSpan={1}
                   >
-                    {row.issueDate}
+                    {row.reviewDate}
                   </td>
 
                   <td
@@ -968,44 +1025,44 @@ const CusBody = ({
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    {row.nextReviewDate}
+                    {row.actual}
                   </td>
 
                   <td
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    {row.actual?.value}
+                    {row.qgs}
                   </td>
                   <td
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    {row.actual?.value}
+                    {row.communication}
                   </td>
                   <td
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    {row.actual?.value}
+                    {row.otd}
                   </td>
                   <td
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    {row.actual?.value}
+                    {row.documentation}
                   </td>
                   <td
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    {row.actual?.value}
+                    {row.hs}
                   </td>
                   <td
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    {row.actual?.value}
+                    {row.environment}
                   </td>
                   <td
                     className="border border-gray-200 px-3 py-2 w-20"
