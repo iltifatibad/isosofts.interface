@@ -206,6 +206,7 @@ const VenProfile = () => {
   const [modalMode, setModalMode] = useState("add");
   const [editingRow, setEditingRow] = useState(null);
   const [formData, setFormData] = useState({
+          id: 0,
           name: "",
           regNumber: "",
           scope1: "",

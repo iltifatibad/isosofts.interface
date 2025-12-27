@@ -937,7 +937,7 @@ const AoBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.process?.value}
+                      value={row.activityDescription?.value}
                       color="bg-rose-100 text-rose-700 border border-rose-200"
                     />
                   </td>
@@ -948,7 +948,7 @@ const AoBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.legislation}
+                      value={row.auditorInspector}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -959,7 +959,7 @@ const AoBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.section}
+                      value={row.auditeeInspectee}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -970,7 +970,7 @@ const AoBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.requirement}
+                      value={row.reviewedPremises?.value}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -981,7 +981,7 @@ const AoBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.riskOfViolation}
+                      value={row.reviewedProcess?.value}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -991,7 +991,7 @@ const AoBody = ({
                     className="border border-gray-200 px-2 py-1 w-32"
                     rowSpan={1}
                   >
-                    {row.affectedPositions?.value}
+                    {row.rtic}
                   </td>
 
                   {/* Initial Risk */}
@@ -1000,7 +1000,7 @@ const AoBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.initialRiskSeverity}
+                      value={row.inspectionFrequency?.value}
                       color="bg-emerald-100 text-emerald-700 border border-emerald-200"
                     />
                   </td>
@@ -1009,7 +1009,7 @@ const AoBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.initialRiskLikelyhood}
+                      value={row.AuditDate}
                       color="bg-emerald-100 text-emerald-700 border border-emerald-200"
                     />
                   </td>
@@ -1020,7 +1020,7 @@ const AoBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value="Medium"
+                      value={row.nextAuditDate}
                       color="bg-yellow-100 text-yellow-700 border border-yellow-200"
                     />
                   </td>
@@ -1042,7 +1042,7 @@ const AoBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.residualRiskLikelyhood}
+                      value={row.auditStatus}
                       color="bg-rose-100 text-rose-700 border border-rose-200"
                     />
                   </td>

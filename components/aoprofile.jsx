@@ -218,7 +218,7 @@ const AoProfile = () => {
     auditDate: "",
     inspectionFrequency: "",
     nextAuditDate: "",
-    auditStatus: 0,
+    auditStatus: "",
   });
 
   const [formDataHs, setFormDataHs] = useState({
@@ -373,7 +373,7 @@ const AoProfile = () => {
     auditDate: "",
     inspectionFrequency: "",
     nextAuditDate: "",
-    auditStatus: 0,
+    auditStatus: "",
       });
       setShowModal(true);
     } else {
@@ -411,17 +411,15 @@ const AoProfile = () => {
     if (activeHeader) {
       setFormData({
         id: 0,
-        activityDescription: row.activityDescription,
-        auditorInspector: row.auditorInspector,
-        auditeeInspectee: row.auditeeInspectee,
-        reviewedPremises: row.reviewedPremises,
-        reviewedProcess: row.reviewedProcess,
-        rtic: row.rtic,
-        frequency: row.frequency,
+        activityDescription: row.activityDescription.id || String(row.activityDescription),
+        auditorInspector: row.auditorInspector.id || String(row.auditorInspector),
+        auditeeInspectee: row.auditeeInspectee.id || String(row.auditeeInspectee),
+        reviewedPremises: row.reviewedPremises.id || String(row.reviewedPremises),
+        reviewedProcess: row.reviewedProcess.id || String(row.reviewedProcess),
         auditDate: row.auditDate,
-        inspectionFrequency: row.inspectionFrequency,
+        inspectionFrequency: row.inspectionFrequency.id || String(row.inspectionFrequency),
         nextAuditDate: row.nextAuditDate,
-        auditStatus: 0,
+        auditStatus: row.auditStatus.id || String(row.auditStatus),
       });
     } else {
       setActionData({
@@ -617,7 +615,7 @@ const AoProfile = () => {
           auditDate: formData.auditDate,
           inspectionFrequency: formData.inspectionFrequency,
           nextAuditDate: formData.nextAuditDate,
-          auditStatus: formData,auditStatus,
+          auditStatus: formData.auditStatus,
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
         const url =
@@ -1200,14 +1198,23 @@ const AoProfile = () => {
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Activity Description
                       </label>
-                      <input
-                        value={formData.activityDescription}
-                        onChange={(e) =>
-                          handleFormChange("activityDescription", e.target.value)
-                        }
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                      />
+                      <select
+                        value={formData.activityDescription || ""} // Null-safe
+                        onChange={(e) => {
+                          console.log(
+                            "Select onChange tetiklendi! Yeni value:",
+                            e.target.value,
+                          ); // Debug: Bu çıkmıyorsa onChange patlıyor
+                          handleFormChange("activityDescription", e.target.value); // String path + value – obje değil!
+                        }}
+                      >
+                        <option value="">Seçiniz</option>
+                        {dropdownData?.activityDescription?.map((item) => (
+                          <option key={item.id} value={item.id}>
+                            {item.value}
+                          </option>
+                        ))}
+                      </select>{" "}
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -1239,42 +1246,69 @@ const AoProfile = () => {
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Reviewed Premises
                       </label>
-                      <input
-                        value={formData.reviewedPremises}
-                        onChange={(e) =>
-                          handleFormChange("reviewedPremises", e.target.value)
-                        }
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                      />
+                      <select
+                        value={formData.reviewedPremises || ""} // Null-safe
+                        onChange={(e) => {
+                          console.log(
+                            "Select onChange tetiklendi! Yeni value:",
+                            e.target.value,
+                          ); // Debug: Bu çıkmıyorsa onChange patlıyor
+                          handleFormChange("reviewedPremises", e.target.value); // String path + value – obje değil!
+                        }}
+                      >
+                        <option value="">Seçiniz</option>
+                        {dropdownData?.reveiwedPremises?.map((item) => (
+                          <option key={item.id} value={item.id}>
+                            {item.value}
+                          </option>
+                        ))}
+                      </select>{" "}
                     </div>
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Reviewed Process
                       </label>
-                      <input
-                        value={formData.reviewedProcess}
-                        onChange={(e) =>
-                          handleFormChange("reviewedProcess", e.target.value)
-                        }
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                      />
+                      <select
+                        value={formData.reviewedProcess || ""} // Null-safe
+                        onChange={(e) => {
+                          console.log(
+                            "Select onChange tetiklendi! Yeni value:",
+                            e.target.value,
+                          ); // Debug: Bu çıkmıyorsa onChange patlıyor
+                          handleFormChange("reviewedProcess", e.target.value); // String path + value – obje değil!
+                        }}
+                      >
+                        <option value="">Seçiniz</option>
+                        {dropdownData?.reviewedProcess?.map((item) => (
+                          <option key={item.id} value={item.id}>
+                            {item.value}
+                          </option>
+                        ))}
+                      </select>{" "}
                     </div>
 
                                        <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Inspection Frequency
                       </label>
-                      <input
-                        value={formData.inspectionFrequency}
-                        onChange={(e) =>
-                          handleFormChange("inspectionFrequency", e.target.value)
-                        }
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                      />
+                       <select
+                        value={formData.inspectionFrequency || ""} // Null-safe
+                        onChange={(e) => {
+                          console.log(
+                            "Select onChange tetiklendi! Yeni value:",
+                            e.target.value,
+                          ); // Debug: Bu çıkmıyorsa onChange patlıyor
+                          handleFormChange("inspectionFrequency", e.target.value); // String path + value – obje değil!
+                        }}
+                      >
+                        <option value="">Seçiniz</option>
+                        {dropdownData?.inspectionFrequency?.map((item) => (
+                          <option key={item.id} value={item.id}>
+                            {item.value}
+                          </option>
+                        ))}
+                      </select>{" "}
                     </div>
 
                                        <div>
@@ -1317,24 +1351,9 @@ const AoProfile = () => {
                         type="text"
                         className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                       />
-                    </div>
+                    </div> 
                   </div>
                   <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Frequency
-                      </label>
-                      <div className="grid grid-cols-3 gap-2">
-                        <input
-                        value={formData.frequency}
-                        onChange={(e) =>
-                          handleFormChange("frequency", e.target.value)
-                        }
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                      />
-                      </div>
-                    </div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Audit Date
                     </label>
@@ -1348,7 +1367,7 @@ const AoProfile = () => {
                         className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                       />
                     </div>
-                  </div>
+                  </div> 
                 </div>
               </div>
               <div className="p-6 border-t border-blue-100 flex justify-end space-x-4">

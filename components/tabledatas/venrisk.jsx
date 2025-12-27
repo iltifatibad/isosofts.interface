@@ -273,7 +273,7 @@ const VenBody = ({
                       : "bg-green-100 hover:bg-green-200"
                   }`}
                 >
-                  <td
+                                    <td
                     className="border border-gray-200 px-3 py-2 w-16 sticky left-[-1px] top-0 z-10 bg-white"
                     rowSpan={1}
                   >
@@ -284,7 +284,7 @@ const VenBody = ({
                       <input
                         type="checkbox"
                         checked={selectedRows.has(row.id)}
-                        onChange={() => onCheckboxChange(row.id, tableData)}
+                        onChange={() => onCheckboxChange(row.id, deletedData)}
                         className="h-4 w-4 text-blue-600 rounded"
                       />
                     </div>
@@ -464,7 +464,7 @@ const VenBody = ({
                       : "bg-green-100 hover:bg-green-200"
                   }`}
                 >
-                  <td
+                                    <td
                     className="border border-gray-200 px-3 py-2 w-16 sticky left-[-1px] top-0 z-10 bg-white"
                     rowSpan={1}
                   >
@@ -475,7 +475,7 @@ const VenBody = ({
                       <input
                         type="checkbox"
                         checked={selectedRows.has(row.id)}
-                        onChange={() => onCheckboxChange(row.id, tableData)}
+                        onChange={() => onCheckboxChange(row.id, archivedData)}
                         className="h-4 w-4 text-blue-600 rounded"
                       />
                     </div>

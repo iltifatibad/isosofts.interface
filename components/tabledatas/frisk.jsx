@@ -27,7 +27,7 @@ const FBody = ({
     setLoading(true); // Loading başla
     try {
       const response = await fetch(
-        "http://localhost:8000/api/register/leg/all?status=archived",
+        "http://localhost:8000/api/register/fin/all?status=archived",
       );
       if (!response.ok) {
         throw new Error("Failed To Get Datas From Archived DataBase");
@@ -95,7 +95,7 @@ const FBody = ({
     setLoading(true); // Loading başla
     try {
       const response = await fetch(
-        "http://localhost:8000/api/register/leg/all?status=deleted",
+        "http://localhost:8000/api/register/fin/all?status=deleted",
       );
       if (!response.ok) {
         throw new Error("Failed To Get Datas From Deleted DataBase");
@@ -152,7 +152,7 @@ const FBody = ({
   const [tableData, setTableData] = useState([]);
   const getAll = async () => {
     setLoading(true);
-    fetch("http://localhost:8000/api/register/leg/all")
+    fetch("http://localhost:8000/api/register/fin/all")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed To Get Datas From Database");
@@ -281,7 +281,6 @@ const FBody = ({
                       : "bg-green-100 hover:bg-green-200"
                   }`}
                 >
-                  {/* ID + Checkbox */}
                   <td
                     className="border border-gray-200 px-3 py-2 w-16 sticky left-[-1px] top-0 z-10 bg-white"
                     rowSpan={1}
@@ -293,7 +292,7 @@ const FBody = ({
                       <input
                         type="checkbox"
                         checked={selectedRows.has(row.id)}
-                        onChange={() => onCheckboxChange(row.id, tableData)}
+                        onChange={() => onCheckboxChange(row.id, deletedData)}
                         className="h-4 w-4 text-blue-600 rounded"
                       />
                     </div>
@@ -304,7 +303,7 @@ const FBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.process?.value}
+                      value={row.issuer}
                       color="bg-rose-100 text-rose-700 border border-rose-200"
                     />
                   </td>
@@ -315,7 +314,7 @@ const FBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.legislation}
+                      value={row.process?.value}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -326,7 +325,7 @@ const FBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.section}
+                      value={row.categoryOfFinding?.value}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -337,7 +336,7 @@ const FBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.requirement}
+                      value={row.typeOfFinding?.value}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -348,7 +347,7 @@ const FBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.riskOfViolation}
+                      value={row.sourceOfFinding?.value}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -358,7 +357,7 @@ const FBody = ({
                     className="border border-gray-200 px-2 py-1 w-32"
                     rowSpan={1}
                   >
-                    {row.affectedPositions?.value}
+                    {row.customer}
                   </td>
 
                   {/* Initial Risk */}
@@ -367,7 +366,7 @@ const FBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.initialRiskSeverity}
+                      value={row.vendor}
                       color="bg-emerald-100 text-emerald-700 border border-emerald-200"
                     />
                   </td>
@@ -377,7 +376,7 @@ const FBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.initialRiskLikelyhood}
+                      value={row.description}
                       color="bg-emerald-100 text-emerald-700 border border-emerald-200"
                     />
                   </td>
@@ -388,7 +387,7 @@ const FBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value="Medium"
+                      value={row.containmentAction}
                       color="bg-yellow-100 text-yellow-700 border border-yellow-200"
                     />
                   </td>
@@ -401,7 +400,7 @@ const FBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.residualRiskSeverity}
+                      value={row.rootCauses}
                       color="bg-rose-100 text-rose-700 border border-rose-200"
                     />
                   </td>
@@ -467,7 +466,7 @@ const FBody = ({
                       <input
                         type="checkbox"
                         checked={selectedRows.has(row.id)}
-                        onChange={() => onCheckboxChange(row.id, tableData)}
+                        onChange={() => onCheckboxChange(row.id, archivedData)}
                         className="h-4 w-4 text-blue-600 rounded"
                       />
                     </div>
@@ -478,7 +477,7 @@ const FBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.process?.value}
+                      value={row.issuer}
                       color="bg-rose-100 text-rose-700 border border-rose-200"
                     />
                   </td>
@@ -489,7 +488,7 @@ const FBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.legislation}
+                      value={row.process?.value}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -500,7 +499,7 @@ const FBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.section}
+                      value={row.categoryOfFinding?.value}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -511,7 +510,7 @@ const FBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.requirement}
+                      value={row.typeOfFinding?.value}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -522,7 +521,7 @@ const FBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.riskOfViolation}
+                      value={row.sourceOfFinding?.value}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -532,7 +531,7 @@ const FBody = ({
                     className="border border-gray-200 px-2 py-1 w-32"
                     rowSpan={1}
                   >
-                    {row.affectedPositions?.value}
+                    {row.customer}
                   </td>
 
                   {/* Initial Risk */}
@@ -541,7 +540,7 @@ const FBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.initialRiskSeverity}
+                      value={row.vendor}
                       color="bg-emerald-100 text-emerald-700 border border-emerald-200"
                     />
                   </td>
@@ -551,7 +550,7 @@ const FBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.initialRiskLikelyhood}
+                      value={row.description}
                       color="bg-emerald-100 text-emerald-700 border border-emerald-200"
                     />
                   </td>
@@ -562,7 +561,7 @@ const FBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value="Medium"
+                      value={row.containmentAction}
                       color="bg-yellow-100 text-yellow-700 border border-yellow-200"
                     />
                   </td>
@@ -575,7 +574,7 @@ const FBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.residualRiskSeverity}
+                      value={row.rootCauses}
                       color="bg-rose-100 text-rose-700 border border-rose-200"
                     />
                   </td>
@@ -925,7 +924,7 @@ const FBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.process?.value}
+                      value={row.issuer}
                       color="bg-rose-100 text-rose-700 border border-rose-200"
                     />
                   </td>
@@ -936,7 +935,7 @@ const FBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.legislation}
+                      value={row.process?.value}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -947,7 +946,7 @@ const FBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.section}
+                      value={row.categoryOfFinding?.value}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -958,7 +957,7 @@ const FBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.requirement}
+                      value={row.typeOfFinding?.value}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -969,7 +968,7 @@ const FBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.riskOfViolation}
+                      value={row.sourceOfFinding?.value}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -979,7 +978,7 @@ const FBody = ({
                     className="border border-gray-200 px-2 py-1 w-32"
                     rowSpan={1}
                   >
-                    {row.affectedPositions?.value}
+                    {row.customer}
                   </td>
 
                   {/* Initial Risk */}
@@ -988,7 +987,7 @@ const FBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.initialRiskSeverity}
+                      value={row.vendor}
                       color="bg-emerald-100 text-emerald-700 border border-emerald-200"
                     />
                   </td>
@@ -998,7 +997,7 @@ const FBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.initialRiskLikelyhood}
+                      value={row.description}
                       color="bg-emerald-100 text-emerald-700 border border-emerald-200"
                     />
                   </td>
@@ -1009,7 +1008,7 @@ const FBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value="Medium"
+                      value={row.containmentAction}
                       color="bg-yellow-100 text-yellow-700 border border-yellow-200"
                     />
                   </td>
@@ -1022,7 +1021,7 @@ const FBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.residualRiskSeverity}
+                      value={row.rootCauses}
                       color="bg-rose-100 text-rose-700 border border-rose-200"
                     />
                   </td>

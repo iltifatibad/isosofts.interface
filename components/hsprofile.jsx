@@ -405,6 +405,7 @@ const HsProfile = () => {
   const openEditModal = async (row) => {
     if (activeHeader) {
       setFormData({
+        id: selectedTable[0].id,
         process: row.process.id || String(row.process),
         hazard: row.hazard.id || String(row.hazard),
         risk: row.risk.id || String(row.risk),

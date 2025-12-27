@@ -27,7 +27,7 @@ const MRMBody = ({
     setLoading(true); // Loading başla
     try {
       const response = await fetch(
-        "http://localhost:8000/api/register/leg/all?status=archived",
+        "http://localhost:8000/api/register/mrm/all?status=archived",
       );
       if (!response.ok) {
         throw new Error("Failed To Get Datas From Archived DataBase");
@@ -95,7 +95,7 @@ const MRMBody = ({
     setLoading(true); // Loading başla
     try {
       const response = await fetch(
-        "http://localhost:8000/api/register/leg/all?status=deleted",
+        "http://localhost:8000/api/register/mrm/all?status=deleted",
       );
       if (!response.ok) {
         throw new Error("Failed To Get Datas From Deleted DataBase");
@@ -152,7 +152,7 @@ const MRMBody = ({
   const [tableData, setTableData] = useState([]);
   const getAll = async () => {
     setLoading(true);
-    fetch("http://localhost:8000/api/register/leg/all")
+    fetch("http://localhost:8000/api/register/mrm/all")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed To Get Datas From Database");
@@ -295,14 +295,13 @@ const MRMBody = ({
                       />
                     </div>
                   </td>
-
                   {/* Process */}
                   <td
                     className="border border-gray-200 px-2 py-1 w-20"
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.process?.value}
+                      value={row.risos?.value}
                       color="bg-rose-100 text-rose-700 border border-rose-200"
                     />
                   </td>
@@ -313,7 +312,7 @@ const MRMBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.legislation}
+                      value={row.topic?.value}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -324,7 +323,7 @@ const MRMBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.section}
+                      value={row.process?.value}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -399,7 +398,7 @@ const MRMBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.process?.value}
+                      value={row.risos?.value}
                       color="bg-rose-100 text-rose-700 border border-rose-200"
                     />
                   </td>
@@ -410,7 +409,7 @@ const MRMBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.legislation}
+                      value={row.topic?.value}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -421,7 +420,7 @@ const MRMBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.section}
+                      value={row.process?.value}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -771,7 +770,7 @@ const MRMBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.process?.value}
+                      value={row.risos?.value}
                       color="bg-rose-100 text-rose-700 border border-rose-200"
                     />
                   </td>
@@ -782,7 +781,7 @@ const MRMBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.legislation}
+                      value={row.topic?.value}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -793,7 +792,7 @@ const MRMBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.section}
+                      value={row.process?.value}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
