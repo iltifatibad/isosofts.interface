@@ -1024,14 +1024,14 @@ const AcProfile = () => {
                     Datas
                   </h3>
 
-                  <button
+                  {/* <button
                     onClick={openAddModal}
                     className="!rounded-button whitespace-nowrap cursor-pointer bg-white text-blue-600 px-4 py-2 hover:bg-gray-50 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm"
                   >
                     <i className="fas fa-plus mr-2 text-blue-600 hover:text-blue-700"></i>
                     {!showAction ? "Add Risk" : "Add Action"}
-                  </button>
-                  <button
+                  </button> */}
+                  {/* <button
                     onClick={toggleArchiveView}
                     className={[
                       "!rounded-button whitespace-nowrap cursor-pointer bg-white text-blue-600 px-4 py-2 hover:bg-gray-50 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
@@ -1040,8 +1040,8 @@ const AcProfile = () => {
                   >
                     <i className="fas fa-archive mr-2 text-blue-600 hover:text-blue-700"></i>
                     {showArchived ? "Hide Archived" : "Show Archived"}
-                  </button>
-                  <button
+                  </button> */}
+                  {/* <button
                     onClick={toggleDeleteView}
                     className={[
                       "!rounded-button whitespace-nowrap cursor-pointer bg-white text-blue-600 px-4 py-2 hover:bg-gray-50 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm",
@@ -1056,7 +1056,7 @@ const AcProfile = () => {
                       : showDeletedAction
                         ? "Hide Deleted Action"
                         : "Show Deleted Action"}
-                  </button>
+                  </button> */}
                   <button
                     onClick={toggleActionView}
                     disabled={selectedCount !== 1}

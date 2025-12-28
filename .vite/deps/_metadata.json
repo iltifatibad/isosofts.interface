@@ -1,0 +1,52 @@
+{
+  "hash": "95056fae",
+  "configHash": "624c1649",
+  "lockfileHash": "dc7d9566",
+  "browserHash": "9fb61b8a",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "5117380a",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "4d9a8d12",
+      "needsInterop": true
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.mjs",
+      "file": "react-router-dom.js",
+      "fileHash": "f8e5317b",
+      "needsInterop": false
+    },
+    "echarts-for-react": {
+      "src": "../../node_modules/echarts-for-react/esm/index.js",
+      "file": "echarts-for-react.js",
+      "fileHash": "b03f1933",
+      "needsInterop": false
+    },
+    "echarts": {
+      "src": "../../node_modules/echarts/index.js",
+      "file": "echarts.js",
+      "fileHash": "591de93f",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-JF7IVAG4": {
+      "file": "chunk-JF7IVAG4.js"
+    },
+    "chunk-4BPZ7PBZ": {
+      "file": "chunk-4BPZ7PBZ.js"
+    },
+    "chunk-PUZDRPJL": {
+      "file": "chunk-PUZDRPJL.js"
+    },
+    "chunk-G3PMV62Z": {
+      "file": "chunk-G3PMV62Z.js"
+    }
+  }
+}
