@@ -584,7 +584,7 @@ const FbBody = ({
               Arşiv verileri yükleniyor...
             </td>
           </tr>
-        ) : !tableData || tableData.length === 0 ? (
+        ) : !actionData || actionData.length === 0 ? (
           <tr>
             <td colSpan={25} className="text-center py-6 text-gray-500">
               No Data
