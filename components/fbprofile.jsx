@@ -251,30 +251,18 @@ const FbProfile = () => {
   const [actionData, setActionData] = useState({
     actionPlan: [
       {
-        title: "",
-        raiseDate: "",
-        resources: 0,
+        id: "",
+        registerId: "",
+        scope: 0,
         currency: "",
-        relativeFunction: "",
-        responsible: "",
-        deadline: "",
-        confirmation: "",
-        status: "",
-        completionDate: "",
-        verificationStatus: "",
-        comment: "",
-        january: "",
-        february: "",
-        march: "",
-        april: "",
-        may: "",
-        june: "",
-        july: "",
-        august: "",
-        september: "",
-        october: "",
-        november: "",
-        december: "",
+        vendorId: "",
+        typeOfFinding: "",
+        qgs: "",
+        communication: "",
+        otd: "",
+        documentation: "",
+        hs: "",
+        environment: "",
       },
     ],
   });
@@ -285,6 +273,7 @@ const FbProfile = () => {
   const [selectedRows, setSelectedRows] = useState(new Set()); // Checkbox state'i ekle
   const [dropdownData, setDropdownData] = useState({});
   const [customers, setCustomers] = useState({});
+  const [vendors, setVendors] = useState({});
   const [selectedRowsForActions, setSelectedRowsForActions] = useState(
     new Set(),
   );
@@ -321,6 +310,21 @@ const FbProfile = () => {
       }
       const result = await response.json();
       setCustomers(result);
+      console.log(result);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
+  async function getDefaultVendors() {
+  const url = "http://localhost:8000/api/register/ven/all?status=active";
+  try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
+      const result = await response.json();
+      setVendors(result);
       console.log(result);
     } catch (error) {
       console.error(error.message);
@@ -376,6 +380,7 @@ const FbProfile = () => {
     setEditingRow(null);
     const dropdownData = await getDefaultDropdownList();
     const customerData = await getDefaultCustomers();
+    const vendorData = await getDefaultVendors();
     if (activeHeader) {
       setFormData({
         id: 0,
@@ -395,30 +400,18 @@ const FbProfile = () => {
       setShowModal(true);
     } else {
       setActionData({
-        title: "",
-        raiseDate: "",
-        resources: 0,
+        id: "",
+        registerId: "",
+        scope: 0,
         currency: "",
-        relativeFunction: "",
-        responsible: "",
-        deadline: "",
-        confirmation: "",
-        status: "",
-        completionDate: "",
-        verificationStatus: "",
-        comment: "",
-        january: "",
-        february: "",
-        march: "",
-        april: "",
-        may: "",
-        june: "",
-        july: "",
-        august: "",
-        september: "",
-        october: "",
-        november: "",
-        december: "",
+        vendorId: "",
+        typeOfFinding: "",
+        qgs: "",
+        communication: "",
+        otd: "",
+        documentation: "",
+        hs: "",
+        environment: "",
       });
       setShowModal(true);
     }
@@ -444,42 +437,25 @@ const FbProfile = () => {
       setActionData({
         actionPlan: [
           {
-            title: row.title,
-            raiseDate: row.raiseDate,
-            resources:
-              parseInt(row.resources?.id) || parseInt(row.resources) || 0,
-            currency: "",
-            relativeFunction:
-              row.relativeFunction?.id || String(row.relativeFunction) || "",
-            responsible: row.responsible?.id || String(row.responsible) || "",
-            deadline: row.deadline,
-            confirmation:
-              row.confirmation?.id || String(row.confirmation) || "",
-            status: row.status?.id || parseInt(row.status) || "",
-            completionDate: row.completionDate || "",
-            verificationStatus:
-              row.verificationStatus?.id ||
-              parseInt(row.verificationStatus) ||
-              "",
-            comment: row.comment || "",
-            january: row.january?.id || String(row.january) || "",
-            february: row.february?.id || String(row.february) || "",
-            march: row.march?.id || String(row.march) || "",
-            april: row.april?.id || String(row.april) || "",
-            may: row.may?.id || String(row.may) || "",
-            june: row.june?.id || String(row.june) || "",
-            july: row.july?.id || String(row.july) || "",
-            august: row.august?.id || String(row.august) || "",
-            september: row.september?.id || String(row.september) || "",
-            october: row.october?.id || String(row.october) || "",
-            november: row.november?.id || String(row.november) || "",
-            december: row.december?.id || String(row.december) || "",
+            id: row.id,
+            registerId: row.registerId,
+            scope: parseInt(row.scope?.id) || parseInt(row.scope) || 0,
+            vendorId: row.vendorId,
+            typeOfFinding: row.typeOfFinding?.id || String(row.typeOfFinding) || "",
+            qgs: row.qgs,
+            communication: row.communication,
+            otd: row.otd,
+            documentation: row.documentation,
+            hs: row.hs,
+            environment: row.environment,
           },
         ],
       });
     }
     const dropdownData = await getDefaultDropdownList();
     const customerData = await getDefaultCustomers();
+    const vendorData = await getDefaultVendors();
+    
     setModalMode("edit");
     setEditingRow(row);
 
@@ -578,35 +554,22 @@ const FbProfile = () => {
       } else {
         const payload = {
           registerId: Array.from(selectedRows)[0],
-          title: actionData.actionPlan[0]?.title || "",
-          resources: parseInt(actionData.actionPlan[0]?.resources) || 0,
-          raiseDate: actionData.actionPlan[0]?.raiseDate || "",
-          currency: actionData.actionPlan[0]?.currency || "",
-          relativeFunction: actionData.actionPlan[0]?.relativeFunction || "",
-          responsible: actionData.actionPlan[0]?.responsible || "",
-          deadline: actionData.actionPlan[0]?.deadline || "",
-          confirmation: actionData.actionPlan[0]?.confirmation || "",
-          status: actionData.actionPlan[0]?.status || "",
-          completionDate: actionData.actionPlan[0]?.completionDate || "",
-          verificationStatus:
-            actionData.actionPlan[0]?.verificationStatus || "",
-          comment: actionData.actionPlan[0]?.comment || "",
-          january: actionData.actionPlan[0]?.january || "",
-          february: actionData.actionPlan[0]?.february || "",
-          march: actionData.actionPlan[0]?.march || "",
-          april: actionData.actionPlan[0]?.april || "",
-          may: actionData.actionPlan[0]?.may || "",
-          june: actionData.actionPlan[0]?.june || "",
-          july: actionData.actionPlan[0]?.july || "",
-          august: actionData.actionPlan[0]?.august || "",
-          september: actionData.actionPlan[0]?.september || "",
-          october: actionData.actionPlan[0]?.october || "",
-          november: actionData.actionPlan[0]?.november || "",
-          december: actionData.actionPlan[0]?.december || "",
+
+          id: actionData.actionPlan[0]?.id,
+          registerId: actionData.actionPlan[0]?.registerId,
+          scope: actionData.actionPlan[0]?.scope,
+          vendorId: actionData.actionPlan[0]?.vendorId,
+          typeOfFinding: actionData.actionPlan[0]?.typeOfFinding,
+          qgs: actionData.actionPlan[0]?.qgs,
+          communication: actionData.actionPlan[0]?.communication,
+          otd: actionData.actionPlan[0]?.otd,
+          documentation: actionData.actionPlan[0]?.documentation,
+          hs: actionData.actionPlan[0]?.hs,
+          environment: actionData.actionPlan[0]?.environment,
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
 
-        fetch("http://localhost:8000/api/register/component/action/one", {
+        fetch("http://localhost:8000/api/register/component/vendorFeedback/one", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload), // Direkt obje – array yapma!
@@ -663,30 +626,18 @@ const FbProfile = () => {
           actionPlan: [
             {
               id: [...selectedRowsForActions][0],
-              title: actionData.actionPlan[0].title,
-              raiseDate: actionData.raiseDate,
-              resources: parseInt(actionData.actionPlan[0].resources.id) || 0,
-              currency: "",
-              relativeFunction: actionData.relativeFunction?.id || "",
-              responsible: actionData.responsible?.id || "",
-              deadline: actionData.deadline,
-              confirmation: actionData.actionPlan[0].confirmation?.id || "",
-              status: actionData.actionPlan[0].status?.id,
-              completionDate: actionData.completionDate,
-              verificationStatus: actionData.verificationStatus?.id,
-              comment: actionData.comment?.id || "",
-              january: actionData.january?.id || "",
-              february: actionData.february?.id || "",
-              march: actionData.march?.id || "",
-              april: actionData.april?.id || "",
-              may: actionData.may?.id || "",
-              june: actionData.june?.id || "",
-              july: actionData.july?.id || "",
-              august: actionData.august?.id || "",
-              september: actionData.september?.id || "",
-              october: actionData.october?.id || "",
-              november: actionData.november?.id || "",
-              december: actionData.december?.id || "",
+              jobNumber: actionData.actionPlan[0].jobNumber || "",
+              jobStartDate: actionData.actionPlan[0].jobStartDate || "",
+              jobCompletionDate: actionData.actionPlan[0].jobCompletionDate || "",
+              scope: actionData.actionPlan[0].scope || "",
+              customerId: actionData.actionPlan[0].customerId || "",
+              typeOfFinding: actionData.actionPlan[0].typeOfFinding || "",
+              qgs: parseInt(actionData.actionPlan[0].qgs) || "",
+              otd: parseInt(actionData.actionPlan[0].otd) || "",
+              documentation: parseInt(actionData.actionPlan[0].documentation) || "",
+              communication: parseInt(actionData.actionPlan[0].communication) || "",
+              hs: parseInt(actionData.actionPlan[0].hs) || "",
+              environment: parseInt(actionData.actionPlan[0].environment) || "",
             },
           ],
         });
@@ -694,7 +645,7 @@ const FbProfile = () => {
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
 
         const url =
-          "http://localhost:8000/api/register/component/action/one/" +
+          "http://localhost:8000/api/register/component/vendorFeedback/one/" +
           [...selectedRowsForActions][0];
         fetch(url, {
           method: "PUT",
@@ -796,7 +747,7 @@ const FbProfile = () => {
       if (!showDeletedAction) {
         console.log("AAABBB: ", selectedRowsForActions);
         fetch(
-          "http://localhost:8000/api/register/component/action/all/delete",
+          "http://localhost:8000/api/register/component/vendorFeedback/all/delete",
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -821,7 +772,7 @@ const FbProfile = () => {
       } else {
         console.log("CCC: ", selectedRowsForActions);
         fetch(
-          "http://localhost:8000/api/register/component/action/all/undelete",
+          "http://localhost:8000/api/register/component/vendorFeedback/all/undelete",
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -1277,7 +1228,6 @@ const FbProfile = () => {
                         ))}
                       </select>
                     </div>
-
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Name Of Customer
@@ -1478,630 +1428,216 @@ const FbProfile = () => {
             </div>
           </div>
         ) : (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
             <div className="bg-white !rounded-button shadow-xl max-w-4xl w-full mx-4 max-h-screen overflow-y-auto">
               <div className="p-6 border-b border-blue-100">
                 <h3 className="text-xl font-semibold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
-                  {modalMode === "add" ? "Add New Action " : "Edit Action"}
+                  {modalMode === "add" ? "Add New Action" : "Edit Action"}
                 </h3>
               </div>
               <div className="p-6">
-                <div className="grid md:grid-cols-1 gap-6">
-                  <div className="space-y-6">
-                    <div className="grid md:grid-cols-1 gap-6">
-                      <div className="space-y-6">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Action Plan
-                          </label>
-
-                          <div className="space-y-6">
-                            {/* Row 1 */}
-                            <div className="grid grid-cols-3 gap-4">
-                              {/* Action */}
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                  Action
-                                </label>
-                                <input
-                                  value={
-                                    actionData?.actionPlan?.[0]?.title || ""
-                                  }
-                                  onChange={(e) =>
-                                    handleFormChange(
-                                      "actionPlan[0].title",
-                                      e.target.value,
-                                    )
-                                  }
-                                  type="text"
-                                  placeholder="Action"
-                                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
-                                />
-                              </div>
-
-                              {/* Raise Date with Label */}
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                  Raise Date
-                                </label>
-                                <input
-                                  value={
-                                    actionData?.actionPlan?.[0]?.raiseDate || ""
-                                  }
-                                  onChange={(e) =>
-                                    handleFormChange(
-                                      "actionPlan[0].raiseDate",
-                                      e.target.value,
-                                    )
-                                  }
-                                  type="date"
-                                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
-                                />
-                              </div>
-
-                              {/* Resources */}
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                  Resources
-                                </label>
-                                <input
-                                  value={
-                                    actionData.actionPlan?.[0]?.resources || ""
-                                  }
-                                  onChange={(e) =>
-                                    handleFormChange(
-                                      "actionPlan[0].resources",
-                                      parseInt(e.target.value),
-                                    )
-                                  }
-                                  type="text"
-                                  placeholder="Resources"
-                                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
-                                />
-                              </div>
-                            </div>
-
-                            {/* Row 2 */}
-                            <div className="grid grid-cols-3 gap-4">
-                              {/* Relative Function */}
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                  Relative Function
-                                </label>
-                                <select
-                                  value={
-                                    actionData.actionPlan?.[0]
-                                      ?.relativeFunction || ""
-                                  }
-                                  onChange={(e) =>
-                                    handleFormChange(
-                                      "actionPlan[0].relativeFunction",
-                                      e.target.value,
-                                    )
-                                  }
-                                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
-                                >
-                                  <option value="">Seçiniz</option>
-                                  {dropdownData?.relativeFunction?.map(
-                                    (item) => (
-                                      <option key={item.id} value={item.id}>
-                                        {item.value}
-                                      </option>
-                                    ),
-                                  )}
-                                </select>
-                              </div>
-
-                              {/* Responsible */}
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                  Responsible
-                                </label>
-                                <select
-                                  value={
-                                    actionData.actionPlan?.[0]?.responsible ||
-                                    ""
-                                  }
-                                  onChange={(e) =>
-                                    handleFormChange(
-                                      "actionPlan[0].responsible",
-                                      e.target.value,
-                                    )
-                                  }
-                                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
-                                >
-                                  <option value="">Seçiniz</option>
-                                  {dropdownData?.affectedPosition?.map(
-                                    (item) => (
-                                      <option key={item.id} value={item.id}>
-                                        {item.value}
-                                      </option>
-                                    ),
-                                  )}
-                                </select>
-                              </div>
-
-                              {/* Deadline (Calendar) */}
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                  Deadline
-                                </label>
-                                <input
-                                  value={
-                                    actionData.actionPlan?.[0]?.deadline || ""
-                                  }
-                                  onChange={(e) =>
-                                    handleFormChange(
-                                      "actionPlan[0].deadline",
-                                      e.target.value,
-                                    )
-                                  }
-                                  type="date"
-                                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
-                                />
-                              </div>
-                            </div>
-
-                            {/* Row 3 */}
-                            <div className="grid grid-cols-3 gap-4">
-                              {/* Action Confirmation */}
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                  Action Confirmation
-                                </label>
-                                <select
-                                  value={
-                                    actionData.actionPlan?.[0]?.confirmation ||
-                                    ""
-                                  }
-                                  onChange={(e) =>
-                                    handleFormChange(
-                                      "actionPlan[0].confirmation",
-                                      e.target.value,
-                                    )
-                                  }
-                                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
-                                >
-                                  <option value="">Seçiniz</option>
-                                  {dropdownData?.confirmation?.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.value}
-                                    </option>
-                                  ))}
-                                </select>
-                              </div>
-
-                              {/* Action Status */}
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                  Action Status
-                                </label>
-                                <select
-                                  value={
-                                    actionData.actionPlan?.[0]?.status || ""
-                                  }
-                                  onChange={(e) =>
-                                    handleFormChange(
-                                      "actionPlan[0].status",
-                                      e.target.value,
-                                    )
-                                  }
-                                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
-                                >
-                                  <option value="">Seçiniz</option>
-                                  {dropdownData?.status?.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.value}
-                                    </option>
-                                  ))}
-                                </select>
-                              </div>
-
-                              {/* Completion Date (Calendar) */}
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                  Completion Date
-                                </label>
-                                <input
-                                  value={
-                                    actionData.actionPlan?.[0]
-                                      ?.completionDate || ""
-                                  }
-                                  onChange={(e) =>
-                                    handleFormChange(
-                                      "actionPlan[0].completionDate",
-                                      e.target.value,
-                                    )
-                                  }
-                                  type="date"
-                                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
-                                />
-                              </div>
-                            </div>
-
-                            {/* Row 4 */}
-                            <div className="grid grid-cols-2 gap-4">
-                              {/* Verification Status */}
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                  Verification Status
-                                </label>
-                                <select
-                                  value={
-                                    actionData.actionPlan?.[0]
-                                      ?.verificationStatus || ""
-                                  }
-                                  onChange={(e) =>
-                                    handleFormChange(
-                                      "actionPlan[0].verificationStatus",
-                                      e.target.value,
-                                    )
-                                  }
-                                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
-                                >
-                                  <option value="">Seçiniz</option>
-                                  {dropdownData?.status?.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.value}
-                                    </option>
-                                  ))}
-                                </select>
-                              </div>
-
-                              {/* Comment */}
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                  Comment
-                                </label>
-                                <input
-                                  value={
-                                    actionData.actionPlan?.[0]?.comment || ""
-                                  }
-                                  onChange={(e) =>
-                                    handleFormChange(
-                                      "actionPlan[0].comment",
-                                      e.target.value,
-                                    )
-                                  }
-                                  type="text"
-                                  placeholder="Comment"
-                                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <label className="block text-sm font-medium text-gray-700 mt-2 mb-2">
-                            Action Status
-                          </label>
-                          <div className="space-y-6">
-                            {/* Row 1 */}
-                            <div className="grid grid-cols-3 gap-4">
-                              {/* Action */}
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                  January
-                                </label>
-                                <select
-                                  value={
-                                    actionData?.actionPlan?.[0]?.january || ""
-                                  }
-                                  onChange={(e) =>
-                                    handleFormChange(
-                                      "actionPlan[0].january",
-                                      e.target.value,
-                                    )
-                                  }
-                                  type="text"
-                                  placeholder="Action"
-                                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
-                                >
-                                  <option value="">Seçiniz</option>
-                                  {dropdownData?.status?.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.value}
-                                    </option>
-                                  ))}
-                                </select>
-                              </div>
-
-                              {/* Raise Date with Label */}
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                  February
-                                </label>
-                                <select
-                                  value={
-                                    actionData?.actionPlan?.[0]?.february || ""
-                                  }
-                                  onChange={(e) =>
-                                    handleFormChange(
-                                      "actionPlan[0].february",
-                                      e.target.value,
-                                    )
-                                  }
-                                  type="date"
-                                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
-                                >
-                                  <option value="">Seçiniz</option>
-                                  {dropdownData?.status?.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.value}
-                                    </option>
-                                  ))}
-                                </select>
-                              </div>
-
-                              {/* Resources */}
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                  March
-                                </label>
-                                <select
-                                  value={
-                                    actionData.actionPlan?.[0]?.march || ""
-                                  }
-                                  onChange={(e) =>
-                                    handleFormChange(
-                                      "actionPlan[0].march",
-                                      e.target.value,
-                                    )
-                                  }
-                                  type="text"
-                                  placeholder="Resources"
-                                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
-                                >
-                                  <option value="">Seçiniz</option>
-                                  {dropdownData?.status?.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.value}
-                                    </option>
-                                  ))}
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Row 2 */}
-                            <div className="grid grid-cols-3 gap-4">
-                              {/* Relative Function */}
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                  April
-                                </label>
-                                <select
-                                  value={
-                                    actionData.actionPlan?.[0]?.april || ""
-                                  }
-                                  onChange={(e) =>
-                                    handleFormChange(
-                                      "actionPlan[0].april",
-                                      e.target.value,
-                                    )
-                                  }
-                                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
-                                >
-                                  <option value="">Seçiniz</option>
-                                  {dropdownData?.status?.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.value}
-                                    </option>
-                                  ))}
-                                </select>
-                              </div>
-
-                              {/* Responsible */}
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                  May
-                                </label>
-                                <select
-                                  value={actionData.actionPlan?.[0]?.may || ""}
-                                  onChange={(e) =>
-                                    handleFormChange(
-                                      "actionPlan[0].may",
-                                      e.target.value,
-                                    )
-                                  }
-                                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
-                                >
-                                  <option value="">Seçiniz</option>
-                                  {dropdownData?.status?.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.value}
-                                    </option>
-                                  ))}
-                                </select>
-                              </div>
-
-                              {/* Deadline (Calendar) */}
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                  June
-                                </label>
-                                <select
-                                  value={actionData.actionPlan?.[0]?.june || ""}
-                                  onChange={(e) =>
-                                    handleFormChange(
-                                      "actionPlan[0].june",
-                                      e.target.value,
-                                    )
-                                  }
-                                  type="date"
-                                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
-                                >
-                                  <option value="">Seçiniz</option>
-                                  {dropdownData?.status?.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.value}
-                                    </option>
-                                  ))}
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Row 3 */}
-                            <div className="grid grid-cols-3 gap-4">
-                              {/* Action Confirmation */}
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                  July
-                                </label>
-                                <select
-                                  value={actionData.actionPlan?.[0]?.july || ""}
-                                  onChange={(e) =>
-                                    handleFormChange(
-                                      "actionPlan[0].july",
-                                      e.target.value,
-                                    )
-                                  }
-                                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
-                                >
-                                  <option value="">Seçiniz</option>
-                                  {dropdownData?.status?.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.value}
-                                    </option>
-                                  ))}
-                                </select>
-                              </div>
-
-                              {/* Action Status */}
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                  August
-                                </label>
-                                <select
-                                  value={
-                                    actionData.actionPlan?.[0]?.august || ""
-                                  }
-                                  onChange={(e) =>
-                                    handleFormChange(
-                                      "actionPlan[0].august",
-                                      e.target.value,
-                                    )
-                                  }
-                                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
-                                >
-                                  <option value="">Seçiniz</option>
-                                  {dropdownData?.status?.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.value}
-                                    </option>
-                                  ))}
-                                </select>
-                              </div>
-
-                              {/* Completion Date (Calendar) */}
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                  September
-                                </label>
-                                <select
-                                  value={
-                                    actionData.actionPlan?.[0]?.september || ""
-                                  }
-                                  onChange={(e) =>
-                                    handleFormChange(
-                                      "actionPlan[0].september",
-                                      e.target.value,
-                                    )
-                                  }
-                                  type="date"
-                                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
-                                >
-                                  <option value="">Seçiniz</option>
-                                  {dropdownData?.status?.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.value}
-                                    </option>
-                                  ))}
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Row 4 */}
-                            <div className="grid grid-cols-3 gap-4">
-                              {/* Verification Status */}
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                  October
-                                </label>
-                                <select
-                                  value={
-                                    actionData.actionPlan?.[0]?.october || ""
-                                  }
-                                  onChange={(e) =>
-                                    handleFormChange(
-                                      "actionPlan[0].october",
-                                      e.target.value,
-                                    )
-                                  }
-                                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
-                                >
-                                  <option value="">Seçiniz</option>
-                                  {dropdownData?.status?.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.value}
-                                    </option>
-                                  ))}
-                                </select>
-                              </div>
-
-                              {/* Comment */}
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                  November
-                                </label>
-                                <select
-                                  value={
-                                    actionData.actionPlan?.[0]?.november || ""
-                                  }
-                                  onChange={(e) =>
-                                    handleFormChange(
-                                      "actionPlan[0].november",
-                                      e.target.value,
-                                    )
-                                  }
-                                  type="text"
-                                  placeholder="Comment"
-                                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
-                                >
-                                  <option value="">Seçiniz</option>
-                                  {dropdownData?.status?.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.value}
-                                    </option>
-                                  ))}
-                                </select>
-                              </div>
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                  December
-                                </label>
-                                <select
-                                  value={
-                                    actionData.actionPlan?.[0]?.december || ""
-                                  }
-                                  onChange={(e) =>
-                                    handleFormChange(
-                                      "actionPlan[0].december",
-                                      e.target.value,
-                                    )
-                                  }
-                                  type="text"
-                                  placeholder="Comment"
-                                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
-                                >
-                                  <option value="">Seçiniz</option>
-                                  {dropdownData?.status?.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.value}
-                                    </option>
-                                  ))}
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Scope
+                      </label>
+                      <select
+                        value={actionData?.actionPlan?.[0]?.scope}
+                        onChange={(e) => {
+                          console.log(
+                            "Select onChange tetiklendi! Yeni value:",
+                            e.target.value,
+                          ); // Debug: Bu çıkmıyorsa onChange patlıyor
+                          handleFormChange("actionPlan[0].scope", e.target.value); // String path + value – obje değil!
+                        }}
+                      >
+                        <option value="">Seçiniz</option>
+                        {dropdownData?.scope?.map((item) => (
+                          <option key={item.id} value={item.id}>
+                            {item.value}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Name Of Vendor
+                      </label>
+                        <select
+                          value={formData.customerId}
+                          onChange={(e) => handleFormChange("customerId", e.target.value)}
+                        >
+                          <option value="">Seçiniz</option>
+                          {vendors?.map((item) => (
+                            <option key={item.id} value={item.id}>
+                              {item.name}
+                            </option>
+                          ))}
+                        </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Type Of Finding
+                      </label>
+                      <select
+                        value={formData.typeOfFinding}
+                        onChange={(e) => {
+                          console.log(
+                            "Select onChange tetiklendi! Yeni value:",
+                            e.target.value,
+                          ); // Debug: Bu çıkmıyorsa onChange patlıyor
+                          handleFormChange("typeOfFinding", e.target.value); // String path + value – obje değil!
+                        }}
+                      >
+                        <option value="">Seçiniz</option>
+                        {dropdownData?.typeOfFinding?.map((item) => (
+                          <option key={item.id} value={item.id}>
+                            {item.value}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Quality Of Goods / Service
+                      </label>
+                      <div className="grid grid-cols-3 gap-2">
+                      <input
+                        value={formData.qgs}
+                        onChange={(e) =>
+                          handleFormChange("qgs", e.target.value)
+                        }
+                        type="text"
+                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Communication
+                      </label>
+                      <div className="grid grid-cols-3 gap-2">
+                        <select
+                          value={formData.communication}
+                          onChange={(e) => {
+                            console.log(
+                              "Select onChange tetiklendi! Yeni value:",
+                              e.target.value,
+                            ); // Debug: Bu çıkmıyorsa onChange patlıyor
+                            const newValue = parseInt(e.target.value, 10) || 0;
+                            handleFormChange("communication", newValue); // String path + value – obje değil!
+                          }}
+                        >
+                          <option value="">Seçiniz</option>
+                          <option>1</option>
+                          <option>2</option>
+                          <option>3</option>
+                          <option>4</option>
+                          <option>5</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        On - Time Delivery
+                      </label>
+                      <div className="grid grid-cols-3 gap-2">
+                        <select
+                          value={formData.otd}
+                          onChange={(e) => {
+                            console.log(
+                              "Select onChange tetiklendi! Yeni value:",
+                              e.target.value,
+                            ); // Debug: Bu çıkmıyorsa onChange patlıyor
+                            const newValue = parseInt(e.target.value, 10) || 0;
+                            handleFormChange("otd", newValue); // String path + value – obje değil!
+                          }}
+                        >
+                          <option value="">Seçiniz</option>
+                          <option>1</option>
+                          <option>2</option>
+                          <option>3</option>
+                          <option>4</option>
+                          <option>5</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Documentation
+                      </label>
+                      <div className="grid grid-cols-3 gap-2">
+                        <select
+                          value={formData.documentation}
+                          onChange={(e) => {
+                            console.log(
+                              "Select onChange tetiklendi! Yeni value:",
+                              e.target.value,
+                            ); // Debug: Bu çıkmıyorsa onChange patlıyor
+                            const newValue = parseInt(e.target.value, 10) || 0;
+                            handleFormChange("documentation", newValue); // String path + value – obje değil!
+                          }}
+                        >
+                          <option value="">Seçiniz</option>
+                          <option>1</option>
+                          <option>2</option>
+                          <option>3</option>
+                          <option>4</option>
+                          <option>5</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Health And Safety
+                      </label>
+                      <div className="grid grid-cols-3 gap-2">
+                        <select
+                          value={formData.hs}
+                          onChange={(e) => {
+                            console.log(
+                              "Select onChange tetiklendi! Yeni value:",
+                              e.target.value,
+                            ); // Debug: Bu çıkmıyorsa onChange patlıyor
+                            const newValue = parseInt(e.target.value, 10) || 0;
+                            handleFormChange("hs", newValue); // String path + value – obje değil!
+                          }}
+                        >
+                          <option value="">Seçiniz</option>
+                          <option>1</option>
+                          <option>2</option>
+                          <option>3</option>
+                          <option>4</option>
+                          <option>5</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Envinroment
+                      </label>
+                      <div className="grid grid-cols-3 gap-2">
+                        <select
+                          value={formData.environment}
+                          onChange={(e) => {
+                            console.log(
+                              "Select onChange tetiklendi! Yeni value:",
+                              e.target.value,
+                            ); // Debug: Bu çıkmıyorsa onChange patlıyor
+                            const newValue = parseInt(e.target.value, 10) || 0;
+                            handleFormChange("environment", newValue); // String path + value – obje değil!
+                          }}
+                        >
+                          <option value="">Seçiniz</option>
+                          <option>1</option>
+                          <option>2</option>
+                          <option>3</option>
+                          <option>4</option>
+                          <option>5</option>
+                        </select>
                       </div>
                     </div>
                   </div>
@@ -2118,7 +1654,7 @@ const FbProfile = () => {
                   onClick={saveRisk}
                   className="!rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-2 hover:from-blue-600 hover:to-blue-800 transition-all duration-300"
                 >
-                  {modalMode === "add" ? "Add Feedback" : "Update Action"}
+                  {modalMode === "add" ? "Add Action" : "Update Action"}
                 </button>
               </div>
             </div>

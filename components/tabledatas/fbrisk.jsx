@@ -203,49 +203,76 @@ const FbBody = ({
   }, [showArchived, showDeleted]);
 
   const getAllActions = async (selectedRows) => {
-    setLoading(true);
-    getDeletedActionData();
-    // Set'i Array'e çevir (bu kritik kısım!)
-    const selectedRowsArray = [...selectedRows];
+  setLoading(true);
+  getDeletedActionData();
 
-    if (selectedRowsArray.length === 0) {
-      console.error("Seçili satır yok!"); // Hata kontrolü
-      setLoading(false);
-      return; // Erken çık
+  const selectedRowsArray = [...selectedRows];
+
+  if (selectedRowsArray.length === 0) {
+    console.error("Seçili satır yok!");
+    setLoading(false);
+    return;
+  }
+
+  const firstRowId = selectedRowsArray[0];
+  const url = `http://localhost:8000/api/register/component/vendorFeedback/all?registerId=${firstRowId}&status=active`;
+
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed To Get Actions: ${response.status} - ${response.statusText}`
+      );
     }
 
-    const firstRowId = selectedRowsArray[0]; 
-    const url = `http://localhost:8000/api/register/component/action/all?registerId=${firstRowId}&status=active`;
+    const data = await response.json();
+    console.log("Fetched actions:", data);
 
-    console.log("URL:", url); // Debug: URL'yi konsola yazdır, registerId'yi kontrol et
+    const updatedActions = await Promise.all(
+      data.map(async (item) => {
+        if (item.customerId) {
+          try {
+            const res = await fetch(
+              `http://localhost:8000/api/register/ven/one/${item.customerId}`
+            );
 
-    fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        console.log("AAA", selectedRows);
-        if (!response.ok) {
-          throw new Error(
-            `Failed To Get Actions: ${response.status} - ${response.statusText}`,
-          );
+            if (!res.ok) throw new Error("VEN fetch failed");
+
+            const ven = await res.json();
+
+            return {
+              ...item,
+              customerName: ven.Name || ven.name || item.customerId,
+            };
+          } catch (err) {
+            console.error("VEN fetch error:", err);
+            return {
+              ...item,
+              customerName: item.customerId,
+            };
+          }
         }
-        return response.json();
+
+        return {
+          ...item,
+          customerName: "",
+        };
       })
-      .then((data) => {
-        // Başarılı veriyi işle, örneğin setActions(data);
-        console.log("Fetched data:", data); // Debug için ekle
-        setActionData(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Fetch hatası:", err); // Hata detayını logla
-        setError(err.message);
-        setLoading(false);
-      });
-  };
+    );
+
+    setActionData(updatedActions);
+  } catch (err) {
+    console.error("Fetch hatası:", err);
+    setError(err.message);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   useEffect(() => {
     if (!activeHeader && selectedRows.size > 0) {
