@@ -188,6 +188,7 @@ const VenProfile = () => {
     { id: "fl-reg", name: "Findings Log" },
     { id: "ao-reg", name: "Assurance & Oversight" },
     { id: "mr-reg", name: "Management Review Meeting" },
+    { id: "ac-reg", name: "Action Logs" },
 
     // Diğer risk kategorileri eklenebilir
   ]);
@@ -1595,7 +1596,7 @@ const VenProfile = () => {
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
                                   <option value="">Seçiniz</option>
-                                  {dropdownData?.status?.map((item) => (
+                                  {dropdownData?.verificationStatus?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
                                     </option>

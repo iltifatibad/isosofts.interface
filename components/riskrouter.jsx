@@ -15,6 +15,7 @@ import FProfile from "./flog.jsx";
 import AoProfile from "./aoprofile.jsx";
 import MRMProfile from "./mrmprofile.jsx";
 import CusProfile from "./customerprofile.jsx";
+import AcProfile from "./actionprofile.jsx";
 
 const RiskRouter = () => {
   // Sample data - gerçek projede API'den veya props'tan gelebilir
@@ -35,6 +36,7 @@ const RiskRouter = () => {
     { id: "fl-reg", name: "Findings Log" },
     { id: "ao-reg", name: "Assurance & Oversight" },
     { id: "mr-reg", name: "Management Review Meeting" },
+    { id: "ac-reg", name: "Action Logs" },
 
     // Diğer risk kategorileri eklenebilir
   ]);
@@ -129,6 +131,8 @@ const RiskRouter = () => {
           <AoProfile />
         ) : selectedRisk === "mr-reg" ? (
           <MRMProfile />
+        ) : selectedRisk === "ac-reg" ? (
+          <AcProfile />
         ) : null}
       </div>
     </div>

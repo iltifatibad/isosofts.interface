@@ -188,6 +188,8 @@ const DocProfile = () => {
     { id: "fl-reg", name: "Findings Log" },
     { id: "ao-reg", name: "Assurance & Oversight" },
     { id: "mr-reg", name: "Management Review Meeting" },
+    { id: "ac-reg", name: "Action Logs" },
+
 
     // Diğer risk kategorileri eklenebilir
   ]);
@@ -1251,7 +1253,7 @@ const DocProfile = () => {
                       </select>
                     </div>
 
-                    {formData.origin === "Su1o957i68896Jz58zz3hkW9C62H25" && (
+                    {formData.origin === "15P2nF34w390AI0RA40md0K179FG91" && (
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           Departamen / Function Name
@@ -1279,7 +1281,7 @@ const DocProfile = () => {
                       </div>
                     )}
 
-                    {formData.origin === "Su1o957i68896Jz58zz3hkW9C62H25" && (
+                    {formData.origin === "15P2nF34w390AI0RA40md0K179FG91" && (
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           Type
@@ -1304,7 +1306,7 @@ const DocProfile = () => {
                       </div>
                     )}
 
-                    {formData.origin === "phA8k3tQ0Veosm24712C95944uynfa" && (
+                    {formData.origin === "p4aI8818h82IC2Hn307h3qFO80748g" && (
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           Number
@@ -1695,7 +1697,7 @@ const DocProfile = () => {
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
                                   <option value="">Seçiniz</option>
-                                  {dropdownData?.status?.map((item) => (
+                                  {dropdownData?.verificationStatus?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
                                     </option>

@@ -33,6 +33,8 @@ const RiskRouter = () => {
     { id: "fl-reg", name: "Findings Log" },
     { id: "ao-reg", name: "Assurance & Oversight" },
     { id: "mr-reg", name: "Management Review Meeting" },
+    { id: "ac-reg", name: "Action Logs" },
+
 
     // Diğer risk kategorileri eklenebilir
   ]);

@@ -11,6 +11,8 @@ const initialRisks = [
   { id: "document-reg", name: "Document Reg" },
   { id: "vendor-reg", name: "Vendor Reg" },
   { id: "customer-reg", name: "Customer Reg" },
+  { id: "ac-reg", name: "Action Logs" },
+
 ];
 
 const initialTableData = [
