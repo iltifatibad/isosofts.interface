@@ -640,7 +640,7 @@ const FbBody = ({
                     className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
                   >
-                    {row.scope && (
+                    {row.nameOfVendor && (
                       <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
                         {row.scope?.value}
                       </span>
@@ -652,9 +652,9 @@ const FbBody = ({
                     className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
                   >
-                    {row.approver && (
+                    {row.typeOfFinding && (
                       <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
-                        {row.approver}
+                        {row.typeOfFinding?.value}
                       </span>
                     )}
                   </td>
@@ -664,7 +664,7 @@ const FbBody = ({
                     className="border border-gray-200 px-3 py-2 w-28"
                     rowSpan={1}
                   >
-                    {row.issueDate}
+                    {row.qgs}
                   </td>
                   
                   {/* Quality Of Services */}
@@ -672,7 +672,7 @@ const FbBody = ({
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    {row.nextReviewDate}
+                    {row.communication}
                   </td>
 
                   {/* Communication */}
@@ -680,7 +680,7 @@ const FbBody = ({
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    {row.nextReviewDate}
+                    {row.otd}
                   </td>
 
                   {/* On Time Delivery */}
@@ -688,7 +688,7 @@ const FbBody = ({
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    {row.actual?.value}
+                    {row.documentation}
                   </td>
 
                   {/* Documentation */}
@@ -696,7 +696,7 @@ const FbBody = ({
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    {row.actual?.value}
+                    {row.hs}
                   </td>
 
                   {/* Health And Safety */}
@@ -704,7 +704,7 @@ const FbBody = ({
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    {row.actual?.value}
+                    {row.environment}
                   </td>
 
                   {/* Envinroment */}
