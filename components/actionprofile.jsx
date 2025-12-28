@@ -298,7 +298,7 @@ const AcProfile = () => {
     setSelectedTableForActions,
   );
   async function getDefaultDropdownList() {
-    const url = "http://localhost:8000/api/tablecomponent/dropdownlistitem";
+    const url = "/api/tablecomponent/dropdownlistitem";
     try {
       const response = await fetch(url);
       if (!response.ok) {
@@ -539,7 +539,7 @@ const AcProfile = () => {
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
 
-        fetch("http://localhost:8000/api/register/actionLog/one", {
+        fetch("/api/register/actionLog/one", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload), // Direkt obje – array yapma!
@@ -584,7 +584,7 @@ const AcProfile = () => {
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
 
-        fetch("http://localhost:8000/api/register/component/action/one", {
+        fetch("/api/register/component/action/one", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload), // Direkt obje – array yapma!
@@ -618,7 +618,7 @@ const AcProfile = () => {
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
         const url =
-          "http://localhost:8000/api/register/actionLog/one/" +
+          "/api/register/actionLog/one/" +
           selectedTable[0].id;
         fetch(url, {
           method: "PUT",
@@ -672,7 +672,7 @@ const AcProfile = () => {
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
 
         const url =
-          "http://localhost:8000/api/register/component/action/one/" +
+          "/api/register/component/action/one/" +
           [...selectedRowsForActions][0];
         fetch(url, {
           method: "PUT",
@@ -730,7 +730,7 @@ const AcProfile = () => {
   const handleDeleteConfirm = () => {
     if (activeHeader) {
       if (!showDeleted) {
-        fetch("http://localhost:8000/api/register/actionLog/all/delete", {
+        fetch("/api/register/actionLog/all/delete", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -750,7 +750,7 @@ const AcProfile = () => {
           })
           .catch((error) => console.log(" Error While Deleting: ", error));
       } else {
-        fetch("http://localhost:8000/api/register/actionLog/all/undelete", {
+        fetch("/api/register/actionLog/all/undelete", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -774,7 +774,7 @@ const AcProfile = () => {
       if (!showDeletedAction) {
         console.log("AAABBB: ", selectedRowsForActions);
         fetch(
-          "http://localhost:8000/api/register/component/action/all/delete",
+          "/api/register/component/action/all/delete",
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -799,7 +799,7 @@ const AcProfile = () => {
       } else {
         console.log("CCC: ", selectedRowsForActions);
         fetch(
-          "http://localhost:8000/api/register/component/action/all/undelete",
+          "/api/register/component/action/all/undelete",
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -827,7 +827,7 @@ const AcProfile = () => {
 
   const archiveData = (id) => {
     if (showArchived) {
-      fetch("http://localhost:8000/api/register/actionLog/all/unarchive", {
+      fetch("/api/register/actionLog/all/unarchive", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -846,7 +846,7 @@ const AcProfile = () => {
         .catch((error) => console.log(" Error While UnArchiving : ", error));
       setRefresh(true);
     } else {
-      fetch("http://localhost:8000/api/register/actionLog/all/archive", {
+      fetch("/api/register/actionLog/all/archive", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ids: [...selectedRows] }),

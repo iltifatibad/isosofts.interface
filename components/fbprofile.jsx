@@ -257,7 +257,7 @@ const FbProfile = () => {
     setSelectedTableForActions,
   );
   async function getDefaultDropdownList() {
-    const url = "http://localhost:8000/api/tablecomponent/dropdownlistitem";
+    const url = "/api/tablecomponent/dropdownlistitem";
     try {
       const response = await fetch(url);
       if (!response.ok) {
@@ -272,7 +272,7 @@ const FbProfile = () => {
   }
 
   async function getDefaultCustomers() {
-    const url = "http://localhost:8000/api/register/cus/all?status=active";
+    const url = "/api/register/cus/all?status=active";
     try {
       const response = await fetch(url);
       if (!response.ok) {
@@ -287,7 +287,7 @@ const FbProfile = () => {
   }
 
   async function getDefaultVendors() {
-    const url = "http://localhost:8000/api/register/ven/all?status=active";
+    const url = "/api/register/ven/all?status=active";
     try {
       const response = await fetch(url);
       if (!response.ok) {
@@ -502,7 +502,7 @@ const FbProfile = () => {
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
 
-        fetch("http://localhost:8000/api/register/fb/one", {
+        fetch("/api/register/fb/one", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload), // Direkt obje – array yapma!
@@ -532,7 +532,7 @@ const FbProfile = () => {
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
 
         fetch(
-          "http://localhost:8000/api/register/component/vendorFeedback/one",
+          "/api/register/component/vendorFeedback/one",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -569,7 +569,7 @@ const FbProfile = () => {
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
         const url =
-          "http://localhost:8000/api/register/fb/one/" + selectedTable[0].id;
+          "/api/register/fb/one/" + selectedTable[0].id;
         fetch(url, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -607,7 +607,7 @@ const FbProfile = () => {
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
 
         const url =
-          "http://localhost:8000/api/register/component/vendorFeedback/one/" +
+          "/api/register/component/vendorFeedback/one/" +
           [...selectedRowsForActions][0];
         fetch(url, {
           method: "PUT",
@@ -665,7 +665,7 @@ const FbProfile = () => {
   const handleDeleteConfirm = () => {
     if (activeHeader) {
       if (!showDeleted) {
-        fetch("http://localhost:8000/api/register/fb/all/delete", {
+        fetch("/api/register/fb/all/delete", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -685,7 +685,7 @@ const FbProfile = () => {
           })
           .catch((error) => console.log(" Error While Deleting: ", error));
       } else {
-        fetch("http://localhost:8000/api/register/fb/all/undelete", {
+        fetch("/api/register/fb/all/undelete", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -709,7 +709,7 @@ const FbProfile = () => {
       if (!showDeletedAction) {
         console.log("AAABBB: ", selectedRowsForActions);
         fetch(
-          "http://localhost:8000/api/register/component/vendorFeedback/all/delete",
+          "/api/register/component/vendorFeedback/all/delete",
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -734,7 +734,7 @@ const FbProfile = () => {
       } else {
         console.log("CCC: ", selectedRowsForActions);
         fetch(
-          "http://localhost:8000/api/register/component/vendorFeedback/all/undelete",
+          "/api/register/component/vendorFeedback/all/undelete",
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -762,7 +762,7 @@ const FbProfile = () => {
 
   const archiveData = (id) => {
     if (showArchived) {
-      fetch("http://localhost:8000/api/register/fb/all/unarchive", {
+      fetch("/api/register/fb/all/unarchive", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -781,7 +781,7 @@ const FbProfile = () => {
         .catch((error) => console.log(" Error While UnArchiving : ", error));
       setRefresh(true);
     } else {
-      fetch("http://localhost:8000/api/register/fb/all/archive", {
+      fetch("/api/register/fb/all/archive", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ids: [...selectedRows] }),

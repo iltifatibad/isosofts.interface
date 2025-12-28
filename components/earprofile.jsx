@@ -296,7 +296,7 @@ const EarProfile = () => {
     setSelectedTableForActions,
   );
   async function getDefaultDropdownList() {
-    const url = "http://localhost:8000/api/tablecomponent/dropdownlistitem";
+    const url = "/api/tablecomponent/dropdownlistitem";
     try {
       const response = await fetch(url);
       if (!response.ok) {
@@ -531,7 +531,7 @@ const EarProfile = () => {
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
 
-        fetch("http://localhost:8000/api/register/ea/one", {
+        fetch("/api/register/ea/one", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload), // Direkt obje – array yapma!
@@ -576,7 +576,7 @@ const EarProfile = () => {
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
 
-        fetch("http://localhost:8000/api/register/component/action/one", {
+        fetch("/api/register/component/action/one", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload), // Direkt obje – array yapma!
@@ -607,7 +607,7 @@ const EarProfile = () => {
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
         const url =
-          "http://localhost:8000/api/register/ea/one/" + selectedTable[0].id;
+          "/api/register/ea/one/" + selectedTable[0].id;
         fetch(url, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -660,7 +660,7 @@ const EarProfile = () => {
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
 
         const url =
-          "http://localhost:8000/api/register/component/action/one/" +
+          "/api/register/component/action/one/" +
           [...selectedRowsForActions][0];
         fetch(url, {
           method: "PUT",
@@ -718,7 +718,7 @@ const EarProfile = () => {
   const handleDeleteConfirm = () => {
     if (activeHeader) {
       if (!showDeleted) {
-        fetch("http://localhost:8000/api/register/ea/all/delete", {
+        fetch("/api/register/ea/all/delete", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -738,7 +738,7 @@ const EarProfile = () => {
           })
           .catch((error) => console.log(" Error While Deleting: ", error));
       } else {
-        fetch("http://localhost:8000/api/register/ea/all/undelete", {
+        fetch("/api/register/ea/all/undelete", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -762,7 +762,7 @@ const EarProfile = () => {
       if (!showDeletedAction) {
         console.log("AAABBB: ", selectedRowsForActions);
         fetch(
-          "http://localhost:8000/api/register/component/action/all/delete",
+          "/api/register/component/action/all/delete",
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -787,7 +787,7 @@ const EarProfile = () => {
       } else {
         console.log("CCC: ", selectedRowsForActions);
         fetch(
-          "http://localhost:8000/api/register/component/action/all/undelete",
+          "/api/register/component/action/all/undelete",
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -815,7 +815,7 @@ const EarProfile = () => {
 
   const archiveData = (id) => {
     if (showArchived) {
-      fetch("http://localhost:8000/api/register/ea/all/unarchive", {
+      fetch("/api/register/ea/all/unarchive", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -834,7 +834,7 @@ const EarProfile = () => {
         .catch((error) => console.log(" Error While UnArchiving : ", error));
       setRefresh(true);
     } else {
-      fetch("http://localhost:8000/api/register/ea/all/archive", {
+      fetch("/api/register/ea/all/archive", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ids: [...selectedRows] }),

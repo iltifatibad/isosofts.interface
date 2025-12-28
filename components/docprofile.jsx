@@ -298,7 +298,7 @@ const DocProfile = () => {
     setSelectedTableForActions,
   );
   async function getDefaultDropdownList() {
-    const url = "http://localhost:8000/api/tablecomponent/dropdownlistitem";
+    const url = "/api/tablecomponent/dropdownlistitem";
     try {
       const response = await fetch(url);
       if (!response.ok) {
@@ -544,7 +544,7 @@ const DocProfile = () => {
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
 
-        fetch("http://localhost:8000/api/register/doc/one", {
+        fetch("/api/register/doc/one", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload), // Direkt obje – array yapma!
@@ -589,7 +589,7 @@ const DocProfile = () => {
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
 
-        fetch("http://localhost:8000/api/register/component/action/one", {
+        fetch("/api/register/component/action/one", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload), // Direkt obje – array yapma!
@@ -625,7 +625,7 @@ const DocProfile = () => {
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
         const url =
-          "http://localhost:8000/api/register/doc/one/" + selectedTable[0].id;
+          "/api/register/doc/one/" + selectedTable[0].id;
         fetch(url, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -694,7 +694,7 @@ const DocProfile = () => {
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
 
         const url =
-          "http://localhost:8000/api/register/component/action/one/" +
+          "/api/register/component/action/one/" +
           [...selectedRowsForActions][0];
         fetch(url, {
           method: "PUT",
@@ -752,7 +752,7 @@ const DocProfile = () => {
   const handleDeleteConfirm = () => {
     if (activeHeader) {
       if (!showDeleted) {
-        fetch("http://localhost:8000/api/register/doc/all/delete", {
+        fetch("/api/register/doc/all/delete", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -772,7 +772,7 @@ const DocProfile = () => {
           })
           .catch((error) => console.log(" Error While Deleting: ", error));
       } else {
-        fetch("http://localhost:8000/api/register/doc/all/undelete", {
+        fetch("/api/register/doc/all/undelete", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -796,7 +796,7 @@ const DocProfile = () => {
       if (!showDeletedAction) {
         console.log("AAABBB: ", selectedRowsForActions);
         fetch(
-          "http://localhost:8000/api/register/component/action/all/delete",
+          "/api/register/component/action/all/delete",
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -821,7 +821,7 @@ const DocProfile = () => {
       } else {
         console.log("CCC: ", selectedRowsForActions);
         fetch(
-          "http://localhost:8000/api/register/component/action/all/undelete",
+          "/api/register/component/action/all/undelete",
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -849,7 +849,7 @@ const DocProfile = () => {
 
   const archiveData = (id) => {
     if (showArchived) {
-      fetch("http://localhost:8000/api/register/doc/all/unarchive", {
+      fetch("/api/register/doc/all/unarchive", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -868,7 +868,7 @@ const DocProfile = () => {
         .catch((error) => console.log(" Error While UnArchiving : ", error));
       setRefresh(true);
     } else {
-      fetch("http://localhost:8000/api/register/doc/all/archive", {
+      fetch("/api/register/doc/all/archive", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ids: [...selectedRows] }),

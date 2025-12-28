@@ -27,7 +27,7 @@ const FbBody = ({
     setLoading(true); // Loading başla
     try {
       const response = await fetch(
-        "http://localhost:8000/api/register/fb/all?status=archived",
+        "/api/register/fb/all?status=archived",
       );
       if (!response.ok) {
         throw new Error("Failed To Get Datas From Archived DataBase");
@@ -95,7 +95,7 @@ const FbBody = ({
     setLoading(true); // Loading başla
     try {
       const response = await fetch(
-        "http://localhost:8000/api/register/fb/all?status=deleted",
+        "/api/register/fb/all?status=deleted",
       );
       if (!response.ok) {
         throw new Error("Failed To Get Datas From Deleted DataBase");
@@ -123,7 +123,7 @@ const FbBody = ({
     const selectedRowsArray = [...selectedRowsForActions];
     try {
       const firstRowId = selectedRowsArray[0];
-      const url = `http://localhost:8000/api/register/component/vendorFeedback/all?registerId=${firstRowId}&status=deleted`;
+      const url = `/api/register/component/vendorFeedback/all?registerId=${firstRowId}&status=deleted`;
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error("Failed To Get Datas From Deleted DataBase");
@@ -152,7 +152,7 @@ const FbBody = ({
   const [tableData, setTableData] = useState([]);
   const getAll = async () => {
     setLoading(true);
-    fetch("http://localhost:8000/api/register/fb/all")
+    fetch("/api/register/fb/all")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed To Get Datas From Database");
@@ -168,7 +168,7 @@ const FbBody = ({
               // customerId varsa fetch at
               try {
                 const res = await fetch(
-                  `http://localhost:8000/api/register/cus/one/${item.customerId}`,
+                  `/api/register/cus/one/${item.customerId}`,
                 );
                 if (!res.ok) throw new Error("Customer fetch failed");
                 const customer = await res.json();
@@ -217,7 +217,7 @@ const FbBody = ({
     }
 
     const firstRowId = selectedRowsArray[0]; // Artık ID'yi alabilirsin: "I234884J501LA657g6S20N2Nc2V71p"
-    const url = `http://localhost:8000/api/register/component/vendorFeedback/all?registerId=${firstRowId}&status=active`;
+    const url = `/api/register/component/vendorFeedback/all?registerId=${firstRowId}&status=active`;
 
     console.log("URL:", url); // Debug: URL'yi konsola yazdır, registerId'yi kontrol et
 

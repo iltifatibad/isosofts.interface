@@ -27,7 +27,7 @@ const MocBody = ({
     setLoading(true); // Loading başla
     try {
       const response = await fetch(
-        "http://localhost:8000/api/register/moc/all?status=archived",
+        "/api/register/moc/all?status=archived",
       );
       if (!response.ok) {
         throw new Error("Failed To Get Datas From Archived DataBase");
@@ -95,7 +95,7 @@ const MocBody = ({
     setLoading(true); // Loading başla
     try {
       const response = await fetch(
-        "http://localhost:8000/api/register/moc/all?status=deleted",
+        "/api/register/moc/all?status=deleted",
       );
       if (!response.ok) {
         throw new Error("Failed To Get Datas From Deleted DataBase");
@@ -123,7 +123,7 @@ const MocBody = ({
     const selectedRowsArray = [...selectedRows];
     try {
       const firstRowId = selectedRowsArray[0];
-      const url = `http://localhost:8000/api/register/component/action/all?registerId=${firstRowId}&status=deleted`;
+      const url = `/api/register/component/action/all?registerId=${firstRowId}&status=deleted`;
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error("Failed To Get Datas From Deleted DataBase");
@@ -152,7 +152,7 @@ const MocBody = ({
   const [tableData, setTableData] = useState([]);
   const getAll = async () => {
     setLoading(true);
-    fetch("http://localhost:8000/api/register/moc/all")
+    fetch("/api/register/moc/all")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed To Get Datas From Database");
@@ -190,7 +190,7 @@ const MocBody = ({
     }
 
     const firstRowId = selectedRowsArray[0]; // Artık ID'yi alabilirsin: "I234884J501LA657g6S20N2Nc2V71p"
-    const url = `http://localhost:8000/api/register/component/action/all?registerId=${firstRowId}&status=active`;
+    const url = `/api/register/component/action/all?registerId=${firstRowId}&status=active`;
 
     console.log("URL:", url); // Debug: URL'yi konsola yazdır, registerId'yi kontrol et
 

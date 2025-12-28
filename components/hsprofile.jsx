@@ -297,7 +297,7 @@ const HsProfile = () => {
     setSelectedTableForActions,
   );
   async function getDefaultDropdownList() {
-    const url = "http://localhost:8000/api/tablecomponent/dropdownlistitem";
+    const url = "/api/tablecomponent/dropdownlistitem";
     try {
       const response = await fetch(url);
       if (!response.ok) {
@@ -535,7 +535,7 @@ const HsProfile = () => {
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
 
-        fetch("http://localhost:8000/api/register/hsr/one", {
+        fetch("/api/register/hsr/one", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload), // Direkt obje – array yapma!
@@ -580,7 +580,7 @@ const HsProfile = () => {
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
 
-        fetch("http://localhost:8000/api/register/component/action/one", {
+        fetch("/api/register/component/action/one", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload), // Direkt obje – array yapma!
@@ -613,7 +613,7 @@ const HsProfile = () => {
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
         const url =
-          "http://localhost:8000/api/register/hsr/one/" + selectedTable[0].id;
+          "/api/register/hsr/one/" + selectedTable[0].id;
         fetch(url, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -666,7 +666,7 @@ const HsProfile = () => {
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
 
         const url =
-          "http://localhost:8000/api/register/component/action/one/" +
+          "/api/register/component/action/one/" +
           [...selectedRowsForActions][0];
         fetch(url, {
           method: "PUT",
@@ -724,7 +724,7 @@ const HsProfile = () => {
   const handleDeleteConfirm = () => {
     if (activeHeader) {
       if (!showDeleted) {
-        fetch("http://localhost:8000/api/register/hsr/all/delete", {
+        fetch("/api/register/hsr/all/delete", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -744,7 +744,7 @@ const HsProfile = () => {
           })
           .catch((error) => console.log(" Error While Deleting: ", error));
       } else {
-        fetch("http://localhost:8000/api/register/hsr/all/undelete", {
+        fetch("/api/register/hsr/all/undelete", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -768,7 +768,7 @@ const HsProfile = () => {
       if (!showDeletedAction) {
         console.log("AAABBB: ", selectedRowsForActions);
         fetch(
-          "http://localhost:8000/api/register/component/action/all/delete",
+          "/api/register/component/action/all/delete",
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -793,7 +793,7 @@ const HsProfile = () => {
       } else {
         console.log("CCC: ", selectedRowsForActions);
         fetch(
-          "http://localhost:8000/api/register/component/action/all/undelete",
+          "/api/register/component/action/all/undelete",
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -821,7 +821,7 @@ const HsProfile = () => {
 
   const archiveData = (id) => {
     if (showArchived) {
-      fetch("http://localhost:8000/api/register/hsr/all/unarchive", {
+      fetch("/api/register/hsr/all/unarchive", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -840,7 +840,7 @@ const HsProfile = () => {
         .catch((error) => console.log(" Error While UnArchiving : ", error));
       setRefresh(true);
     } else {
-      fetch("http://localhost:8000/api/register/hsr/all/archive", {
+      fetch("/api/register/hsr/all/archive", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ids: [...selectedRows] }),

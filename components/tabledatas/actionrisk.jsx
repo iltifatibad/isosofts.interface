@@ -78,7 +78,7 @@ const ActionBody = ({
     setLoading(true); // Loading başla
     try {
       const response = await fetch(
-        "http://localhost:8000/api/dashboard/actionLog/all?status=deleted",
+        "/api/dashboard/actionLog/all?status=deleted",
       );
       if (!response.ok) {
         throw new Error("Failed To Get Datas From Deleted DataBase");
@@ -106,7 +106,7 @@ const ActionBody = ({
     const selectedRowsArray = [...selectedRows];
     try {
       const firstRowId = selectedRowsArray[0];
-      const url = `http://localhost:8000/api/dashboard/actionLog/all?status=deleted`;
+      const url = `/api/dashboard/actionLog/all?status=deleted`;
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error("Failed To Get Datas From Deleted DataBase");
@@ -128,7 +128,7 @@ const ActionBody = ({
     const selectedRowsArray = [...selectedRows];
     try {
       const firstRowId = selectedRowsArray[0];
-      const url = `http://localhost:8000/api/dashboard/actionLog/all?status=archived`;
+      const url = `/api/dashboard/actionLog/all?status=archived`;
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error("Failed To Get Datas From Deleted DataBase");
@@ -166,7 +166,7 @@ const ActionBody = ({
   const [tableData, setTableData] = useState([]);
   const getAll = async () => {
     setLoading(true);
-    fetch("http://localhost:8000/api/dashboard/actionLog/all")
+    fetch("/api/dashboard/actionLog/all")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed To Get Datas From Database");
@@ -195,7 +195,7 @@ const ActionBody = ({
     setLoading(true);
 
     // const firstRowId = selectedRowsArray[0]; // Artık ID'yi alabilirsin: "I234884J501LA657g6S20N2Nc2V71p"
-    const url = `http://localhost:8000/api/dashboard/actionLog/all?status=active`;
+    const url = `/api/dashboard/actionLog/all?status=active`;
 
     console.log("URL:", url); // Debug: URL'yi konsola yazdır, registerId'yi kontrol et
 
