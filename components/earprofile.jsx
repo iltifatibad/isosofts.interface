@@ -406,10 +406,10 @@ const EarProfile = () => {
     if (activeHeader) {
       setFormData({
         id: 0,
-        employee: row.employeeName,
+        employeeName: row.employeeName,
         position: row.position,
         lineManager: row.lineManager,
-        esd: row.esf,
+        esd: row.esd,
         appraisalDate: row.appraisalDate,
         appraisalType: row.appraisalType,
         tca: row.tca,
