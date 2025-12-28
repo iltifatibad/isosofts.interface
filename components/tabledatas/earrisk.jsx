@@ -345,7 +345,7 @@ const EarBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.apprasialDate}
+                      value={row.appraisalDate}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -355,7 +355,7 @@ const EarBody = ({
                     className="border border-gray-200 px-2 py-1 w-32"
                     rowSpan={1}
                   >
-                    {row.apprasialType}
+                    {row.appraisalType}
                   </td>
 
                   {/* Initial Risk */}

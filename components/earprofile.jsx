@@ -520,10 +520,10 @@ const EarProfile = () => {
     if (modalMode === "add") {
       if (!showAction) {
         const payload = {
-          employee: formData.employee,
+          employeeName: formData.employee,
           position: formData.position,
           lineManager: formData.lineManager,
-          esd: formData.esf,
+          esd: formData.esd,
           appraisalDate: formData.appraisalDate,
           appraisalType: formData.appraisalType,
           tca: formData.tca,
