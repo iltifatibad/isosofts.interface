@@ -15,7 +15,7 @@ const KPIDashboard = () => {
       try {
         setLoading(true);
         setError(null); // Clear previous errors
-        const response = await fetch(`${API_BASE_URL}/api/dashboard/kpi/all?status=active`);
+        const response = await fetch("/api/dashboard/kpi/all?status=active");
         if (!response.ok) {
           throw new Error('Failed to fetch KPI data');
         }

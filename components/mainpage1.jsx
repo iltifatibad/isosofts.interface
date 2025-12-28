@@ -255,7 +255,7 @@ const IsosoftsUIConcept = () => {
                     Home
                   </a>
                   <a
-                    href="https://readdy.ai/home/d3978a81-c561-4f54-9be8-e504f8386c69/27623cd4-447e-4005-9dce-bbdbf0e1cb83"
+                    href="#"
                     data-readdy="true"
                     className="nav-link text-gray-700 hover:text-blue-600 transition-all duration-300 transform hover:scale-105 cursor-pointer"
                   >
