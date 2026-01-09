@@ -391,7 +391,9 @@ const MyTableBody = ({
       let riskLevel = '';
       let colorClass = '';
 
-      // Debug için console.log ekleyebilirsiniz: console.log('Initial Product:', product);
+      console.log('Initial - Severity:', row.initialRiskSeverity, '->', severity);
+      console.log('Initial - Likelihood:', row.initialRiskLikelyhood, '->', likelihood);
+      console.log('Initial Product:', product);
 
       if (product >= 1 && product <= 6) {
         riskLevel = 'Low';
@@ -447,7 +449,9 @@ const MyTableBody = ({
       let riskLevel = '';
       let colorClass = '';
 
-      // Debug için console.log ekleyebilirsiniz: console.log('Residual Product:', product);
+      console.log('Residual - Severity:', row.residualRiskSeverity, '->', severity);
+      console.log('Residual - Likelihood:', row.residualRiskLikelyhood, '->', likelihood);
+      console.log('Residual Product:', product);
 
       if (product >= 1 && product <= 6) {
         riskLevel = 'Low';
