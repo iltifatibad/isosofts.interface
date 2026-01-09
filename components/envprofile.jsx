@@ -1228,7 +1228,7 @@ const EnvProfile = () => {
                           handleFormChange("process", e.target.value); // String path + value – obje değil!
                         }}
                       >
-                        <option value="">Seçiniz</option>
+                        <option value="">Select</option>
                         {dropdownData?.process?.map((item) => (
                           <option key={item.id} value={item.id}>
                             {item.value}
@@ -1250,7 +1250,7 @@ const EnvProfile = () => {
                           handleFormChange("aspect", e.target.value); // String path + value – obje değil!
                         }}
                       >
-                        <option value="">Seçiniz</option>
+                        <option value="">Select</option>
                         {dropdownData?.aspect?.map((item) => (
                           <option key={item.id} value={item.id}>
                             {item.value}
@@ -1285,7 +1285,7 @@ const EnvProfile = () => {
                           handleFormChange("affectedReceptors", e.target.value); // String path + value – obje değil!
                         }}
                       >
-                        <option value="">Seçiniz</option>
+                        <option value="">Select</option>
                         {dropdownData?.affectedReceptors?.map((item) => (
                           <option key={item.id} value={item.id}>
                             {item.value}
@@ -1324,7 +1324,7 @@ const EnvProfile = () => {
                             handleFormChange("idosProbability", newValue); // String path + value – obje değil!
                           }}
                         >
-                          <option value="">Seçiniz</option>
+                          <option value="">Select</option>
                           <option>1</option>
                           <option>2</option>
                           <option>3</option>
@@ -1349,7 +1349,7 @@ const EnvProfile = () => {
                             handleFormChange("idosSeverity", newValue); // String path + value – obje değil!
                           }}
                         >
-                          <option value="">Seçiniz</option>
+                          <option value="">Select</option>
                           <option>1</option>
                           <option>2</option>
                           <option>3</option>
@@ -1373,7 +1373,7 @@ const EnvProfile = () => {
                           handleFormChange("idosDuration", newValue); // String path + value – obje değil!
                         }}
                       >
-                        <option value="">Seçiniz</option>
+                        <option value="">Select</option>
                         <option>1</option>
                         <option>2</option>
                         <option>3</option>
@@ -1396,7 +1396,7 @@ const EnvProfile = () => {
                           handleFormChange("idosScale", newValue); // String path + value – obje değil!
                         }}
                       >
-                        <option value="">Seçiniz</option>
+                        <option value="">Select</option>
                         <option>1</option>
                         <option>2</option>
                         <option>3</option>
@@ -1422,7 +1422,7 @@ const EnvProfile = () => {
                             handleFormChange("rdosProbability", newValue); // String path + value – obje değil!
                           }}
                         >
-                          <option value="">Seçiniz</option>
+                          <option value="">Select</option>
                           <option>1</option>
                           <option>2</option>
                           <option>3</option>
@@ -1447,7 +1447,7 @@ const EnvProfile = () => {
                             handleFormChange("rdosSeverity", newValue); // String path + value – obje değil!
                           }}
                         >
-                          <option value="">Seçiniz</option>
+                          <option value="">Select</option>
                           <option>1</option>
                           <option>2</option>
                           <option>3</option>
@@ -1471,7 +1471,7 @@ const EnvProfile = () => {
                           handleFormChange("rdosDuration", newValue); // String path + value – obje değil!
                         }}
                       >
-                        <option value="">Seçiniz</option>
+                        <option value="">Select</option>
                         <option>1</option>
                         <option>2</option>
                         <option>3</option>
@@ -1494,7 +1494,7 @@ const EnvProfile = () => {
                           handleFormChange("rdosScale", newValue); // String path + value – obje değil!
                         }}
                       >
-                        <option value="">Seçiniz</option>
+                        <option value="">Select</option>
                         <option>1</option>
                         <option>2</option>
                         <option>3</option>
@@ -1625,7 +1625,7 @@ const EnvProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.relativeFunction?.map(
                                     (item) => (
                                       <option key={item.id} value={item.id}>
@@ -1654,7 +1654,7 @@ const EnvProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.affectedPosition?.map(
                                     (item) => (
                                       <option key={item.id} value={item.id}>
@@ -1706,7 +1706,7 @@ const EnvProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.confirmation?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1732,7 +1732,7 @@ const EnvProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1783,7 +1783,7 @@ const EnvProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.actionData.actionPlan?.[0]?.verificationStatus?.map(
                                     (item) => (
                                       <option key={item.id} value={item.id}>
@@ -1841,7 +1841,7 @@ const EnvProfile = () => {
                                   placeholder="Action"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1868,7 +1868,7 @@ const EnvProfile = () => {
                                   type="date"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1896,7 +1896,7 @@ const EnvProfile = () => {
                                   placeholder="Resources"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1925,7 +1925,7 @@ const EnvProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1949,7 +1949,7 @@ const EnvProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1974,7 +1974,7 @@ const EnvProfile = () => {
                                   type="date"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -2001,7 +2001,7 @@ const EnvProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -2027,7 +2027,7 @@ const EnvProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -2054,7 +2054,7 @@ const EnvProfile = () => {
                                   type="date"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -2083,7 +2083,7 @@ const EnvProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -2111,7 +2111,7 @@ const EnvProfile = () => {
                                   placeholder="Comment"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -2137,7 +2137,7 @@ const EnvProfile = () => {
                                   placeholder="Comment"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}

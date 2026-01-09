@@ -48,7 +48,7 @@ const EnvHeaders = ({ activeHeader }) => {
             className="border-r border-blue-500 sticky top-0 z-20 bg-blue-100"
             style={{ minWidth: 600 }}
           >
-            Initial Determinations Of Significance
+            İnitial Significance
           </th>
 
           <th
@@ -56,7 +56,7 @@ const EnvHeaders = ({ activeHeader }) => {
             className="border-r border-blue-500 sticky top-0 z-20 bg-blue-100"
             style={{ minWidth: 600 }}
           >
-            Residual Determinations Of Significance
+            Residual significance
           </th>
         </tr>
 

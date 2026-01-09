@@ -43,7 +43,7 @@ const RiskRouter = () => {
   ]);
   const [selectedOption, setSelectedOption] = useState("e-chart");
   const [selectedRisk, setSelectedRisk] = useState("");
-  const [isOpenReg, setIsOpenReg] = useState(false);
+  const [isOpenReg, setIsOpenReg] = useState(true);
 
   return (
     <div className="pt-20 h-screen overflow-hidden">

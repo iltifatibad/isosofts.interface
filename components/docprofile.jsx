@@ -1243,7 +1243,7 @@ const DocProfile = () => {
                           handleFormChange("origin", e.target.value); // String path + value – obje değil!
                         }}
                       >
-                        <option value="">Seçiniz</option>
+                        <option value="">Select</option>
                         {dropdownData?.documentOrigin?.map((item) => (
                           <option key={item.id} value={item.id}>
                             {item.value}
@@ -1270,7 +1270,7 @@ const DocProfile = () => {
                             ); // String path + value – obje değil!
                           }}
                         >
-                          <option value="">Seçiniz</option>
+                          <option value="">Select</option>
                           {dropdownData?.depntFunctionName?.map((item) => (
                             <option key={item.id} value={item.id}>
                               {item.value}
@@ -1295,7 +1295,7 @@ const DocProfile = () => {
                             handleFormChange("type.id", e.target.value); // String path + value – obje değil!
                           }}
                         >
-                          <option value="">Seçiniz</option>
+                          <option value="">Select</option>
                           {dropdownData?.documentType?.map((item) => (
                             <option key={item.id} value={item.id}>
                               {item.value}
@@ -1537,7 +1537,7 @@ const DocProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.relativeFunction?.map(
                                     (item) => (
                                       <option key={item.id} value={item.id}>
@@ -1566,7 +1566,7 @@ const DocProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.affectedPosition?.map(
                                     (item) => (
                                       <option key={item.id} value={item.id}>
@@ -1618,7 +1618,7 @@ const DocProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.confirmation?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1644,7 +1644,7 @@ const DocProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1695,7 +1695,7 @@ const DocProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.verificationStatus?.map(
                                     (item) => (
                                       <option key={item.id} value={item.id}>
@@ -1753,7 +1753,7 @@ const DocProfile = () => {
                                   placeholder="Action"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1780,7 +1780,7 @@ const DocProfile = () => {
                                   type="date"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1808,7 +1808,7 @@ const DocProfile = () => {
                                   placeholder="Resources"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1837,7 +1837,7 @@ const DocProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1861,7 +1861,7 @@ const DocProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1886,7 +1886,7 @@ const DocProfile = () => {
                                   type="date"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1913,7 +1913,7 @@ const DocProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1939,7 +1939,7 @@ const DocProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1966,7 +1966,7 @@ const DocProfile = () => {
                                   type="date"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1995,7 +1995,7 @@ const DocProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -2023,7 +2023,7 @@ const DocProfile = () => {
                                   placeholder="Comment"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -2049,7 +2049,7 @@ const DocProfile = () => {
                                   placeholder="Comment"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}

@@ -1413,7 +1413,7 @@ const EarProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.relativeFunction?.map(
                                     (item) => (
                                       <option key={item.id} value={item.id}>
@@ -1442,7 +1442,7 @@ const EarProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.affectedPosition?.map(
                                     (item) => (
                                       <option key={item.id} value={item.id}>
@@ -1494,7 +1494,7 @@ const EarProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.confirmation?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1520,7 +1520,7 @@ const EarProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1571,7 +1571,7 @@ const EarProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.verificationStatus?.map(
                                     (item) => (
                                       <option key={item.id} value={item.id}>
@@ -1629,7 +1629,7 @@ const EarProfile = () => {
                                   placeholder="Action"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1656,7 +1656,7 @@ const EarProfile = () => {
                                   type="date"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1684,7 +1684,7 @@ const EarProfile = () => {
                                   placeholder="Resources"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1713,7 +1713,7 @@ const EarProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1737,7 +1737,7 @@ const EarProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1762,7 +1762,7 @@ const EarProfile = () => {
                                   type="date"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1789,7 +1789,7 @@ const EarProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1815,7 +1815,7 @@ const EarProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1842,7 +1842,7 @@ const EarProfile = () => {
                                   type="date"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1871,7 +1871,7 @@ const EarProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1899,7 +1899,7 @@ const EarProfile = () => {
                                   placeholder="Comment"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1925,7 +1925,7 @@ const EarProfile = () => {
                                   placeholder="Comment"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}

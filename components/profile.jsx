@@ -1213,7 +1213,7 @@ const RisksAssessment = () => {
                           handleFormChange("swot", e.target.value); // String path + value – obje değil!
                         }}
                       >
-                        <option value="">Seçiniz</option>
+                        <option value="">Select</option>
                         {dropdownData?.swot?.map((item) => (
                           <option key={item.id} value={item.id}>
                             {item.value}
@@ -1235,7 +1235,7 @@ const RisksAssessment = () => {
                           handleFormChange("pestle", e.target.value); // String path + value – obje değil!
                         }}
                       >
-                        <option value="">Seçiniz</option>
+                        <option value="">Select</option>
                         {dropdownData?.pestle?.map((item) => (
                           <option key={item.id} value={item.id}>
                             {item.value}
@@ -1257,7 +1257,7 @@ const RisksAssessment = () => {
                           handleFormChange("interestedParty", e.target.value); // String path + value – obje değil!
                         }}
                       >
-                        <option value="">Seçiniz</option>
+                        <option value="">Select</option>
                         {dropdownData?.interestedParty?.map((item) => (
                           <option key={item.id} value={item.id}>
                             {item.value}
@@ -1318,7 +1318,7 @@ const RisksAssessment = () => {
                           handleFormChange("process", e.target.value); // String path + value – obje değil!
                         }}
                       >
-                        <option value="">Seçiniz</option>
+                        <option value="">Select</option>
                         {dropdownData?.process?.map((item) => (
                           <option key={item.id} value={item.id}>
                             {item.value}
@@ -1357,7 +1357,7 @@ const RisksAssessment = () => {
                             handleFormChange("initialRiskSeverity", newValue); // String path + value – obje değil!
                           }}
                         >
-                          <option value="">Seçiniz</option>
+                          <option value="">Select</option>
                           <option>1</option>
                           <option>2</option>
                           <option>3</option>
@@ -1375,7 +1375,7 @@ const RisksAssessment = () => {
                             handleFormChange("initialRiskLikelyhood", newValue); // String path + value – obje değil!
                           }}
                         >
-                          <option value="">Seçiniz</option>
+                          <option value="">Select</option>
                           <option>1</option>
                           <option>2</option>
                           <option>3</option>
@@ -1399,7 +1399,7 @@ const RisksAssessment = () => {
                           handleFormChange("residualRiskSeverity", newValue); // String path + value – obje değil!
                         }}
                       >
-                        <option value="">Seçiniz</option>
+                        <option value="">Select</option>
                         <option>1</option>
                         <option>2</option>
                         <option>3</option>
@@ -1417,7 +1417,7 @@ const RisksAssessment = () => {
                           handleFormChange("residualRiskLikelyhood", newValue); // String path + value – obje değil!
                         }}
                       >
-                        <option value="">Seçiniz</option>
+                        <option value="">Select</option>
                         <option>1</option>
                         <option>2</option>
                         <option>3</option>
@@ -1548,7 +1548,7 @@ const RisksAssessment = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.relativeFunction?.map(
                                     (item) => (
                                       <option key={item.id} value={item.id}>
@@ -1577,7 +1577,7 @@ const RisksAssessment = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.affectedPosition?.map(
                                     (item) => (
                                       <option key={item.id} value={item.id}>
@@ -1629,7 +1629,7 @@ const RisksAssessment = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.confirmation?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1655,7 +1655,7 @@ const RisksAssessment = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1706,7 +1706,7 @@ const RisksAssessment = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.verificationStatus?.map(
                                     (item) => (
                                       <option key={item.id} value={item.id}>
@@ -1764,7 +1764,7 @@ const RisksAssessment = () => {
                                   placeholder="Action"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1791,7 +1791,7 @@ const RisksAssessment = () => {
                                   type="date"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1819,7 +1819,7 @@ const RisksAssessment = () => {
                                   placeholder="Resources"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1848,7 +1848,7 @@ const RisksAssessment = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1872,7 +1872,7 @@ const RisksAssessment = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1897,7 +1897,7 @@ const RisksAssessment = () => {
                                   type="date"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1924,7 +1924,7 @@ const RisksAssessment = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1950,7 +1950,7 @@ const RisksAssessment = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1977,7 +1977,7 @@ const RisksAssessment = () => {
                                   type="date"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -2006,7 +2006,7 @@ const RisksAssessment = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -2034,7 +2034,7 @@ const RisksAssessment = () => {
                                   placeholder="Comment"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -2060,7 +2060,7 @@ const RisksAssessment = () => {
                                   placeholder="Comment"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}

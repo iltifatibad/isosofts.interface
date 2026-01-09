@@ -1028,7 +1028,7 @@ const LegProfile = () => {
                     className="!rounded-button whitespace-nowrap cursor-pointer bg-white text-blue-600 px-4 py-2 hover:bg-gray-50 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm"
                   >
                     <i className="fas fa-plus mr-2 text-blue-600 hover:text-blue-700"></i>
-                    {!showAction ? "Add Risk" : "Add Action"}
+                    {!showAction ? "Add Legislation" : "Add Action"}
                   </button>
                   <button
                     onClick={toggleArchiveView}
@@ -1207,7 +1207,7 @@ const LegProfile = () => {
                           handleFormChange("process", e.target.value); // String path + value – obje değil!
                         }}
                       >
-                        <option value="">Seçiniz</option>
+                        <option value="">Select</option>
                         {dropdownData?.process?.map((item) => (
                           <option key={item.id} value={item.id}>
                             {item.value}
@@ -1283,7 +1283,7 @@ const LegProfile = () => {
                           handleFormChange("affectedPosition", e.target.value); // String path + value – obje değil!
                         }}
                       >
-                        <option value="">Seçiniz</option>
+                        <option value="">Select</option>
                         {dropdownData?.affectedPosition?.map((item) => (
                           <option key={item.id} value={item.id}>
                             {item.value}
@@ -1309,7 +1309,7 @@ const LegProfile = () => {
                             handleFormChange("initialRiskSeverity", newValue); // String path + value – obje değil!
                           }}
                         >
-                          <option value="">Seçiniz</option>
+                          <option value="">Select</option>
                           <option>1</option>
                           <option>2</option>
                           <option>3</option>
@@ -1327,7 +1327,7 @@ const LegProfile = () => {
                             handleFormChange("initialRiskLikelyhood", newValue); // String path + value – obje değil!
                           }}
                         >
-                          <option value="">Seçiniz</option>
+                          <option value="">Select</option>
                           <option>1</option>
                           <option>2</option>
                           <option>3</option>
@@ -1351,7 +1351,7 @@ const LegProfile = () => {
                           handleFormChange("residualRiskSeverity", newValue); // String path + value – obje değil!
                         }}
                       >
-                        <option value="">Seçiniz</option>
+                        <option value="">Select</option>
                         <option>1</option>
                         <option>2</option>
                         <option>3</option>
@@ -1369,7 +1369,7 @@ const LegProfile = () => {
                           handleFormChange("residualRiskLikelyhood", newValue); // String path + value – obje değil!
                         }}
                       >
-                        <option value="">Seçiniz</option>
+                        <option value="">Select</option>
                         <option>1</option>
                         <option>2</option>
                         <option>3</option>
@@ -1391,7 +1391,7 @@ const LegProfile = () => {
                   onClick={saveRisk}
                   className="!rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-2 hover:from-blue-600 hover:to-blue-800 transition-all duration-300"
                 >
-                  {modalMode === "add" ? "Add Risk" : "Update Risk"}
+                  {modalMode === "add" ? "Add Legislation" : "Update Legislation"}
                 </button>
               </div>
             </div>
@@ -1500,7 +1500,7 @@ const LegProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.relativeFunction?.map(
                                     (item) => (
                                       <option key={item.id} value={item.id}>
@@ -1529,7 +1529,7 @@ const LegProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.affectedPosition?.map(
                                     (item) => (
                                       <option key={item.id} value={item.id}>
@@ -1581,7 +1581,7 @@ const LegProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.confirmation?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1607,7 +1607,7 @@ const LegProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1658,7 +1658,7 @@ const LegProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.verificationStatus?.map(
                                     (item) => (
                                       <option key={item.id} value={item.id}>
@@ -1716,7 +1716,7 @@ const LegProfile = () => {
                                   placeholder="Action"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1743,7 +1743,7 @@ const LegProfile = () => {
                                   type="date"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1771,7 +1771,7 @@ const LegProfile = () => {
                                   placeholder="Resources"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1800,7 +1800,7 @@ const LegProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1824,7 +1824,7 @@ const LegProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1849,7 +1849,7 @@ const LegProfile = () => {
                                   type="date"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1876,7 +1876,7 @@ const LegProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1902,7 +1902,7 @@ const LegProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1929,7 +1929,7 @@ const LegProfile = () => {
                                   type="date"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1958,7 +1958,7 @@ const LegProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1986,7 +1986,7 @@ const LegProfile = () => {
                                   placeholder="Comment"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -2012,7 +2012,7 @@ const LegProfile = () => {
                                   placeholder="Comment"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}

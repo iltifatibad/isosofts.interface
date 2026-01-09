@@ -1202,7 +1202,7 @@ const HsProfile = () => {
                           handleFormChange("process", e.target.value); // String path + value – obje değil!
                         }}
                       >
-                        <option value="">Seçiniz</option>
+                        <option value="">Select</option>
                         {dropdownData?.process?.map((item) => (
                           <option key={item.id} value={item.id}>
                             {item.value}
@@ -1224,7 +1224,7 @@ const HsProfile = () => {
                           handleFormChange("hazard", e.target.value); // String path + value – obje değil!
                         }}
                       >
-                        <option value="">Seçiniz</option>
+                        <option value="">Select</option>
                         {dropdownData?.hazard?.map((item) => (
                           <option key={item.id} value={item.id}>
                             {item.value}
@@ -1246,7 +1246,7 @@ const HsProfile = () => {
                           handleFormChange("risk", e.target.value); // String path + value – obje değil!
                         }}
                       >
-                        <option value="">Seçiniz</option>
+                        <option value="">Select</option>
                         {dropdownData?.risk?.map((item) => (
                           <option key={item.id} value={item.id}>
                             {item.value}
@@ -1268,7 +1268,7 @@ const HsProfile = () => {
                           handleFormChange("affectedPosition", e.target.value); // String path + value – obje değil!
                         }}
                       >
-                        <option value="">Seçiniz</option>
+                        <option value="">Select</option>
                         {dropdownData?.affectedPosition?.map((item) => (
                           <option key={item.id} value={item.id}>
                             {item.value}
@@ -1307,7 +1307,7 @@ const HsProfile = () => {
                             handleFormChange("initialRiskSeverity", newValue); // String path + value – obje değil!
                           }}
                         >
-                          <option value="">Seçiniz</option>
+                          <option value="">Select</option>
                           <option>1</option>
                           <option>2</option>
                           <option>3</option>
@@ -1325,7 +1325,7 @@ const HsProfile = () => {
                             handleFormChange("initialRiskLikelyhood", newValue); // String path + value – obje değil!
                           }}
                         >
-                          <option value="">Seçiniz</option>
+                          <option value="">Select</option>
                           <option>1</option>
                           <option>2</option>
                           <option>3</option>
@@ -1349,7 +1349,7 @@ const HsProfile = () => {
                           handleFormChange("residualRiskSeverity", newValue); // String path + value – obje değil!
                         }}
                       >
-                        <option value="">Seçiniz</option>
+                        <option value="">Select</option>
                         <option>1</option>
                         <option>2</option>
                         <option>3</option>
@@ -1367,7 +1367,7 @@ const HsProfile = () => {
                           handleFormChange("residualRiskLikelyhood", newValue); // String path + value – obje değil!
                         }}
                       >
-                        <option value="">Seçiniz</option>
+                        <option value="">Select</option>
                         <option>1</option>
                         <option>2</option>
                         <option>3</option>
@@ -1498,7 +1498,7 @@ const HsProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.relativeFunction?.map(
                                     (item) => (
                                       <option key={item.id} value={item.id}>
@@ -1527,7 +1527,7 @@ const HsProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.affectedPosition?.map(
                                     (item) => (
                                       <option key={item.id} value={item.id}>
@@ -1579,7 +1579,7 @@ const HsProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.confirmation?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1605,7 +1605,7 @@ const HsProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1656,7 +1656,7 @@ const HsProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.verificationStatus?.map(
                                     (item) => (
                                       <option key={item.id} value={item.id}>
@@ -1714,7 +1714,7 @@ const HsProfile = () => {
                                   placeholder="Action"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1741,7 +1741,7 @@ const HsProfile = () => {
                                   type="date"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1769,7 +1769,7 @@ const HsProfile = () => {
                                   placeholder="Resources"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1798,7 +1798,7 @@ const HsProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1822,7 +1822,7 @@ const HsProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1847,7 +1847,7 @@ const HsProfile = () => {
                                   type="date"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1874,7 +1874,7 @@ const HsProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1900,7 +1900,7 @@ const HsProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1927,7 +1927,7 @@ const HsProfile = () => {
                                   type="date"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1956,7 +1956,7 @@ const HsProfile = () => {
                                   }
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -1984,7 +1984,7 @@ const HsProfile = () => {
                                   placeholder="Comment"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -2010,7 +2010,7 @@ const HsProfile = () => {
                                   placeholder="Comment"
                                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
                                 >
-                                  <option value="">Seçiniz</option>
+                                  <option value="">Select</option>
                                   {dropdownData?.status?.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}

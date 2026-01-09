@@ -360,68 +360,111 @@ const MyTableBody = ({
                     {row.ermeoa?.value || `${row.ermeoa}`}
                   </td>
 
-                  {/* Initial Risk */}
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-20"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.initialRiskSeverity}
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
-                  </td>
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-24"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.initialRiskLikelyhood}
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
-                  </td>
+                    {/* Initial Risk */}
+                    <td
+                      className="border border-gray-200 px-2 py-1 w-20"
+                      rowSpan={1}
+                    >
+                      <SoftBadge
+                        value={row.initialRiskSeverity}
+                        color="bg-emerald-100 text-emerald-700 border border-emerald-200"
+                      />
+                    </td>
+                    <td
+                      className="border border-gray-200 px-2 py-1 w-24"
+                      rowSpan={1}
+                    >
+                      <SoftBadge
+                        value={row.initialRiskLikelyhood}
+                        color="bg-emerald-100 text-emerald-700 border border-emerald-200"
+                      />
+                    </td>
+                    {/* Risk Level */}
+                    <td
+                      className="border border-gray-200 px-2 py-1 w-20"
+                      rowSpan={1}
+                    >
+                      {(() => {
+                        const product = row.initialRiskSeverity * row.initialRiskLikelyhood;
+                        let riskLevel = '';
+                        let colorClass = '';
 
-                  {/* Risk Level */}
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-20"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value="Medium"
-                      color="bg-yellow-100 text-yellow-700 border border-yellow-200"
-                    />
-                  </td>
+                        if (product >= 1 && product <= 6) {
+                          riskLevel = 'Low';
+                          colorClass = 'bg-emerald-100 text-emerald-700 border border-emerald-200';
+                        } else if (product > 6 && product <= 12) {
+                          riskLevel = 'Medium';
+                          colorClass = 'bg-yellow-100 text-yellow-700 border border-yellow-200';
+                        } else if (product > 12 && product <= 25) {
+                          riskLevel = 'High';
+                          colorClass = 'bg-red-100 text-red-700 border border-red-200';
+                        } else {
+                          riskLevel = 'Unknown';
+                          colorClass = 'bg-gray-100 text-gray-700 border border-gray-200';
+                        }
+
+                        return (
+                          <SoftBadge
+                            value={riskLevel}
+                            color={colorClass}
+                          />
+                        );
+                      })()}
+                    </td>
 
                   {/* İlk Action */}
 
-                  {/* Residual Risk */}
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-24"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.residualRiskSeverity}
-                      color="bg-rose-100 text-rose-700 border border-rose-200"
-                    />
-                  </td>
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-24"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.residualRiskLikelyhood}
-                      color="bg-rose-100 text-rose-700 border border-rose-200"
-                    />
-                  </td>
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-20"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value="Low"
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
-                  </td>
-                </tr>
+                    {/* Residual Risk */}
+                    <td
+                      className="border border-gray-200 px-2 py-1 w-24"
+                      rowSpan={1}
+                    >
+                      <SoftBadge
+                        value={row.residualRiskSeverity}
+                        color="bg-rose-100 text-rose-700 border border-rose-200"
+                      />
+                    </td>
+                    <td
+                      className="border border-gray-200 px-2 py-1 w-24"
+                      rowSpan={1}
+                    >
+                      <SoftBadge
+                        value={row.residualRiskLikelyhood}
+                        color="bg-rose-100 text-rose-700 border border-rose-200"
+                      />
+                    </td>
+                    <td
+                      className="border border-gray-200 px-2 py-1 w-20"
+                      rowSpan={1}
+                    >
+                      {(() => {
+                        const product = row.residualRiskSeverity * row.residualRiskLikelyhood;
+                        let riskLevel = '';
+                        let colorClass = '';
+
+                        if (product >= 1 && product <= 6) {
+                          riskLevel = 'Low';
+                          colorClass = 'bg-emerald-100 text-emerald-700 border border-emerald-200';
+                        } else if (product > 6 && product <= 12) {
+                          riskLevel = 'Medium';
+                          colorClass = 'bg-yellow-100 text-yellow-700 border border-yellow-200';
+                        } else if (product > 12 && product <= 25) {
+                          riskLevel = 'High';
+                          colorClass = 'bg-red-100 text-red-700 border border-red-200';
+                        } else {
+                          riskLevel = 'Unknown';
+                          colorClass = 'bg-gray-100 text-gray-700 border border-gray-200';
+                        }
+
+                        return (
+                          <SoftBadge
+                            value={riskLevel}
+                            color={colorClass}
+                          />
+                        );
+                      })()}
+                    </td>
+                    </tr>
 
                 {/* Ek Actions */}
               </React.Fragment>
