@@ -222,6 +222,36 @@ const HsBody = ({
       });
   };
 
+    const getRiskLevel = (severity, likelihood) => {
+  const score = Number(severity) * Number(likelihood);
+
+  if (score >= 1 && score <= 6) {
+    return {
+      label: "Low",
+      color: "bg-emerald-100 text-emerald-700 border border-emerald-200",
+    };
+  }
+
+  if (score > 6 && score <= 12) {
+    return {
+      label: "Medium",
+      color: "bg-yellow-100 text-yellow-700 border border-yellow-200",
+    };
+  }
+
+  if (score > 12 && score <= 25) {
+    return {
+      label: "High",
+      color: "bg-rose-100 text-rose-700 border border-rose-200",
+    };
+  }
+
+  return {
+    label: "-",
+    color: "bg-gray-100 text-gray-500 border border-gray-200",
+  };
+};
+
   useEffect(() => {
     if (!activeHeader && selectedRows.size > 0) {
       // selectedRows.size ile Set'in boş olup olmadığını kontrol et
@@ -345,6 +375,7 @@ const HsBody = ({
                     {row.erma?.value || `${row.erma}`}
                   </td>
 
+                  
                   {/* Initial Risk */}
                   <td
                     className="border border-gray-200 px-2 py-1 w-20"
@@ -366,14 +397,15 @@ const HsBody = ({
                   </td>
 
                   {/* Risk Level */}
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-20"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value="Medium"
-                      color="bg-yellow-100 text-yellow-700 border border-yellow-200"
-                    />
+                  <td className="border border-gray-200 px-2 py-1 w-20">
+                    {(() => {
+                      const risk = getRiskLevel(
+                        row.initialRiskSeverity,
+                        row.initialRiskLikelyhood
+                      );
+
+                      return <SoftBadge value={risk.label} color={risk.color} />;
+                    })()}
                   </td>
 
                   {/* İlk Action */}
@@ -397,14 +429,15 @@ const HsBody = ({
                       color="bg-rose-100 text-rose-700 border border-rose-200"
                     />
                   </td>
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-20"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value="Low"
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
+                  <td className="border border-gray-200 px-2 py-1 w-20">
+                    {(() => {
+                      const risk = getRiskLevel(
+                        row.residualRiskSeverity,
+                        row.residualRiskLikelyhood
+                      );
+
+                      return <SoftBadge value={risk.label} color={risk.color} />;
+                    })()}
                   </td>
                 </tr>
 
@@ -541,14 +574,15 @@ const HsBody = ({
                   </td>
 
                   {/* Risk Level */}
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-20"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value="Medium"
-                      color="bg-yellow-100 text-yellow-700 border border-yellow-200"
-                    />
+                  <td className="border border-gray-200 px-2 py-1 w-20">
+                    {(() => {
+                      const risk = getRiskLevel(
+                        row.initialRiskSeverity,
+                        row.initialRiskLikelyhood
+                      );
+
+                      return <SoftBadge value={risk.label} color={risk.color} />;
+                    })()}
                   </td>
 
                   {/* İlk Action */}
@@ -572,14 +606,15 @@ const HsBody = ({
                       color="bg-rose-100 text-rose-700 border border-rose-200"
                     />
                   </td>
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-20"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value="Low"
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
+                  <td className="border border-gray-200 px-2 py-1 w-20">
+                    {(() => {
+                      const risk = getRiskLevel(
+                        row.residualRiskSeverity,
+                        row.residualRiskLikelyhood
+                      );
+
+                      return <SoftBadge value={risk.label} color={risk.color} />;
+                    })()}
                   </td>
                 </tr>
 
@@ -895,6 +930,15 @@ const HsBody = ({
               ? row.actions
               : [row.actions];
 
+            const SoftBadge = ({ value, color }) =>
+              value ? (
+                <span
+                  className={`inline-block px-2 py-1 rounded-full text-sm font-medium shadow-sm ${color}`}
+                >
+                  {value}
+                </span>
+              ) : null;
+
             return (
               <React.Fragment key={row.id}>
                 <tr
@@ -991,14 +1035,15 @@ const HsBody = ({
                   </td>
 
                   {/* Risk Level */}
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-20"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value="Medium"
-                      color="bg-yellow-100 text-yellow-700 border border-yellow-200"
-                    />
+                  <td className="border border-gray-200 px-2 py-1 w-20">
+                    {(() => {
+                      const risk = getRiskLevel(
+                        row.initialRiskSeverity,
+                        row.initialRiskLikelyhood
+                      );
+
+                      return <SoftBadge value={risk.label} color={risk.color} />;
+                    })()}
                   </td>
 
                   {/* İlk Action */}
@@ -1022,14 +1067,15 @@ const HsBody = ({
                       color="bg-rose-100 text-rose-700 border border-rose-200"
                     />
                   </td>
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-20"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value="Low"
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
+                  <td className="border border-gray-200 px-2 py-1 w-20">
+                    {(() => {
+                      const risk = getRiskLevel(
+                        row.residualRiskSeverity,
+                        row.residualRiskLikelyhood
+                      );
+
+                      return <SoftBadge value={risk.label} color={risk.color} />;
+                    })()}
                   </td>
                 </tr>
               </React.Fragment>
