@@ -110,6 +110,38 @@ const AoBody = ({
       setLoading(false); // Loading bitir
     }
   };
+
+
+    const getRiskLevel = (severity, likelihood) => {
+  const score = Number(severity) * Number(likelihood);
+
+  if (score >= 1 && score <= 6) {
+    return {
+      label: "Low",
+      color: "bg-emerald-100 text-emerald-700 border border-emerald-200",
+    };
+  }
+
+  if (score > 6 && score <= 12) {
+    return {
+      label: "Medium",
+      color: "bg-yellow-100 text-yellow-700 border border-yellow-200",
+    };
+  }
+
+  if (score > 12 && score <= 25) {
+    return {
+      label: "High",
+      color: "bg-rose-100 text-rose-700 border border-rose-200",
+    };
+  }
+
+  return {
+    label: "-",
+    color: "bg-gray-100 text-gray-500 border border-gray-200",
+  };
+};
+
   useEffect(() => {
     if (showDeleted) {
       getDeletedData(); // Async çağrı
