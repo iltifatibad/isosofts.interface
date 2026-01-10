@@ -969,6 +969,14 @@ const MyTableBody = ({
               ? row.actions
               : [row.actions];
 
+              const SoftBadge = ({ value }) =>
+              value ? (
+                <span className="px-2 py-1 rounded-full bg-gray-100 text-gray-700 text-xs font-medium">
+                  {value}
+                </span>
+              ) : null;
+
+
             return (
               <React.Fragment key={row.id}>
                 <tr
@@ -1074,7 +1082,7 @@ const MyTableBody = ({
                     {row.ermeoa?.value || `${row.ermeoa}`}
                   </td>
 
-                                      {/* Initial Risk */}
+                  {/* Initial Risk */}
                   <td
                     className="border border-gray-200 px-2 py-1 w-20"
                     rowSpan={1}
