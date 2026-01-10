@@ -592,6 +592,7 @@ const MyTableBody = ({
                   </td>
 
                   {/* Initial Risk */}
+                                    {/* Initial Risk */}
                   <td
                     className="border border-gray-200 px-2 py-1 w-20"
                     rowSpan={1}
@@ -612,14 +613,15 @@ const MyTableBody = ({
                   </td>
 
                   {/* Risk Level */}
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-20"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value="Medium"
-                      color="bg-yellow-100 text-yellow-700 border border-yellow-200"
-                    />
+                  <td className="border border-gray-200 px-2 py-1 w-20">
+                    {(() => {
+                      const risk = getRiskLevel(
+                        row.initialRiskSeverity,
+                        row.initialRiskLikelyhood
+                      );
+
+                      return <SoftBadge value={risk.label} color={risk.color} />;
+                    })()}
                   </td>
 
                   {/* İlk Action */}
@@ -643,14 +645,15 @@ const MyTableBody = ({
                       color="bg-rose-100 text-rose-700 border border-rose-200"
                     />
                   </td>
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-20"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value="Low"
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
+                  <td className="border border-gray-200 px-2 py-1 w-20">
+                    {(() => {
+                      const risk = getRiskLevel(
+                        row.residualRiskSeverity,
+                        row.residualRiskLikelyhood
+                      );
+
+                      return <SoftBadge value={risk.label} color={risk.color} />;
+                    })()}
                   </td>
                 </tr>
 
@@ -1071,72 +1074,68 @@ const MyTableBody = ({
                     {row.ermeoa?.value || `${row.ermeoa}`}
                   </td>
 
-                  {/* Initial Risk Severity */}
+                                      {/* Initial Risk */}
                   <td
-                    className="border border-gray-200 px-3 py-2 w-20"
+                    className="border border-gray-200 px-2 py-1 w-20"
                     rowSpan={1}
                   >
-                    {row.initialRiskSeverity && (
-                      <span className="inline-block px-3 py-1 bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-full shadow-sm">
-                        {row.initialRiskSeverity}
-                      </span>
-                    )}
+                    <SoftBadge
+                      value={row.initialRiskSeverity}
+                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
+                    />
                   </td>
-
-                  {/* Likelyhood */}
                   <td
-                    className="border border-gray-200 px-3 py-2 w-24"
+                    className="border border-gray-200 px-2 py-1 w-24"
                     rowSpan={1}
                   >
-                    {row.initialRiskLikelyhood && (
-                      <span className="inline-block px-3 py-1 bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-full shadow-sm">
-                        {row.initialRiskLikelyhood}
-                      </span>
-                    )}
+                    <SoftBadge
+                      value={row.initialRiskLikelyhood}
+                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
+                    />
                   </td>
 
                   {/* Risk Level */}
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-20"
-                    rowSpan={1}
-                  >
-                    <span className="inline-block px-3 py-1 bg-yellow-100 text-yellow-700 border border-yellow-200 rounded-full shadow-sm">
-                      Medium
-                    </span>
+                  <td className="border border-gray-200 px-2 py-1 w-20">
+                    {(() => {
+                      const risk = getRiskLevel(
+                        row.initialRiskSeverity,
+                        row.initialRiskLikelyhood
+                      );
+
+                      return <SoftBadge value={risk.label} color={risk.color} />;
+                    })()}
                   </td>
 
-                  {/* Residual Severity */}
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-24"
-                    rowSpan={1}
-                  >
-                    {row.residualRiskSeverity && (
-                      <span className="inline-block px-3 py-1 bg-rose-100 text-rose-700 border border-rose-200 rounded-full shadow-sm">
-                        {row.residualRiskSeverity}
-                      </span>
-                    )}
-                  </td>
+                  {/* İlk Action */}
 
-                  {/* Residual Likelyhood */}
+                  {/* Residual Risk */}
                   <td
-                    className="border border-gray-200 px-3 py-2 w-24"
+                    className="border border-gray-200 px-2 py-1 w-24"
                     rowSpan={1}
                   >
-                    {row.residualRiskLikelyhood && (
-                      <span className="inline-block px-3 py-1 bg-rose-100 text-rose-700 border border-rose-200 rounded-full shadow-sm">
-                        {row.residualRiskLikelyhood}
-                      </span>
-                    )}
+                    <SoftBadge
+                      value={row.residualRiskSeverity}
+                      color="bg-rose-100 text-rose-700 border border-rose-200"
+                    />
                   </td>
-
-                  {/* Final Risk Level */}
                   <td
-                    className="border border-gray-200 px-3 py-2 w-20"
+                    className="border border-gray-200 px-2 py-1 w-24"
                     rowSpan={1}
                   >
-                    <span className="inline-block px-3 py-1 bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-full shadow-sm">
-                      Low
-                    </span>
+                    <SoftBadge
+                      value={row.residualRiskLikelyhood}
+                      color="bg-rose-100 text-rose-700 border border-rose-200"
+                    />
+                  </td>
+                  <td className="border border-gray-200 px-2 py-1 w-20">
+                    {(() => {
+                      const risk = getRiskLevel(
+                        row.residualRiskSeverity,
+                        row.residualRiskLikelyhood
+                      );
+
+                      return <SoftBadge value={risk.label} color={risk.color} />;
+                    })()}
                   </td>
                 </tr>
               </React.Fragment>
