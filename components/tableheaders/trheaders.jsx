@@ -52,7 +52,7 @@ const TrHeaders = ({ activeHeader }) => {
             className="min-w-15 border-r border-blue-500 sticky top-0 z-20 bg-blue-100"
             rowSpan={2}
           >
-            Competency Status
+            Training Validity Status
           </th>
         </tr>
 

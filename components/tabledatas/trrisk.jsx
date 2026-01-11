@@ -323,16 +323,28 @@ const TrBody = ({
 </td>
 
                   {/* Certificate No */}
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-32"
-                    rowSpan={1}
-                  >
-                    {row.clnumber && (
-                      <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
-                        {row.clname}
-                      </span>
-                    )}
-                  </td>
+<td
+  className="border border-gray-200 px-3 py-2 w-32"
+  rowSpan={1}
+>
+  {(() => {
+    if (!row.nvcd || !row.ncd) return null;
+    const diffInMs = new Date(row.ncd) - new Date(row.nvcd);
+    const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+    const isUpToDate = diffInDays > 0;
+    const text = isUpToDate ? "Up To Date" : "Not Up To Date";
+    const colorClass = isUpToDate
+      ? "bg-emerald-100 text-emerald-700 border border-emerald-200"
+      : "bg-rose-100 text-rose-700 border border-rose-200";
+    return (
+      <span
+        className={`inline-block px-3 py-1 ${colorClass} rounded-full shadow-sm`}
+      >
+        {text}
+      </span>
+    );
+  })()}
+</td>
 
 <td
   className="border border-gray-200 px-3 py-2 w-32"
@@ -496,12 +508,28 @@ const TrBody = ({
   })()}
 </td>
 
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-20"
-                    rowSpan={1}
-                  >
-                    {row.competencyStatus}
-                  </td>
+<td
+  className="border border-gray-200 px-3 py-2 w-32"
+  rowSpan={1}
+>
+  {(() => {
+    if (!row.nvcd || !row.ncd) return null;
+    const diffInMs = new Date(row.ncd) - new Date(row.nvcd);
+    const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+    const isUpToDate = diffInDays > 0;
+    const text = isUpToDate ? "Up To Date" : "Not Up To Date";
+    const colorClass = isUpToDate
+      ? "bg-emerald-100 text-emerald-700 border border-emerald-200"
+      : "bg-rose-100 text-rose-700 border border-rose-200";
+    return (
+      <span
+        className={`inline-block px-3 py-1 ${colorClass} rounded-full shadow-sm`}
+      >
+        {text}
+      </span>
+    );
+  })()}
+</td>
                 </tr>
 
                 {/* Ek Actions */}
@@ -912,12 +940,28 @@ const TrBody = ({
   })()}
 </td>
 
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-20"
-                    rowSpan={1}
-                  >
-                    {row.competencyStatus}
-                  </td>
+<td
+  className="border border-gray-200 px-3 py-2 w-32"
+  rowSpan={1}
+>
+  {(() => {
+    if (!row.nvcd || !row.ncd) return null;
+    const diffInMs = new Date(row.ncd) - new Date(row.nvcd);
+    const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+    const isUpToDate = diffInDays > 0;
+    const text = isUpToDate ? "Up To Date" : "Not Up To Date";
+    const colorClass = isUpToDate
+      ? "bg-emerald-100 text-emerald-700 border border-emerald-200"
+      : "bg-rose-100 text-rose-700 border border-rose-200";
+    return (
+      <span
+        className={`inline-block px-3 py-1 ${colorClass} rounded-full shadow-sm`}
+      >
+        {text}
+      </span>
+    );
+  })()}
+</td>
                 </tr>
               </React.Fragment>
             );
