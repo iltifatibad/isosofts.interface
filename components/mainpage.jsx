@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from "react";
+import RiskTableee from "./test/test";
 
 // Sample data - equivalent to Vue's ref data
 const initialRisks = [
@@ -260,7 +261,7 @@ const IsosoftsUIConcept = () => {
                     </span>
                     <br />
                     <span className="text-gray-800 drop-shadow-lg">
-                      Isosoftsss
+                      Isosofts
                     </span>
                   </h1>
                   <p className="text-xl text-gray-600 leading-relaxed max-w-lg">
@@ -279,6 +280,10 @@ const IsosoftsUIConcept = () => {
                 </div>
               </div>
             </div>
+          </section>
+
+          <section>
+            <RiskTableee/>
           </section>
           {/* Features Section */}
           <section className="py-20 bg-gradient-to-b from-white to-blue-50">
