@@ -358,17 +358,29 @@ const EiBody = ({
   })()}
 </td>
 
-                  {/* Safe To Use */}
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-24"
-                    rowSpan={1}
-                  >
-                    {row.safeToUse && (
-                      <span className="inline-block px-3 py-1 bg-cyan-100 text-cyan-700 border border-cyan-200 rounded-full shadow-sm">
-                        {row.safeToUse}
-                      </span>
-                    )}
-                  </td>
+{/* Safe To Use */}
+<td
+  className="border border-gray-200 px-3 py-2 w-24"
+  rowSpan={1}
+>
+  {(() => {
+    if (!row.icd || !row.nvcd) return null;
+    const diffInMs = new Date(row.nvcd) - new Date(row.icd);
+    const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+    const isSafe = diffInDays > 0;
+    const text = isSafe ? "Safe" : "Not Safe";
+    const colorClass = isSafe
+      ? "bg-emerald-100 text-emerald-700 border border-emerald-200"
+      : "bg-rose-100 text-rose-700 border border-rose-200";
+    return (
+      <span
+        className={`inline-block px-3 py-1 ${colorClass} rounded-full shadow-sm`}
+      >
+        {text}
+      </span>
+    );
+  })()}
+</td>
                 </tr>
 
                 {/* Ek Actions */}
@@ -504,17 +516,29 @@ const EiBody = ({
     return `${diffInDays} Days`;
   })()}
 </td>
-                  {/* Safe To Use */}
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-24"
-                    rowSpan={1}
-                  >
-                    {row.safeToUse && (
-                      <span className="inline-block px-3 py-1 bg-cyan-100 text-cyan-700 border border-cyan-200 rounded-full shadow-sm">
-                        {row.safeToUse}
-                      </span>
-                    )}
-                  </td>
+{/* Safe To Use */}
+<td
+  className="border border-gray-200 px-3 py-2 w-24"
+  rowSpan={1}
+>
+  {(() => {
+    if (!row.icd || !row.nvcd) return null;
+    const diffInMs = new Date(row.nvcd) - new Date(row.icd);
+    const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+    const isSafe = diffInDays > 0;
+    const text = isSafe ? "Safe" : "Not Safe";
+    const colorClass = isSafe
+      ? "bg-emerald-100 text-emerald-700 border border-emerald-200"
+      : "bg-rose-100 text-rose-700 border border-rose-200";
+    return (
+      <span
+        className={`inline-block px-3 py-1 ${colorClass} rounded-full shadow-sm`}
+      >
+        {text}
+      </span>
+    );
+  })()}
+</td>
                 </tr>
 
                 {/* Ek Actions */}
@@ -928,17 +952,29 @@ const EiBody = ({
   })()}
 </td>
 
-                  {/* Safe To Use */}
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-24"
-                    rowSpan={1}
-                  >
-                    {row.safeToUse && (
-                      <span className="inline-block px-3 py-1 bg-cyan-100 text-cyan-700 border border-cyan-200 rounded-full shadow-sm">
-                        {row.safeToUse}
-                      </span>
-                    )}
-                  </td>
+{/* Safe To Use */}
+<td
+  className="border border-gray-200 px-3 py-2 w-24"
+  rowSpan={1}
+>
+  {(() => {
+    if (!row.icd || !row.nvcd) return null;
+    const diffInMs = new Date(row.nvcd) - new Date(row.icd);
+    const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+    const isSafe = diffInDays > 0;
+    const text = isSafe ? "Safe" : "Not Safe";
+    const colorClass = isSafe
+      ? "bg-emerald-100 text-emerald-700 border border-emerald-200"
+      : "bg-rose-100 text-rose-700 border border-rose-200";
+    return (
+      <span
+        className={`inline-block px-3 py-1 ${colorClass} rounded-full shadow-sm`}
+      >
+        {text}
+      </span>
+    );
+  })()}
+</td>
                 </tr>
               </React.Fragment>
             );
