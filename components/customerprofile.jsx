@@ -1272,32 +1272,32 @@ const CusProfile = () => {
                         ))}
                       </select>{" "}
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Reg Date
-                      </label>
-                      <input
-                        value={formData.registrationDate}
-                        onChange={(e) =>
-                          handleFormChange("registrationDate", e.target.value)
-                        }
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Review Date
-                      </label>
-                      <input
-                        value={formData.reviewDate}
-                        onChange={(e) =>
-                          handleFormChange("reviewDate", e.target.value)
-                        }
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                      />
-                    </div>
+ <div>
+  <label className="block text-sm font-medium text-gray-700 mb-2">
+    Reg Date
+  </label>
+  <input
+    value={formData.registrationDate}
+    onChange={(e) =>
+      handleFormChange("registrationDate", e.target.value)
+    }
+    type="date"
+    className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+  />
+</div>
+<div>
+  <label className="block text-sm font-medium text-gray-700 mb-2">
+    Review Date
+  </label>
+  <input
+    value={formData.reviewDate}
+    onChange={(e) =>
+      handleFormChange("reviewDate", e.target.value)
+    }
+    type="date"
+    className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+  />
+</div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Actual
