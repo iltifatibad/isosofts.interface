@@ -350,106 +350,113 @@ const EnvBody = ({
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
+                <td
+  className="border border-gray-200 px-2 py-1 w-32"
+  rowSpan={1}
+>
+  {row.idosProbability}
+</td>
+<td
+  className="border border-gray-200 px-2 py-1 w-20"
+  rowSpan={1}
+>
+  <SoftBadge
+    value={row.idosSeverity}
+    color="bg-emerald-100 text-emerald-700 border border-emerald-200"
+  />
+</td>
+<td
+  className="border border-gray-200 px-2 py-1 w-24"
+  rowSpan={1}
+>
+  <SoftBadge
+    value={row.idosDuration}
+    color="bg-emerald-100 text-emerald-700 border border-emerald-200"
+  />
+</td>
+<td
+  className="border border-gray-200 px-2 py-1 w-24"
+  rowSpan={1}
+>
+  <SoftBadge
+    value={row.idosScale}
+    color="bg-rose-100 text-rose-700 border border-rose-200"
+  />
+</td>
+<td
+  className="border border-gray-200 px-2 py-1 w-20"
+  rowSpan={1}
+>
+  <SoftBadge
+    value={
+      (() => {
+        const osr =
+          row.idosProbability *
+          row.idosSeverity *
+          row.idosDuration *
+          row.idosScale;
+        return osr > 80 ? "High" : "Low";
+      })()
+    }
+    color="bg-emerald-100 text-emerald-700 border border-emerald-200"
+  />
+</td>
 
                   {/* Probability */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-32"
-                    rowSpan={1}
-                  >
-                    {row.idosProbabilty}
-                  </td>
-
-                  {/* Severity */}
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-20"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.idosSeverity}
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
-                  </td>
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-24"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.idosDuration}
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
-                  </td>
-
-                  {/* İlk Action */}
-
-                  {/* Residual Risk */}
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-24"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.idosScale}
-                      color="bg-rose-100 text-rose-700 border border-rose-200"
-                    />
-                  </td>
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-20"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value="Low"
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
-                  </td>
-
-                  {/* Probability */}
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-32"
-                    rowSpan={1}
-                  >
-                    {row.rdosProbability}
-                  </td>
-
-                  {/* Severity */}
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-20"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.rdosSeverity}
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
-                  </td>
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-24"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.rdosDuration}
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
-                  </td>
-
-                  {/* İlk Action */}
-
-                  {/* Residual Risk */}
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-24"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.rdosScale}
-                      color="bg-rose-100 text-rose-700 border border-rose-200"
-                    />
-                  </td>
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-20"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value="Low"
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
-                  </td>
+  className="border border-gray-200 px-2 py-1 w-32"
+  rowSpan={1}
+>
+  {row.rdosProbability}
+</td>
+{/* Severity */}
+<td
+  className="border border-gray-200 px-2 py-1 w-20"
+  rowSpan={1}
+>
+  <SoftBadge
+    value={row.rdosSeverity}
+    color="bg-emerald-100 text-emerald-700 border border-emerald-200"
+  />
+</td>
+<td
+  className="border border-gray-200 px-2 py-1 w-24"
+  rowSpan={1}
+>
+  <SoftBadge
+    value={row.rdosDuration}
+    color="bg-emerald-100 text-emerald-700 border border-emerald-200"
+  />
+</td>
+{/* İlk Action */}
+{/* Residual Risk */}
+<td
+  className="border border-gray-200 px-2 py-1 w-24"
+  rowSpan={1}
+>
+  <SoftBadge
+    value={row.rdosScale}
+    color="bg-rose-100 text-rose-700 border border-rose-200"
+  />
+</td>
+<td
+  className="border border-gray-200 px-2 py-1 w-20"
+  rowSpan={1}
+>
+  <SoftBadge
+    value={
+      (() => {
+        const osr =
+          row.rdosProbability *
+          row.rdosSeverity *
+          row.rdosDuration *
+          row.rdosScale;
+        return osr > 80 ? "High" : "Low";
+      })()
+    }
+    color="bg-emerald-100 text-emerald-700 border border-emerald-200"
+  />
+</td>
                 </tr>
 
                 {/* Ek Actions */}
@@ -570,105 +577,113 @@ const EnvBody = ({
                     />
                   </td>
 
+                                  <td
+  className="border border-gray-200 px-2 py-1 w-32"
+  rowSpan={1}
+>
+  {row.idosProbability}
+</td>
+<td
+  className="border border-gray-200 px-2 py-1 w-20"
+  rowSpan={1}
+>
+  <SoftBadge
+    value={row.idosSeverity}
+    color="bg-emerald-100 text-emerald-700 border border-emerald-200"
+  />
+</td>
+<td
+  className="border border-gray-200 px-2 py-1 w-24"
+  rowSpan={1}
+>
+  <SoftBadge
+    value={row.idosDuration}
+    color="bg-emerald-100 text-emerald-700 border border-emerald-200"
+  />
+</td>
+<td
+  className="border border-gray-200 px-2 py-1 w-24"
+  rowSpan={1}
+>
+  <SoftBadge
+    value={row.idosScale}
+    color="bg-rose-100 text-rose-700 border border-rose-200"
+  />
+</td>
+<td
+  className="border border-gray-200 px-2 py-1 w-20"
+  rowSpan={1}
+>
+  <SoftBadge
+    value={
+      (() => {
+        const osr =
+          row.idosProbability *
+          row.idosSeverity *
+          row.idosDuration *
+          row.idosScale;
+        return osr > 80 ? "High" : "Low";
+      })()
+    }
+    color="bg-emerald-100 text-emerald-700 border border-emerald-200"
+  />
+</td>
+
                   {/* Probability */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-32"
-                    rowSpan={1}
-                  >
-                    {row.idosProbability}
-                  </td>
-
-                  {/* Severity */}
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-20"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.idosSeverity}
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
-                  </td>
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-24"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.idosDuration}
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
-                  </td>
-
-                  {/* İlk Action */}
-
-                  {/* Residual Risk */}
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-24"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.idosScale}
-                      color="bg-rose-100 text-rose-700 border border-rose-200"
-                    />
-                  </td>
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-20"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value="Low"
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
-                  </td>
-
-                  {/* Probability */}
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-32"
-                    rowSpan={1}
-                  >
-                    {row.rdosProbability}
-                  </td>
-
-                  {/* Severity */}
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-20"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.rdosSeverity}
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
-                  </td>
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-24"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.rdosDuration}
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
-                  </td>
-
-                  {/* İlk Action */}
-
-                  {/* Residual Risk */}
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-24"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.rdosScale}
-                      color="bg-rose-100 text-rose-700 border border-rose-200"
-                    />
-                  </td>
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-20"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value="Low"
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
-                  </td>
+  className="border border-gray-200 px-2 py-1 w-32"
+  rowSpan={1}
+>
+  {row.rdosProbability}
+</td>
+{/* Severity */}
+<td
+  className="border border-gray-200 px-2 py-1 w-20"
+  rowSpan={1}
+>
+  <SoftBadge
+    value={row.rdosSeverity}
+    color="bg-emerald-100 text-emerald-700 border border-emerald-200"
+  />
+</td>
+<td
+  className="border border-gray-200 px-2 py-1 w-24"
+  rowSpan={1}
+>
+  <SoftBadge
+    value={row.rdosDuration}
+    color="bg-emerald-100 text-emerald-700 border border-emerald-200"
+  />
+</td>
+{/* İlk Action */}
+{/* Residual Risk */}
+<td
+  className="border border-gray-200 px-2 py-1 w-24"
+  rowSpan={1}
+>
+  <SoftBadge
+    value={row.rdosScale}
+    color="bg-rose-100 text-rose-700 border border-rose-200"
+  />
+</td>
+<td
+  className="border border-gray-200 px-2 py-1 w-20"
+  rowSpan={1}
+>
+  <SoftBadge
+    value={
+      (() => {
+        const osr =
+          row.rdosProbability *
+          row.rdosSeverity *
+          row.rdosDuration *
+          row.rdosScale;
+        return osr > 80 ? "High" : "Low";
+      })()
+    }
+    color="bg-emerald-100 text-emerald-700 border border-emerald-200"
+  />
+</td>
                 </tr>
 
                 {/* Ek Actions */}
@@ -1065,104 +1080,113 @@ const EnvBody = ({
                   </td>
 
                   {/* Probability */}
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-32"
-                    rowSpan={1}
-                  >
-                    {row.idosProbability}
-                  </td>
-
-                  {/* Severity */}
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-20"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.idosSeverity}
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
-                  </td>
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-24"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.idosDuration}
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
-                  </td>
-
-                  {/* İlk Action */}
-
-                  {/* Residual Risk */}
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-24"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.idosScale}
-                      color="bg-rose-100 text-rose-700 border border-rose-200"
-                    />
-                  </td>
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-20"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value="Low"
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
-                  </td>
+                <td
+  className="border border-gray-200 px-2 py-1 w-32"
+  rowSpan={1}
+>
+  {row.idosProbability}
+</td>
+<td
+  className="border border-gray-200 px-2 py-1 w-20"
+  rowSpan={1}
+>
+  <SoftBadge
+    value={row.idosSeverity}
+    color="bg-emerald-100 text-emerald-700 border border-emerald-200"
+  />
+</td>
+<td
+  className="border border-gray-200 px-2 py-1 w-24"
+  rowSpan={1}
+>
+  <SoftBadge
+    value={row.idosDuration}
+    color="bg-emerald-100 text-emerald-700 border border-emerald-200"
+  />
+</td>
+<td
+  className="border border-gray-200 px-2 py-1 w-24"
+  rowSpan={1}
+>
+  <SoftBadge
+    value={row.idosScale}
+    color="bg-rose-100 text-rose-700 border border-rose-200"
+  />
+</td>
+<td
+  className="border border-gray-200 px-2 py-1 w-20"
+  rowSpan={1}
+>
+  <SoftBadge
+    value={
+      (() => {
+        const osr =
+          row.idosProbability *
+          row.idosSeverity *
+          row.idosDuration *
+          row.idosScale;
+        return osr > 80 ? "High" : "Low";
+      })()
+    }
+    color="bg-emerald-100 text-emerald-700 border border-emerald-200"
+  />
+</td>
 
                   {/* Probability */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-32"
-                    rowSpan={1}
-                  >
-                    {row.rdosProbability}
-                  </td>
-
-                  {/* Severity */}
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-20"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.rdosSeverity}
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
-                  </td>
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-24"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.rdosDuration}
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
-                  </td>
-
-                  {/* İlk Action */}
-
-                  {/* Residual Risk */}
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-24"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.rdosScale}
-                      color="bg-rose-100 text-rose-700 border border-rose-200"
-                    />
-                  </td>
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-20"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value="Low"
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
-                  </td>
+  className="border border-gray-200 px-2 py-1 w-32"
+  rowSpan={1}
+>
+  {row.rdosProbability}
+</td>
+{/* Severity */}
+<td
+  className="border border-gray-200 px-2 py-1 w-20"
+  rowSpan={1}
+>
+  <SoftBadge
+    value={row.rdosSeverity}
+    color="bg-emerald-100 text-emerald-700 border border-emerald-200"
+  />
+</td>
+<td
+  className="border border-gray-200 px-2 py-1 w-24"
+  rowSpan={1}
+>
+  <SoftBadge
+    value={row.rdosDuration}
+    color="bg-emerald-100 text-emerald-700 border border-emerald-200"
+  />
+</td>
+{/* İlk Action */}
+{/* Residual Risk */}
+<td
+  className="border border-gray-200 px-2 py-1 w-24"
+  rowSpan={1}
+>
+  <SoftBadge
+    value={row.rdosScale}
+    color="bg-rose-100 text-rose-700 border border-rose-200"
+  />
+</td>
+<td
+  className="border border-gray-200 px-2 py-1 w-20"
+  rowSpan={1}
+>
+  <SoftBadge
+    value={
+      (() => {
+        const osr =
+          row.rdosProbability *
+          row.rdosSeverity *
+          row.rdosDuration *
+          row.rdosScale;
+        return osr > 80 ? "High" : "Low";
+      })()
+    }
+    color="bg-emerald-100 text-emerald-700 border border-emerald-200"
+  />
+</td>
                 </tr>
               </React.Fragment>
             );
