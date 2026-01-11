@@ -1239,32 +1239,32 @@ const EiProfile = () => {
                         ))}
                       </select>
                     </div>
-<div>
-  <label className="block text-sm font-medium text-gray-700 mb-2">
-    Inspection / Calibration Date
-  </label>
-  <input
-    value={formData.icd}
-    onChange={(e) =>
-      handleFormChange("icd", e.target.value)
-    }
-    type="date"
-    className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-  />
-</div>
-<div>
-  <label className="block text-sm font-medium text-gray-700 mb-2">
-    Next Verification / Calibration Date
-  </label>
-  <input
-    value={formData.nvcd}
-    onChange={(e) =>
-      handleFormChange("nvcd", e.target.value)
-    }
-    type="date"
-    className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-  />
-</div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Inspection / Calibration Date
+                      </label>
+                      <input
+                        value={formData.icd}
+                        onChange={(e) =>
+                          handleFormChange("icd", e.target.value)
+                        }
+                        type="date"
+                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Next Verification / Calibration Date
+                      </label>
+                      <input
+                        value={formData.nvcd}
+                        onChange={(e) =>
+                          handleFormChange("nvcd", e.target.value)
+                        }
+                        type="date"
+                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      />
+                    </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Safe To Use

@@ -334,20 +334,29 @@ const EiBody = ({
                       </span>
                     )}
                   </td>
-
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-28"
-                    rowSpan={1}
-                  >
-                    {row.icd}
-                  </td>
-
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-20"
-                    rowSpan={1}
-                  >
-                    {row.nvcd}
-                  </td>
+<td
+  className="border border-gray-200 px-3 py-2 w-28"
+  rowSpan={1}
+>
+  {row.icd}
+</td>
+<td
+  className="border border-gray-200 px-3 py-2 w-20"
+  rowSpan={1}
+>
+  {row.nvcd}
+</td>
+<td
+  className="border border-gray-200 px-3 py-2 w-20"
+  rowSpan={1}
+>
+  {(() => {
+    if (!row.icd || !row.nvcd) return "";
+    const diffInMs = new Date(row.nvcd) - new Date(row.icd);
+    const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+    return `${diffInDays} Days`;
+  })()}
+</td>
 
                   {/* Safe To Use */}
                   <td
@@ -472,20 +481,29 @@ const EiBody = ({
                     )}
                   </td>
 
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-28"
-                    rowSpan={1}
-                  >
-                    {row.icd}
-                  </td>
-
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-20"
-                    rowSpan={1}
-                  >
-                    {row.nvcd}
-                  </td>
-
+<td
+  className="border border-gray-200 px-3 py-2 w-28"
+  rowSpan={1}
+>
+  {row.icd}
+</td>
+<td
+  className="border border-gray-200 px-3 py-2 w-20"
+  rowSpan={1}
+>
+  {row.nvcd}
+</td>
+<td
+  className="border border-gray-200 px-3 py-2 w-20"
+  rowSpan={1}
+>
+  {(() => {
+    if (!row.icd || !row.nvcd) return "";
+    const diffInMs = new Date(row.nvcd) - new Date(row.icd);
+    const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+    return `${diffInDays} Days`;
+  })()}
+</td>
                   {/* Safe To Use */}
                   <td
                     className="border border-gray-200 px-3 py-2 w-24"
@@ -886,26 +904,29 @@ const EiBody = ({
                     )}
                   </td>
 
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-28"
-                    rowSpan={1}
-                  >
-                    {row.icd}
-                  </td>
-
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-20"
-                    rowSpan={1}
-                  >
-                    {row.nvcd}
-                  </td>
-
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-20"
-                    rowSpan={1}
-                  >
-                    {row.nvcd}
-                  </td>
+<td
+  className="border border-gray-200 px-3 py-2 w-28"
+  rowSpan={1}
+>
+  {row.icd}
+</td>
+<td
+  className="border border-gray-200 px-3 py-2 w-20"
+  rowSpan={1}
+>
+  {row.nvcd}
+</td>
+<td
+  className="border border-gray-200 px-3 py-2 w-20"
+  rowSpan={1}
+>
+  {(() => {
+    if (!row.icd || !row.nvcd) return "";
+    const diffInMs = new Date(row.nvcd) - new Date(row.icd);
+    const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+    return `${diffInDays} Days`;
+  })()}
+</td>
 
                   {/* Safe To Use */}
                   <td
