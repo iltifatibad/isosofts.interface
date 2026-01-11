@@ -1201,19 +1201,19 @@ const TrProfile = () => {
                         className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                       />
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Training Certificate / Licence Issue Date
-                      </label>
-                      <input
-                        value={formData.nvcd}
-                        onChange={(e) =>
-                          handleFormChange("nvcd", e.target.value)
-                        }
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                      />
-                    </div>
+<div>
+  <label className="block text-sm font-medium text-gray-700 mb-2">
+    Training Certificate / Licence Issue Date
+  </label>
+  <input
+    value={formData.nvcd}
+    onChange={(e) =>
+      handleFormChange("nvcd", e.target.value)
+    }
+    type="date"
+    className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+  />
+</div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Certificate / Licence Number
@@ -1227,19 +1227,19 @@ const TrProfile = () => {
                         className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                       />
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Next Certification Date
-                      </label>
-                      <input
-                        value={formData.ncd}
-                        onChange={(e) =>
-                          handleFormChange("ncd", e.target.value)
-                        }
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                      />
-                    </div>
+<div>
+  <label className="block text-sm font-medium text-gray-700 mb-2">
+    Next Certification Date
+  </label>
+  <input
+    value={formData.ncd}
+    onChange={(e) =>
+      handleFormChange("ncd", e.target.value)
+    }
+    type="date"
+    className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+  />
+</div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Competency Status
@@ -1252,8 +1252,8 @@ const TrProfile = () => {
                         className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                       >
                         <option value="">Select</option>
-                        <option value="0">0</option>
-                        <option value="1">1</option>
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
                       </select>
                     </div>
                   </div>

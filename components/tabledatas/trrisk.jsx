@@ -311,16 +311,16 @@ const TrBody = ({
                     )}
                   </td>
 
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-32"
-                    rowSpan={1}
-                  >
-                    {row.nvcd && (
-                      <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
-                        {row.nvcd}
-                      </span>
-                    )}
-                  </td>
+  <td
+  className="border border-gray-200 px-3 py-2 w-32"
+  rowSpan={1}
+>
+  {row.nvcd && (
+    <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
+      {row.nvcd}
+    </span>
+  )}
+</td>
 
                   {/* Certificate No */}
                   <td
@@ -334,24 +334,27 @@ const TrBody = ({
                     )}
                   </td>
 
-                  {/* Inspection Frequency */}
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-32"
-                    rowSpan={1}
-                  >
-                    {row.ncd && (
-                      <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
-                        {row.ncd}
-                      </span>
-                    )}
-                  </td>
-
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-28"
-                    rowSpan={1}
-                  >
-                    {row.ncd}
-                  </td>
+<td
+  className="border border-gray-200 px-3 py-2 w-32"
+  rowSpan={1}
+>
+  {row.ncd && (
+    <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
+      {row.ncd}
+    </span>
+  )}
+</td>
+<td
+  className="border border-gray-200 px-3 py-2 w-28"
+  rowSpan={1}
+>
+  {(() => {
+    if (!row.nvcd || !row.ncd) return "";
+    const diffInMs = new Date(row.ncd) - new Date(row.nvcd);
+    const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+    return `${diffInDays} Days`;
+  })()}
+</td>
 
                   <td
                     className="border border-gray-200 px-3 py-2 w-20"
@@ -447,16 +450,16 @@ const TrBody = ({
                     )}
                   </td>
 
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-32"
-                    rowSpan={1}
-                  >
-                    {row.nvcd && (
-                      <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
-                        {row.nvcd}
-                      </span>
-                    )}
-                  </td>
+<td
+  className="border border-gray-200 px-3 py-2 w-32"
+  rowSpan={1}
+>
+  {row.nvcd && (
+    <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
+      {row.nvcd}
+    </span>
+  )}
+</td>
 
                   {/* Certificate No */}
                   <td
@@ -471,23 +474,27 @@ const TrBody = ({
                   </td>
 
                   {/* Inspection Frequency */}
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-32"
-                    rowSpan={1}
-                  >
-                    {row.ncd && (
-                      <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
-                        {row.ncd}
-                      </span>
-                    )}
-                  </td>
-
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-28"
-                    rowSpan={1}
-                  >
-                    {row.ncd}
-                  </td>
+<td
+  className="border border-gray-200 px-3 py-2 w-32"
+  rowSpan={1}
+>
+  {row.ncd && (
+    <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
+      {row.ncd}
+    </span>
+  )}
+</td>
+<td
+  className="border border-gray-200 px-3 py-2 w-28"
+  rowSpan={1}
+>
+  {(() => {
+    if (!row.nvcd || !row.ncd) return "";
+    const diffInMs = new Date(row.ncd) - new Date(row.nvcd);
+    const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+    return `${diffInDays} Days`;
+  })()}
+</td>
 
                   <td
                     className="border border-gray-200 px-3 py-2 w-20"
@@ -893,13 +900,17 @@ const TrBody = ({
                       </span>
                     )}
                   </td>
-
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-28"
-                    rowSpan={1}
-                  >
-                    {row.ncd}
-                  </td>
+<td
+  className="border border-gray-200 px-3 py-2 w-28"
+  rowSpan={1}
+>
+  {(() => {
+    if (!row.nvcd || !row.ncd) return "";
+    const diffInMs = new Date(row.ncd) - new Date(row.nvcd);
+    const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+    return `${diffInDays} Days`;
+  })()}
+</td>
 
                   <td
                     className="border border-gray-200 px-3 py-2 w-20"
