@@ -10,7 +10,7 @@ const FbHeaders = ({ activeHeader }) => {
             className="min-w-[60px] border-r border-blue-500 sticky left-0 top-0 z-30 bg-white"
             rowSpan={3}
           >
-            #
+            Job Number
           </th>
 
           <th
