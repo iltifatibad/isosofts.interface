@@ -338,38 +338,48 @@ const VenBody = ({
                       {row.scope3?.value}
                     </span>
                   </td>
-
                   {/* Inspection Frequency */}
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-32"
-                    rowSpan={1}
-                  >
-                    <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
-                      {row.registrationDate}
-                    </span>
-                  </td>
-
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-28"
-                    rowSpan={1}
-                  >
-                    {row.reviewDate}
-                  </td>
-
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-20"
-                    rowSpan={1}
-                  >
-                    {row.nextReviewDate}
-                  </td>
+<td
+  className="border border-gray-200 px-3 py-2 w-32"
+  rowSpan={1}
+>
+  <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
+    {row.registrationDate}
+  </span>
+</td>
+<td
+  className="border border-gray-200 px-3 py-2 w-28"
+  rowSpan={1}
+>
+  {row.reviewDate}
+</td>
+<td
+  className="border border-gray-200 px-3 py-2 w-20"
+  rowSpan={1}
+>
+  {row.nextReviewDate}
+</td>
+{/* Days Left To Next Review */}
+<td
+  className="border border-gray-200 px-3 py-2 w-20"
+  rowSpan={1}
+>
+  {(() => {
+    if (!row.registrationDate || !row.reviewDate) return "";
+    const diffInMs = new Date(row.reviewDate) - new Date(row.registrationDate);
+    const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+    return diffInDays > 0 ? "Yes" : "No";
+  })()}
+</td>
+                  
 
                   {/* Days Left To Next Review */}
-                  <td
+                  {/* <td
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
                     {row.approved}
-                  </td>
+                  </td> */}
 
                   <td
                     className="border border-gray-200 px-3 py-2 w-20"
@@ -528,38 +538,48 @@ const VenBody = ({
                       {row.scope3?.value}
                     </span>
                   </td>
-
                   {/* Inspection Frequency */}
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-32"
-                    rowSpan={1}
-                  >
-                    <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
-                      {row.registrationDate}
-                    </span>
-                  </td>
-
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-28"
-                    rowSpan={1}
-                  >
-                    {row.reviewDate}
-                  </td>
-
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-20"
-                    rowSpan={1}
-                  >
-                    {row.nextReviewDate}
-                  </td>
+<td
+  className="border border-gray-200 px-3 py-2 w-32"
+  rowSpan={1}
+>
+  <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
+    {row.registrationDate}
+  </span>
+</td>
+<td
+  className="border border-gray-200 px-3 py-2 w-28"
+  rowSpan={1}
+>
+  {row.reviewDate}
+</td>
+<td
+  className="border border-gray-200 px-3 py-2 w-20"
+  rowSpan={1}
+>
+  {row.nextReviewDate}
+</td>
+{/* Days Left To Next Review */}
+<td
+  className="border border-gray-200 px-3 py-2 w-20"
+  rowSpan={1}
+>
+  {(() => {
+    if (!row.registrationDate || !row.reviewDate) return "";
+    const diffInMs = new Date(row.reviewDate) - new Date(row.registrationDate);
+    const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+    return diffInDays > 0 ? "Yes" : "No";
+  })()}
+</td>
+                  
 
                   {/* Days Left To Next Review */}
-                  <td
+                  {/* <td
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
                     {row.approved}
-                  </td>
+                  </td> */}
 
                   <td
                     className="border border-gray-200 px-3 py-2 w-20"
@@ -994,36 +1014,47 @@ const VenBody = ({
                   </td>
 
                   {/* Inspection Frequency */}
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-32"
-                    rowSpan={1}
-                  >
-                    <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
-                      {row.registrationDate}
-                    </span>
-                  </td>
-
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-28"
-                    rowSpan={1}
-                  >
-                    {row.reviewDate}
-                  </td>
-
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-20"
-                    rowSpan={1}
-                  >
-                    {row.nextReviewDate}
-                  </td>
+<td
+  className="border border-gray-200 px-3 py-2 w-32"
+  rowSpan={1}
+>
+  <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
+    {row.registrationDate}
+  </span>
+</td>
+<td
+  className="border border-gray-200 px-3 py-2 w-28"
+  rowSpan={1}
+>
+  {row.reviewDate}
+</td>
+<td
+  className="border border-gray-200 px-3 py-2 w-20"
+  rowSpan={1}
+>
+  {row.nextReviewDate}
+</td>
+{/* Days Left To Next Review */}
+<td
+  className="border border-gray-200 px-3 py-2 w-20"
+  rowSpan={1}
+>
+  {(() => {
+    if (!row.registrationDate || !row.reviewDate) return "";
+    const diffInMs = new Date(row.reviewDate) - new Date(row.registrationDate);
+    const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+    return diffInDays > 0 ? "Yes" : "No";
+  })()}
+</td>
+                  
 
                   {/* Days Left To Next Review */}
-                  <td
+                  {/* <td
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
                     {row.approved}
-                  </td>
+                  </td> */}
 
                   <td
                     className="border border-gray-200 px-3 py-2 w-20"
