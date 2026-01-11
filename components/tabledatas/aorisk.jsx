@@ -281,28 +281,30 @@ const AoBody = ({
                       : "bg-green-100 hover:bg-green-200"
                   }`}
                 >
+                  {/* ID + Checkbox */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-16 sticky left-0 top-0 z-10 bg-white"
+                    className="border border-gray-200 px-3 py-2 w-16 sticky left-[-1px] top-0 z-10 bg-white"
                     rowSpan={1}
                   >
-                    <div className="flex items-center gap-1">
-                      <span className="font-semibold">{row.no}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-gray-700">
+                        {row.no}
+                      </span>
                       <input
-                        checked={selectedRows.has(row.id)}
-                        onChange={() => onCheckboxChange(row.id, deletedData)}
                         type="checkbox"
-                        className="ml-2 h-4 w-4 text-blue-600"
+                        checked={selectedRows.has(row.id)}
+                        onChange={() => onCheckboxChange(row.id, tableData)}
+                        className="h-4 w-4 text-blue-600 rounded"
                       />
                     </div>
                   </td>
-
                   {/* Process */}
                   <td
                     className="border border-gray-200 px-2 py-1 w-20"
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.process?.value}
+                      value={row.activityDescription?.value}
                       color="bg-rose-100 text-rose-700 border border-rose-200"
                     />
                   </td>
@@ -313,7 +315,7 @@ const AoBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.legislation}
+                      value={row.auditorInspector}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -324,7 +326,7 @@ const AoBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.section}
+                      value={row.auditeeInspectee}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -335,7 +337,7 @@ const AoBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.requirement}
+                      value={row.reviewedPremises?.value}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -346,7 +348,7 @@ const AoBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.riskOfViolation}
+                      value={row.reviewedProcess?.value}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -356,7 +358,7 @@ const AoBody = ({
                     className="border border-gray-200 px-2 py-1 w-32"
                     rowSpan={1}
                   >
-                    {row.affectedPositions?.value}
+                    {row.rtic}
                   </td>
 
                   {/* Initial Risk */}
@@ -365,30 +367,45 @@ const AoBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.initialRiskSeverity}
+                      value={row.inspectionFrequency?.value}
                       color="bg-emerald-100 text-emerald-700 border border-emerald-200"
                     />
                   </td>
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-24"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.initialRiskLikelyhood}
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
-                  </td>
-
-                  {/* Risk Level */}
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-20"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value="Medium"
-                      color="bg-yellow-100 text-yellow-700 border border-yellow-200"
-                    />
-                  </td>
+<td
+  className="border border-gray-200 px-2 py-1 w-24"
+  rowSpan={1}
+>
+  <SoftBadge
+    value={row.AuditDate}
+    color="bg-emerald-100 text-emerald-700 border border-emerald-200"
+  />
+</td>
+{/* Risk Level */}
+<td
+  className="border border-gray-200 px-2 py-1 w-20"
+  rowSpan={1}
+>
+  <SoftBadge
+    value={row.nextAuditDate}
+    color="bg-yellow-100 text-yellow-700 border border-yellow-200"
+  />
+</td>
+<td
+  className="border border-gray-200 px-2 py-1 w-20"
+  rowSpan={1}
+>
+  <SoftBadge
+    value={
+      (() => {
+        if (!row.AuditDate || !row.nextAuditDate) return "";
+        const diffInMs = new Date(row.nextAuditDate) - new Date(row.AuditDate);
+        const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+        return `${diffInDays} Days`;
+      })()
+    }
+    color="bg-yellow-100 text-yellow-700 border border-yellow-200"
+  />
+</td>
 
                   {/* İlk Action */}
 
@@ -407,7 +424,7 @@ const AoBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.residualRiskLikelyhood}
+                      value={row.auditStatus}
                       color="bg-rose-100 text-rose-700 border border-rose-200"
                     />
                   </td>
@@ -461,28 +478,30 @@ const AoBody = ({
                       : "bg-green-100 hover:bg-green-200"
                   }`}
                 >
+                  {/* ID + Checkbox */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-16 sticky left-0 top-0 z-10 bg-white"
+                    className="border border-gray-200 px-3 py-2 w-16 sticky left-[-1px] top-0 z-10 bg-white"
                     rowSpan={1}
                   >
-                    <div className="flex items-center gap-1">
-                      <span className="font-semibold">{row.no}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-gray-700">
+                        {row.no}
+                      </span>
                       <input
-                        checked={selectedRows.has(row.id)}
-                        onChange={() => onCheckboxChange(row.id, archivedData)}
                         type="checkbox"
-                        className="ml-2 h-4 w-4 text-blue-600"
+                        checked={selectedRows.has(row.id)}
+                        onChange={() => onCheckboxChange(row.id, tableData)}
+                        className="h-4 w-4 text-blue-600 rounded"
                       />
                     </div>
                   </td>
-
                   {/* Process */}
                   <td
                     className="border border-gray-200 px-2 py-1 w-20"
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.process?.value}
+                      value={row.activityDescription?.value}
                       color="bg-rose-100 text-rose-700 border border-rose-200"
                     />
                   </td>
@@ -493,7 +512,7 @@ const AoBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.legislation}
+                      value={row.auditorInspector}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -504,7 +523,7 @@ const AoBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.section}
+                      value={row.auditeeInspectee}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -515,7 +534,7 @@ const AoBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.requirement}
+                      value={row.reviewedPremises?.value}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -526,7 +545,7 @@ const AoBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.riskOfViolation}
+                      value={row.reviewedProcess?.value}
                       color="bg-green-100 text-green-700 border border-green-200"
                     />
                   </td>
@@ -536,7 +555,7 @@ const AoBody = ({
                     className="border border-gray-200 px-2 py-1 w-32"
                     rowSpan={1}
                   >
-                    {row.affectedPositions?.value}
+                    {row.rtic}
                   </td>
 
                   {/* Initial Risk */}
@@ -545,30 +564,45 @@ const AoBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.initialRiskSeverity}
+                      value={row.inspectionFrequency?.value}
                       color="bg-emerald-100 text-emerald-700 border border-emerald-200"
                     />
                   </td>
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-24"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.initialRiskLikelyhood}
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
-                  </td>
-
-                  {/* Risk Level */}
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-20"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value="Medium"
-                      color="bg-yellow-100 text-yellow-700 border border-yellow-200"
-                    />
-                  </td>
+<td
+  className="border border-gray-200 px-2 py-1 w-24"
+  rowSpan={1}
+>
+  <SoftBadge
+    value={row.AuditDate}
+    color="bg-emerald-100 text-emerald-700 border border-emerald-200"
+  />
+</td>
+{/* Risk Level */}
+<td
+  className="border border-gray-200 px-2 py-1 w-20"
+  rowSpan={1}
+>
+  <SoftBadge
+    value={row.nextAuditDate}
+    color="bg-yellow-100 text-yellow-700 border border-yellow-200"
+  />
+</td>
+<td
+  className="border border-gray-200 px-2 py-1 w-20"
+  rowSpan={1}
+>
+  <SoftBadge
+    value={
+      (() => {
+        if (!row.AuditDate || !row.nextAuditDate) return "";
+        const diffInMs = new Date(row.nextAuditDate) - new Date(row.AuditDate);
+        const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+        return `${diffInDays} Days`;
+      })()
+    }
+    color="bg-yellow-100 text-yellow-700 border border-yellow-200"
+  />
+</td>
 
                   {/* İlk Action */}
 
@@ -587,7 +621,7 @@ const AoBody = ({
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.residualRiskLikelyhood}
+                      value={row.auditStatus}
                       color="bg-rose-100 text-rose-700 border border-rose-200"
                     />
                   </td>
@@ -1004,26 +1038,41 @@ const AoBody = ({
                       color="bg-emerald-100 text-emerald-700 border border-emerald-200"
                     />
                   </td>
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-24"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.AuditDate}
-                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-                    />
-                  </td>
-
-                  {/* Risk Level */}
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-20"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.nextAuditDate}
-                      color="bg-yellow-100 text-yellow-700 border border-yellow-200"
-                    />
-                  </td>
+<td
+  className="border border-gray-200 px-2 py-1 w-24"
+  rowSpan={1}
+>
+  <SoftBadge
+    value={row.AuditDate}
+    color="bg-emerald-100 text-emerald-700 border border-emerald-200"
+  />
+</td>
+{/* Risk Level */}
+<td
+  className="border border-gray-200 px-2 py-1 w-20"
+  rowSpan={1}
+>
+  <SoftBadge
+    value={row.nextAuditDate}
+    color="bg-yellow-100 text-yellow-700 border border-yellow-200"
+  />
+</td>
+<td
+  className="border border-gray-200 px-2 py-1 w-20"
+  rowSpan={1}
+>
+  <SoftBadge
+    value={
+      (() => {
+        if (!row.AuditDate || !row.nextAuditDate) return "";
+        const diffInMs = new Date(row.nextAuditDate) - new Date(row.AuditDate);
+        const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+        return `${diffInDays} Days`;
+      })()
+    }
+    color="bg-yellow-100 text-yellow-700 border border-yellow-200"
+  />
+</td>
 
                   {/* İlk Action */}
 
