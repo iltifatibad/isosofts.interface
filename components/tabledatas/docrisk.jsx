@@ -354,34 +354,41 @@ const DocBody = ({
                     )}
                   </td>
 
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-28"
-                    rowSpan={1}
-                  >
-                    {row.issueDate}
-                  </td>
-
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-20"
-                    rowSpan={1}
-                  >
-                    {row.nextReviewDate}
-                  </td>
-
-                  {/* Days Left To Next Review */}
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-20"
-                    rowSpan={1}
-                  >
-                    {row.nextReviewDate}
-                  </td>
-
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-20"
-                    rowSpan={1}
-                  >
-                    {row.actual}
-                  </td>
+<td
+  className="border border-gray-200 px-3 py-2 w-28"
+  rowSpan={1}
+>
+  {row.issueDate}
+</td>
+<td
+  className="border border-gray-200 px-3 py-2 w-20"
+  rowSpan={1}
+>
+  {row.nextReviewDate}
+</td>
+{/* Days Left To Next Review */}
+<td
+  className="border border-gray-200 px-3 py-2 w-20"
+  rowSpan={1}
+>
+  {(() => {
+    if (!row.issueDate || !row.nextReviewDate) return "";
+    const diffInMs = new Date(row.nextReviewDate) - new Date(row.issueDate);
+    const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+    return `${diffInDays} Days`;
+  })()}
+</td>
+<td
+  className="border border-gray-200 px-3 py-2 w-20"
+  rowSpan={1}
+>
+  {(() => {
+    if (!row.issueDate || !row.nextReviewDate) return "";
+    const diffInMs = new Date(row.nextReviewDate) - new Date(row.issueDate);
+    const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+    return diffInDays > 0 ? "Yes" : "No";
+  })()}
+</td>
                 </tr>
 
                 {/* Ek Actions */}
@@ -513,34 +520,41 @@ const DocBody = ({
                     )}
                   </td>
 
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-28"
-                    rowSpan={1}
-                  >
-                    {row.issueDate}
-                  </td>
-
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-20"
-                    rowSpan={1}
-                  >
-                    {row.nextReviewDate}
-                  </td>
-
-                  {/* Days Left To Next Review */}
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-20"
-                    rowSpan={1}
-                  >
-                    {row.nextReviewDate}
-                  </td>
-
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-20"
-                    rowSpan={1}
-                  >
-                    {row.actual}
-                  </td>
+<td
+  className="border border-gray-200 px-3 py-2 w-28"
+  rowSpan={1}
+>
+  {row.issueDate}
+</td>
+<td
+  className="border border-gray-200 px-3 py-2 w-20"
+  rowSpan={1}
+>
+  {row.nextReviewDate}
+</td>
+{/* Days Left To Next Review */}
+<td
+  className="border border-gray-200 px-3 py-2 w-20"
+  rowSpan={1}
+>
+  {(() => {
+    if (!row.issueDate || !row.nextReviewDate) return "";
+    const diffInMs = new Date(row.nextReviewDate) - new Date(row.issueDate);
+    const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+    return `${diffInDays} Days`;
+  })()}
+</td>
+<td
+  className="border border-gray-200 px-3 py-2 w-20"
+  rowSpan={1}
+>
+  {(() => {
+    if (!row.issueDate || !row.nextReviewDate) return "";
+    const diffInMs = new Date(row.nextReviewDate) - new Date(row.issueDate);
+    const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+    return diffInDays > 0 ? "Yes" : "No";
+  })()}
+</td>
                 </tr>
 
                 {/* Ek Actions */}
@@ -948,35 +962,41 @@ const DocBody = ({
                       </span>
                     )}
                   </td>
-
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-28"
-                    rowSpan={1}
-                  >
-                    {row.issueDate}
-                  </td>
-
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-20"
-                    rowSpan={1}
-                  >
-                    {row.nextReviewDate}
-                  </td>
-
-                  {/* Days Left To Next Review */}
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-20"
-                    rowSpan={1}
-                  >
-                    {row.nextReviewDate}
-                  </td>
-
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-20"
-                    rowSpan={1}
-                  >
-                    {row.actual}
-                  </td>
+<td
+  className="border border-gray-200 px-3 py-2 w-28"
+  rowSpan={1}
+>
+  {row.issueDate}
+</td>
+<td
+  className="border border-gray-200 px-3 py-2 w-20"
+  rowSpan={1}
+>
+  {row.nextReviewDate}
+</td>
+{/* Days Left To Next Review */}
+<td
+  className="border border-gray-200 px-3 py-2 w-20"
+  rowSpan={1}
+>
+  {(() => {
+    if (!row.issueDate || !row.nextReviewDate) return "";
+    const diffInMs = new Date(row.nextReviewDate) - new Date(row.issueDate);
+    const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+    return `${diffInDays} Days`;
+  })()}
+</td>
+<td
+  className="border border-gray-200 px-3 py-2 w-20"
+  rowSpan={1}
+>
+  {(() => {
+    if (!row.issueDate || !row.nextReviewDate) return "";
+    const diffInMs = new Date(row.nextReviewDate) - new Date(row.issueDate);
+    const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+    return diffInDays > 0 ? "Yes" : "No";
+  })()}
+</td>
                 </tr>
               </React.Fragment>
             );
