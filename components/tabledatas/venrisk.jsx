@@ -338,7 +338,7 @@ const VenBody = ({
                       {row.scope3?.value}
                     </span>
                   </td>
-                  {/* Inspection Frequency */}
+{/* Inspection Frequency */}
 <td
   className="border border-gray-200 px-3 py-2 w-32"
   rowSpan={1}
@@ -357,7 +357,13 @@ const VenBody = ({
   className="border border-gray-200 px-3 py-2 w-20"
   rowSpan={1}
 >
-  {row.nextReviewDate}
+  {(() => {
+    if (!row.registrationDate || !row.reviewDate) return "";
+    const diffInMs = new Date(row.reviewDate) - new Date(row.registrationDate);
+    const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+    const nextReview = new Date(new Date(row.reviewDate).getTime() + diffInMs);
+    return nextReview.toISOString().split('T')[0];
+  })()}
 </td>
 {/* Days Left To Next Review */}
 <td
@@ -371,7 +377,6 @@ const VenBody = ({
     return diffInDays > 0 ? "Yes" : "No";
   })()}
 </td>
-                  
 
                   {/* Days Left To Next Review */}
                   {/* <td
@@ -538,7 +543,7 @@ const VenBody = ({
                       {row.scope3?.value}
                     </span>
                   </td>
-                  {/* Inspection Frequency */}
+{/* Inspection Frequency */}
 <td
   className="border border-gray-200 px-3 py-2 w-32"
   rowSpan={1}
@@ -557,7 +562,13 @@ const VenBody = ({
   className="border border-gray-200 px-3 py-2 w-20"
   rowSpan={1}
 >
-  {row.nextReviewDate}
+  {(() => {
+    if (!row.registrationDate || !row.reviewDate) return "";
+    const diffInMs = new Date(row.reviewDate) - new Date(row.registrationDate);
+    const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+    const nextReview = new Date(new Date(row.reviewDate).getTime() + diffInMs);
+    return nextReview.toISOString().split('T')[0];
+  })()}
 </td>
 {/* Days Left To Next Review */}
 <td
@@ -571,7 +582,6 @@ const VenBody = ({
     return diffInDays > 0 ? "Yes" : "No";
   })()}
 </td>
-                  
 
                   {/* Days Left To Next Review */}
                   {/* <td
@@ -1013,7 +1023,7 @@ const VenBody = ({
                     </span>
                   </td>
 
-                  {/* Inspection Frequency */}
+{/* Inspection Frequency */}
 <td
   className="border border-gray-200 px-3 py-2 w-32"
   rowSpan={1}
@@ -1032,7 +1042,13 @@ const VenBody = ({
   className="border border-gray-200 px-3 py-2 w-20"
   rowSpan={1}
 >
-  {row.nextReviewDate}
+  {(() => {
+    if (!row.registrationDate || !row.reviewDate) return "";
+    const diffInMs = new Date(row.reviewDate) - new Date(row.registrationDate);
+    const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+    const nextReview = new Date(new Date(row.reviewDate).getTime() + diffInMs);
+    return nextReview.toISOString().split('T')[0];
+  })()}
 </td>
 {/* Days Left To Next Review */}
 <td
