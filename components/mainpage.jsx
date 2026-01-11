@@ -260,7 +260,7 @@ const IsosoftsUIConcept = () => {
                     </span>
                     <br />
                     <span className="text-gray-800 drop-shadow-lg">
-                      Isosofts
+                      Isosoftss
                     </span>
                   </h1>
                   <p className="text-xl text-gray-600 leading-relaxed max-w-lg">
