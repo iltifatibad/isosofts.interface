@@ -61,42 +61,40 @@ const BgHeaders = ({ activeHeader }) => {
             Existing Risk Mitigation/Exploting Opportunity's Actions
           </th>
           <th
-            className="min-w-15 border-r border-blue-500 sticky top-0 z-20 bg-blue-100"
+            className="min-w-[210px] border-r border-blue-500 sticky top-0 z-20 bg-blue-100"
             colSpan={3}
           >
             Initial Risk
           </th>
 
           <th
-            className="min-w-15 border-r border-blue-500 sticky top-0 z-20 bg-blue-100"
+            className="min-w-[210px] border-r border-blue-500 sticky top-0 z-20 bg-blue-100"
             colSpan={3}
           >
             /Opportunity Level
           </th>
         </tr>
-        <tr className="bg-gray-200 text-center text-xs">
+        <tr className="h-[48px]">
 
-          <th colSpan={9}></th>
 
-          {/* Initial Risk alt başlıqları */}
-          <th className="min-w-15 border-r border-blue-500 sticky top-13 z-20 bg-blue-200">
+
+          <th className="min-w-[70px] border-r border-blue-500 sticky top-13 z-20 bg-blue-200">
             Severity
           </th>
-          <th className="min-w-15 border-r border-blue-500 sticky top-13 z-20 bg-blue-200">
+          <th className="min-w-[70px] border-r border-blue-500 sticky top-13 z-20 bg-blue-200">
             Likelihood
           </th>
-          <th className="min-w-15 border-r border-blue-500 sticky top-13 z-20 bg-blue-200">
+          <th className="min-w-[70px] border-r border-blue-500 sticky top-13 z-20 bg-blue-200">
             Level
           </th>
 
-          {/* Residual Risk alt başlıqları */}
-          <th className="min-w-15 border-r border-blue-500 sticky top-13 z-20 bg-blue-200">
+          <th className="min-w-[70px] border-r border-blue-500 sticky top-13 z-20 bg-blue-200">
             Severity
           </th>
-          <th className="min-w-15 border-r border-blue-500 sticky top-13 z-20 bg-blue-200">
+          <th className="min-w-[70px] border-r border-blue-500 sticky top-13 z-20 bg-blue-200">
             Likelihood
           </th>
-          <th className="min-w-15 border-r border-blue-500 sticky top-13 z-20 bg-blue-200">
+          <th className="min-w-[70px] border-r border-blue-500 sticky top-13 z-20 bg-blue-200">
             Level
           </th>
         </tr>
