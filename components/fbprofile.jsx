@@ -1439,18 +1439,19 @@ const FbProfile = () => {
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
                                   Vendor ID
                                 </label>
-                                <input
-                                  value={
-                                    actionData?.actionPlan?.[0]?.vendorId || ""
-                                  }
+                                <select
+                                  value={actionData.vendorId}
                                   onChange={(e) =>
-                                    handleFormChange(
-                                      "actionPlan[0].vendorId",
-                                      e.target.value,
-                                    )
+                                    handleFormChange("vendorId", e.target.value)
                                   }
-                                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
-                                />
+                                >
+                                  <option value="">Select</option>
+                                  {vendors?.map((item) => (
+                                    <option key={item.id} value={item.id}>
+                                      {item.name}
+                                    </option>
+                                  ))}
+                                </select>
                               </div>
 
                               {/* Resources */}
