@@ -1440,19 +1440,20 @@ const FbProfile = () => {
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
                                   Vendor ID
                                 </label>
-                                <select
-                                  value={actionData.actionPlan?.vendorId}
-                                  onChange={(e) =>
-                                    handleFormChange("actionPlan.vendorId", e.target.value)
-                                  }
-                                >
-                                  <option value="">Select</option>
-                                  {vendors?.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.name}
-                                    </option>
-                                  ))}
-                                </select>
+<select
+  value={actionData?.actionPlan?.[0]?.vendorId || ""}
+  onChange={(e) =>
+    handleFormChange("actionPlan[0].vendorId", e.target.value)
+  }
+>
+  <option value="">Select</option>
+  {vendors?.map((item) => (
+    <option key={item.id} value={item.id}>
+      {item.name}
+    </option>
+  ))}
+</select>
+
                               </div>
 
                               {/* Resources */}
