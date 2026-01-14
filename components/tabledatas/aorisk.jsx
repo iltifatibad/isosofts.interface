@@ -408,17 +408,6 @@ const AoBody = ({
 </td>
 
                   {/* İlk Action */}
-
-                  {/* Residual Risk */}
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-24"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.residualRiskSeverity}
-                      color="bg-rose-100 text-rose-700 border border-rose-200"
-                    />
-                  </td>
                   <td
                     className="border border-gray-200 px-2 py-1 w-24"
                     rowSpan={1}
@@ -605,17 +594,6 @@ const AoBody = ({
 </td>
 
                   {/* İlk Action */}
-
-                  {/* Residual Risk */}
-                  <td
-                    className="border border-gray-200 px-2 py-1 w-24"
-                    rowSpan={1}
-                  >
-                    <SoftBadge
-                      value={row.residualRiskSeverity}
-                      color="bg-rose-100 text-rose-700 border border-rose-200"
-                    />
-                  </td>
                   <td
                     className="border border-gray-200 px-2 py-1 w-24"
                     rowSpan={1}
@@ -1038,54 +1016,44 @@ const AoBody = ({
                       color="bg-emerald-100 text-emerald-700 border border-emerald-200"
                     />
                   </td>
-<td
-  className="border border-gray-200 px-2 py-1 w-24"
-  rowSpan={1}
->
-  <SoftBadge
-    value={row.AuditDate}
-    color="bg-emerald-100 text-emerald-700 border border-emerald-200"
-  />
-</td>
-{/* Risk Level */}
-<td
-  className="border border-gray-200 px-2 py-1 w-20"
-  rowSpan={1}
->
-  <SoftBadge
-    value={row.nextAuditDate}
-    color="bg-yellow-100 text-yellow-700 border border-yellow-200"
-  />
-</td>
-<td
-  className="border border-gray-200 px-2 py-1 w-20"
-  rowSpan={1}
->
-  <SoftBadge
-    value={
-      (() => {
-        if (!row.AuditDate || !row.nextAuditDate) return "";
-        const diffInMs = new Date(row.nextAuditDate) - new Date(row.AuditDate);
-        const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
-        return `${diffInDays} Days`;
-      })()
-    }
-    color="bg-yellow-100 text-yellow-700 border border-yellow-200"
-  />
-</td>
-
-                  {/* İlk Action */}
-
-                  {/* Residual Risk */}
                   <td
                     className="border border-gray-200 px-2 py-1 w-24"
                     rowSpan={1}
                   >
                     <SoftBadge
-                      value={row.residualRiskSeverity}
-                      color="bg-rose-100 text-rose-700 border border-rose-200"
+                      value={row.AuditDate}
+                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
                     />
                   </td>
+                  {/* Risk Level */}
+                  <td
+                    className="border border-gray-200 px-2 py-1 w-20"
+                    rowSpan={1}
+                  >
+                    <SoftBadge
+                      value={row.nextAuditDate}
+                      color="bg-yellow-100 text-yellow-700 border border-yellow-200"
+                    />
+                  </td>
+                  <td
+                    className="border border-gray-200 px-2 py-1 w-20"
+                    rowSpan={1}
+                  >
+                    <SoftBadge
+                      value={
+                        (() => {
+                          if (!row.AuditDate || !row.nextAuditDate) return "";
+                          const diffInMs = new Date(row.nextAuditDate) - new Date(row.AuditDate);
+                          const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+                          return `${diffInDays} Days`;
+                        })()
+                      }
+                      color="bg-yellow-100 text-yellow-700 border border-yellow-200"
+                    />
+                  </td>
+
+                  {/* İlk Action */}
+
                   <td
                     className="border border-gray-200 px-2 py-1 w-24"
                     rowSpan={1}
