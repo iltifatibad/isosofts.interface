@@ -1289,7 +1289,7 @@ const AoProfile = () => {
                         }}
                       >
                         <option value="">Select</option>
-                        {dropdownData?.reviewedProcess?.map((item) => (
+                        {dropdownData?.process?.map((item) => (
                           <option key={item.id} value={item.id}>
                             {item.value}
                           </option>
@@ -1322,6 +1322,22 @@ const AoProfile = () => {
                         ))}
                       </select>{" "}
                     </div>
+
+                  <div className="space-y-4">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Audit Date
+                    </label>
+                    <div className="grid grid-cols-3 gap-2">
+                      <input
+                        value={formData.auditDate}
+                        onChange={(e) =>
+                          handleFormChange("auditDate", e.target.value)
+                        }
+                        type="date"
+                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      />
+                    </div>
+                  </div>
 
 <div>
   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -1358,21 +1374,6 @@ const AoProfile = () => {
                         value={formData.rtic}
                         onChange={(e) =>
                           handleFormChange("rtic", e.target.value)
-                        }
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                      />
-                    </div>
-                  </div>
-                  <div className="space-y-4">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Audit Date
-                    </label>
-                    <div className="grid grid-cols-3 gap-2">
-                      <input
-                        value={formData.auditDate}
-                        onChange={(e) =>
-                          handleFormChange("auditDate", e.target.value)
                         }
                         type="text"
                         className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
