@@ -250,6 +250,7 @@ const FbBody = ({
                 );
                 if (!res.ok) throw new Error(" Vendor Fetch Failed ");
                 const vendor = await res.json();
+                console.log("COSGUNNNNN NAME BURDADI"+ vendor.name);
                 return {
                   ...item,
                   vendorName: vendor.Name || vendor.name || item.vendorId,
