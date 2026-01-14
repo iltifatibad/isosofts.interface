@@ -216,6 +216,7 @@ const TrProfile = () => {
     clnumber: "",
     ncd: "",
     competencyStatus: 0,
+    effectivness: "",
   });
 
   const [formDataHs, setFormDataHs] = useState({
@@ -367,6 +368,7 @@ const TrProfile = () => {
         icd: "",
         nvcd: "",
         competencyStatus: 0,
+        effectivness: "",
       });
       setShowModal(true);
     } else {
@@ -410,6 +412,7 @@ const TrProfile = () => {
         clnumber: row.clnumber,
         ncd: row.ncd,
         competencyStatus: row.competencyStatus,
+        effectivness: row.effectivness,
       });
     } else {
       setActionData({
@@ -523,6 +526,7 @@ const TrProfile = () => {
           ncd: formData.ncd,
           nvcd: formData.nvcd,
           competencyStatus: parseInt(formData.competencyStatus),
+          competencyStatus: parseInt(formData.effectivness),
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
 
@@ -597,6 +601,7 @@ const TrProfile = () => {
           clnumber: formData.clnumber,
           ncd: formData.ncd,
           competencyStatus: parseInt(formData.competencyStatus),
+          effectivness: parseInt(formData.effectivness),
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
         const url =
@@ -1248,6 +1253,23 @@ const TrProfile = () => {
                         value={formData.competencyStatus}
                         onChange={(e) =>
                           handleFormChange("competencyStatus", e.target.value)
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      >
+                        <option value="">Select</option>
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Effectivness
+                      </label>
+                      <select
+                        value={formData.effectivness}
+                        onChange={(e) =>
+                          handleFormChange("effectivness", e.target.value)
                         }
                         className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                       >
