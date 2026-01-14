@@ -236,10 +236,34 @@ const FbBody = ({
         }
         return response.json();
       })
-      .then((data) => {
+      .then(async (data) => {
         // Başarılı veriyi işle, örneğin setActions(data);
         console.log("Fetched data:", data); // Debug için ekle
-        setActionData(data);
+
+        const updatedData = await Promise.all(
+
+          data.map(async (item) => {
+            if (item.vendorId) {
+              try {
+                const res = await fetch(
+                  `/api/register/ven/one/${item.vendorId}`,
+                );
+                if (!res.ok) throw new Error(" Vendor Fetch Failed ");
+                const vendor = await res.json();
+                return {
+                  ...item,
+                  vendorName: vendor.Name || vendor.name || item.vendorId,
+                };
+              } catch (err) {
+                console.log(err);
+                return {...item, customerName: item.vendorId};
+              }
+            }
+            return {...item, customerName: ""};
+          })
+        )
+        console.log(" COSGUNNNNN "+ updatedData);
+        setActionData(updatedData);
         setLoading(false);
       })
       .catch((err) => {
