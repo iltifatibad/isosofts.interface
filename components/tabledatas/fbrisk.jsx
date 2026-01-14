@@ -257,10 +257,10 @@ const FbBody = ({
                 };
               } catch (err) {
                 console.log(err);
-                return {...item, customerName: item.vendorId};
+                return {...item, vendorName: item.vendorId};
               }
             }
-            return {...item, customerName: ""};
+            return {...item, vendorName: ""};
           })
         )
         console.log(" COSGUNNNNN  "+ updatedData.vendorId);
@@ -670,9 +670,9 @@ const FbBody = ({
                     className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
                   >
-                    {row.customerName && (
+                    {row.vendorName && (
                       <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
-                        {row.customerName}
+                        {row.vendorName}
                       </span>
                     )}
                   </td>
