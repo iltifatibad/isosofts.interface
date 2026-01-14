@@ -352,6 +352,7 @@ const FbProfile = () => {
     setEditingRow(null);
     const dropdownData = await getDefaultDropdownList();
     const customerData = await getDefaultCustomers();
+    const vendorData = await getDefaultVendors();
     if (activeHeader) {
       setFormData({
         id: 0,
@@ -1440,9 +1441,9 @@ const FbProfile = () => {
                                   Vendor ID
                                 </label>
                                 <select
-                                  value={actionData.vendorId}
+                                  value={actionData.actionPlan[0]?.vendorId}
                                   onChange={(e) =>
-                                    handleFormChange("vendorId", e.target.value)
+                                    handleFormChange("actionPlan[0].vendorId", e.target.value)
                                   }
                                 >
                                   <option value="">Select</option>
