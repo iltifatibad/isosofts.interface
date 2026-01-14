@@ -262,7 +262,7 @@ const FbBody = ({
             return {...item, customerName: ""};
           })
         )
-        console.log(" COSGUNNNNN  "+ updatedData.customerId);
+        console.log(" COSGUNNNNN  "+ updatedData.vendorId);
         setActionData(updatedData);
         setLoading(false);
       })
