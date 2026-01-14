@@ -1441,9 +1441,9 @@ const FbProfile = () => {
                                   Vendor ID
                                 </label>
                                 <select
-                                  value={actionData.actionPlan[0]?.vendorId}
+                                  value={actionData.actionPlan.vendorId}
                                   onChange={(e) =>
-                                    handleFormChange("actionPlan[0].vendorId", e.target.value)
+                                    handleFormChange("actionPlan.vendorId", e.target.value)
                                   }
                                 >
                                   <option value="">Select</option>
