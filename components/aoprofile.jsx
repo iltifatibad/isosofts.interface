@@ -426,6 +426,7 @@ const AoProfile = () => {
           row.inspectionFrequency.id || String(row.inspectionFrequency),
         nextAuditDate: row.nextAuditDate,
         auditStatus: row.auditStatus.id || String(row.auditStatus),
+        rtic: row.rtic.id || String(row.auditStatus),
       });
     } else {
       setActionData({
