@@ -623,6 +623,7 @@ const AoProfile = () => {
           inspectionFrequency: formData.inspectionFrequency,
           nextAuditDate: formData.nextAuditDate,
           auditStatus: formData.auditStatus,
+          rtic: formData.rtic
         };
         console.log("Gönderilen body:", payload); // Debug: Tam beklenen format mı?
         const url =
