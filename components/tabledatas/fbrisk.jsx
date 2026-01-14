@@ -619,6 +619,7 @@ const FbBody = ({
           </tr>
         ) : (
           actionData.map((row, index) => {
+            console.log(" ACTION DATA UPDATED CHECK" + actionData);
             const numActions = row.actions ? row.actions.length : 1;
             const actions = Array.isArray(row.actions)
               ? row.actions
