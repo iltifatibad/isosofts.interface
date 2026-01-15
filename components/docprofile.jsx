@@ -561,6 +561,7 @@ const DocProfile = () => {
       } else {
         const payload = {
           registerId: Array.from(selectedRows)[0],
+          registerType:"doc",
           title: actionData.actionPlan[0]?.title || "",
           resources: parseInt(actionData.actionPlan[0]?.resources) || 0,
           raiseDate: actionData.actionPlan[0]?.raiseDate || "",
