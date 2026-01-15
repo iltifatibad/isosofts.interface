@@ -1410,8 +1410,8 @@ const DocProfile = () => {
                         }
                         className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                       >
-                        <option value={0}>0</option>
-                        <option value={1}>1</option>
+                        <option value={0}>No</option>
+                        <option value={1}>Yes</option>
                       </select>
                     </div>
                   </div>
