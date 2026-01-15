@@ -325,21 +325,25 @@ const FbBody = ({
                       : "bg-green-100 hover:bg-green-200"
                   }`}
                 >
+                  {/* ID + Checkbox */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-16 sticky left-0 top-0 z-10 bg-white"
+                    className="border border-gray-200 px-3 py-2 w-16 sticky left-[-1px] top-0 z-10 bg-white"
                     rowSpan={1}
                   >
-                    <div className="flex items-center gap-1">
-                      <span className="font-semibold">{row.no}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-gray-700">
+                        {row.no}
+                      </span>
                       <input
-                        checked={selectedRows.has(row.id)}
-                        onChange={() => onCheckboxChange(row.id, deletedData)}
                         type="checkbox"
-                        className="ml-2 h-4 w-4 text-blue-600"
+                        checked={selectedRows.has(row.id)}
+                        onChange={() => onCheckboxChange(row.id, tableData)}
+                        className="h-4 w-4 text-blue-600 rounded"
                       />
                     </div>
                   </td>
-                  <td
+
+                  {/* <td
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
@@ -348,92 +352,133 @@ const FbBody = ({
                         {row.name}
                       </span>
                     )}
-                  </td>
+                  </td> */}
 
-                  {/* Serial Name */}
+                  {/* Job Number */}
                   <td
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
                     <span className="inline-block px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 rounded-full shadow-sm">
-                      {row.origin?.value}
+                      {row.jobNumber}
                     </span>
                   </td>
 
+                  {/* Job Start Date */}
                   <td
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    {row.number && (
+                    {row.jobStartDate && (
                       <span className="inline-block px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 rounded-full shadow-sm">
-                        {row.number}
+                        {row.jobStartDate}
                       </span>
                     )}
                   </td>
 
+                  {/* Job Completion Date */}
                   <td
                     className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
                   >
-                    {row.revNumber && (
+                    {row.jobCompletionDate && (
                       <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
-                        {row.revNumber}
+                        {row.jobCompletionDate}
                       </span>
                     )}
                   </td>
 
-                  {/* Certificate No */}
+                  {/* Scope */}
                   <td
                     className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
                   >
-                    {row.issuer && (
+                    {row.scope && (
                       <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
-                        {row.issuer}
+                        {row.scope?.value}
                       </span>
                     )}
                   </td>
 
-                  {/* Inspection Frequency */}
+                  {/* Name Of Customer */}
                   <td
                     className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
                   >
-                    {row.approver && (
+                    {row.customerName && (
                       <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
-                        {row.approver}
+                        {row.customerName}
                       </span>
                     )}
                   </td>
 
+                  {/* Type Of Finding */}
                   <td
                     className="border border-gray-200 px-3 py-2 w-28"
                     rowSpan={1}
                   >
-                    {row.issueDate}
+                    {row.typeOfFinding?.value}
                   </td>
 
+                  {/* Quality Of Services */}
                   <td
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    {row.nextReviewDate}
+                    {row.qgs}
                   </td>
 
-                  {/* Days Left To Next Review */}
+                  {/* Communication */}
                   <td
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    {row.nextReviewDate}
+                    {row.communication}
                   </td>
 
+                  {/* On Time Delivery */}
                   <td
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    {row.actual?.value}
+                    {row.otd}
                   </td>
+
+                  {/* Documentation */}
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.documentation}
+                  </td>
+
+                  {/* Health And Safety */}
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.hs}
+                  </td>
+
+                  {/* Envinroment */}
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.environment}
+                  </td>
+                  {/* Final Score */}
+<td
+  className="border border-gray-200 px-3 py-2 w-20"
+  rowSpan={1}
+>
+  {(Number(row.qgs) || 0) + 
+   (Number(row.communication) || 0) + 
+   (Number(row.otd) || 0) + 
+   (Number(row.documentation) || 0) + 
+   (Number(row.hs) || 0) + 
+   (Number(row.environment) || 0)}
+</td>
                 </tr>
 
                 {/* Ek Actions */}
@@ -484,21 +529,25 @@ const FbBody = ({
                       : "bg-green-100 hover:bg-green-200"
                   }`}
                 >
+                  {/* ID + Checkbox */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-16 sticky left-0 top-0 z-10 bg-white"
+                    className="border border-gray-200 px-3 py-2 w-16 sticky left-[-1px] top-0 z-10 bg-white"
                     rowSpan={1}
                   >
-                    <div className="flex items-center gap-1">
-                      <span className="font-semibold">{row.no}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-gray-700">
+                        {row.no}
+                      </span>
                       <input
-                        checked={selectedRows.has(row.id)}
-                        onChange={() => onCheckboxChange(row.id, archivedData)}
                         type="checkbox"
-                        className="ml-2 h-4 w-4 text-blue-600"
+                        checked={selectedRows.has(row.id)}
+                        onChange={() => onCheckboxChange(row.id, tableData)}
+                        className="h-4 w-4 text-blue-600 rounded"
                       />
                     </div>
                   </td>
-                  <td
+
+                  {/* <td
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
@@ -507,92 +556,133 @@ const FbBody = ({
                         {row.name}
                       </span>
                     )}
-                  </td>
+                  </td> */}
 
-                  {/* Serial Name */}
+                  {/* Job Number */}
                   <td
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
                     <span className="inline-block px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 rounded-full shadow-sm">
-                      {row.origin?.value}
+                      {row.jobNumber}
                     </span>
                   </td>
 
+                  {/* Job Start Date */}
                   <td
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    {row.number && (
+                    {row.jobStartDate && (
                       <span className="inline-block px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 rounded-full shadow-sm">
-                        {row.number}
+                        {row.jobStartDate}
                       </span>
                     )}
                   </td>
 
+                  {/* Job Completion Date */}
                   <td
                     className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
                   >
-                    {row.revNumber && (
+                    {row.jobCompletionDate && (
                       <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
-                        {row.revNumber}
+                        {row.jobCompletionDate}
                       </span>
                     )}
                   </td>
 
-                  {/* Certificate No */}
+                  {/* Scope */}
                   <td
                     className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
                   >
-                    {row.issuer && (
+                    {row.scope && (
                       <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
-                        {row.issuer}
+                        {row.scope?.value}
                       </span>
                     )}
                   </td>
 
-                  {/* Inspection Frequency */}
+                  {/* Name Of Customer */}
                   <td
                     className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
                   >
-                    {row.approver && (
+                    {row.customerName && (
                       <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
-                        {row.approver}
+                        {row.customerName}
                       </span>
                     )}
                   </td>
 
+                  {/* Type Of Finding */}
                   <td
                     className="border border-gray-200 px-3 py-2 w-28"
                     rowSpan={1}
                   >
-                    {row.issueDate}
+                    {row.typeOfFinding?.value}
                   </td>
 
+                  {/* Quality Of Services */}
                   <td
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    {row.nextReviewDate}
+                    {row.qgs}
                   </td>
 
-                  {/* Days Left To Next Review */}
+                  {/* Communication */}
                   <td
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    {row.nextReviewDate}
+                    {row.communication}
                   </td>
 
+                  {/* On Time Delivery */}
                   <td
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    {row.actual?.value}
+                    {row.otd}
                   </td>
+
+                  {/* Documentation */}
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.documentation}
+                  </td>
+
+                  {/* Health And Safety */}
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.hs}
+                  </td>
+
+                  {/* Envinroment */}
+                  <td
+                    className="border border-gray-200 px-3 py-2 w-20"
+                    rowSpan={1}
+                  >
+                    {row.environment}
+                  </td>
+                  {/* Final Score */}
+<td
+  className="border border-gray-200 px-3 py-2 w-20"
+  rowSpan={1}
+>
+  {(Number(row.qgs) || 0) + 
+   (Number(row.communication) || 0) + 
+   (Number(row.otd) || 0) + 
+   (Number(row.documentation) || 0) + 
+   (Number(row.hs) || 0) + 
+   (Number(row.environment) || 0)}
+</td>
                 </tr>
 
                 {/* Ek Actions */}
@@ -1073,13 +1163,18 @@ const FbBody = ({
                   >
                     {row.environment}
                   </td>
-                  {/* Envinroment */}
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-20"
-                    rowSpan={1}
-                  >
-                    {row.environment}
-                  </td>
+                  {/* Final Score */}
+<td
+  className="border border-gray-200 px-3 py-2 w-20"
+  rowSpan={1}
+>
+  {(Number(row.qgs) || 0) + 
+   (Number(row.communication) || 0) + 
+   (Number(row.otd) || 0) + 
+   (Number(row.documentation) || 0) + 
+   (Number(row.hs) || 0) + 
+   (Number(row.environment) || 0)}
+</td>
                 </tr>
               </React.Fragment>
             );

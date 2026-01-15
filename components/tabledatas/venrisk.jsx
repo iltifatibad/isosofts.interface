@@ -413,12 +413,14 @@ const VenBody = ({
                   >
                     {row.environment}
                   </td>
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-20"
-                    rowSpan={1}
-                  >
-                    {row.actual?.value}
-                  </td>
+<td className="border border-gray-200 px-3 py-2 w-20" rowSpan={1}>
+  {(Number(row.qgs) || 0) + 
+   (Number(row.communication) || 0) + 
+   (Number(row.otd) || 0) + 
+   (Number(row.documentation) || 0) + 
+   (Number(row.hs) || 0) + 
+   (Number(row.environment) || 0)}
+</td>
                 </tr>
 
                 {/* Ek Actions */}
@@ -609,12 +611,14 @@ const VenBody = ({
                   >
                     {row.environment}
                   </td>
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-20"
-                    rowSpan={1}
-                  >
-                    {row.actual?.value}
-                  </td>
+<td className="border border-gray-200 px-3 py-2 w-20" rowSpan={1}>
+  {(Number(row.qgs) || 0) + 
+   (Number(row.communication) || 0) + 
+   (Number(row.otd) || 0) + 
+   (Number(row.documentation) || 0) + 
+   (Number(row.hs) || 0) + 
+   (Number(row.environment) || 0)}
+</td>
                 </tr>
 
                 {/* Ek Actions */}
@@ -1079,12 +1083,14 @@ const VenBody = ({
                   >
                     {row.environment}
                   </td>
-                  <td
-                    className="border border-gray-200 px-3 py-2 w-20"
-                    rowSpan={1}
-                  >
-                    {row.actual?.value}
-                  </td>
+<td className="border border-gray-200 px-3 py-2 w-20" rowSpan={1}>
+  {(Number(row.qgs) || 0) + 
+   (Number(row.communication) || 0) + 
+   (Number(row.otd) || 0) + 
+   (Number(row.documentation) || 0) + 
+   (Number(row.hs) || 0) + 
+   (Number(row.environment) || 0)}
+</td>
                 </tr>
               </React.Fragment>
             );
