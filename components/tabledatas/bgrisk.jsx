@@ -529,7 +529,7 @@ const MyTableBody = ({
                       <span className="font-semibold">{row.no}</span>
                       <input
                         checked={selectedRows.has(row.id)}
-                        onChange={() => onCheckboxChange(row.id, deletedData)}
+                        onChange={() => onCheckboxChange(row.id, archivedData)}
                         type="checkbox"
                         className="ml-2 h-4 w-4 text-blue-600"
                       />
@@ -574,32 +574,19 @@ const MyTableBody = ({
                     className="border border-gray-200 px-2 py-1 w-32"
                     rowSpan={1}
                   >
-                    <SoftBadge
-                      value={row.riskOpportunity}
-                      color="bg-red-100 text-red-700 border border-red-200"
-                    />
+                    {row.riskOpportunity}
                   </td>
-
-
                   <td
                     className="border border-gray-200 px-2 py-1 w-28"
                     rowSpan={1}
                   >
-                    <SoftBadge
-                      value={row.objective}
-                      color="bg-blue-100 text-blue-700 border border-blue-200"
-                    />
+                    {row.objective}
                   </td>
-
-
                   <td
                     className="border border-gray-200 px-2 py-1 w-20"
                     rowSpan={1}
                   >
-                                        <SoftBadge
-                      value={row.kpi}
-                      color="bg-green-100 text-green-700 border border-green-200"
-                    />
+                    {row.kpi}
                   </td>
 
                   {/* Process */}
@@ -618,14 +605,11 @@ const MyTableBody = ({
                     className="border border-gray-200 px-2 py-1 w-48"
                     rowSpan={1}
                   >
-                                        <SoftBadge
-                      value={row.ermeoa?.value || `${row.ermeoa}`}
-                      color="bg-red-100 text-red-700 border border-red-200"
-                    />
-                    
+                    {row.ermeoa?.value || `${row.ermeoa}`}
                   </td>
 
                   {/* Initial Risk */}
+                                    {/* Initial Risk */}
                   <td
                     className="border border-gray-200 px-2 py-1 w-20"
                     rowSpan={1}
@@ -1002,126 +986,120 @@ const MyTableBody = ({
               ? row.actions
               : [row.actions];
 
-              const SoftBadge = ({ value }) =>
+            const SoftBadge = ({ value, color }) =>
               value ? (
-                <span className="px-2 py-1 rounded-full bg-gray-100 text-gray-700 text-xs font-medium">
+                <span
+                  className={`inline-block px-2 py-1 rounded-full text-sm font-medium shadow-sm ${color}`}
+                >
                   {value}
                 </span>
               ) : null;
 
 
+
             return (
               <React.Fragment key={row.id}>
                 <tr
-                
                   className={`border-b h-16 min-h-16 align-middle border-gray-200 ${
                     index % 2 === 0
                       ? "bg-white hover:bg-gray-200"
                       : "bg-green-100 hover:bg-green-200"
                   }`}
                 >
+                  {/* ID + Checkbox */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-16 sticky left-0 top-0 z-10 bg-white"
+                    className="border border-gray-200 px-3 py-2 w-16 sticky left-[-1px] top-0 z-10 bg-white"
                     rowSpan={1}
                   >
-                    <div className="flex items-center gap-1">
-                      <span className="font-semibold">{row.no}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-gray-700">
+                        {row.no}
+                      </span>
                       <input
-                        checked={selectedRows.has(row.id)}
-                        onChange={() => onCheckboxChange(row.id, deletedData)}
                         type="checkbox"
-                        className="ml-2 h-4 w-4 text-blue-600"
+                        checked={selectedRows.has(row.id)}
+                        onChange={() => onCheckboxChange(row.id, tableData)}
+                        className="h-4 w-4 text-blue-600 rounded"
                       />
                     </div>
                   </td>
 
                   {/* SWOT */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-20"
+                    className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    <SoftBadge
-                      value={row.swot?.value}
-                      color="bg-rose-100 text-rose-700 border border-rose-200"
-                    />
+                    {row.swot?.value && (
+                      <span className="inline-block px-3 py-1 bg-rose-100 text-rose-700 border border-rose-200 rounded-full shadow-sm">
+                        {row.swot.value}
+                      </span>
+                    )}
                   </td>
 
                   {/* PESTLE */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-20"
+                    className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    <SoftBadge
-                      value={row.pestle?.value}
-                      color="bg-blue-100 text-blue-700 border border-blue-200"
-                    />
+                    {row.pestle?.value && (
+                      <span className="inline-block px-3 py-1 bg-blue-100 text-blue-700 border border-blue-200 rounded-full shadow-sm">
+                        {row.pestle.value}
+                      </span>
+                    )}
                   </td>
 
                   {/* Interested Party */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-32"
+                    className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
                   >
-                    <SoftBadge
-                      value={row.interestedParty?.value}
-                      color="bg-green-100 text-green-700 border border-green-200"
-                    />
+                    {row.interestedParty?.value && (
+                      <span className="inline-block px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full shadow-sm">
+                        {row.interestedParty.value}
+                      </span>
+                    )}
                   </td>
 
                   {/* Text Fields */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-32"
+                    className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
                   >
-                    <SoftBadge
-                      value={row.riskOpportunity}
-                      color="bg-red-100 text-red-700 border border-red-200"
-                    />
+                    {row.riskOpportunity}
                   </td>
 
-
                   <td
-                    className="border border-gray-200 px-2 py-1 w-28"
+                    className="border border-gray-200 px-3 py-2 w-28"
                     rowSpan={1}
                   >
-                    <SoftBadge
-                      value={row.objective}
-                      color="bg-blue-100 text-blue-700 border border-blue-200"
-                    />
+                    {row.objective}
                   </td>
 
-
                   <td
-                    className="border border-gray-200 px-2 py-1 w-20"
+                    className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                                        <SoftBadge
-                      value={row.kpi}
-                      color="bg-green-100 text-green-700 border border-green-200"
-                    />
+                    {row.kpi}
                   </td>
 
                   {/* Process */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-24"
+                    className="border border-gray-200 px-3 py-2 w-24"
                     rowSpan={1}
                   >
-                    <SoftBadge
-                      value={row.process?.value}
-                      color="bg-cyan-100 text-cyan-700 border border-cyan-200"
-                    />
+                    {row.process?.value && (
+                      <span className="inline-block px-3 py-1 bg-cyan-100 text-cyan-700 border border-cyan-200 rounded-full shadow-sm">
+                        {row.process.value}
+                      </span>
+                    )}
                   </td>
 
                   {/* Ermeoa */}
                   <td
-                    className="border border-gray-200 px-2 py-1 w-48"
+                    className="border border-gray-200 px-3 py-2 w-48"
                     rowSpan={1}
                   >
-                                        <SoftBadge
-                      value={row.ermeoa?.value || `${row.ermeoa}`}
-                      color="bg-red-100 text-red-700 border border-red-200"
-                    />
-                    
+                    {row.ermeoa?.value || `${row.ermeoa}`}
                   </td>
 
                   {/* Initial Risk */}
