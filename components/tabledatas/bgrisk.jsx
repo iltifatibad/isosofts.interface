@@ -357,19 +357,32 @@ const MyTableBody = ({
                     className="border border-gray-200 px-2 py-1 w-32"
                     rowSpan={1}
                   >
-                    {row.riskOpportunity}
+                    <SoftBadge
+                      value={row.riskOpportunity}
+                      color="bg-red-100 text-red-700 border border-red-200"
+                    />
                   </td>
+
+
                   <td
                     className="border border-gray-200 px-2 py-1 w-28"
                     rowSpan={1}
                   >
-                    {row.objective}
+                    <SoftBadge
+                      value={row.objective}
+                      color="bg-blue-100 text-blue-700 border border-blue-200"
+                    />
                   </td>
+
+
                   <td
                     className="border border-gray-200 px-2 py-1 w-20"
                     rowSpan={1}
                   >
-                    {row.kpi}
+                                        <SoftBadge
+                      value={row.kpi}
+                      color="bg-green-100 text-green-700 border border-green-200"
+                    />
                   </td>
 
                   {/* Process */}
@@ -388,7 +401,11 @@ const MyTableBody = ({
                     className="border border-gray-200 px-2 py-1 w-48"
                     rowSpan={1}
                   >
-                    {row.ermeoa?.value || `${row.ermeoa}`}
+                                        <SoftBadge
+                      value={row.ermeoa?.value || `${row.ermeoa}`}
+                      color="bg-red-100 text-red-700 border border-red-200"
+                    />
+                    
                   </td>
 
                   {/* Initial Risk */}
