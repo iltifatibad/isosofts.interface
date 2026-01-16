@@ -1013,6 +1013,7 @@ const MyTableBody = ({
             return (
               <React.Fragment key={row.id}>
                 <tr
+                
                   className={`border-b h-16 min-h-16 align-middle border-gray-200 ${
                     index % 2 === 0
                       ? "bg-white hover:bg-gray-200"
