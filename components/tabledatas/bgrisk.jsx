@@ -1065,21 +1065,32 @@ const MyTableBody = ({
                     className="border border-gray-200 px-3 py-2 w-32"
                     rowSpan={1}
                   >
-                    {row.riskOpportunity}
+                    <SoftBadge
+                      value={row.riskOpportunity}
+                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
+                    />
                   </td>
 
                   <td
                     className="border border-gray-200 px-3 py-2 w-28"
                     rowSpan={1}
                   >
-                    {row.objective}
+                    
+                                        <SoftBadge
+                      value={row.objective}
+                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
+                    />
                   </td>
 
                   <td
                     className="border border-gray-200 px-3 py-2 w-20"
                     rowSpan={1}
                   >
-                    {row.kpi}
+                                        <SoftBadge
+                      value={row.kpi}
+                      color="bg-emerald-100 text-emerald-700 border border-emerald-200"
+                    />
+                    
                   </td>
 
                   {/* Process */}
