@@ -35,7 +35,7 @@ const RiskRouter = () => {
     { id: "ear-reg", name: "Employee Appraisal Register" },
     { id: "moc-reg", name: "Management Of Changes" },
     { id: "fl-reg", name: "Findings Log" },
-    { id: "ao-reg", name: "Assurance & Oversight" },
+    { id: "ao-reg", name: "Assurances & Oversights" },
     { id: "mr-reg", name: "Management Review Meeting" },
     { id: "ac-reg", name: "Action Logs" },
 

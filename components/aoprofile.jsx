@@ -186,7 +186,7 @@ const AoProfile = () => {
     { id: "ear-reg", name: "Employee Appraisal Register" },
     { id: "moc-reg", name: "Management Of Changes" },
     { id: "fl-reg", name: "Findings Log" },
-    { id: "ao-reg", name: "Assurance & Oversight" },
+    { id: "ao-reg", name: "Assurances & Oversights" },
     { id: "mr-reg", name: "Management Review Meeting" },
     { id: "ac-reg", name: "Action Logs" },
 
@@ -1035,7 +1035,7 @@ const AoProfile = () => {
                     className="!rounded-button whitespace-nowrap cursor-pointer bg-white text-blue-600 px-4 py-2 hover:bg-gray-50 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm"
                   >
                     <i className="fas fa-plus mr-2 text-blue-600 hover:text-blue-700"></i>
-                    {!showAction ? "Add Risk" : "Add Action"}
+                    {!showAction ? "Add A&O Activity" : "Add Action"}
                   </button>
                   <button
                     onClick={toggleArchiveView}
@@ -1325,7 +1325,7 @@ const AoProfile = () => {
 
                   <div className="space-y-4">
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Audit Date
+                      A&O Activity Date
                     </label>
                     <div className="grid grid-cols-3 gap-2">
                       <input
@@ -1341,7 +1341,7 @@ const AoProfile = () => {
 
 <div>
   <label className="block text-sm font-medium text-gray-700 mb-2">
-    Next Audit Date
+    Next A&O Activity Date
   </label>
   <input
     value={formData.nextAuditDate}
@@ -1354,21 +1354,24 @@ const AoProfile = () => {
 </div>
 <div>
   <label className="block text-sm font-medium text-gray-700 mb-2">
-    Audit Status
+    A&O Activity Status
   </label>
-  <input
-    value={formData.auditStatus}
-    onChange={(e) =>
-      handleFormChange("auditStatus", e.target.value)
-    }
-    type="text"
-    className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-  />
+<select
+  value={formData.auditStatus || ""}
+  onChange={(e) =>
+    handleFormChange("auditStatus", e.target.value)
+  }
+  className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+>
+  <option value="">Select</option>
+  <option value="Done">Done</option>
+  <option value="Not Done">Not Done</option>
+</select>
 </div>
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        RTIC
+                        A&O Criteria
                       </label>
                       <input
                         value={formData.rtic}
@@ -1393,7 +1396,7 @@ const AoProfile = () => {
                   onClick={saveRisk}
                   className="!rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-2 hover:from-blue-600 hover:to-blue-800 transition-all duration-300"
                 >
-                  {modalMode === "add" ? "Add Risk" : "Update Risk"}
+                  {modalMode === "add" ? "Update A&O Activity" : "Update Risk"}
                 </button>
               </div>
             </div>
