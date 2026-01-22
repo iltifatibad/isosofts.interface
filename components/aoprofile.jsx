@@ -421,12 +421,12 @@ const AoProfile = () => {
         reviewedPremises:
           row.reviewedPremises.id || String(row.reviewedPremises),
         reviewedProcess: row.reviewedProcess.id || String(row.reviewedProcess),
-        auditDate: row.auditDate,
+        auditDate: row.AuditDate,
         inspectionFrequency:
           row.inspectionFrequency.id || String(row.inspectionFrequency),
         nextAuditDate: row.nextAuditDate,
         auditStatus: row.auditStatus.id || String(row.auditStatus),
-        rtic: row.rtic.id || String(row.auditStatus),
+        rtic: row.rtic.id || String(row.rtic),
       });
     } else {
       setActionData({
@@ -1396,7 +1396,7 @@ const AoProfile = () => {
                   onClick={saveRisk}
                   className="!rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-2 hover:from-blue-600 hover:to-blue-800 transition-all duration-300"
                 >
-                  {modalMode === "add" ? "Update A&O Activity" : "Update Risk"}
+                  {modalMode === "add" ? "Add A&O Activity" : "Update Risk"}
                 </button>
               </div>
             </div>
