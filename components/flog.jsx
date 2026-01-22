@@ -185,9 +185,9 @@ const FProfile = () => {
     { id: "fb-reg", name: "Feedback" },
     { id: "ear-reg", name: "Employee Appraisal Register" },
     { id: "moc-reg", name: "Management Of Changes" },
-    { id: "fl-reg", name: "Findings Log" },
+    { id: "fl-reg", name: "Findings" },
     { id: "ao-reg", name: "Assurances & Oversights" },
-    { id: "mr-reg", name: "Management Review Meeting" },
+    { id: "mr-reg", name: "Management Review" },
     { id: "ac-reg", name: "Action Logs" },
 
     // Diğer risk kategorileri eklenebilir
@@ -1025,7 +1025,7 @@ const FProfile = () => {
                     className="!rounded-button whitespace-nowrap cursor-pointer bg-white text-blue-600 px-4 py-2 hover:bg-gray-50 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm"
                   >
                     <i className="fas fa-plus mr-2 text-blue-600 hover:text-blue-700"></i>
-                    {!showAction ? "Add Risk" : "Add Action"}
+                    {!showAction ? "Add Finding" : "Add Action"}
                   </button>
                   <button
                     onClick={toggleArchiveView}
@@ -1370,7 +1370,7 @@ const FProfile = () => {
                   onClick={saveRisk}
                   className="!rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-2 hover:from-blue-600 hover:to-blue-800 transition-all duration-300"
                 >
-                  {modalMode === "add" ? "Add Risk" : "Update Risk"}
+                  {modalMode === "add" ? "Add Finding" : "Update Risk"}
                 </button>
               </div>
             </div>

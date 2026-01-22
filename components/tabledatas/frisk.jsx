@@ -993,7 +993,7 @@ const FBody = ({
                   </td>
 
                   <td
-                    className="border border-gray-200 px-2 py-1 w-24"
+                    className="border border-gray-200 px-2 py-1"
                     rowSpan={1}
                   >
                     <SoftBadge

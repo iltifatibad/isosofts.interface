@@ -185,9 +185,9 @@ const CusProfile = () => {
     { id: "fb-reg", name: "Feedback" },
     { id: "ear-reg", name: "Employee Appraisal Register" },
     { id: "moc-reg", name: "Management Of Changes" },
-    { id: "fl-reg", name: "Findings Log" },
+    { id: "fl-reg", name: "Findings" },
     { id: "ao-reg", name: "Assurances & Oversights" },
-    { id: "mr-reg", name: "Management Review Meeting" },
+    { id: "mr-reg", name: "Management Review" },
     { id: "ac-reg", name: "Action Logs" },
 
     // Diğer risk kategorileri eklenebilir
