@@ -1002,9 +1002,6 @@ const EiProfile = () => {
               <div className="p-6 border-b border-blue-100 flex items-center">
                 {/* Başlık ve sol butonlar */}
                 <div className="flex items-center space-x-3">
-                  <h3 className="text-2xl font-semibold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
-                    Datas
-                  </h3>
 
                   <button
                     onClick={openAddModal}

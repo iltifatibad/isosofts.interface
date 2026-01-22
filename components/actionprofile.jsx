@@ -1020,10 +1020,6 @@ const AcProfile = () => {
               <div className="p-6 border-b border-blue-100 flex items-center">
                 {/* Başlık ve sol butonlar */}
                 <div className="flex items-center space-x-3">
-                  <h3 className="text-2xl font-semibold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
-                    Datas
-                  </h3>
-
                   {/* <button
                     onClick={openAddModal}
                     className="!rounded-button whitespace-nowrap cursor-pointer bg-white text-blue-600 px-4 py-2 hover:bg-gray-50 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm"
