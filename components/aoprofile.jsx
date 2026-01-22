@@ -421,7 +421,7 @@ const AoProfile = () => {
         reviewedPremises:
           row.reviewedPremises.id || String(row.reviewedPremises),
         reviewedProcess: row.reviewedProcess.id || String(row.reviewedProcess),
-        auditDate: row.AuditDate,
+        auditDate: row.auditDate,
         inspectionFrequency:
           row.inspectionFrequency.id || String(row.inspectionFrequency),
         nextAuditDate: row.nextAuditDate,
