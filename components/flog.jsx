@@ -183,7 +183,7 @@ const FProfile = () => {
     { id: "ven-reg", name: "Vendor" },
     { id: "cus-reg", name: "Customer" },
     { id: "fb-reg", name: "Feedback" },
-    { id: "ear-reg", name: "Employee Appraisal Register" },
+    { id: "ear-reg", name: "Employee Appraisals" },
     { id: "moc-reg", name: "Management Of Changes" },
     { id: "fl-reg", name: "Findings" },
     { id: "ao-reg", name: "Assurances & Oversights" },
@@ -1370,7 +1370,7 @@ const FProfile = () => {
                   onClick={saveRisk}
                   className="!rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-2 hover:from-blue-600 hover:to-blue-800 transition-all duration-300"
                 >
-                  {modalMode === "add" ? "Add Finding" : "Update Risk"}
+                  {modalMode === "add" ? "Add Finding" : "Update Finding"}
                 </button>
               </div>
             </div>

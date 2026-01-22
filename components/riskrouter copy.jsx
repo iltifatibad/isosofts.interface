@@ -29,7 +29,7 @@ const RiskRouter = () => {
     { id: "ven-reg", name: "Vendor" },
     { id: "cus-reg", name: "Customer" },
     { id: "fb-reg", name: "Feedback" },
-    { id: "ear-reg", name: "Employee Appraisal Register" },
+    { id: "ear-reg", name: "Employee Appraisals" },
     { id: "moc-reg", name: "Management Of Changes" },
     { id: "fl-reg", name: "Findings" },
     { id: "ao-reg", name: "Assurances & Oversights" },

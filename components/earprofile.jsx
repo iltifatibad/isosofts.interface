@@ -183,7 +183,7 @@ const EarProfile = () => {
     { id: "ven-reg", name: "Vendor" },
     { id: "cus-reg", name: "Customer" },
     { id: "fb-reg", name: "Feedback" },
-    { id: "ear-reg", name: "Employee Appraisal Register" },
+    { id: "ear-reg", name: "Employee Appraisals" },
     { id: "moc-reg", name: "Management Of Changes" },
     { id: "fl-reg", name: "Findings" },
     { id: "ao-reg", name: "Assurances & Oversights" },
@@ -1014,7 +1014,7 @@ const EarProfile = () => {
                     className="!rounded-button whitespace-nowrap cursor-pointer bg-white text-blue-600 px-4 py-2 hover:bg-gray-50 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm"
                   >
                     <i className="fas fa-plus mr-2 text-blue-600 hover:text-blue-700"></i>
-                    {!showAction ? "Add Risk" : "Add Feedback"}
+                    {!showAction ? "Add Employee Appraisal" : "Add Action"}
                   </button>
                   <button
                     onClick={toggleArchiveView}
@@ -1039,8 +1039,8 @@ const EarProfile = () => {
                         ? "Hide Deleted"
                         : "Show Deleted"
                       : showDeletedAction
-                        ? "Hide Deleted Feedback"
-                        : "Show Deleted Feedback"}
+                        ? "Hide Deleted Action"
+                        : "Show Deleted Action"}
                   </button>
                   <button
                     onClick={toggleActionView}
@@ -1054,7 +1054,7 @@ const EarProfile = () => {
                     ].join(" ")}
                   >
                     <i className="fas fa-archive mr-2 text-blue-600 hover:text-blue-700"></i>
-                    {showAction ? "Hide Feedback" : "Show Feedback"}
+                    {showAction ? "Hide Action" : "Show Action"}
                   </button>
                   {/* Actions butonları */}
                   <div className="flex space-x-2">
@@ -1220,14 +1220,14 @@ const EarProfile = () => {
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        ESD
+                        Employee Start Date
                       </label>
                       <input
                         value={formData.esd}
                         onChange={(e) =>
                           handleFormChange("esd", e.target.value)
                         }
-                        type="text"
+                        type="date"
                         className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                       />
                     </div>
@@ -1246,47 +1246,75 @@ const EarProfile = () => {
   />
 </div>
 
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Appraisal Type
-                      </label>
-                      <input
-                        value={formData.appraisalType}
-                        onChange={(e) =>
-                          handleFormChange("appraisalType", e.target.value)
-                        }
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                      />
-                    </div>
+<div>
+  <label className="block text-sm font-medium text-gray-700 mb-2">
+    Appraisal Type
+  </label>
+  <select
+    value={formData.appraisalType || ""}
+    onChange={(e) =>
+      handleFormChange("appraisalType", e.target.value)
+    }
+    className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+  >
+    <option value="">Select</option>
+    <option value="Probation">Probation</option>
+    <option value="Annual">Annual</option>
+  </select>
+</div>
                   </div>
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        TCA
-                      </label>
-                      <input
-                        value={formData.tca}
-                        onChange={(e) =>
-                          handleFormChange("tca", e.target.value)
-                        }
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Skills Appraisal
-                      </label>
-                      <input
-                        value={formData.skillsAppraisal}
-                        onChange={(e) =>
-                          handleFormChange("skillsAppraisal", e.target.value)
-                        }
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                      />
-                    </div>
+  <label className="block text-sm font-medium text-gray-700 mb-2">
+    Task Completion Appraisal
+  </label>
+  <select
+    value={formData.tca || ""}
+    onChange={(e) =>
+      handleFormChange("tca", e.target.value)
+    }
+    className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+  >
+    <option value="">Select</option>
+    <option value="0">0</option>
+    <option value="10">10</option>
+    <option value="20">20</option>
+    <option value="30">30</option>
+    <option value="40">40</option>
+    <option value="50">50</option>
+    <option value="60">60</option>
+    <option value="70">70</option>
+    <option value="80">80</option>
+    <option value="90">90</option>
+    <option value="100">100</option>
+  </select>
+</div>
+
+<div>
+  <label className="block text-sm font-medium text-gray-700 mb-2">
+    Skills Appraisal
+  </label>
+  <select
+    value={formData.skillsAppraisal || ""}
+    onChange={(e) =>
+      handleFormChange("skillsAppraisal", e.target.value)
+    }
+    className="w-full px-3 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+  >
+    <option value="">Select</option>
+    <option value="0">0</option>
+    <option value="10">10</option>
+    <option value="20">20</option>
+    <option value="30">30</option>
+    <option value="40">40</option>
+    <option value="50">50</option>
+    <option value="60">60</option>
+    <option value="70">70</option>
+    <option value="80">80</option>
+    <option value="90">90</option>
+    <option value="100">100</option>
+  </select>
+</div>
                   </div>
                 </div>
               </div>
@@ -1301,7 +1329,7 @@ const EarProfile = () => {
                   onClick={saveRisk}
                   className="!rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-2 hover:from-blue-600 hover:to-blue-800 transition-all duration-300"
                 >
-                  {modalMode === "add" ? "Add Risk" : "Update Risk"}
+                  {modalMode === "add" ? "Add Employee Appraisal" : "Update Risk"}
                 </button>
               </div>
             </div>
@@ -1949,7 +1977,7 @@ const EarProfile = () => {
                   onClick={saveRisk}
                   className="!rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-2 hover:from-blue-600 hover:to-blue-800 transition-all duration-300"
                 >
-                  {modalMode === "add" ? "Add Feedback" : "Update Action"}
+                  {modalMode === "add" ? "Add Action" : "Update Action"}
                 </button>
               </div>
             </div>
