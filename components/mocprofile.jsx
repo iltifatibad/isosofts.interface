@@ -182,7 +182,7 @@ const MocProfile = () => {
     { id: "doc-reg", name: "Document" },
     { id: "ven-reg", name: "Vendor" },
     { id: "cus-reg", name: "Customer" },
-    { id: "fb-reg", name: "Feedback" },
+    { id: "fb-reg", name: "Feedbacks" },
     { id: "ear-reg", name: "Employee Appraisals" },
     { id: "moc-reg", name: "Management Of Changes" },
     { id: "fl-reg", name: "Findings" },

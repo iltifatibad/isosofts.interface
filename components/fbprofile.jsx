@@ -182,7 +182,7 @@ const FbProfile = () => {
     { id: "doc-reg", name: "Document" },
     { id: "ven-reg", name: "Vendor" },
     { id: "cus-reg", name: "Customer" },
-    { id: "fb-reg", name: "Feedback" },
+    { id: "fb-reg", name: "Feedbacks" },
     { id: "ear-reg", name: "Employee Appraisals" },
     { id: "moc-reg", name: "Management Of Changes" },
     { id: "fl-reg", name: "Findings" },
@@ -962,7 +962,7 @@ const FbProfile = () => {
                     className="!rounded-button whitespace-nowrap cursor-pointer bg-white text-blue-600 px-4 py-2 hover:bg-gray-50 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm"
                   >
                     <i className="fas fa-plus mr-2 text-blue-600 hover:text-blue-700"></i>
-                    {!showAction ? "Add Risk" : "Add Feedback"}
+                    {!showAction ? "Add Feedback" : "Add Feedback"}
                   </button>
                   <button
                     onClick={toggleArchiveView}
@@ -1262,6 +1262,8 @@ const FbProfile = () => {
                           }}
                         >
                           <option value="">Select</option>
+                          <option>-1</option>
+                          <option>0</option>
                           <option>1</option>
                           <option>2</option>
                           <option>3</option>
@@ -1287,6 +1289,8 @@ const FbProfile = () => {
                           }}
                         >
                           <option value="">Select</option>
+                          <option>-1</option>
+                          <option>0</option>
                           <option>1</option>
                           <option>2</option>
                           <option>3</option>
@@ -1312,6 +1316,8 @@ const FbProfile = () => {
                           }}
                         >
                           <option value="">Select</option>
+                          <option>-1</option>
+                          <option>0</option>
                           <option>1</option>
                           <option>2</option>
                           <option>3</option>
@@ -1337,6 +1343,8 @@ const FbProfile = () => {
                           }}
                         >
                           <option value="">Select</option>
+                          <option>-1</option>
+                          <option>0</option>
                           <option>1</option>
                           <option>2</option>
                           <option>3</option>
@@ -1362,6 +1370,8 @@ const FbProfile = () => {
                           }}
                         >
                           <option value="">Select</option>
+                          <option>-1</option>
+                          <option>0</option>
                           <option>1</option>
                           <option>2</option>
                           <option>3</option>
@@ -1384,7 +1394,7 @@ const FbProfile = () => {
                   onClick={saveRisk}
                   className="!rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-2 hover:from-blue-600 hover:to-blue-800 transition-all duration-300"
                 >
-                  {modalMode === "add" ? "Add Risk" : "Update Risk"}
+                  {modalMode === "add" ? "Add Feedback" : "Update Feedback"}
                 </button>
               </div>
             </div>
@@ -1504,6 +1514,8 @@ const FbProfile = () => {
                                   }}
                                 >
                                   <option value="">Select</option>
+                                  <option>-1</option>
+                                  <option>0</option>
                                   <option>1</option>
                                   <option>2</option>
                                   <option>3</option>
@@ -1536,6 +1548,8 @@ const FbProfile = () => {
                                   }}
                                 >
                                   <option value="">Select</option>
+                                  <option>-1</option>
+                                  <option>0</option>
                                   <option>1</option>
                                   <option>2</option>
                                   <option>3</option>
@@ -1565,6 +1579,8 @@ const FbProfile = () => {
                                   }}
                                 >
                                   <option value="">Select</option>
+                                  <option>-1</option>
+                                  <option>0</option>
                                   <option>1</option>
                                   <option>2</option>
                                   <option>3</option>
@@ -1600,6 +1616,8 @@ const FbProfile = () => {
                                   }}
                                 >
                                   <option value="">Select</option>
+                                  <option>-1</option>
+                                  <option>0</option>
                                   <option>1</option>
                                   <option>2</option>
                                   <option>3</option>
@@ -1629,6 +1647,8 @@ const FbProfile = () => {
                                   }}
                                 >
                                   <option value="">Select</option>
+                                  <option>-1</option>
+                                  <option>0</option>
                                   <option>1</option>
                                   <option>2</option>
                                   <option>3</option>
@@ -1661,6 +1681,8 @@ const FbProfile = () => {
                                   }}
                                 >
                                   <option value="">Select</option>
+                                  <option>-1</option>
+                                  <option>0</option>
                                   <option>1</option>
                                   <option>2</option>
                                   <option>3</option>
