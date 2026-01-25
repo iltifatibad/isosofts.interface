@@ -175,11 +175,11 @@ const DocProfile = () => {
     { id: "kpi", name: "Key Performance Indicators" },
     { id: "bg-reg", name: "Business Risks" },
     { id: "hs-reg", name: "Health & Safety Risks" },
-    { id: "leg-reg", name: "Legislation" },
-    { id: "env-reg", name: "Environmental Aspects & Impact" },
-    { id: "eq-reg", name: "Equipment & Inventory" },
-    { id: "tr-reg", name: "Training" },
-    { id: "doc-reg", name: "Document" },
+    { id: "leg-reg", name: "Legislations" },
+    { id: "env-reg", name: "Environmental Aspects & Impacts" },
+    { id: "eq-reg", name: "Equipment & Inventorys" },
+    { id: "tr-reg", name: "Trainings" },
+    { id: "doc-reg", name: "Documents" },
     { id: "ven-reg", name: "Vendors" },
     { id: "cus-reg", name: "Customers" },
     { id: "fb-reg", name: "Feedbacks" },
@@ -1049,7 +1049,7 @@ const DocProfile = () => {
                     className="!rounded-button whitespace-nowrap cursor-pointer bg-white text-blue-600 px-4 py-2 hover:bg-gray-50 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm"
                   >
                     <i className="fas fa-plus mr-2 text-blue-600 hover:text-blue-700"></i>
-                    {!showAction ? "Add Risk" : "Add Action"}
+                    {!showAction ? "Add Document" : "Add Action"}
                   </button>
                   <button
                     onClick={toggleArchiveView}
@@ -1208,7 +1208,7 @@ const DocProfile = () => {
             <div className="bg-white !rounded-button shadow-xl max-w-4xl w-full mx-4 max-h-screen overflow-y-auto">
               <div className="p-6 border-b border-blue-100">
                 <h3 className="text-xl font-semibold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
-                  {modalMode === "add" ? "Add New Risk" : "Edit Risk"}
+                  {modalMode === "add" ? "Add New Document" : "Edit Risk"}
                 </h3>
               </div>
               <div className="p-6">
@@ -1426,7 +1426,7 @@ const DocProfile = () => {
                   onClick={saveRisk}
                   className="!rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-2 hover:from-blue-600 hover:to-blue-800 transition-all duration-300"
                 >
-                  {modalMode === "add" ? "Add Risk" : "Update Risk"}
+                  {modalMode === "add" ? "Add Document" : "Update Document"}
                 </button>
               </div>
             </div>
