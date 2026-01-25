@@ -181,7 +181,7 @@ const CusProfile = () => {
     { id: "tr-reg", name: "Training" },
     { id: "doc-reg", name: "Document" },
     { id: "ven-reg", name: "Vendor" },
-    { id: "cus-reg", name: "Customer" },
+    { id: "cus-reg", name: "Customers" },
     { id: "fb-reg", name: "Feedbacks" },
     { id: "ear-reg", name: "Employee Appraisals" },
     { id: "moc-reg", name: "Management Of Changes" },
@@ -1012,7 +1012,7 @@ const CusProfile = () => {
                     className="!rounded-button whitespace-nowrap cursor-pointer bg-white text-blue-600 px-4 py-2 hover:bg-gray-50 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm"
                   >
                     <i className="fas fa-plus mr-2 text-blue-600 hover:text-blue-700"></i>
-                    {!showAction ? "Add Risk" : "Add Action"}
+                    {!showAction ? "Add Customer" : "Add Action"}
                   </button>
                   <button
                     onClick={toggleArchiveView}
@@ -1171,7 +1171,7 @@ const CusProfile = () => {
             <div className="bg-white !rounded-button shadow-xl max-w-4xl w-full mx-4 max-h-screen overflow-y-auto">
               <div className="p-6 border-b border-blue-100">
                 <h3 className="text-xl font-semibold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
-                  {modalMode === "add" ? "Add New Risk" : "Edit Risk"}
+                  {modalMode === "add" ? "Add New Customers" : "Edit Customers"}
                 </h3>
               </div>
               <div className="p-6">
@@ -1325,7 +1325,7 @@ const CusProfile = () => {
                   onClick={saveRisk}
                   className="!rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-2 hover:from-blue-600 hover:to-blue-800 transition-all duration-300"
                 >
-                  {modalMode === "add" ? "Add Risk" : "Update Risk"}
+                  {modalMode === "add" ? "Add Customers" : "Update Customers"}
                 </button>
               </div>
             </div>

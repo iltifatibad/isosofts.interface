@@ -181,7 +181,7 @@ const TrProfile = () => {
     { id: "tr-reg", name: "Training" },
     { id: "doc-reg", name: "Document" },
     { id: "ven-reg", name: "Vendor" },
-    { id: "cus-reg", name: "Customer" },
+    { id: "cus-reg", name: "Customers" },
     { id: "fb-reg", name: "Feedbacks" },
     { id: "ear-reg", name: "Employee Appraisals" },
     { id: "moc-reg", name: "Management Of Changes" },

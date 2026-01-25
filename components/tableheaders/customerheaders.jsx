@@ -94,16 +94,16 @@ const CusHeaders = ({ activeHeader }) => {
 
         <tr className="h-[48px]">
           <th className="min-w-[120px] border-r border-blue-500 sticky top-[52px] z-20 bg-blue-200">
-            Probability
+            Quality of Goods/Service
           </th>
           <th className="min-w-[120px] border-r border-blue-500 sticky top-[52px] z-20 bg-blue-200">
-            Severity
+            Communication
           </th>
           <th className="min-w-[120px] border-r border-blue-500 sticky top-[52px] z-20 bg-blue-200">
-            Duration
+            On -time delivery
           </th>
           <th className="min-w-[120px] border-r border-blue-500 sticky top-[52px] z-20 bg-blue-200">
-            Scale
+            Documentation
           </th>
         </tr>
 
@@ -119,7 +119,7 @@ const CusHeaders = ({ activeHeader }) => {
             className="min-w-35 border-r border-blue-500 sticky left-[-1px] top-0 z-21 bg-white -ml-px"
             rowSpan={2}
           >
-            #
+            VOEN / Reg Number
           </th>
 
           <th
