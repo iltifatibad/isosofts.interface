@@ -10,7 +10,7 @@ const VenHeaders = ({ activeHeader }) => {
             className="min-w-15 border-r border-blue-500 sticky left-[-1px] top-0 z-21 bg-white -ml-px"
             rowSpan={2}
           >
-            #
+            VOEN / Reg Number
           </th>
           <th
             className="min-w-15 border-r border-blue-500 sticky top-0 z-20 bg-blue-100"
@@ -119,7 +119,7 @@ const VenHeaders = ({ activeHeader }) => {
             className="min-w-35 border-r border-blue-500 sticky left-[-1px] top-0 z-21 bg-white -ml-px"
             rowSpan={2}
           >
-            #
+            Vendors
           </th>
 
           <th

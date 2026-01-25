@@ -180,7 +180,7 @@ const EarProfile = () => {
     { id: "eq-reg", name: "Equipment & Inventory" },
     { id: "tr-reg", name: "Training" },
     { id: "doc-reg", name: "Document" },
-    { id: "ven-reg", name: "Vendor" },
+    { id: "ven-reg", name: "Vendors" },
     { id: "cus-reg", name: "Customers" },
     { id: "fb-reg", name: "Feedbacks" },
     { id: "ear-reg", name: "Employee Appraisals" },
