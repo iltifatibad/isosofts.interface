@@ -15,7 +15,7 @@ const NavigationBar = ({ showProfile, setShowProfile }) => {
             </div>
             <div className="hidden md:flex space-x-6">
               <a
-                href="#"
+                href="/"
                 className="nav-link text-gray-700 hover:text-blue-600 transition-all duration-300 transform hover:scale-105 cursor-pointer"
               >
                 Home

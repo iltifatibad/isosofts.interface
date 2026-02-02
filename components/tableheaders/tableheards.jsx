@@ -64,14 +64,14 @@ const BgHeaders = ({ activeHeader }) => {
             className="min-w-[210px] border-r border-blue-500 sticky top-0 z-20 bg-blue-100"
             colSpan={3}
           >
-            Initial Risk
+            Initial Risk / Initial Opportunity Assesment
           </th>
 
           <th
             className="min-w-[210px] border-r border-blue-500 sticky top-0 z-20 bg-blue-100"
             colSpan={3}
           >
-            /Opportunity Level
+            Residual Risk / Residual Opportunity Assesment
           </th>
         </tr>
         <tr className="h-[48px]">
@@ -82,7 +82,7 @@ const BgHeaders = ({ activeHeader }) => {
             Severity
           </th>
           <th className="min-w-[70px] border-r border-blue-500 sticky top-13 z-20 bg-blue-200">
-            Likelihood
+            Likelyhood
           </th>
           <th className="min-w-[70px] border-r border-blue-500 sticky top-13 z-20 bg-blue-200">
             Level
@@ -92,7 +92,7 @@ const BgHeaders = ({ activeHeader }) => {
             Severity
           </th>
           <th className="min-w-[70px] border-r border-blue-500 sticky top-13 z-20 bg-blue-200">
-            Likelihood
+            Likeyhood
           </th>
           <th className="min-w-[70px] border-r border-blue-500 sticky top-13 z-20 bg-blue-200">
             Level
@@ -157,7 +157,7 @@ const BgHeaders = ({ activeHeader }) => {
             Action Status
           </th>
           <th className="min-w-30 border-r border-blue-500 sticky top-12 z-20 bg-blue-200">
-            Compilation Date
+            Completion Date
           </th>
           <th className="min-w-30 border-r border-blue-500 sticky top-12 z-20 bg-blue-200">
             Status Of Verification

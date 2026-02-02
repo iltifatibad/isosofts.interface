@@ -164,7 +164,7 @@ const CusHeaders = ({ activeHeader }) => {
             Action Status
           </th>
           <th className="min-w-30 border-r border-blue-500 sticky top-12 z-20 bg-blue-200">
-            Compilation Date
+            Completion Date
           </th>
           <th className="min-w-30 border-r border-blue-500 sticky top-12 z-20 bg-blue-200">
             Status Of Verification

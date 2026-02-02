@@ -46,17 +46,40 @@ const HsHeaders = ({ activeHeader }) => {
             className="min-w-15 border-r border-blue-500 sticky top-0 z-20 bg-blue-100"
             colSpan={3}
           >
-            Initial Risk
+            Initial Risk Assesment
           </th>
 
           <th
             className="min-w-15 border-r border-blue-500 sticky top-0 z-20 bg-blue-100"
             colSpan={3}
           >
-            Residual Risk/Opportunity Level
+            Residual Risk Assesment
           </th>
         </tr>
+                <tr className="h-[48px]">
 
+
+
+          <th className="min-w-[70px] border-r border-blue-500 sticky top-13 z-20 bg-blue-200">
+            Severity
+          </th>
+          <th className="min-w-[70px] border-r border-blue-500 sticky top-13 z-20 bg-blue-200">
+            Likelyhood
+          </th>
+          <th className="min-w-[70px] border-r border-blue-500 sticky top-13 z-20 bg-blue-200">
+            Level
+          </th>
+
+          <th className="min-w-[70px] border-r border-blue-500 sticky top-13 z-20 bg-blue-200">
+            Severity
+          </th>
+          <th className="min-w-[70px] border-r border-blue-500 sticky top-13 z-20 bg-blue-200">
+            Likeyhood
+          </th>
+          <th className="min-w-[70px] border-r border-blue-500 sticky top-13 z-20 bg-blue-200">
+            Level
+          </th>
+        </tr>
         {/* Second header row - fixed height, sticky at top-12 (48px) */}
       </thead>
     );
@@ -114,7 +137,7 @@ const HsHeaders = ({ activeHeader }) => {
             Action Status
           </th>
           <th className="min-w-30 border-r border-blue-500 sticky top-12 z-20 bg-blue-200">
-            Compilation Date
+            Completion Date
           </th>
           <th className="min-w-30 border-r border-blue-500 sticky top-12 z-20 bg-blue-200">
             Status Of Verification
