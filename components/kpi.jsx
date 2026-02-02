@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell } from 'recharts';
 
 const API_BASE_URL = 'http://localhost:8000';
 
@@ -28,126 +28,262 @@ const KPIDashboard = () => {
     fetchKpiData();
   }, []);
 
-  if (loading) return <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', height: '100vh', width: '100vw' }}><div style={{ textAlign: 'right' }}>Loading...</div></div>;
-  if (error) return <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', height: '100vh', width: '100vw' }}><div style={{ textAlign: 'right' }}>Error: {error}</div></div>;
+  if (loading) return (
+    <div style={{ 
+      display: 'flex', 
+      justifyContent: 'center', 
+      alignItems: 'center', 
+      height: '100vh', 
+      marginLeft: '250px',
+      fontSize: '1.5rem',
+      color: '#666'
+    }}>
+      Loading...
+    </div>
+  );
+  
+  if (error) return (
+    <div style={{ 
+      display: 'flex', 
+      justifyContent: 'center', 
+      alignItems: 'center', 
+      height: '100vh',
+      marginLeft: '250px',
+      fontSize: '1.5rem',
+      color: '#e74c3c'
+    }}>
+      Error: {error}
+    </div>
+  );
 
-  // Sample data for the new chart - replace with your actual data
-  const chartData = [
-    {
-      name: 'BR',
-      totalActions: 45,
-      closedActions: 30,
-      closureRate: 66.7
-    },
-    {
-      name: 'OR',
-      totalActions: 38,
-      closedActions: 25,
-      closureRate: 65.8
-    },
-    {
-      name: 'CR',
-      totalActions: 52,
-      closedActions: 40,
-      closureRate: 76.9
-    },
-    // Add 12 more items to reach 15 total
+  // Your actual data structure
+  const categories = [
+    { id: "bg-reg", name: "Business Risks", shortName: "BR" },
+    { id: "hs-reg", name: "Health & Safety Risks", shortName: "HSR" },
+    { id: "leg-reg", name: "Legislations", shortName: "LEG" },
+    { id: "env-reg", name: "Environmental Aspects & Impacts", shortName: "ENV" },
+    { id: "eq-reg", name: "Equipment & Inventory", shortName: "EQ" },
+    { id: "tr-reg", name: "Trainings", shortName: "TR" },
+    { id: "doc-reg", name: "Documents", shortName: "DOC" },
+    { id: "ven-reg", name: "Vendors", shortName: "VEN" },
+    { id: "cus-reg", name: "Customers", shortName: "CUS" },
+    { id: "fb-reg", name: "Feedbacks", shortName: "FB" },
+    { id: "ear-reg", name: "Employee Appraisals", shortName: "EAR" },
+    { id: "moc-reg", name: "Management Of Changes", shortName: "MOC" },
+    { id: "fl-reg", name: "Findings", shortName: "FL" },
+    { id: "ao-reg", name: "Assurances & Oversights", shortName: "AO" },
+    { id: "mr-reg", name: "Management Review", shortName: "MR" }
   ];
+
+  // Map your API data here - replace with actual API response mapping
+  const chartData = categories.map(cat => ({
+    name: cat.shortName,
+    fullName: cat.name,
+    totalActions: Math.floor(Math.random() * 60) + 20, // Replace with actual API data
+    closedActions: Math.floor(Math.random() * 40) + 10, // Replace with actual API data
+    closureRate: Math.floor(Math.random() * 40) + 60 // Replace with actual API data
+  }));
+
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      const data = chartData.find(item => item.name === label);
+      return (
+        <div style={{
+          backgroundColor: 'rgba(255, 255, 255, 0.98)',
+          padding: '15px 20px',
+          border: '2px solid #ddd',
+          borderRadius: '12px',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+          minWidth: '250px'
+        }}>
+          <p style={{ 
+            fontWeight: 'bold', 
+            marginBottom: '12px',
+            fontSize: '1.1rem',
+            color: '#333',
+            borderBottom: '2px solid #f0f0f0',
+            paddingBottom: '8px'
+          }}>{data?.fullName || label}</p>
+          {payload.map((entry, index) => (
+            <p key={index} style={{ 
+              margin: '6px 0',
+              color: entry.color,
+              fontWeight: '600',
+              fontSize: '0.95rem',
+              display: 'flex',
+              justifyContent: 'space-between',
+              gap: '15px'
+            }}>
+              <span>{entry.name}:</span>
+              <span>{entry.name.includes('%') ? `${entry.value}%` : entry.value}</span>
+            </p>
+          ))}
+        </div>
+      );
+    }
+    return null;
+  };
 
   return (
     <div style={{ 
-      padding: '20px', 
-      backgroundColor: '#f0f2f5', 
+      padding: '30px 40px',
+      backgroundColor: '#f5f7fa',
       minHeight: '100vh',
-      width: '100vw',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'flex-end'
+      marginLeft: '250px',
+      width: 'calc(100vw - 250px)'
     }}>
-      <h1 style={{ 
-        textAlign: 'right',
-        color: '#333', 
-        marginBottom: '30px', 
-        fontSize: '2.5rem', 
-        textShadow: '2px 2px 4px rgba(0,0,0,0.1)',
-        width: '100%',
-        paddingRight: '20px'
-      }}>KPI Dashboard</h1>
+      <div style={{
+        marginBottom: '30px',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        padding: '25px 30px',
+        borderRadius: '16px',
+        boxShadow: '0 8px 32px rgba(102, 126, 234, 0.25)'
+      }}>
+        <h1 style={{ 
+          color: 'white',
+          margin: 0,
+          fontSize: '2.2rem',
+          fontWeight: '700',
+          letterSpacing: '0.5px',
+          textShadow: '2px 2px 4px rgba(0,0,0,0.2)'
+        }}>KPI Dashboard</h1>
+        <p style={{
+          color: 'rgba(255,255,255,0.9)',
+          margin: '8px 0 0 0',
+          fontSize: '1rem'
+        }}>Comprehensive Analytics Overview</p>
+      </div>
       
       <div style={{ 
-        width: '95%',
-        height: '600px',
         backgroundColor: 'white',
-        borderRadius: '12px',
-        boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-        padding: '20px'
+        borderRadius: '16px',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.08)',
+        padding: '30px',
+        border: '1px solid #e8e8e8'
       }}>
-        <ResponsiveContainer width="100%" height="100%">
+        <div style={{
+          marginBottom: '20px',
+          paddingBottom: '15px',
+          borderBottom: '2px solid #f0f0f0'
+        }}>
+          <h2 style={{
+            margin: 0,
+            color: '#2c3e50',
+            fontSize: '1.5rem',
+            fontWeight: '600'
+          }}>Action Metrics Breakdown</h2>
+        </div>
+        
+        <ResponsiveContainer width="100%" height={550}>
           <BarChart
             data={chartData}
-            margin={{ top: 20, right: 80, left: 20, bottom: 20 }}
+            margin={{ top: 20, right: 100, left: 60, bottom: 60 }}
+            barGap={2}
           >
-            <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
+            <defs>
+              <linearGradient id="blueGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#2196F3" stopOpacity={0.9}/>
+                <stop offset="100%" stopColor="#1976D2" stopOpacity={1}/>
+              </linearGradient>
+              <linearGradient id="orangeGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#FF9800" stopOpacity={0.9}/>
+                <stop offset="100%" stopColor="#F57C00" stopOpacity={1}/>
+              </linearGradient>
+              <linearGradient id="greyGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#9E9E9E" stopOpacity={0.9}/>
+                <stop offset="100%" stopColor="#757575" stopOpacity={1}/>
+              </linearGradient>
+            </defs>
             
-            {/* Sol Y ekseni - Sayılar (0, 20, 40...) */}
+            <CartesianGrid 
+              strokeDasharray="3 3" 
+              stroke="#e0e0e0" 
+              vertical={false}
+            />
+            
+            <XAxis 
+              dataKey="name" 
+              stroke="#666"
+              style={{ fontSize: '0.85rem', fontWeight: '600' }}
+              tick={{ fill: '#555' }}
+              axisLine={{ stroke: '#ccc', strokeWidth: 2 }}
+              angle={-45}
+              textAnchor="end"
+              height={80}
+            />
+            
             <YAxis 
               yAxisId="left"
               orientation="left"
               domain={[0, 100]}
               ticks={[0, 20, 40, 60, 80, 100]}
-              stroke="#333"
+              stroke="#666"
+              style={{ fontSize: '0.9rem', fontWeight: '600' }}
+              tick={{ fill: '#555' }}
+              axisLine={{ stroke: '#ccc', strokeWidth: 2 }}
+              label={{ 
+                value: 'Number of Actions', 
+                angle: -90, 
+                position: 'insideLeft',
+                style: { fontSize: '0.95rem', fontWeight: '600', fill: '#555' }
+              }}
             />
             
-            {/* Sağ Y ekseni - Yüzdeler (0%, 20%, 40%...) */}
             <YAxis 
               yAxisId="right"
               orientation="right"
               domain={[0, 100]}
               ticks={[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]}
               tickFormatter={(value) => `${value}%`}
-              stroke="#333"
-            />
-            
-            <XAxis dataKey="name" stroke="#333" />
-            
-            <Tooltip 
-              contentStyle={{ 
-                backgroundColor: 'rgba(255, 255, 255, 0.95)', 
-                border: '1px solid #ddd',
-                borderRadius: '8px'
+              stroke="#666"
+              style={{ fontSize: '0.9rem', fontWeight: '600' }}
+              tick={{ fill: '#555' }}
+              axisLine={{ stroke: '#ccc', strokeWidth: 2 }}
+              label={{ 
+                value: 'Closure Rate (%)', 
+                angle: 90, 
+                position: 'insideRight',
+                style: { fontSize: '0.95rem', fontWeight: '600', fill: '#555' }
               }}
             />
             
+            <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(200, 200, 200, 0.1)' }} />
+            
             <Legend 
-              wrapperStyle={{ paddingTop: '20px' }}
+              wrapperStyle={{ 
+                paddingTop: '25px',
+                fontSize: '0.95rem',
+                fontWeight: '600'
+              }}
               iconType="rect"
+              iconSize={14}
             />
             
-            {/* Total # of Actions - Mavi */}
             <Bar 
               yAxisId="left"
               dataKey="totalActions" 
-              fill="#2196F3" 
+              fill="url(#blueGradient)"
               name="Total # of Actions"
-              radius={[8, 8, 0, 0]}
+              radius={[6, 6, 0, 0]}
+              maxBarSize={35}
             />
             
-            {/* Number of Closed Actions - Orange */}
             <Bar 
               yAxisId="left"
               dataKey="closedActions" 
-              fill="#FF9800" 
+              fill="url(#orangeGradient)"
               name="Number of Closed Actions"
-              radius={[8, 8, 0, 0]}
+              radius={[6, 6, 0, 0]}
+              maxBarSize={35}
             />
             
-            {/* Closure Rate - Gri */}
             <Bar 
               yAxisId="right"
               dataKey="closureRate" 
-              fill="#9E9E9E" 
+              fill="url(#greyGradient)"
               name="Closure Rate (%)"
-              radius={[8, 8, 0, 0]}
+              radius={[6, 6, 0, 0]}
+              maxBarSize={35}
             />
           </BarChart>
         </ResponsiveContainer>
