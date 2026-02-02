@@ -63,6 +63,31 @@ const LegHeaders = ({ activeHeader }) => {
           </th>
         </tr>
 
+                <tr className="h-[48px]">
+
+
+
+          <th className="min-w-[70px] border-r border-blue-500 sticky top-13 z-20 bg-blue-200">
+            Severity
+          </th>
+          <th className="min-w-[70px] border-r border-blue-500 sticky top-13 z-20 bg-blue-200">
+            Likelyhood
+          </th>
+          <th className="min-w-[70px] border-r border-blue-500 sticky top-13 z-20 bg-blue-200">
+            Level
+          </th>
+
+          <th className="min-w-[70px] border-r border-blue-500 sticky top-13 z-20 bg-blue-200">
+            Severity
+          </th>
+          <th className="min-w-[70px] border-r border-blue-500 sticky top-13 z-20 bg-blue-200">
+            Likeyhood
+          </th>
+          <th className="min-w-[70px] border-r border-blue-500 sticky top-13 z-20 bg-blue-200">
+            Level
+          </th>
+        </tr>
+
         {/* Second header row - fixed height, sticky at top-12 (48px) */}
       </thead>
     );
