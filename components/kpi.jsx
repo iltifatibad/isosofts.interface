@@ -180,10 +180,14 @@ const KPIDashboard = () => {
   return (
     <div style={{ 
       padding: '30px 40px',
+      paddingBottom: '60px', // Alt kısım için ekstra boşluk
       backgroundColor: '#f5f7fa',
       minHeight: '100vh',
+      height: 'auto', // Auto height
       marginLeft: '250px',
-      width: 'calc(100vw - 250px)'
+      width: 'calc(100vw - 250px)',
+      overflowY: 'auto', // Scroll aktif
+      overflowX: 'hidden' // Yatay scroll kapalı
     }}>
       <div style={{
         marginBottom: '30px',
