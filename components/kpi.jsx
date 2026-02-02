@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell } from 'recharts';
+import { BarChart, Bar, LineChart, Line, ComposedChart, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell } from 'recharts';
 
 const API_BASE_URL = 'http://localhost:8000';
 
@@ -100,6 +100,22 @@ const KPIDashboard = () => {
     { month: 'December', overdue: Math.floor(Math.random() * 15) + 5 }
   ];
 
+  // Incident Rate Data - replace with actual API data
+  const incidentData = [
+    { month: 'January', jobs: Math.floor(Math.random() * 40) + 20, incidents: Math.floor(Math.random() * 10) + 2, rate: (Math.random() * 5 + 1).toFixed(2) },
+    { month: 'February', jobs: Math.floor(Math.random() * 40) + 20, incidents: Math.floor(Math.random() * 10) + 2, rate: (Math.random() * 5 + 1).toFixed(2) },
+    { month: 'March', jobs: Math.floor(Math.random() * 40) + 20, incidents: Math.floor(Math.random() * 10) + 2, rate: (Math.random() * 5 + 1).toFixed(2) },
+    { month: 'April', jobs: Math.floor(Math.random() * 40) + 20, incidents: Math.floor(Math.random() * 10) + 2, rate: (Math.random() * 5 + 1).toFixed(2) },
+    { month: 'May', jobs: Math.floor(Math.random() * 40) + 20, incidents: Math.floor(Math.random() * 10) + 2, rate: (Math.random() * 5 + 1).toFixed(2) },
+    { month: 'June', jobs: Math.floor(Math.random() * 40) + 20, incidents: Math.floor(Math.random() * 10) + 2, rate: (Math.random() * 5 + 1).toFixed(2) },
+    { month: 'July', jobs: Math.floor(Math.random() * 40) + 20, incidents: Math.floor(Math.random() * 10) + 2, rate: (Math.random() * 5 + 1).toFixed(2) },
+    { month: 'August', jobs: Math.floor(Math.random() * 40) + 20, incidents: Math.floor(Math.random() * 10) + 2, rate: (Math.random() * 5 + 1).toFixed(2) },
+    { month: 'September', jobs: Math.floor(Math.random() * 40) + 20, incidents: Math.floor(Math.random() * 10) + 2, rate: (Math.random() * 5 + 1).toFixed(2) },
+    { month: 'October', jobs: Math.floor(Math.random() * 40) + 20, incidents: Math.floor(Math.random() * 10) + 2, rate: (Math.random() * 5 + 1).toFixed(2) },
+    { month: 'November', jobs: Math.floor(Math.random() * 40) + 20, incidents: Math.floor(Math.random() * 10) + 2, rate: (Math.random() * 5 + 1).toFixed(2) },
+    { month: 'December', jobs: Math.floor(Math.random() * 40) + 20, incidents: Math.floor(Math.random() * 10) + 2, rate: (Math.random() * 5 + 1).toFixed(2) }
+  ];
+
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       const data = chartData.find(item => item.name === label);
@@ -177,17 +193,56 @@ const KPIDashboard = () => {
     return null;
   };
 
+  const IncidentTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div style={{
+          backgroundColor: 'rgba(255, 255, 255, 0.98)',
+          padding: '15px 20px',
+          border: '2px solid #2196F3',
+          borderRadius: '12px',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+          minWidth: '220px'
+        }}>
+          <p style={{ 
+            fontWeight: 'bold', 
+            marginBottom: '12px',
+            fontSize: '1.1rem',
+            color: '#333',
+            borderBottom: '2px solid #f0f0f0',
+            paddingBottom: '8px'
+          }}>{label}</p>
+          {payload.map((entry, index) => (
+            <p key={index} style={{ 
+              margin: '6px 0',
+              color: entry.color,
+              fontWeight: '600',
+              fontSize: '0.95rem',
+              display: 'flex',
+              justifyContent: 'space-between',
+              gap: '15px'
+            }}>
+              <span>{entry.name}:</span>
+              <span>{entry.name.includes('Rate') ? `${entry.value}%` : entry.value}</span>
+            </p>
+          ))}
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
     <div style={{ 
       padding: '30px 40px',
-      paddingBottom: '60px', // Alt kısım için ekstra boşluk
+      paddingBottom: '60px',
       backgroundColor: '#f5f7fa',
       minHeight: '100vh',
-      height: 'auto', // Auto height
+      height: 'auto',
       marginLeft: '250px',
       width: 'calc(100vw - 250px)',
-      overflowY: 'auto', // Scroll aktif
-      overflowX: 'hidden' // Yatay scroll kapalı
+      overflowY: 'auto',
+      overflowX: 'hidden'
     }}>
       <div style={{
         marginBottom: '30px',
@@ -354,7 +409,8 @@ const KPIDashboard = () => {
         borderRadius: '16px',
         boxShadow: '0 8px 32px rgba(0,0,0,0.08)',
         padding: '30px',
-        border: '1px solid #e8e8e8'
+        border: '1px solid #e8e8e8',
+        marginBottom: '30px'
       }}>
         <div style={{
           marginBottom: '20px',
@@ -445,6 +501,148 @@ const KPIDashboard = () => {
               fill="url(#areaGradient)"
             />
           </LineChart>
+        </ResponsiveContainer>
+      </div>
+
+      {/* Third Chart - Incident Rate Chart */}
+      <div style={{ 
+        backgroundColor: 'white',
+        borderRadius: '16px',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.08)',
+        padding: '30px',
+        border: '1px solid #e8e8e8'
+      }}>
+        <div style={{
+          marginBottom: '20px',
+          paddingBottom: '15px',
+          borderBottom: '2px solid #f0f0f0'
+        }}>
+          <h2 style={{
+            margin: 0,
+            color: '#2c3e50',
+            fontSize: '1.5rem',
+            fontWeight: '600'
+          }}>Incident Rate Chart</h2>
+        </div>
+        
+        <ResponsiveContainer width="100%" height={500}>
+          <ComposedChart
+            data={incidentData}
+            margin={{ top: 20, right: 100, left: 60, bottom: 20 }}
+          >
+            <defs>
+              <linearGradient id="blueBarGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#2196F3" stopOpacity={0.9}/>
+                <stop offset="100%" stopColor="#1976D2" stopOpacity={1}/>
+              </linearGradient>
+              <linearGradient id="orangeBarGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#FF9800" stopOpacity={0.9}/>
+                <stop offset="100%" stopColor="#F57C00" stopOpacity={1}/>
+              </linearGradient>
+              <linearGradient id="greenLineGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#4CAF50" stopOpacity={0.9}/>
+                <stop offset="100%" stopColor="#388E3C" stopOpacity={1}/>
+              </linearGradient>
+            </defs>
+            
+            <CartesianGrid 
+              strokeDasharray="3 3" 
+              stroke="#e0e0e0" 
+              vertical={false}
+            />
+            
+            <XAxis 
+              dataKey="month" 
+              stroke="#666"
+              style={{ fontSize: '0.9rem', fontWeight: '600' }}
+              tick={{ fill: '#555' }}
+              axisLine={{ stroke: '#ccc', strokeWidth: 2 }}
+            />
+            
+            <YAxis 
+              yAxisId="left"
+              orientation="left"
+              domain={[0, 'auto']}
+              stroke="#666"
+              style={{ fontSize: '0.9rem', fontWeight: '600' }}
+              tick={{ fill: '#555' }}
+              axisLine={{ stroke: '#ccc', strokeWidth: 2 }}
+              label={{ 
+                value: 'Number of Jobs/Incidents', 
+                angle: -90, 
+                position: 'insideLeft',
+                style: { fontSize: '0.95rem', fontWeight: '600', fill: '#555' }
+              }}
+            />
+            
+            <YAxis 
+              yAxisId="right"
+              orientation="right"
+              domain={[0, 10]}
+              ticks={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
+              tickFormatter={(value) => `${value}%`}
+              stroke="#666"
+              style={{ fontSize: '0.9rem', fontWeight: '600' }}
+              tick={{ fill: '#555' }}
+              axisLine={{ stroke: '#ccc', strokeWidth: 2 }}
+              label={{ 
+                value: 'Rate of Incident (%)', 
+                angle: 90, 
+                position: 'insideRight',
+                style: { fontSize: '0.95rem', fontWeight: '600', fill: '#555' }
+              }}
+            />
+            
+            <Tooltip content={<IncidentTooltip />} cursor={{ fill: 'rgba(200, 200, 200, 0.1)' }} />
+            
+            <Legend 
+              wrapperStyle={{ 
+                paddingTop: '20px',
+                fontSize: '0.95rem',
+                fontWeight: '600'
+              }}
+              iconSize={14}
+            />
+            
+            <Bar 
+              yAxisId="left"
+              dataKey="jobs" 
+              fill="url(#blueBarGradient)"
+              name="Number of Jobs"
+              radius={[6, 6, 0, 0]}
+              maxBarSize={40}
+            />
+            
+            <Bar 
+              yAxisId="left"
+              dataKey="incidents" 
+              fill="url(#orangeBarGradient)"
+              name="Number of Incidents"
+              radius={[6, 6, 0, 0]}
+              maxBarSize={40}
+            />
+            
+            <Line 
+              yAxisId="right"
+              type="monotone"
+              dataKey="rate" 
+              stroke="url(#greenLineGradient)"
+              strokeWidth={3}
+              dot={{ 
+                fill: '#4CAF50', 
+                stroke: '#fff', 
+                strokeWidth: 2, 
+                r: 6 
+              }}
+              activeDot={{ 
+                r: 9, 
+                stroke: '#fff', 
+                strokeWidth: 2,
+                fill: '#4CAF50'
+              }}
+              name="Rate of Incident (%)"
+            />
+          </ComposedChart>
         </ResponsiveContainer>
       </div>
     </div>
