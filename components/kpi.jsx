@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell } from 'recharts';
+import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell } from 'recharts';
 
 const API_BASE_URL = 'http://localhost:8000';
 
@@ -79,10 +79,26 @@ const KPIDashboard = () => {
   const chartData = categories.map(cat => ({
     name: cat.shortName,
     fullName: cat.name,
-    totalActions: Math.floor(Math.random() * 60) + 20, // Replace with actual API data
-    closedActions: Math.floor(Math.random() * 40) + 10, // Replace with actual API data
-    closureRate: Math.floor(Math.random() * 40) + 60 // Replace with actual API data
+    totalActions: Math.floor(Math.random() * 60) + 20,
+    closedActions: Math.floor(Math.random() * 40) + 10,
+    closureRate: Math.floor(Math.random() * 40) + 60
   }));
+
+  // Overdue Actions Trend Data - replace with actual API data
+  const overdueData = [
+    { month: 'January', overdue: Math.floor(Math.random() * 15) + 5 },
+    { month: 'February', overdue: Math.floor(Math.random() * 15) + 5 },
+    { month: 'March', overdue: Math.floor(Math.random() * 15) + 5 },
+    { month: 'April', overdue: Math.floor(Math.random() * 15) + 5 },
+    { month: 'May', overdue: Math.floor(Math.random() * 15) + 5 },
+    { month: 'June', overdue: Math.floor(Math.random() * 15) + 5 },
+    { month: 'July', overdue: Math.floor(Math.random() * 15) + 5 },
+    { month: 'August', overdue: Math.floor(Math.random() * 15) + 5 },
+    { month: 'September', overdue: Math.floor(Math.random() * 15) + 5 },
+    { month: 'October', overdue: Math.floor(Math.random() * 15) + 5 },
+    { month: 'November', overdue: Math.floor(Math.random() * 15) + 5 },
+    { month: 'December', overdue: Math.floor(Math.random() * 15) + 5 }
+  ];
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
@@ -124,6 +140,43 @@ const KPIDashboard = () => {
     return null;
   };
 
+  const OverdueTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div style={{
+          backgroundColor: 'rgba(255, 255, 255, 0.98)',
+          padding: '15px 20px',
+          border: '2px solid #e74c3c',
+          borderRadius: '12px',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+          minWidth: '200px'
+        }}>
+          <p style={{ 
+            fontWeight: 'bold', 
+            marginBottom: '10px',
+            fontSize: '1.1rem',
+            color: '#333',
+            borderBottom: '2px solid #f0f0f0',
+            paddingBottom: '8px'
+          }}>{label}</p>
+          <p style={{ 
+            margin: '0',
+            color: '#e74c3c',
+            fontWeight: '600',
+            fontSize: '1.1rem',
+            display: 'flex',
+            justifyContent: 'space-between',
+            gap: '15px'
+          }}>
+            <span>Overdue Actions:</span>
+            <span>{payload[0].value}</span>
+          </p>
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
     <div style={{ 
       padding: '30px 40px',
@@ -154,12 +207,14 @@ const KPIDashboard = () => {
         }}>Comprehensive Analytics Overview</p>
       </div>
       
+      {/* First Chart - Action Metrics Breakdown */}
       <div style={{ 
         backgroundColor: 'white',
         borderRadius: '16px',
         boxShadow: '0 8px 32px rgba(0,0,0,0.08)',
         padding: '30px',
-        border: '1px solid #e8e8e8'
+        border: '1px solid #e8e8e8',
+        marginBottom: '30px'
       }}>
         <div style={{
           marginBottom: '20px',
@@ -286,6 +341,106 @@ const KPIDashboard = () => {
               maxBarSize={35}
             />
           </BarChart>
+        </ResponsiveContainer>
+      </div>
+
+      {/* Second Chart - Overdue Actions Trend Analysis */}
+      <div style={{ 
+        backgroundColor: 'white',
+        borderRadius: '16px',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.08)',
+        padding: '30px',
+        border: '1px solid #e8e8e8'
+      }}>
+        <div style={{
+          marginBottom: '20px',
+          paddingBottom: '15px',
+          borderBottom: '2px solid #f0f0f0'
+        }}>
+          <h2 style={{
+            margin: 0,
+            color: '#2c3e50',
+            fontSize: '1.5rem',
+            fontWeight: '600'
+          }}>Overdue Actions Trend Analysis</h2>
+        </div>
+        
+        <ResponsiveContainer width="100%" height={450}>
+          <LineChart
+            data={overdueData}
+            margin={{ top: 20, right: 60, left: 60, bottom: 20 }}
+          >
+            <defs>
+              <linearGradient id="redGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#e74c3c" stopOpacity={0.8}/>
+                <stop offset="100%" stopColor="#c0392b" stopOpacity={1}/>
+              </linearGradient>
+              <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#e74c3c" stopOpacity={0.3}/>
+                <stop offset="100%" stopColor="#e74c3c" stopOpacity={0.05}/>
+              </linearGradient>
+            </defs>
+            
+            <CartesianGrid 
+              strokeDasharray="3 3" 
+              stroke="#e0e0e0" 
+              vertical={false}
+            />
+            
+            <XAxis 
+              dataKey="month" 
+              stroke="#666"
+              style={{ fontSize: '0.9rem', fontWeight: '600' }}
+              tick={{ fill: '#555' }}
+              axisLine={{ stroke: '#ccc', strokeWidth: 2 }}
+            />
+            
+            <YAxis 
+              stroke="#666"
+              style={{ fontSize: '0.9rem', fontWeight: '600' }}
+              tick={{ fill: '#555' }}
+              axisLine={{ stroke: '#ccc', strokeWidth: 2 }}
+              domain={[0, 'auto']}
+              label={{ 
+                value: 'Number of Overdue Actions', 
+                angle: -90, 
+                position: 'insideLeft',
+                style: { fontSize: '0.95rem', fontWeight: '600', fill: '#555' }
+              }}
+            />
+            
+            <Tooltip content={<OverdueTooltip />} cursor={{ stroke: '#e74c3c', strokeWidth: 2, strokeDasharray: '5 5' }} />
+            
+            <Legend 
+              wrapperStyle={{ 
+                paddingTop: '20px',
+                fontSize: '0.95rem',
+                fontWeight: '600'
+              }}
+              iconType="line"
+            />
+            
+            <Line 
+              type="monotone"
+              dataKey="overdue" 
+              stroke="url(#redGradient)"
+              strokeWidth={3}
+              dot={{ 
+                fill: '#e74c3c', 
+                stroke: '#fff', 
+                strokeWidth: 2, 
+                r: 5 
+              }}
+              activeDot={{ 
+                r: 8, 
+                stroke: '#fff', 
+                strokeWidth: 2,
+                fill: '#e74c3c'
+              }}
+              name="Overdue Actions"
+              fill="url(#areaGradient)"
+            />
+          </LineChart>
         </ResponsiveContainer>
       </div>
     </div>
