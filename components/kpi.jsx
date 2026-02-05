@@ -7,7 +7,7 @@ const KPIDashboard = () => {
   const [kpiData, setKpiData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedOption, setSelectedOption] = useState("datas"); // "datas" veya "e-chart"
+  const [selectedOption, setSelectedOption] = useState("datas");
 
   useEffect(() => {
     const fetchKpiData = async () => {
@@ -36,6 +36,7 @@ const KPIDashboard = () => {
       alignItems: 'center', 
       height: '100vh', 
       marginLeft: '250px',
+      width: 'calc(100vw - 250px)',
       fontSize: '1.5rem',
       color: '#666'
     }}>
@@ -50,6 +51,7 @@ const KPIDashboard = () => {
       alignItems: 'center', 
       height: '100vh',
       marginLeft: '250px',
+      width: 'calc(100vw - 250px)',
       fontSize: '1.5rem',
       color: '#e74c3c'
     }}>
@@ -230,240 +232,397 @@ const KPIDashboard = () => {
   };
 
   return (
-    <div className="pt-20 h-screen overflow-hidden">
-      <div className="flex h-full">
-        {/* Main Content Area - SOL SIDEBAR HARİÇ EKRANIN TAMAMI */}
-        <div className="flex-1 ml-64 bg-gradient-to-br from-blue-50/50 to-white h-full overflow-hidden flex flex-col">
-          {selectedOption === "e-chart" ? (
-            // E-CHART VIEW
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col h-full m-8">
-              <div className="p-6 border-b border-blue-100 flex justify-between items-center flex-shrink-0">
-                <h3 className="text-2xl font-semibold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
-                  Analytics Dashboard
-                </h3>
-                <div className="flex space-x-3 items-center">
-                  <button
-                    onClick={() => setSelectedOption("datas")}
-                    className="rounded-lg whitespace-nowrap cursor-pointer bg-white text-blue-600 px-4 py-2 hover:bg-gray-50 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm"
+    <div style={{
+      position: 'fixed',
+      top: '80px', // pt-20 = 80px (navbar için)
+      left: '256px', // ml-64 = 256px (sidebar için)
+      right: 0,
+      bottom: 0,
+      overflow: 'hidden',
+      background: 'linear-gradient(to bottom right, rgba(239, 246, 255, 0.5), white)'
+    }}>
+      {selectedOption === "e-chart" ? (
+        // E-CHART VIEW
+        <div style={{
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          backgroundColor: 'white',
+          borderRadius: '12px',
+          boxShadow: '0 10px 40px rgba(0,0,0,0.1)',
+          margin: '20px',
+          overflow: 'hidden'
+        }}>
+          <div style={{
+            padding: '24px',
+            borderBottom: '1px solid #e3f2fd',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            flexShrink: 0
+          }}>
+            <h3 style={{
+              fontSize: '1.5rem',
+              fontWeight: '600',
+              background: 'linear-gradient(to right, #2196F3, #1565C0)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              margin: 0
+            }}>
+              Analytics Dashboard
+            </h3>
+            <button
+              onClick={() => setSelectedOption("datas")}
+              style={{
+                borderRadius: '8px',
+                cursor: 'pointer',
+                backgroundColor: 'white',
+                color: '#2196F3',
+                padding: '8px 16px',
+                border: '1px solid #e0e0e0',
+                fontSize: '0.875rem',
+                fontWeight: '500',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                transition: 'all 0.3s'
+              }}
+              onMouseOver={(e) => {
+                e.target.style.backgroundColor = '#f5f5f5';
+                e.target.style.color = '#1976D2';
+              }}
+              onMouseOut={(e) => {
+                e.target.style.backgroundColor = 'white';
+                e.target.style.color = '#2196F3';
+              }}
+            >
+              <i className="fas fa-table" style={{ marginRight: '8px' }}></i>
+              Data View
+            </button>
+          </div>
+          
+          <div style={{
+            flex: 1,
+            overflowY: 'auto',
+            padding: '24px'
+          }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+              {/* Action Metrics Breakdown */}
+              <div style={{
+                backgroundColor: 'white',
+                borderRadius: '12px',
+                boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+                padding: '20px'
+              }}>
+                <h4 style={{
+                  fontSize: '1.125rem',
+                  fontWeight: '600',
+                  marginBottom: '16px',
+                  color: '#424242'
+                }}>
+                  Action Metrics Breakdown
+                </h4>
+                <ResponsiveContainer width="100%" height={550}>
+                  <BarChart
+                    data={chartData}
+                    margin={{ top: 20, right: 100, left: 60, bottom: 60 }}
+                    barGap={2}
                   >
-                    <i className="fas fa-table mr-2 text-blue-600 hover:text-blue-700"></i>
-                    Data View
-                  </button>
-                </div>
+                    <defs>
+                      <linearGradient id="blueGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#2196F3" stopOpacity={0.9}/>
+                        <stop offset="100%" stopColor="#1976D2" stopOpacity={1}/>
+                      </linearGradient>
+                      <linearGradient id="orangeGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#FF9800" stopOpacity={0.9}/>
+                        <stop offset="100%" stopColor="#F57C00" stopOpacity={1}/>
+                      </linearGradient>
+                      <linearGradient id="greyGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#9E9E9E" stopOpacity={0.9}/>
+                        <stop offset="100%" stopColor="#757575" stopOpacity={1}/>
+                      </linearGradient>
+                    </defs>
+                    
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" vertical={false} />
+                    
+                    <XAxis 
+                      dataKey="name" 
+                      stroke="#666"
+                      style={{ fontSize: '0.85rem', fontWeight: '600' }}
+                      tick={{ fill: '#555' }}
+                      axisLine={{ stroke: '#ccc', strokeWidth: 2 }}
+                      angle={-45}
+                      textAnchor="end"
+                      height={80}
+                    />
+                    
+                    <YAxis 
+                      yAxisId="left"
+                      orientation="left"
+                      domain={[0, 100]}
+                      ticks={[0, 20, 40, 60, 80, 100]}
+                      stroke="#666"
+                      style={{ fontSize: '0.9rem', fontWeight: '600' }}
+                      tick={{ fill: '#555' }}
+                      axisLine={{ stroke: '#ccc', strokeWidth: 2 }}
+                      label={{ 
+                        value: 'Number of Actions', 
+                        angle: -90, 
+                        position: 'insideLeft',
+                        style: { fontSize: '0.95rem', fontWeight: '600', fill: '#555' }
+                      }}
+                    />
+                    
+                    <YAxis 
+                      yAxisId="right"
+                      orientation="right"
+                      domain={[0, 100]}
+                      ticks={[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]}
+                      tickFormatter={(value) => `${value}%`}
+                      stroke="#666"
+                      style={{ fontSize: '0.9rem', fontWeight: '600' }}
+                      tick={{ fill: '#555' }}
+                      axisLine={{ stroke: '#ccc', strokeWidth: 2 }}
+                      label={{ 
+                        value: 'Closure Rate (%)', 
+                        angle: 90, 
+                        position: 'insideRight',
+                        style: { fontSize: '0.95rem', fontWeight: '600', fill: '#555' }
+                      }}
+                    />
+                    
+                    <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(200, 200, 200, 0.1)' }} />
+                    <Legend wrapperStyle={{ paddingTop: '25px', fontSize: '0.95rem', fontWeight: '600' }} iconType="rect" iconSize={14} />
+                    
+                    <Bar yAxisId="left" dataKey="totalActions" fill="url(#blueGradient)" name="Total # of Actions" radius={[6, 6, 0, 0]} maxBarSize={35} />
+                    <Bar yAxisId="left" dataKey="closedActions" fill="url(#orangeGradient)" name="Number of Closed Actions" radius={[6, 6, 0, 0]} maxBarSize={35} />
+                    <Bar yAxisId="right" dataKey="closureRate" fill="url(#greyGradient)" name="Closure Rate (%)" radius={[6, 6, 0, 0]} maxBarSize={35} />
+                  </BarChart>
+                </ResponsiveContainer>
               </div>
-              
-              {/* Charts Container - SCROLLABLE */}
-              <div className="flex-1 p-6 overflow-y-auto">
-                <div className="space-y-6">
-                  {/* Action Metrics Breakdown */}
-                  <div className="bg-white rounded-lg shadow p-4">
-                    <h4 className="text-lg font-semibold mb-4 text-gray-700">
-                      Action Metrics Breakdown
-                    </h4>
-                    <ResponsiveContainer width="100%" height={550}>
-                      <BarChart
-                        data={chartData}
-                        margin={{ top: 20, right: 100, left: 60, bottom: 60 }}
-                        barGap={2}
-                      >
-                        <defs>
-                          <linearGradient id="blueGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#2196F3" stopOpacity={0.9}/>
-                            <stop offset="100%" stopColor="#1976D2" stopOpacity={1}/>
-                          </linearGradient>
-                          <linearGradient id="orangeGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#FF9800" stopOpacity={0.9}/>
-                            <stop offset="100%" stopColor="#F57C00" stopOpacity={1}/>
-                          </linearGradient>
-                          <linearGradient id="greyGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#9E9E9E" stopOpacity={0.9}/>
-                            <stop offset="100%" stopColor="#757575" stopOpacity={1}/>
-                          </linearGradient>
-                        </defs>
-                        
-                        <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" vertical={false} />
-                        
-                        <XAxis 
-                          dataKey="name" 
-                          stroke="#666"
-                          style={{ fontSize: '0.85rem', fontWeight: '600' }}
-                          tick={{ fill: '#555' }}
-                          axisLine={{ stroke: '#ccc', strokeWidth: 2 }}
-                          angle={-45}
-                          textAnchor="end"
-                          height={80}
-                        />
-                        
-                        <YAxis 
-                          yAxisId="left"
-                          orientation="left"
-                          domain={[0, 100]}
-                          ticks={[0, 20, 40, 60, 80, 100]}
-                          stroke="#666"
-                          style={{ fontSize: '0.9rem', fontWeight: '600' }}
-                          tick={{ fill: '#555' }}
-                          axisLine={{ stroke: '#ccc', strokeWidth: 2 }}
-                          label={{ 
-                            value: 'Number of Actions', 
-                            angle: -90, 
-                            position: 'insideLeft',
-                            style: { fontSize: '0.95rem', fontWeight: '600', fill: '#555' }
-                          }}
-                        />
-                        
-                        <YAxis 
-                          yAxisId="right"
-                          orientation="right"
-                          domain={[0, 100]}
-                          ticks={[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]}
-                          tickFormatter={(value) => `${value}%`}
-                          stroke="#666"
-                          style={{ fontSize: '0.9rem', fontWeight: '600' }}
-                          tick={{ fill: '#555' }}
-                          axisLine={{ stroke: '#ccc', strokeWidth: 2 }}
-                          label={{ 
-                            value: 'Closure Rate (%)', 
-                            angle: 90, 
-                            position: 'insideRight',
-                            style: { fontSize: '0.95rem', fontWeight: '600', fill: '#555' }
-                          }}
-                        />
-                        
-                        <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(200, 200, 200, 0.1)' }} />
-                        <Legend wrapperStyle={{ paddingTop: '25px', fontSize: '0.95rem', fontWeight: '600' }} iconType="rect" iconSize={14} />
-                        
-                        <Bar yAxisId="left" dataKey="totalActions" fill="url(#blueGradient)" name="Total # of Actions" radius={[6, 6, 0, 0]} maxBarSize={35} />
-                        <Bar yAxisId="left" dataKey="closedActions" fill="url(#orangeGradient)" name="Number of Closed Actions" radius={[6, 6, 0, 0]} maxBarSize={35} />
-                        <Bar yAxisId="right" dataKey="closureRate" fill="url(#greyGradient)" name="Closure Rate (%)" radius={[6, 6, 0, 0]} maxBarSize={35} />
-                      </BarChart>
-                    </ResponsiveContainer>
-                  </div>
 
-                  {/* Overdue Actions Trend */}
-                  <div className="bg-white rounded-lg shadow p-4">
-                    <h4 className="text-lg font-semibold mb-4 text-gray-700">
-                      Overdue Actions Trend Analysis
-                    </h4>
-                    <ResponsiveContainer width="100%" height={450}>
-                      <LineChart data={overdueData} margin={{ top: 20, right: 60, left: 60, bottom: 20 }}>
-                        <defs>
-                          <linearGradient id="redGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#e74c3c" stopOpacity={0.8}/>
-                            <stop offset="100%" stopColor="#c0392b" stopOpacity={1}/>
-                          </linearGradient>
-                          <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#e74c3c" stopOpacity={0.3}/>
-                            <stop offset="100%" stopColor="#e74c3c" stopOpacity={0.05}/>
-                          </linearGradient>
-                        </defs>
-                        
-                        <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" vertical={false} />
-                        <XAxis dataKey="month" stroke="#666" style={{ fontSize: '0.9rem', fontWeight: '600' }} tick={{ fill: '#555' }} axisLine={{ stroke: '#ccc', strokeWidth: 2 }} />
-                        <YAxis stroke="#666" style={{ fontSize: '0.9rem', fontWeight: '600' }} tick={{ fill: '#555' }} axisLine={{ stroke: '#ccc', strokeWidth: 2 }} domain={[0, 'auto']} label={{ value: 'Number of Overdue Actions', angle: -90, position: 'insideLeft', style: { fontSize: '0.95rem', fontWeight: '600', fill: '#555' } }} />
-                        <Tooltip content={<OverdueTooltip />} cursor={{ stroke: '#e74c3c', strokeWidth: 2, strokeDasharray: '5 5' }} />
-                        <Legend wrapperStyle={{ paddingTop: '20px', fontSize: '0.95rem', fontWeight: '600' }} iconType="line" />
-                        <Line type="monotone" dataKey="overdue" stroke="url(#redGradient)" strokeWidth={3} dot={{ fill: '#e74c3c', stroke: '#fff', strokeWidth: 2, r: 5 }} activeDot={{ r: 8, stroke: '#fff', strokeWidth: 2, fill: '#e74c3c' }} name="Overdue Actions" fill="url(#areaGradient)" />
-                      </LineChart>
-                    </ResponsiveContainer>
-                  </div>
+              {/* Overdue Actions Trend */}
+              <div style={{
+                backgroundColor: 'white',
+                borderRadius: '12px',
+                boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+                padding: '20px'
+              }}>
+                <h4 style={{
+                  fontSize: '1.125rem',
+                  fontWeight: '600',
+                  marginBottom: '16px',
+                  color: '#424242'
+                }}>
+                  Overdue Actions Trend Analysis
+                </h4>
+                <ResponsiveContainer width="100%" height={450}>
+                  <LineChart data={overdueData} margin={{ top: 20, right: 60, left: 60, bottom: 20 }}>
+                    <defs>
+                      <linearGradient id="redGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#e74c3c" stopOpacity={0.8}/>
+                        <stop offset="100%" stopColor="#c0392b" stopOpacity={1}/>
+                      </linearGradient>
+                      <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#e74c3c" stopOpacity={0.3}/>
+                        <stop offset="100%" stopColor="#e74c3c" stopOpacity={0.05}/>
+                      </linearGradient>
+                    </defs>
+                    
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" vertical={false} />
+                    <XAxis dataKey="month" stroke="#666" style={{ fontSize: '0.9rem', fontWeight: '600' }} tick={{ fill: '#555' }} axisLine={{ stroke: '#ccc', strokeWidth: 2 }} />
+                    <YAxis stroke="#666" style={{ fontSize: '0.9rem', fontWeight: '600' }} tick={{ fill: '#555' }} axisLine={{ stroke: '#ccc', strokeWidth: 2 }} domain={[0, 'auto']} label={{ value: 'Number of Overdue Actions', angle: -90, position: 'insideLeft', style: { fontSize: '0.95rem', fontWeight: '600', fill: '#555' } }} />
+                    <Tooltip content={<OverdueTooltip />} cursor={{ stroke: '#e74c3c', strokeWidth: 2, strokeDasharray: '5 5' }} />
+                    <Legend wrapperStyle={{ paddingTop: '20px', fontSize: '0.95rem', fontWeight: '600' }} iconType="line" />
+                    <Line type="monotone" dataKey="overdue" stroke="url(#redGradient)" strokeWidth={3} dot={{ fill: '#e74c3c', stroke: '#fff', strokeWidth: 2, r: 5 }} activeDot={{ r: 8, stroke: '#fff', strokeWidth: 2, fill: '#e74c3c' }} name="Overdue Actions" fill="url(#areaGradient)" />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
 
-                  {/* Incident Rate */}
-                  <div className="bg-white rounded-lg shadow p-4">
-                    <h4 className="text-lg font-semibold mb-4 text-gray-700">
-                      Incident Rate Chart
-                    </h4>
-                    <ResponsiveContainer width="100%" height={500}>
-                      <ComposedChart data={incidentData} margin={{ top: 20, right: 100, left: 60, bottom: 20 }}>
-                        <defs>
-                          <linearGradient id="blueBarGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#2196F3" stopOpacity={0.9}/>
-                            <stop offset="100%" stopColor="#1976D2" stopOpacity={1}/>
-                          </linearGradient>
-                          <linearGradient id="orangeBarGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#FF9800" stopOpacity={0.9}/>
-                            <stop offset="100%" stopColor="#F57C00" stopOpacity={1}/>
-                          </linearGradient>
-                          <linearGradient id="greenLineGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#4CAF50" stopOpacity={0.9}/>
-                            <stop offset="100%" stopColor="#388E3C" stopOpacity={1}/>
-                          </linearGradient>
-                        </defs>
-                        
-                        <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" vertical={false} />
-                        <XAxis dataKey="month" stroke="#666" style={{ fontSize: '0.9rem', fontWeight: '600' }} tick={{ fill: '#555' }} axisLine={{ stroke: '#ccc', strokeWidth: 2 }} />
-                        <YAxis yAxisId="left" orientation="left" domain={[0, 'auto']} stroke="#666" style={{ fontSize: '0.9rem', fontWeight: '600' }} tick={{ fill: '#555' }} axisLine={{ stroke: '#ccc', strokeWidth: 2 }} label={{ value: 'Number of Jobs/Incidents', angle: -90, position: 'insideLeft', style: { fontSize: '0.95rem', fontWeight: '600', fill: '#555' } }} />
-                        <YAxis yAxisId="right" orientation="right" domain={[0, 10]} ticks={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} tickFormatter={(value) => `${value}%`} stroke="#666" style={{ fontSize: '0.9rem', fontWeight: '600' }} tick={{ fill: '#555' }} axisLine={{ stroke: '#ccc', strokeWidth: 2 }} label={{ value: 'Rate of Incident (%)', angle: 90, position: 'insideRight', style: { fontSize: '0.95rem', fontWeight: '600', fill: '#555' } }} />
-                        <Tooltip content={<IncidentTooltip />} cursor={{ fill: 'rgba(200, 200, 200, 0.1)' }} />
-                        <Legend wrapperStyle={{ paddingTop: '20px', fontSize: '0.95rem', fontWeight: '600' }} iconSize={14} />
-                        <Bar yAxisId="left" dataKey="jobs" fill="url(#blueBarGradient)" name="Number of Jobs" radius={[6, 6, 0, 0]} maxBarSize={40} />
-                        <Bar yAxisId="left" dataKey="incidents" fill="url(#orangeBarGradient)" name="Number of Incidents" radius={[6, 6, 0, 0]} maxBarSize={40} />
-                        <Line yAxisId="right" type="monotone" dataKey="rate" stroke="url(#greenLineGradient)" strokeWidth={3} dot={{ fill: '#4CAF50', stroke: '#fff', strokeWidth: 2, r: 6 }} activeDot={{ r: 9, stroke: '#fff', strokeWidth: 2, fill: '#4CAF50' }} name="Rate of Incident (%)" />
-                      </ComposedChart>
-                    </ResponsiveContainer>
-                  </div>
-                </div>
+              {/* Incident Rate */}
+              <div style={{
+                backgroundColor: 'white',
+                borderRadius: '12px',
+                boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+                padding: '20px'
+              }}>
+                <h4 style={{
+                  fontSize: '1.125rem',
+                  fontWeight: '600',
+                  marginBottom: '16px',
+                  color: '#424242'
+                }}>
+                  Incident Rate Chart
+                </h4>
+                <ResponsiveContainer width="100%" height={500}>
+                  <ComposedChart data={incidentData} margin={{ top: 20, right: 100, left: 60, bottom: 20 }}>
+                    <defs>
+                      <linearGradient id="blueBarGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#2196F3" stopOpacity={0.9}/>
+                        <stop offset="100%" stopColor="#1976D2" stopOpacity={1}/>
+                      </linearGradient>
+                      <linearGradient id="orangeBarGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#FF9800" stopOpacity={0.9}/>
+                        <stop offset="100%" stopColor="#F57C00" stopOpacity={1}/>
+                      </linearGradient>
+                      <linearGradient id="greenLineGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#4CAF50" stopOpacity={0.9}/>
+                        <stop offset="100%" stopColor="#388E3C" stopOpacity={1}/>
+                      </linearGradient>
+                    </defs>
+                    
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" vertical={false} />
+                    <XAxis dataKey="month" stroke="#666" style={{ fontSize: '0.9rem', fontWeight: '600' }} tick={{ fill: '#555' }} axisLine={{ stroke: '#ccc', strokeWidth: 2 }} />
+                    <YAxis yAxisId="left" orientation="left" domain={[0, 'auto']} stroke="#666" style={{ fontSize: '0.9rem', fontWeight: '600' }} tick={{ fill: '#555' }} axisLine={{ stroke: '#ccc', strokeWidth: 2 }} label={{ value: 'Number of Jobs/Incidents', angle: -90, position: 'insideLeft', style: { fontSize: '0.95rem', fontWeight: '600', fill: '#555' } }} />
+                    <YAxis yAxisId="right" orientation="right" domain={[0, 10]} ticks={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} tickFormatter={(value) => `${value}%`} stroke="#666" style={{ fontSize: '0.9rem', fontWeight: '600' }} tick={{ fill: '#555' }} axisLine={{ stroke: '#ccc', strokeWidth: 2 }} label={{ value: 'Rate of Incident (%)', angle: 90, position: 'insideRight', style: { fontSize: '0.95rem', fontWeight: '600', fill: '#555' } }} />
+                    <Tooltip content={<IncidentTooltip />} cursor={{ fill: 'rgba(200, 200, 200, 0.1)' }} />
+                    <Legend wrapperStyle={{ paddingTop: '20px', fontSize: '0.95rem', fontWeight: '600' }} iconSize={14} />
+                    <Bar yAxisId="left" dataKey="jobs" fill="url(#blueBarGradient)" name="Number of Jobs" radius={[6, 6, 0, 0]} maxBarSize={40} />
+                    <Bar yAxisId="left" dataKey="incidents" fill="url(#orangeBarGradient)" name="Number of Incidents" radius={[6, 6, 0, 0]} maxBarSize={40} />
+                    <Line yAxisId="right" type="monotone" dataKey="rate" stroke="url(#greenLineGradient)" strokeWidth={3} dot={{ fill: '#4CAF50', stroke: '#fff', strokeWidth: 2, r: 6 }} activeDot={{ r: 9, stroke: '#fff', strokeWidth: 2, fill: '#4CAF50' }} name="Rate of Incident (%)" />
+                  </ComposedChart>
+                </ResponsiveContainer>
               </div>
             </div>
-          ) : (
-            // DATA VIEW (TABLE)
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col h-full m-8">
-              <div className="p-6 border-b border-blue-100 flex items-center flex-shrink-0">
-                <div className="flex items-center space-x-3">
-                  <h3 className="text-2xl font-semibold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
-                    KPI Data
-                  </h3>
-                  <button
-                    className="rounded-lg whitespace-nowrap cursor-pointer bg-white text-blue-600 px-4 py-2 hover:bg-gray-50 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm"
-                  >
-                    <i className="fas fa-plus mr-2 text-blue-600 hover:text-blue-700"></i>
-                    Add KPI
-                  </button>
-                  <button
-                    className="rounded-lg whitespace-nowrap cursor-pointer bg-white text-blue-600 px-4 py-2 hover:bg-gray-50 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm"
-                  >
-                    <i className="fas fa-archive mr-2 text-blue-600 hover:text-blue-700"></i>
-                    Show Archived
-                  </button>
-                  <button
-                    className="rounded-lg whitespace-nowrap cursor-pointer bg-white text-blue-600 px-4 py-2 hover:bg-gray-50 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm"
-                  >
-                    <i className="fas fa-trash mr-2 text-blue-600 hover:text-blue-700"></i>
-                    Show Deleted
-                  </button>
-                  <button
-                    className="rounded-lg whitespace-nowrap cursor-pointer bg-white text-blue-600 px-4 py-2 hover:bg-gray-50 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm"
-                  >
-                    <i className="fas fa-tasks mr-2 text-blue-600 hover:text-blue-700"></i>
-                    Show Action
-                  </button>
-                </div>
-
-                <div className="ml-auto">
-                  <button
-                    onClick={() => setSelectedOption("e-chart")}
-                    className="rounded-lg whitespace-nowrap cursor-pointer bg-white text-blue-600 px-4 py-2 hover:bg-gray-50 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg text-sm"
-                  >
-                    <i className="fas fa-chart-bar mr-2 text-blue-600 hover:text-blue-700"></i>
-                    E-Chart
-                  </button>
-                </div>
-              </div>
-
-              <div className="flex-1 overflow-y-auto">
-                <div className="p-8 text-center">
-                  <i className="fas fa-table text-6xl text-blue-300 mb-4"></i>
-                  <h3 className="text-xl font-semibold text-gray-700 mb-2">
-                    Data Table View
-                  </h3>
-                  <p className="text-gray-500">
-                    Your KPI data table will be displayed here.
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
+          </div>
         </div>
-      </div>
+      ) : (
+        // DATA VIEW
+        <div style={{
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          backgroundColor: 'white',
+          borderRadius: '12px',
+          boxShadow: '0 10px 40px rgba(0,0,0,0.1)',
+          margin: '20px',
+          overflow: 'hidden'
+        }}>
+          <div style={{
+            padding: '24px',
+            borderBottom: '1px solid #e3f2fd',
+            display: 'flex',
+            alignItems: 'center',
+            flexShrink: 0
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <h3 style={{
+                fontSize: '1.5rem',
+                fontWeight: '600',
+                background: 'linear-gradient(to right, #2196F3, #1565C0)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                margin: 0
+              }}>
+                KPI Data
+              </h3>
+              <button style={{
+                borderRadius: '8px',
+                cursor: 'pointer',
+                backgroundColor: 'white',
+                color: '#2196F3',
+                padding: '8px 16px',
+                border: '1px solid #e0e0e0',
+                fontSize: '0.875rem',
+                fontWeight: '500',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
+              }}>
+                <i className="fas fa-plus" style={{ marginRight: '8px' }}></i>
+                Add KPI
+              </button>
+              <button style={{
+                borderRadius: '8px',
+                cursor: 'pointer',
+                backgroundColor: 'white',
+                color: '#2196F3',
+                padding: '8px 16px',
+                border: '1px solid #e0e0e0',
+                fontSize: '0.875rem',
+                fontWeight: '500',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
+              }}>
+                <i className="fas fa-archive" style={{ marginRight: '8px' }}></i>
+                Show Archived
+              </button>
+              <button style={{
+                borderRadius: '8px',
+                cursor: 'pointer',
+                backgroundColor: 'white',
+                color: '#2196F3',
+                padding: '8px 16px',
+                border: '1px solid #e0e0e0',
+                fontSize: '0.875rem',
+                fontWeight: '500',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
+              }}>
+                <i className="fas fa-trash" style={{ marginRight: '8px' }}></i>
+                Show Deleted
+              </button>
+              <button style={{
+                borderRadius: '8px',
+                cursor: 'pointer',
+                backgroundColor: 'white',
+                color: '#2196F3',
+                padding: '8px 16px',
+                border: '1px solid #e0e0e0',
+                fontSize: '0.875rem',
+                fontWeight: '500',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
+              }}>
+                <i className="fas fa-tasks" style={{ marginRight: '8px' }}></i>
+                Show Action
+              </button>
+            </div>
+
+            <div style={{ marginLeft: 'auto' }}>
+              <button
+                onClick={() => setSelectedOption("e-chart")}
+                style={{
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  backgroundColor: 'white',
+                  color: '#2196F3',
+                  padding: '8px 16px',
+                  border: '1px solid #e0e0e0',
+                  fontSize: '0.875rem',
+                  fontWeight: '500',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                  transition: 'all 0.3s'
+                }}
+                onMouseOver={(e) => {
+                  e.target.style.backgroundColor = '#f5f5f5';
+                  e.target.style.color = '#1976D2';
+                }}
+                onMouseOut={(e) => {
+                  e.target.style.backgroundColor = 'white';
+                  e.target.style.color = '#2196F3';
+                }}
+              >
+                <i className="fas fa-chart-bar" style={{ marginRight: '8px' }}></i>
+                E-Chart
+              </button>
+            </div>
+          </div>
+
+          <div style={{
+            flex: 1,
+            overflowY: 'auto',
+            padding: '32px',
+            textAlign: 'center'
+          }}>
+            <i className="fas fa-table" style={{ fontSize: '4rem', color: '#bbdefb', marginBottom: '16px' }}></i>
+            <h3 style={{
+              fontSize: '1.25rem',
+              fontWeight: '600',
+              color: '#424242',
+              marginBottom: '8px'
+            }}>
+              Data Table View
+            </h3>
+            <p style={{ color: '#757575' }}>
+              Your KPI data table will be displayed here.
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
