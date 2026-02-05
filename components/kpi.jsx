@@ -232,12 +232,12 @@ const KPIDashboard = () => {
   return (
     <div className="pt-20 h-screen overflow-hidden">
       <div className="flex h-full">
-        {/* Main Content Area */}
-        <div className="flex-1 ml-64 p-8 bg-gradient-to-br from-blue-50/50 to-white h-full overflow-y-auto">
+        {/* Main Content Area - SOL SIDEBAR HARİÇ EKRANIN TAMAMI */}
+        <div className="flex-1 ml-64 bg-gradient-to-br from-blue-50/50 to-white h-full overflow-hidden flex flex-col">
           {selectedOption === "e-chart" ? (
             // E-CHART VIEW
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-              <div className="p-6 border-b border-blue-100 flex justify-between items-center">
+            <div className="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col h-full m-8">
+              <div className="p-6 border-b border-blue-100 flex justify-between items-center flex-shrink-0">
                 <h3 className="text-2xl font-semibold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
                   Analytics Dashboard
                 </h3>
@@ -252,8 +252,8 @@ const KPIDashboard = () => {
                 </div>
               </div>
               
-              {/* Charts Container */}
-              <div className="p-6 overflow-x-auto max-h-[75vh] overflow-y-auto">
+              {/* Charts Container - SCROLLABLE */}
+              <div className="flex-1 p-6 overflow-y-auto">
                 <div className="space-y-6">
                   {/* Action Metrics Breakdown */}
                   <div className="bg-white rounded-lg shadow p-4">
@@ -405,9 +405,9 @@ const KPIDashboard = () => {
               </div>
             </div>
           ) : (
-            // DATA VIEW (TABLE) - Burayı ileride ekleyebilirsin
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-              <div className="p-6 border-b border-blue-100 flex items-center">
+            // DATA VIEW (TABLE)
+            <div className="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col h-full m-8">
+              <div className="p-6 border-b border-blue-100 flex items-center flex-shrink-0">
                 <div className="flex items-center space-x-3">
                   <h3 className="text-2xl font-semibold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
                     KPI Data
@@ -449,7 +449,7 @@ const KPIDashboard = () => {
                 </div>
               </div>
 
-              <div className="overflow-x-auto max-h-[75vh] overflow-y-auto">
+              <div className="flex-1 overflow-y-auto">
                 <div className="p-8 text-center">
                   <i className="fas fa-table text-6xl text-blue-300 mb-4"></i>
                   <h3 className="text-xl font-semibold text-gray-700 mb-2">
