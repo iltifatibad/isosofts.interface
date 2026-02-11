@@ -1,5 +1,4 @@
 import React, { useState, useMemo } from "react";
-import RiskTableee from "./test/test";
 
 // Sample data - equivalent to Vue's ref data
 const initialRisks = [
