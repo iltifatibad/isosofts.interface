@@ -359,9 +359,9 @@ const IsosoftsUIConcept = () => {
                   onClick={() => isAuth()}
                   className="rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-2 hover:from-blue-600 hover:to-blue-800 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
                     >
-                     <i className=""></i> Go To Algebra
+                     <i className=""></i> Go To Algebraa
                    </button>
-                   
+
                 </div>
                 <div className="feature-card bg-white p-8 !rounded-button shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
                   <div className="w-16 h-16 bg-gradient-to-r from-blue-100 to-blue-200 !rounded-button flex items-center justify-center mb-6">
