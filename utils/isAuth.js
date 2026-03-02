@@ -2,6 +2,7 @@ export const isAuth = () => {
     let token = localStorage.getItem("token");
     console.log(" Searching For Token ")
     if (!!token == false) {
+        window.location.href = "http://isosofts.com/los";
         console.log(" Token Can't Find")
     } else {
         console.log(" Token Find And ReDirecting ")
