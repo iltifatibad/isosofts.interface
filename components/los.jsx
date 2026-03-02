@@ -132,7 +132,7 @@ const AuthPage = () => {
   // ──────────────────────────────────────────────────────────────────────────
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white flex items-center justify-center p-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white flex items-center justify-center p-6 pt-24">
       <div
         className="fixed inset-0 bg-cover bg-center opacity-40 pointer-events-none"
         style={{
@@ -369,7 +369,7 @@ const AuthPage = () => {
                 <button
                   type="submit"
                   disabled={signUpLoading}
-                  className={`w-full bg-gradient-to-r from-blue-500 to-blue-700 text-white py-4 rounded-xl font-medium text-lg transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl mt-2
+                  className={`w-full bg-gradient-to-r from-blue-500 to-blue-700 text-white py-4 rounded-xl font-medium text-lg transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl
                     ${signUpLoading ? "opacity-70 cursor-not-allowed" : "hover:from-blue-600 hover:to-blue-800"}`}
                 >
                   {signUpLoading ? "Processing..." : "Sign Up"}
