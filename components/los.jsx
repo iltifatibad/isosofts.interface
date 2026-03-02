@@ -134,7 +134,7 @@ const AuthPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white flex items-center justify-center p-6">
       <div
-        className="absolute inset-0 bg-cover bg-center opacity-40 pointer-events-none"
+        className="fixed inset-0 bg-cover bg-center opacity-40 pointer-events-none"
         style={{
           backgroundImage: `url('https://images.unsplash.com/photo-1557683316-973673baf926?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')`,
           backgroundBlendMode: "soft-light",
@@ -217,11 +217,13 @@ const AuthPage = () => {
                   />
                 </div>
 
-                {error && (
-                  <div className="text-red-600 text-sm text-center bg-red-50 p-3 rounded-xl">
-                    {error}
-                  </div>
-                )}
+                <div className="min-h-[44px]">
+                  {error && (
+                    <div className="text-red-600 text-sm text-center bg-red-50 p-3 rounded-xl">
+                      {error}
+                    </div>
+                  )}
+                </div>
 
                 <button
                   type="submit"
@@ -351,17 +353,18 @@ const AuthPage = () => {
                   />
                 </div>
 
-                {signUpError && (
-                  <div className="text-red-600 text-sm text-center bg-red-50 p-3 rounded-xl">
-                    {signUpError}
-                  </div>
-                )}
-
-                {signUpSuccess && (
-                  <div className="text-green-600 text-sm text-center bg-green-50 p-3 rounded-xl">
-                    Registration successful! You can now log in.
-                  </div>
-                )}
+                <div className="min-h-[44px]">
+                  {signUpError && (
+                    <div className="text-red-600 text-sm text-center bg-red-50 p-3 rounded-xl">
+                      {signUpError}
+                    </div>
+                  )}
+                  {signUpSuccess && (
+                    <div className="text-green-600 text-sm text-center bg-green-50 p-3 rounded-xl">
+                      Registration successful! You can now log in.
+                    </div>
+                  )}
+                </div>
 
                 <button
                   type="submit"
