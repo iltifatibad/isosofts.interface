@@ -25,7 +25,7 @@ const AuthPage = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:8000/api/auth/login", {
+      const response = await fetch("http://isosofts.com/api/account/login ", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -97,7 +97,7 @@ const AuthPage = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:8000/api/auth/register", {
+      const response = await fetch("http://isosofts.com/api/account/signup ", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
