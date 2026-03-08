@@ -11,29 +11,48 @@ const AuthPage = () => {
     setError(null);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-    const dataToSend = { email: formData.email, password: formData.password };
-    try {
-      const response = await fetch("http://isosofts.com/api/account/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dataToSend),
-      });
-      const text = await response.text();
-      let result;
-      try { result = JSON.parse(text); } catch { throw new Error(`Server error: ${text.slice(0, 100)}`); }
-      if (!response.ok) throw new Error(result.message || "Login failed");
-      console.log("Login successful:", result);
-    } catch (err) {
-      console.error("Error:", err);
-      setError(err.message || "Could not connect to the server");
-    } finally {
-      setLoading(false);
-    }
-  };
+  // ------------------------------------------- LOGIN -----------------------------------------------
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      setLoading(true);
+      setError(null);
+      const dataToSend = { email: formData.email, password: formData.password };
+      try {
+        const response = await fetch("http://isosofts.com/api/account/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(dataToSend),
+        });
+
+        const text = await response.text();
+        let result;
+        try { result = JSON.parse(text); } catch { throw new Error(`Server error: ${text.slice(0, 100)}`); }
+
+        // 400 - Validation Error (email/password is empty)
+        if (response.status === 400) {
+          const firstError = Object.values(result.errors)[0];
+          throw new Error(firstError);
+        }
+
+        // False Email Or Password
+        if (!response.ok) throw new Error(result.error || "Login failed");
+
+        // Write Token To Cookie
+        document.cookie = `auth_token=${result.token}; domain=.isosofts.com; path=/; max-age=86400; SameSite=Lax`;
+
+        // Redirect To Algebra
+        window.location.href = "https://algebra.isosofts.com/";
+
+      } catch (err) {
+        console.error("Error:", err);
+        setError(err.message || "Could not connect to the server");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+  // ------------------------------------------- LOGIN -----------------------------------------------
+
 
   const [activeTab, setActiveTab] = useState("login");
   const [signUpData, setSignUpData] = useState({
