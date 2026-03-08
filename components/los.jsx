@@ -12,49 +12,49 @@ const AuthPage = () => {
   };
 
   // ------------------------------------------- LOGIN -----------------------------------------------
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      setLoading(true);
-      setError(null);
-      const dataToSend = { email: formData.email, password: formData.password };
-      try {
-        const response = await fetch("http://isosofts.com/api/account/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(dataToSend),
-        });
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  setError(null);
+  setFieldErrors({});
+  const dataToSend = { email: formData.email, password: formData.password };
+  try {
+    const response = await fetch("http://isosofts.com/api/account/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dataToSend),
+    });
 
-        const text = await response.text();
-        let result;
-        try { result = JSON.parse(text); } catch { throw new Error(`Server error: ${text.slice(0, 100)}`); }
+    const text = await response.text();
+    let result;
+    try { result = JSON.parse(text); } catch { throw new Error(`Server error: ${text.slice(0, 100)}`); }
 
-        // 400 - Validation Error (email/password is empty)
-        if (response.status === 400) {
-          const firstError = Object.values(result.errors)[0];
-          throw new Error(firstError);
-        }
+    // 400 - Field bazlı validation hataları
+    if (response.status === 400) {
+      setFieldErrors(result.errors || {});
+      return;
+    }
 
-        // False Email Or Password
-        if (!response.ok) throw new Error(result.error || "Login failed");
+    // Yanlış email veya şifre
+    if (!response.ok) throw new Error(result.error || "Login failed");
 
-        // Write Token To Cookie
-        document.cookie = `auth_token=${result.token}; domain=.isosofts.com; path=/; max-age=86400; SameSite=Lax`;
+    // ✅ Başarılı
+    document.cookie = `auth_token=${result.token}; domain=.isosofts.com; path=/; max-age=86400; SameSite=Lax`;
+    window.location.href = "https://algebra.isosofts.com/dashboard";
 
-        // Redirect To Algebra
-        window.location.href = "https://algebra.isosofts.com/";
-
-      } catch (err) {
-        console.error("Error:", err);
-        setError(err.message || "Could not connect to the server");
-      } finally {
-        setLoading(false);
-      }
-    };
-
+  } catch (err) {
+    console.error("Error:", err);
+    setError(err.message || "Could not connect to the server");
+  } finally {
+    setLoading(false);
+  }
+};
   // ------------------------------------------- LOGIN -----------------------------------------------
 
 
   const [activeTab, setActiveTab] = useState("login");
+  const [fieldErrors, setFieldErrors] = useState({});
+  const [signUpFieldErrors, setSignUpFieldErrors] = useState({});
   const [signUpData, setSignUpData] = useState({
     name: "", surname: "", number: "", email: "", companyName: "", password: "", confirmPassword: "",
   });
@@ -68,41 +68,53 @@ const AuthPage = () => {
     setSignUpError(null);
   };
 
-  const handleSignUpSubmit = async (e) => {
-    e.preventDefault();
-    setSignUpLoading(true);
-    setSignUpError(null);
-    setSignUpSuccess(false);
-    if (signUpData.password !== signUpData.confirmPassword) {
-      setSignUpError("Passwords do not match.");
-      setSignUpLoading(false);
-      return;
-    }
-    const dataToSend = {
-      name: signUpData.name, surname: signUpData.surname, number: signUpData.number,
-      email: signUpData.email, companyName: signUpData.companyName, password: signUpData.password,
-    };
-    try {
-      const response = await fetch("http://isosofts.com/api/account/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dataToSend),
-      });
-      const text = await response.text();
-      let result;
-      try { result = JSON.parse(text); } catch { throw new Error(`Server error: ${text.slice(0, 100)}`); }
-      if (!response.ok) throw new Error(result.message || "Registration failed");
-      console.log("Registration successful:", result);
-      setSignUpSuccess(true);
-      setSignUpData({ name: "", surname: "", number: "", email: "", companyName: "", password: "", confirmPassword: "" });
-    } catch (err) {
-      console.error("Error:", err);
-      setSignUpError(err.message || "Could not connect to the server");
-    } finally {
-      setSignUpLoading(false);
-    }
+const handleSignUpSubmit = async (e) => {
+  e.preventDefault();
+  setSignUpLoading(true);
+  setSignUpError(null);
+  setSignUpSuccess(false);
+  setSignUpFieldErrors({});
+
+  const dataToSend = {
+    name: signUpData.name,
+    surname: signUpData.surname,
+    phoneNumber: signUpData.number,
+    email: signUpData.email,
+    companyName: signUpData.companyName,
+    password: signUpData.password,
+    confirmPassword: signUpData.confirmPassword,
   };
 
+  try {
+    const response = await fetch("http://isosofts.com/api/account/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dataToSend),
+    });
+
+    const text = await response.text();
+    let result;
+    try { result = JSON.parse(text); } catch { throw new Error(`Server error: ${text.slice(0, 100)}`); }
+
+    // 400 - Field bazlı validation hataları
+    if (response.status === 400) {
+      setSignUpFieldErrors(result.errors || {});
+      return;
+    }
+
+    if (!response.ok) throw new Error(result.message || "Registration failed");
+
+    // ✅ Başarılı
+    setSignUpSuccess(true);
+    setSignUpData({ name: "", surname: "", number: "", email: "", companyName: "", password: "", confirmPassword: "" });
+
+  } catch (err) {
+    console.error("Error:", err);
+    setSignUpError(err.message || "Could not connect to the server");
+  } finally {
+    setSignUpLoading(false);
+  }
+};
   return (
     <>
       <style>{`
@@ -208,87 +220,163 @@ const AuthPage = () => {
             <div className="p-10">
 
               {/* LOGIN FORM */}
-              {activeTab === "login" && (
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                    <input id="email" name="email" type="email" value={formData.email} onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200 bg-gray-50/40"
-                      placeholder="example@isosofts.com" required />
-                  </div>
-                  <div>
-                    <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                    <input id="password" name="password" type="password" value={formData.password} onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200 bg-gray-50/40"
-                      placeholder="••••••••" required />
-                  </div>
-                  <div className="min-h-[44px]">
-                    {error && <div className="text-red-600 text-sm text-center bg-red-50 p-3 rounded-xl">{error}</div>}
-                  </div>
-                  <button type="submit" disabled={loading}
-                    className={`w-full bg-gradient-to-r from-blue-500 to-blue-700 text-white py-4 rounded-xl font-medium text-lg transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl mt-2 ${loading ? "opacity-70 cursor-not-allowed" : "hover:from-blue-600 hover:to-blue-800"}`}>
-                    {loading ? "Processing..." : "Login"}
-                  </button>
-                </form>
-              )}
+{activeTab === "login" && (
+  <form onSubmit={handleSubmit} className="space-y-6">
+
+    {/* Email */}
+    <div>
+      <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+      <input
+        id="email" name="email" type="email"
+        value={formData.email} onChange={handleChange}
+        className={`w-full px-4 py-3 rounded-xl border focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200 bg-gray-50/40
+          ${fieldErrors.email ? "border-red-400 focus:border-red-400" : "border-gray-300 focus:border-blue-500"}`}
+        placeholder="example@isosofts.com" required
+      />
+      {fieldErrors.email && (
+        <p className="text-red-500 text-xs mt-1 ml-1">⚠ {fieldErrors.email}</p>
+      )}
+    </div>
+
+    {/* Password */}
+    <div>
+      <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+      <input
+        id="password" name="password" type="password"
+        value={formData.password} onChange={handleChange}
+        className={`w-full px-4 py-3 rounded-xl border focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200 bg-gray-50/40
+          ${fieldErrors.password ? "border-red-400 focus:border-red-400" : "border-gray-300 focus:border-blue-500"}`}
+        placeholder="••••••••" required
+      />
+      {fieldErrors.password && (
+        <p className="text-red-500 text-xs mt-1 ml-1">⚠ {fieldErrors.password}</p>
+      )}
+    </div>
+
+    {/* Genel hata (yanlış şifre vs.) */}
+    <div className="min-h-[44px]">
+      {error && (
+        <div className="text-red-600 text-sm text-center bg-red-50 p-3 rounded-xl">
+          ⚠ {error}
+        </div>
+      )}
+    </div>
+
+    <button type="submit" disabled={loading}
+      className={`w-full bg-gradient-to-r from-blue-500 to-blue-700 text-white py-4 rounded-xl font-medium text-lg transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl mt-2
+        ${loading ? "opacity-70 cursor-not-allowed" : "hover:from-blue-600 hover:to-blue-800"}`}>
+      {loading ? "Processing..." : "Login"}
+    </button>
+
+  </form>
+)}
 
               {/* SIGN UP FORM */}
-              {activeTab === "signup" && (
-                <form onSubmit={handleSignUpSubmit} className="space-y-5">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Name</label>
-                      <input id="name" name="name" type="text" value={signUpData.name} onChange={handleSignUpChange}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200 bg-gray-50/40"
-                        placeholder="John" required />
-                    </div>
-                    <div>
-                      <label htmlFor="surname" className="block text-sm font-medium text-gray-700 mb-1">Surname</label>
-                      <input id="surname" name="surname" type="text" value={signUpData.surname} onChange={handleSignUpChange}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200 bg-gray-50/40"
-                        placeholder="Doe" required />
-                    </div>
-                  </div>
-                  <div>
-                    <label htmlFor="signup-number" className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-                    <input id="signup-number" name="number" type="tel" value={signUpData.number} onChange={handleSignUpChange}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200 bg-gray-50/40"
-                      placeholder="+90 555 000 00 00" required />
-                  </div>
-                  <div>
-                    <label htmlFor="signup-email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                    <input id="signup-email" name="email" type="email" value={signUpData.email} onChange={handleSignUpChange}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200 bg-gray-50/40"
-                      placeholder="example@isosofts.com" required />
-                  </div>
-                  <div>
-                    <label htmlFor="companyName" className="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
-                    <input id="companyName" name="companyName" type="text" value={signUpData.companyName} onChange={handleSignUpChange}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200 bg-gray-50/40"
-                      placeholder="Isosofts Ltd." required />
-                  </div>
-                  <div>
-                    <label htmlFor="signup-password" className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                    <input id="signup-password" name="password" type="password" value={signUpData.password} onChange={handleSignUpChange}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200 bg-gray-50/40"
-                      placeholder="••••••••" required />
-                  </div>
-                  <div>
-                    <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
-                    <input id="confirmPassword" name="confirmPassword" type="password" value={signUpData.confirmPassword} onChange={handleSignUpChange}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200 bg-gray-50/40"
-                      placeholder="••••••••" required />
-                  </div>
-                  <div className="min-h-[44px]">
-                    {signUpError && <div className="text-red-600 text-sm text-center bg-red-50 p-3 rounded-xl">{signUpError}</div>}
-                    {signUpSuccess && <div className="text-green-600 text-sm text-center bg-green-50 p-3 rounded-xl">Registration successful! You can now log in.</div>}
-                  </div>
-                  <button type="submit" disabled={signUpLoading}
-                    className={`w-full bg-gradient-to-r from-blue-500 to-blue-700 text-white py-4 rounded-xl font-medium text-lg transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl ${signUpLoading ? "opacity-70 cursor-not-allowed" : "hover:from-blue-600 hover:to-blue-800"}`}>
-                    {signUpLoading ? "Processing..." : "Sign Up"}
-                  </button>
-                </form>
-              )}
+{activeTab === "signup" && (
+  <form onSubmit={handleSignUpSubmit} className="space-y-5">
+
+    {/* Name & Surname */}
+    <div className="grid grid-cols-2 gap-4">
+      <div>
+        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+        <input id="name" name="name" type="text" value={signUpData.name} onChange={handleSignUpChange}
+          className={`w-full px-4 py-3 rounded-xl border focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200 bg-gray-50/40
+            ${signUpFieldErrors.name ? "border-red-400 focus:border-red-400" : "border-gray-300 focus:border-blue-500"}`}
+          placeholder="John" required />
+        {signUpFieldErrors.name && (
+          <p className="text-red-500 text-xs mt-1 ml-1">⚠ {signUpFieldErrors.name}</p>
+        )}
+      </div>
+      <div>
+        <label htmlFor="surname" className="block text-sm font-medium text-gray-700 mb-1">Surname</label>
+        <input id="surname" name="surname" type="text" value={signUpData.surname} onChange={handleSignUpChange}
+          className={`w-full px-4 py-3 rounded-xl border focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200 bg-gray-50/40
+            ${signUpFieldErrors.surname ? "border-red-400 focus:border-red-400" : "border-gray-300 focus:border-blue-500"}`}
+          placeholder="Doe" required />
+        {signUpFieldErrors.surname && (
+          <p className="text-red-500 text-xs mt-1 ml-1">⚠ {signUpFieldErrors.surname}</p>
+        )}
+      </div>
+    </div>
+
+    {/* Phone Number */}
+    <div>
+      <label htmlFor="signup-number" className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+      <input id="signup-number" name="number" type="tel" value={signUpData.number} onChange={handleSignUpChange}
+        className={`w-full px-4 py-3 rounded-xl border focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200 bg-gray-50/40
+          ${signUpFieldErrors.phoneNumber ? "border-red-400 focus:border-red-400" : "border-gray-300 focus:border-blue-500"}`}
+        placeholder="+90 555 000 00 00" required />
+      {signUpFieldErrors.phoneNumber && (
+        <p className="text-red-500 text-xs mt-1 ml-1">⚠ {signUpFieldErrors.phoneNumber}</p>
+      )}
+    </div>
+
+    {/* Email */}
+    <div>
+      <label htmlFor="signup-email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+      <input id="signup-email" name="email" type="email" value={signUpData.email} onChange={handleSignUpChange}
+        className={`w-full px-4 py-3 rounded-xl border focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200 bg-gray-50/40
+          ${signUpFieldErrors.email ? "border-red-400 focus:border-red-400" : "border-gray-300 focus:border-blue-500"}`}
+        placeholder="example@isosofts.com" required />
+      {signUpFieldErrors.email && (
+        <p className="text-red-500 text-xs mt-1 ml-1">⚠ {signUpFieldErrors.email}</p>
+      )}
+    </div>
+
+    {/* Company Name */}
+    <div>
+      <label htmlFor="companyName" className="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
+      <input id="companyName" name="companyName" type="text" value={signUpData.companyName} onChange={handleSignUpChange}
+        className={`w-full px-4 py-3 rounded-xl border focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200 bg-gray-50/40
+          ${signUpFieldErrors.companyName ? "border-red-400 focus:border-red-400" : "border-gray-300 focus:border-blue-500"}`}
+        placeholder="Isosofts Ltd." required />
+      {signUpFieldErrors.companyName && (
+        <p className="text-red-500 text-xs mt-1 ml-1">⚠ {signUpFieldErrors.companyName}</p>
+      )}
+    </div>
+
+    {/* Password */}
+    <div>
+      <label htmlFor="signup-password" className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+      <input id="signup-password" name="password" type="password" value={signUpData.password} onChange={handleSignUpChange}
+        className={`w-full px-4 py-3 rounded-xl border focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200 bg-gray-50/40
+          ${signUpFieldErrors.password ? "border-red-400 focus:border-red-400" : "border-gray-300 focus:border-blue-500"}`}
+        placeholder="••••••••" required />
+      {signUpFieldErrors.password && (
+        <p className="text-red-500 text-xs mt-1 ml-1">⚠ {signUpFieldErrors.password}</p>
+      )}
+    </div>
+
+    {/* Confirm Password */}
+    <div>
+      <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+      <input id="confirmPassword" name="confirmPassword" type="password" value={signUpData.confirmPassword} onChange={handleSignUpChange}
+        className={`w-full px-4 py-3 rounded-xl border focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200 bg-gray-50/40
+          ${signUpFieldErrors.confirmPassword ? "border-red-400 focus:border-red-400" : "border-gray-300 focus:border-blue-500"}`}
+        placeholder="••••••••" required />
+      {signUpFieldErrors.confirmPassword && (
+        <p className="text-red-500 text-xs mt-1 ml-1">⚠ {signUpFieldErrors.confirmPassword}</p>
+      )}
+    </div>
+
+    {/* Genel hata / başarı mesajı */}
+    <div className="min-h-[44px]">
+      {signUpError && (
+        <div className="text-red-600 text-sm text-center bg-red-50 p-3 rounded-xl">⚠ {signUpError}</div>
+      )}
+      {signUpSuccess && (
+        <div className="text-green-600 text-sm text-center bg-green-50 p-3 rounded-xl">✓ Registration successful! You can now log in.</div>
+      )}
+    </div>
+
+    <button type="submit" disabled={signUpLoading}
+      className={`w-full bg-gradient-to-r from-blue-500 to-blue-700 text-white py-4 rounded-xl font-medium text-lg transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl
+        ${signUpLoading ? "opacity-70 cursor-not-allowed" : "hover:from-blue-600 hover:to-blue-800"}`}>
+      {signUpLoading ? "Processing..." : "Sign Up"}
+    </button>
+
+  </form>
+)}
 
               {activeTab === "login" && (
                 <div className="mt-10">
