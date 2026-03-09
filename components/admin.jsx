@@ -419,7 +419,7 @@ const handleEditEmployee = async (e) => {
               ...c,
               employees: c.employees.map((emp) =>
                 emp.id === employeeId
-                  ? { ...emp, status: emp.status === "active" ? "inactive" : "active" }
+                  ? { ...emp, isActive: !emp.isActive }
                   : emp
               ),
             }
@@ -713,12 +713,12 @@ const handleEditEmployee = async (e) => {
                                 <button
                                   onClick={() => toggleEmployeeStatus(emp.id)}
                                   className={`${
-                                    emp.status === "active"
+                                    emp.isActive
                                       ? "text-red-600 hover:text-red-800"
                                       : "text-green-600 hover:text-green-800"
                                   }`}
                                 >
-                                  {emp.status === "active" ? "Deactivate" : "Activate"}
+                                  {emp.isActive ? "Deactivate" : "Activate"}
                                 </button>
                               </td>
                             </tr>
