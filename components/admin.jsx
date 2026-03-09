@@ -548,16 +548,22 @@ const handleResetPassword = async (e) => {
     setShowEditCompanyModal(true);
   };
 
-  const openEditEmployee = (emp) => {
-    setSelectedEmployee(emp);
-    setEditEmployeeForm({
-      id: emp.id,
-      fullName: emp.fullName,
-      email: emp.email,
-      canEdit: emp.canEdit,
-    });
-    setShowEditEmployeeModal(true);
-  };
+const openEditEmployee = (emp) => {
+  const nameParts = emp.fullName.split(" ");
+  const name = nameParts[0] || "";
+  const surname = nameParts.slice(1).join(" ") || "";
+
+  setSelectedEmployee(emp);
+  setEditEmployeeForm({
+    id: emp.id,
+    name: name,
+    surname: surname,
+    email: emp.email,
+    phoneNumber: emp.phoneNumber || "",
+    canEdit: emp.canEdit,
+  });
+  setShowEditEmployeeModal(true);
+};
 
   const openResetPassword = (empId) => {
     setResetPasswordForm({
