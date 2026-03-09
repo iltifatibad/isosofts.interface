@@ -22,7 +22,7 @@ const AdminDashboard = () => {
       name: "IsoSofts MMC",
       country: "Azerbaijan",
       email: "info@isosofts.com",
-      status: "",
+      status: "active",
 
       registries: [
         "Azerbaijan ISO 9001:2015",
@@ -59,7 +59,7 @@ const AdminDashboard = () => {
             email: emp.email,
             role: emp.isAdmin == 1 ? "admin" : "user",
             canEdit: emp.isAdmin == 1,
-            status: emp.isActive,
+            status: "active",
             phoneNumber: emp.phoneNumber,
           }))
         };
