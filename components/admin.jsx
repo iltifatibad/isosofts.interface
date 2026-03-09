@@ -344,36 +344,54 @@ const handleEditEmployee = async (e) => {
   }
 };
 
-  const handleResetPassword = (e) => {
-    e.preventDefault();
-    if (resetPasswordForm.newPassword !== resetPasswordForm.confirmPassword) {
-      alert("Passwords do not match");
-      return;
-    }
-    if (resetPasswordForm.newPassword.length < 6) {
-      alert("Password must be at least 6 characters");
-      return;
-    }
 
-    setCompanies((prev) =>
-      prev.map((c) =>
-        c.id === selectedCompanyId
-          ? {
-              ...c,
-              employees: c.employees.map((emp) =>
-                emp.id === resetPasswordForm.employeeId
-                  ? { ...emp, password: resetPasswordForm.newPassword }
-                  : emp
-              ),
-            }
-          : c
-      )
+const handleResetPassword = async (e) => {
+  e.preventDefault();
+
+  if (resetPasswordForm.newPassword !== resetPasswordForm.confirmPassword) {
+    alert("Passwords do not match");
+    return;
+  }
+  if (resetPasswordForm.newPassword.length < 6) {
+    alert("Password must be at least 6 characters");
+    return;
+  }
+
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(";").shift();
+    return null;
+  }
+
+  const token = getCookie("auth_token");
+  if (!token) {
+    alert("Token bulunamadı");
+    return;
+  }
+
+  try {
+    const res = await fetch(
+      `http://isosofts.com/api/account/staff/${resetPasswordForm.employeeId}/password?token=${encodeURIComponent(token)}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          password: resetPasswordForm.newPassword,
+          confirmPassword: resetPasswordForm.confirmPassword,
+        }),
+      }
     );
 
-    alert("Password has been updated successfully.");
+    if (!res.ok) throw new Error(`Sunucu hatası: ${res.status}`);
+
     setResetPasswordForm({ employeeId: "", newPassword: "", confirmPassword: "" });
     setShowResetPasswordModal(false);
-  };
+  } catch (err) {
+    console.error("Şifre güncellenemedi:", err);
+    alert(`Güncelleme başarısız: ${err.message}`);
+  }
+};
 
   const toggleCompanyStatus = (companyId) => {
     setCompanies((prev) =>
@@ -703,7 +721,7 @@ const handleEditEmployee = async (e) => {
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-3">
                                 <button
-                                  onClick={() => openEditEmployee(emp)}
+                                  onClick={() => openEditEmployee(emp.id)}
                                   className="text-blue-600 hover:text-blue-800"
                                 >
                                   Edit
