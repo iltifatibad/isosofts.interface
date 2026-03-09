@@ -399,9 +399,13 @@ const handleEditEmployee = async (e) => {
     return;
   }
 
+  // Mevcut durumu bul
+  const employee = selectedCompany.employees.find(emp => emp.id === employeeId);
+  const action = employee.isActive ? "unactive" : "active";
+
   try {
     const res = await fetch(
-      `http://isosofts.com/api/account/staff/${employeeId}/active?token=${encodeURIComponent(token)}`,
+      `http://isosofts.com/api/account/staff/${employeeId}/${action}?token=${encodeURIComponent(token)}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
