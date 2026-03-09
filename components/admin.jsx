@@ -24,8 +24,6 @@ const AdminDashboard = () => {
 
       registries: [
         "Azerbaijan ISO 9001:2015",
-        "Georgia ISO 14001:2015",
-        "Turkey ISO 45001:2018",
       ],
     },
   ]);
@@ -503,22 +501,7 @@ const AdminDashboard = () => {
                       <p className="text-blue-200 mt-1">{selectedCompany.email}</p>
                     </div>
                     <div className="flex items-center space-x-4">
-                      <button
-                        onClick={openEditCompany}
-                        className="bg-white text-blue-800 px-5 py-2 rounded-lg hover:bg-gray-100"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => toggleCompanyStatus(selectedCompany.id)}
-                        className={`px-5 py-2 rounded-lg font-medium text-white ${
-                          selectedCompany.status === "active"
-                            ? "bg-red-600 hover:bg-red-700"
-                            : "bg-green-600 hover:bg-green-700"
-                        }`}
-                      >
-                        {selectedCompany.status === "active" ? "Deactivate" : "Activate"}
-                      </button>
+                      <h2 className="text-xl font-bold"> IsoSofts.com</h2>
                     </div>
                   </div>
                 </div>
@@ -530,18 +513,6 @@ const AdminDashboard = () => {
                     className="bg-blue-600 text-white px-5 py-2.5 rounded-lg hover:bg-blue-700"
                   >
                     + Add Employee
-                  </button>
-                  <button
-                    onClick={() => setShowAddRegistryModal(true)}
-                    className="bg-green-600 text-white px-5 py-2.5 rounded-lg hover:bg-green-700"
-                  >
-                    + Add Registry
-                  </button>
-                  <button
-                    onClick={() => setShowCopyRegistryModal(true)}
-                    className="bg-indigo-600 text-white px-5 py-2.5 rounded-lg hover:bg-indigo-700"
-                  >
-                    Copy Registries
                   </button>
                 </div>
 
