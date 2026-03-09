@@ -1,7 +1,6 @@
 export const isAuth = () => {
-    let token = localStorage.getItem("token");
-    console.log(" Searching For Token ")
-    if (!!token == false) {
+    let token = getCookie("auth_token") || null;
+    if (!!token == null) {
         window.location.href = "http://isosofts.com/los";
         console.log(" Token Can't Find")
     } else {
