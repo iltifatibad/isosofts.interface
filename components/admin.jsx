@@ -16,6 +16,13 @@ const AdminDashboard = () => {
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [profile, setProfile] = useState(null);
   const [subordinates, setSubordinates] = useState([]);
+
+  // State eklemeleri
+  const [lineManagerModal, setLineManagerModal] = useState({ open: false, empId: null });
+  const [staffList, setStaffList] = useState([]);
+  const [selectedLineManager, setSelectedLineManager] = useState("");
+  const [staffLoading, setStaffLoading] = useState(false);
+
   const [companies, setCompanies] = useState([
     {
       id: "This Id Is Private",
@@ -121,7 +128,7 @@ const AdminDashboard = () => {
     email: "",
     country: "",
   });
-
+  
   const [editCompanyForm, setEditCompanyForm] = useState({
     name: "",
     email: "",
@@ -152,6 +159,29 @@ const AdminDashboard = () => {
 
   const [newRegistryForm, setNewRegistryForm] = useState({ name: "" });
   const [editRegistryForm, setEditRegistryForm] = useState({ index: -1, name: "" });
+
+
+  // Modal açma fonksiyonu
+const openSetLineManager = async (empId) => {
+  setLineManagerModal({ open: true, empId });
+  setSelectedLineManager("");
+  setStaffLoading(true);
+  try {
+    const res = await fetch(`http://isosofts.com/api/account/staff?isActive=1&token=`);
+    const data = await res.json();
+
+    // Sadece başkasının lineManagerId'si olarak geçenleri al
+    const lineManagerIds = new Set(data.map((s) => s.lineManagerId).filter(Boolean));
+    const lineManagers = data.filter((s) => lineManagerIds.has(s.id));
+
+    setStaffList(lineManagers);
+  } catch (err) {
+    console.error("Staff fetch error:", err);
+  } finally {
+    setStaffLoading(false);
+  }
+};
+
 
   // ────────────────────────────────────────────────
   // Handlers
@@ -727,6 +757,12 @@ const openEditEmployee = (emp) => {
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-3">
                                 <button
+                                  onClick={() => openSetLineManager(emp.id)}
+                                  className="text-orange-600 hover:text-orange-800"
+                                >
+                                  Set Line Manager
+                                </button>
+                                <button
                                   onClick={() => openEditEmployee(emp)}
                                   className="text-blue-600 hover:text-blue-800"
                                 >
@@ -923,6 +959,52 @@ const openEditEmployee = (emp) => {
                   </button>
                 </div>
               </form>
+            </div>
+          </div>
+        )}
+
+        {/* Add Line Manager Modal */}
+        {lineManagerModal.open && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+            <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
+              <h2 className="text-lg font-semibold text-gray-800 mb-4">Set Line Manager</h2>
+
+              {staffLoading ? (
+                <p className="text-sm text-gray-500">Loading...</p>
+              ) : (
+                <select
+                  value={selectedLineManager}
+                  onChange={(e) => setSelectedLineManager(e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">-- Select Line Manager --</option>
+                  {staffList.map((s) => (
+                    <option key={s.id} value={s.id}>
+                      {s.name} {s.surname}
+                    </option>
+                  ))}
+                </select>
+              )}
+
+              <div className="flex justify-end gap-3 mt-6">
+                <button
+                  onClick={() => setLineManagerModal({ open: false, empId: null })}
+                  className="px-4 py-2 text-sm rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    // TODO: save işlemi buraya
+                    console.log("Assign", selectedLineManager, "to", lineManagerModal.empId);
+                    setLineManagerModal({ open: false, empId: null });
+                  }}
+                  disabled={!selectedLineManager}
+                  className="px-4 py-2 text-sm rounded-lg bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Save
+                </button>
+              </div>
             </div>
           </div>
         )}
