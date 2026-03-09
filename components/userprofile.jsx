@@ -1,22 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 const UserProfile = () => {
-  const [profile, setProfile] = useState({
-    fullName: "John Doe",
-    email: "john.doe@isosofts.com",
-    employeeId: "EMP-7842",
-    department: "Quality Assurance",
-    position: "Senior Quality Engineer",
-    lineManager: {
-      name: "Sarah Mitchell",
-      email: "sarah.mitchell@isosofts.com",
-      position: "Quality Assurance Manager"
-    },
-    joinDate: "March 15, 2022",
-    lastLogin: "February 11, 2026 08:45 AM",
-    phone: "+90 555 123 45 67",
-    location: "Istanbul Office"
-  });
+  const [profile, setProfile] = useState();
 
   const [subordinates, setSubordinates] = useState([
     { id: "EMP-9123", name: "Ahmet Yılmaz", position: "Quality Engineer", email: "ahmet.yilmaz@isosofts.com" },
@@ -82,14 +67,39 @@ const UserProfile = () => {
   };
 
   // In real app you would fetch real data here
-  useEffect(() => {
-    // fetch("http://localhost:8000/api/user/profile")
-    //   .then(res => res.json())
-    //   .then(data => {
-    //     setProfile(data.profile);
-    //     setSubordinates(data.subordinates || []);
-    //   });
-  }, []);
+    useEffect(() => {
+      // Cookie'den token'ı oku (document.cookie ile)
+      function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+        return null;
+      }
+
+      const token = getCookie('auth_token');  // cookie adı 'auth_token' ise
+
+      if (!token) {
+        console.warn("Auth token cookie'de bulunamadı");
+        return; // token yoksa isteği atla veya login sayfasına yönlendir
+      }
+
+      fetch(`http://isosofts.com/api/account/self/?token=${encodeURIComponent(token)}`)
+        .then(res => {
+          if (!res.ok) {
+            throw new Error(`Sunucu hatası: ${res.status}`);
+          }
+          return res.json();
+        })
+        .then(data => {
+          setProfile(data.profile);
+          setSubordinates(data.subordinates || []);
+        })
+        .catch(err => {
+          console.error("Profil yüklenirken hata:", err);
+          // İsteğe bağlı: hata durumunda kullanıcıyı login sayfasına yönlendir
+          // window.location.href = "/login";
+        });
+    }, []);
 
   return (
     <div className="min-h-screen bg-gray-50 py-10">
@@ -112,12 +122,12 @@ const UserProfile = () => {
               <div className="bg-gradient-to-r from-blue-600 to-blue-800 px-8 py-10 text-white">
                 <div className="flex items-center space-x-6">
                   <div className="w-24 h-24 rounded-full bg-white flex items-center justify-center text-4xl font-bold text-blue-700">
-                    {profile.fullName.split(" ").map(n => n[0]).join("")}
+                    {profile.name.split(" ").map(n => n[0]).join("")}
                   </div>
                   <div>
-                    <h2 className="text-3xl font-bold">{profile.fullName}</h2>
-                    <p className="text-blue-100 mt-1">{profile.position}</p>
-                    <p className="text-blue-200 mt-1">{profile.department}</p>
+                    <h2 className="text-3xl font-bold">{profile.name} {profile.surname}</h2>
+                    {/* <p className="text-blue-100 mt-1">{profile.position}</p>
+                    <p className="text-blue-200 mt-1">{profile.department}</p> */}
                   </div>
                 </div>
               </div>
@@ -126,7 +136,7 @@ const UserProfile = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-500">Employee ID</label>
-                    <p className="mt-1 text-gray-900 font-medium">{profile.employeeId}</p>
+                    <p className="mt-1 text-gray-900 font-medium">{profile.id}</p>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-500">Email</label>
@@ -134,19 +144,19 @@ const UserProfile = () => {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-500">Phone</label>
-                    <p className="mt-1 text-gray-900 font-medium">{profile.phone}</p>
+                    <p className="mt-1 text-gray-900 font-medium">{profile.phoneNumber}</p>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-500">Location</label>
-                    <p className="mt-1 text-gray-900 font-medium">{profile.location}</p>
+                    <p className="mt-1 text-gray-900 font-medium">Azerbaijan, Baku</p>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-500">Join Date</label>
-                    <p className="mt-1 text-gray-900 font-medium">{profile.joinDate}</p>
+                    {/* <p className="mt-1 text-gray-900 font-medium">{profile.joinDate}</p> */}
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-500">Last Login</label>
-                    <p className="mt-1 text-gray-900 font-medium">{profile.lastLogin}</p>
+                    {/* <p className="mt-1 text-gray-900 font-medium">{profile.lastLogin}</p> */}
                   </div>
                 </div>
               </div>
@@ -157,12 +167,12 @@ const UserProfile = () => {
               <h3 className="text-xl font-bold text-gray-800 mb-6">Line Manager</h3>
               <div className="flex items-start space-x-4">
                 <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center text-2xl font-bold text-blue-600">
-                  {profile.lineManager.name.split(" ").map(n => n[0]).join("")}
+                  {/* {profile.lineManager.name.split(" ").map(n => n[0]).join("")} */}
                 </div>
                 <div>
-                  <p className="font-semibold text-lg">{profile.lineManager.name}</p>
+                  {/* <p className="font-semibold text-lg">{profile.lineManager.name}</p>
                   <p className="text-gray-600">{profile.lineManager.position}</p>
-                  <p className="text-blue-600 mt-1">{profile.lineManager.email}</p>
+                  <p className="text-blue-600 mt-1">{profile.lineManager.email}</p> */}
                 </div>
               </div>
             </div>
