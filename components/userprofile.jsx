@@ -94,8 +94,12 @@ useEffect(() => {
     })
     .then(data => {
       console.log("Backend'den gelen veri:", data); // ← burayı mutlaka kontrol et
-      setProfile(data); // direkt data'yı set et
-      setSubordinates(data.subordinates || []);
+      if (data.isAdmin == 1){
+        window.location.href = "http://isosofts.com/admin";
+      } else {
+        setProfile(data); // direkt data'yı set et
+        setSubordinates(data.subordinates || []);
+      }
     })
     .catch(err => {
       console.error("Profil hatası:", err);
