@@ -229,71 +229,73 @@ const AdminDashboard = () => {
   }
 };
 
-  const handleEditEmployee = async (e) => {
-  e.preventDefault(); // form submit'in sayfayı yenilemesini engeller
+const handleEditEmployee = async (e) => {
+  e.preventDefault();
+
+  // 1. Token'ı cookie'den al
+  const getCookie = (name) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(";").shift();
+    return null;
+  };
+
+  const token = getCookie("auth_token");
+
+  if (!token) {
+    alert("Oturum bulunamadı. Lütfen tekrar giriş yapın.");
+    return;
+  }
+
+  // 2. ID kontrolü (çok kritik)
+  if (!editEmployeeForm.id) {
+    alert("Personel ID bilgisi eksik!");
+    return;
+  }
+
+  // 3. Gönderilecek veriyi hazırla
+  const payload = {
+    name: editEmployeeForm.name.trim(),
+    surname: editEmployeeForm.surname.trim(),
+    email: editEmployeeForm.email.trim(),
+    phoneNumber: editEmployeeForm.phoneNumber
+      ? Number(editEmployeeForm.phoneNumber)
+      : undefined,   // backend boş string yerine null/undefined bekliyorsa
+  };
 
   try {
-    // Cookie'den token'ı al
-    const getCookie = (name) => {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop().split(';').shift();
-      return null;
-    };
-
-    const token = getCookie('auth_token');
-
-    if (!token) {
-      alert('Oturum tokenı bulunamadı. Lütfen tekrar giriş yapın.');
-      return;
-    }
-
-    // Form verilerini hazırla (gerekirse temizleme/validasyon yapabilirsin)
-    const payload = {
-      name: editEmployeeForm.name.trim(),
-      surname: editEmployeeForm.surname.trim(),
-      email: editEmployeeForm.email.trim(),
-      phoneNumber: editEmployeeForm.phoneNumber
-        ? Number(editEmployeeForm.phoneNumber)
-        : undefined,
-    };
-
-    const employeeId = editEmployeeForm.id; // !!! önemli: id'nin formda olduğundan emin ol
-
-    if (!employeeId) {
-      alert('Personel ID bilgisi eksik!');
-      return;
-    }
-
     const response = await fetch(
-      `https://isosofts.com/api/account/straff/${employeeId}?token=${token}`,
+      `https://isosofts.com/api/account/straff/${editEmployeeForm.id}?token=${token}`,
       {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
-          // 'Authorization': `Bearer ${token}`  ← eğer backend token'ı header'dan bekliyorsa bu satırı kullan
+          "Content-Type": "application/json",
+          // Eğer backend Authorization header istiyorsa aşağıdaki satırı aç:
+          // "Authorization": `Bearer ${token}`,
         },
         body: JSON.stringify(payload),
       }
     );
 
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.message || `Hata: ${response.status}`);
+      let errorMessage = `Hata: ${response.status}`;
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.message || errorMessage;
+      } catch {}
+      throw new Error(errorMessage);
     }
 
-    const data = await response.json();
-
-    // Başarılı durumda
-    alert('Personel bilgileri başarıyla güncellendi!');
+    // Başarılı
+    alert("Personel bilgileri güncellendi!");
     setShowEditEmployeeModal(false);
-    
-    // İstersen burada listeyi yenileyebilirsin
-    // await fetchEmployees();  // veya benzeri bir fonksiyon çağır
+
+    // Opsiyonel: listeyi yenilemek istersen buraya fonksiyon çağır
+    // await refreshEmployeeList();
 
   } catch (err) {
-    console.error('Güncelleme hatası:', err);
-    alert('Güncelleme yapılamadı: ' + (err.message || 'Bilinmeyen hata'));
+    console.error("Güncelleme hatası:", err);
+    alert(`Güncelleme başarısız: ${err.message || "Bilinmeyen hata"}`);
   }
 };
 
