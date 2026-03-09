@@ -15,7 +15,60 @@ const AdminDashboard = () => {
   const [showAddRegistryModal, setShowAddRegistryModal] = useState(false);
   const [showEditRegistryModal, setShowEditRegistryModal] = useState(false);
   const [profile, setProfile] = useState(null);
+  const [companies, setCompanies] = useState([
+    {
+      id: "This Id Is Private",
+      name: "ABC MMC",
+      country: "Azerbaijan",
+      email: "info@abc.az",
+      status: "active",
 
+      registries: [
+        "Azerbaijan ISO 9001:2015",
+        "Georgia ISO 14001:2015",
+        "Turkey ISO 45001:2018",
+      ],
+    },
+  ]);
+    useEffect(() => {
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
+  }
+
+  const token = getCookie('auth_token');
+  if (!token) {
+    console.warn("Auth token bulunamadı");
+    return;
+  }
+
+  fetch(`http://isosofts.com/api/account/staff?token=${encodeURIComponent(token)}`)
+    .then(res => {
+      if (!res.ok) throw new Error(`Sunucu hatası: ${res.status}`);
+      return res.json();
+    })
+    .then(data => {
+      setCompanies(prev => {
+        const updated = [...prev];
+        updated[0] = {
+          ...updated[0],
+          employees: data.map(emp => ({
+            id: emp.id,
+            fullName: `${emp.name} ${emp.surname}`,
+            email: emp.email,
+            role: emp.isAdmin == 1 ? "admin" : "user",
+            canEdit: emp.isAdmin == 1,
+            status: "active",
+            phoneNumber: emp.phoneNumber,
+          }))
+        };
+        return updated;
+      });
+    })
+    .catch(err => console.error("Staff yüklenemedi:", err));
+}, []);
 
   useEffect(() => {
     function getCookie(name) {
@@ -377,62 +430,10 @@ const AdminDashboard = () => {
     setShowEditRegistryModal(true);
   };
 
-  const [companies, setCompanies] = useState([
-    {
-      id: "This Id Is Private",
-      name: "ABC MMC",
-      country: "Azerbaijan",
-      email: "info@abc.az",
-      status: "active",
-
-      registries: [
-        "Azerbaijan ISO 9001:2015",
-        "Georgia ISO 14001:2015",
-        "Turkey ISO 45001:2018",
-      ],
-    },
-  ]);
 
 
-  useEffect(() => {
-  function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-    return null;
-  }
 
-  const token = getCookie('auth_token');
-  if (!token) {
-    console.warn("Auth token bulunamadı");
-    return;
-  }
 
-  fetch(`http://isosofts.com/api/account/staff?token=${encodeURIComponent(token)}`)
-    .then(res => {
-      if (!res.ok) throw new Error(`Sunucu hatası: ${res.status}`);
-      return res.json();
-    })
-    .then(data => {
-      setCompanies(prev => {
-        const updated = [...prev];
-        updated[0] = {
-          ...updated[0],
-          employees: data.map(emp => ({
-            id: emp.id,
-            fullName: `${emp.name} ${emp.surname}`,
-            email: emp.email,
-            role: emp.isAdmin == 1 ? "admin" : "user",
-            canEdit: emp.isAdmin == 1,
-            status: "active",
-            phoneNumber: emp.phoneNumber,
-          }))
-        };
-        return updated;
-      });
-    })
-    .catch(err => console.error("Staff yüklenemedi:", err));
-}, []);
   // ────────────────────────────────────────────────
   // RENDER
   // ────────────────────────────────────────────────
