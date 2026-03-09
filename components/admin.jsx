@@ -693,12 +693,12 @@ const handleEditEmployee = async (e) => {
                               <td className="px-6 py-4 whitespace-nowrap">
                                 <span
                                   className={`px-2.5 py-1 rounded-full text-xs font-medium ${
-                                    emp.status === "active"
+                                    emp.isActive
                                       ? "bg-green-100 text-green-800"
                                       : "bg-red-100 text-red-800"
                                   }`}
                                 >
-                                  {emp.status}
+                                  {emp.isActive ? "active" : "inactive"}
                                 </span>
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-3">
