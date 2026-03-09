@@ -135,9 +135,10 @@ const AdminDashboard = () => {
 
   const [editEmployeeForm, setEditEmployeeForm] = useState({
     id: "",
-    fullName: "",
+    name: "",
+    surname: "",
     email: "",
-    canEdit: false,
+    phoneNumber:"",
   });
 
   const [resetPasswordForm, setResetPasswordForm] = useState({
@@ -228,29 +229,73 @@ const AdminDashboard = () => {
   }
 };
 
-  const handleEditEmployee = (e) => {
-    e.preventDefault();
-    setCompanies((prev) =>
-      prev.map((c) =>
-        c.id === selectedCompanyId
-          ? {
-              ...c,
-              employees: c.employees.map((emp) =>
-                emp.id === editEmployeeForm.id
-                  ? {
-                      ...emp,
-                      fullName: editEmployeeForm.fullName,
-                      email: editEmployeeForm.email,
-                      canEdit: editEmployeeForm.canEdit,
-                    }
-                  : emp
-              ),
-            }
-          : c
-      )
+  const handleEditEmployee = async (e) => {
+  e.preventDefault(); // form submit'in sayfayı yenilemesini engeller
+
+  try {
+    // Cookie'den token'ı al
+    const getCookie = (name) => {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+      return null;
+    };
+
+    const token = getCookie('auth_token');
+
+    if (!token) {
+      alert('Oturum tokenı bulunamadı. Lütfen tekrar giriş yapın.');
+      return;
+    }
+
+    // Form verilerini hazırla (gerekirse temizleme/validasyon yapabilirsin)
+    const payload = {
+      name: editEmployeeForm.name.trim(),
+      surname: editEmployeeForm.surname.trim(),
+      email: editEmployeeForm.email.trim(),
+      phoneNumber: editEmployeeForm.phoneNumber
+        ? Number(editEmployeeForm.phoneNumber)
+        : undefined,
+    };
+
+    const employeeId = editEmployeeForm.id; // !!! önemli: id'nin formda olduğundan emin ol
+
+    if (!employeeId) {
+      alert('Personel ID bilgisi eksik!');
+      return;
+    }
+
+    const response = await fetch(
+      `https://isosofts.com/api/account/straff/${employeeId}?token=${token}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          // 'Authorization': `Bearer ${token}`  ← eğer backend token'ı header'dan bekliyorsa bu satırı kullan
+        },
+        body: JSON.stringify(payload),
+      }
     );
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.message || `Hata: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    // Başarılı durumda
+    alert('Personel bilgileri başarıyla güncellendi!');
     setShowEditEmployeeModal(false);
-  };
+    
+    // İstersen burada listeyi yenileyebilirsin
+    // await fetchEmployees();  // veya benzeri bir fonksiyon çağır
+
+  } catch (err) {
+    console.error('Güncelleme hatası:', err);
+    alert('Güncelleme yapılamadı: ' + (err.message || 'Bilinmeyen hata'));
+  }
+};
 
   const handleResetPassword = (e) => {
     e.preventDefault();
@@ -874,13 +919,26 @@ const AdminDashboard = () => {
               <form onSubmit={handleEditEmployee} className="space-y-5">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Full Name
+                    Name
                   </label>
                   <input
                     type="text"
-                    value={editEmployeeForm.fullName}
+                    value={editEmployeeForm.name}
                     onChange={(e) =>
-                      setEditEmployeeForm({ ...editEmployeeForm, fullName: e.target.value })
+                      setEditEmployeeForm({ ...editEmployeeForm, name: e.target.value })
+                    }
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Surname
+                  </label>
+                  <input
+                    type="text"
+                    value={editEmployeeForm.surname}
+                    onChange={(e) =>
+                      setEditEmployeeForm({ ...editEmployeeForm, surname: e.target.value })
                     }
                     className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
                   />
@@ -898,19 +956,18 @@ const AdminDashboard = () => {
                     className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
                   />
                 </div>
-                <div className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id="canEditEdit"
-                    checked={editEmployeeForm.canEdit}
-                    onChange={(e) =>
-                      setEditEmployeeForm({ ...editEmployeeForm, canEdit: e.target.checked })
-                    }
-                    className="h-5 w-5 text-blue-600 rounded"
-                  />
-                  <label htmlFor="canEditEdit" className="ml-2 text-gray-700 font-medium">
-                    Can edit records
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Phone Number
                   </label>
+                  <input
+                    type="number"
+                    value={editEmployeeForm.phoneNumber}
+                    onChange={(e) =>
+                      setEditEmployeeForm({ ...editEmployeeForm, phoneNumber: e.target.value })
+                    }
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
+                  />
                 </div>
                 <div className="flex justify-end space-x-4 mt-8">
                   <button
