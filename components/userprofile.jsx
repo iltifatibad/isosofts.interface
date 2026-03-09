@@ -69,12 +69,12 @@ const UserProfile = () => {
   // In real app you would fetch real data here
     useEffect(() => {
       // Cookie'den token'ı oku (document.cookie ile)
-      function getCookie(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-        return null;
-      }
+      // function getCookie(name) {
+      //   const value = `; ${document.cookie}`;
+      //   const parts = value.split(`; ${name}=`);
+      //   if (parts.length === 2) return parts.pop().split(';').shift();
+      //   return null;
+      // }
 
       const token = getCookie('auth_token');  // cookie adı 'auth_token' ise
 
