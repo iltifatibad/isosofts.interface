@@ -98,11 +98,10 @@ const AdminDashboard = () => {
         return res.json();
       })
       .then(data => {
-        if (data.isAdmin == 0){
+        if (data.isAdmin === 0){
             window.location.href = "http://isosofts.com/profile";
         }else {
             setProfile(data); // direkt data'yı set et
-            setSubordinates(data.subordinates || []);
         }
       })
       .catch(err => {
