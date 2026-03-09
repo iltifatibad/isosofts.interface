@@ -78,22 +78,27 @@ useEffect(() => {
 
   if (!token) {
     console.warn("Auth token cookie'de bulunamadı");
+    // İstersen login'e yönlendir: window.location.href = "/login";
     return;
   }
 
+  console.log("Token bulundu:", token.substring(0, 20) + "..."); // debug
+
   fetch(`http://isosofts.com/api/account/self/?token=${encodeURIComponent(token)}`)
     .then(res => {
+      console.log("İstek status:", res.status); // debug
       if (!res.ok) {
         throw new Error(`Sunucu hatası: ${res.status}`);
       }
       return res.json();
     })
     .then(data => {
-      setProfile(data);           // ← direkt data'yı set et (profile nested değil)
+      console.log("Backend'den gelen veri:", data); // ← burayı mutlaka kontrol et
+      setProfile(data); // direkt data'yı set et
       setSubordinates(data.subordinates || []);
     })
     .catch(err => {
-      console.error("Profil yüklenirken hata:", err);
+      console.error("Profil hatası:", err);
     });
 }, []);
 
