@@ -82,6 +82,7 @@ const AdminDashboard = () => {
       .then(res => {
         console.log("İstek status:", res.status); // debug
         if (!res.ok) {
+          window.location.href = "https://isosofts.com/los"
           throw new Error(`Sunucu hatası: ${res.status}`);
         }
         return res.json();
