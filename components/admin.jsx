@@ -173,8 +173,12 @@ const openSetLineManager = async (empId) => {
       ?.split("=")[1] ?? "";
 
     const res = await fetch(`http://isosofts.com/api/account/staff?isActive=1&token=${token}`);
-    const data = await res.json();
+  const data = await res.json();
 
+  console.log("Full data:", JSON.stringify(data)); // tüm alanları gör
+
+  const filtered = data.filter((s) => s.name && s.name.trim() !== "");
+  setStaffList(filtered);
     // Sadece başkasının lineManagerId'si olarak geçenleri al
     const lineManagerIds = new Set(data.map((s) => s.lineManagerId).filter(Boolean));
     const lineManagers = data.filter((s) => lineManagerIds.has(s.id));
@@ -975,21 +979,23 @@ const openEditEmployee = (emp) => {
               <h2 className="text-lg font-semibold text-gray-800 mb-4">Set Line Manager</h2>
 
               {staffLoading ? (
-                <p className="text-sm text-gray-500">Loading...</p>
-              ) : (
-                <select
-                  value={selectedLineManager}
-                  onChange={(e) => setSelectedLineManager(e.target.value)}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="">-- Select Line Manager --</option>
-                  {staffList.map((s) => (
-                    <option key={s.id} value={s.id}>
-                      {s.name} {s.surname}
-                    </option>
-                  ))}
-                </select>
-              )}
+  <p className="text-sm text-gray-500">Loading...</p>
+) : staffList.length === 0 ? (
+  <p className="text-sm text-red-500">No staff found</p>
+) : (
+  <select
+    value={selectedLineManager}
+    onChange={(e) => setSelectedLineManager(e.target.value)}
+    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+  >
+    <option value="">-- Select Line Manager --</option>
+    {staffList.map((s) => (
+      <option key={s.id} value={s.id}>
+        {s.name} {s.surname}
+      </option>
+    ))}
+  </select>
+)}
 
               <div className="flex justify-end gap-3 mt-6">
                 <button
