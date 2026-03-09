@@ -54,15 +54,17 @@ const AdminDashboard = () => {
         updated[0] = {
           ...updated[0],
           employees: data.map(emp => ({
-            id: emp.id,
-            fullName: `${emp.name} ${emp.surname}`,
-            email: emp.email,
-            role: emp.isAdmin == 1 ? "admin" : "user",
-            canEdit: emp.isAdmin == 1,
-            status: "active",
-            phoneNumber: emp.phoneNumber,
-            isActive: emp.isActive,
-          }))
+          id: emp.id,
+          name: emp.name,           // ← ekle
+          surname: emp.surname,     // ← ekle
+          fullName: `${emp.name} ${emp.surname}`,
+          email: emp.email,
+          role: emp.isAdmin == 1 ? "admin" : "user",
+          canEdit: emp.isAdmin == 1,
+          status: "active",
+          phoneNumber: emp.phoneNumber,
+          isActive: emp.isActive,
+        }))
         };
         return updated;
       });
@@ -549,16 +551,12 @@ const handleResetPassword = async (e) => {
   };
 
 const openEditEmployee = (emp) => {
-  const nameParts = emp.fullName.split(" ");
-  const name = nameParts[0] || "";
-  const surname = nameParts.slice(1).join(" ") || "";
-
   setSelectedEmployee(emp);
   setEditEmployeeForm({
     id: emp.id,
-    name: name,
-    surname: surname,
-    email: emp.email,
+    name: emp.name || emp.fullName?.split(" ")[0] || "",
+    surname: emp.surname || emp.fullName?.split(" ").slice(1).join(" ") || "",
+    email: emp.email || "",
     phoneNumber: emp.phoneNumber || "",
     canEdit: emp.canEdit,
   });
