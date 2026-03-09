@@ -193,13 +193,13 @@ useEffect(() => {
             {/* Change Password */}
             <div className="bg-white rounded-xl shadow-md border border-gray-200 p-8">
               <h3 className="text-xl font-bold text-gray-800 mb-6">Change Password</h3>
-              {profile.isAdmin === 0 && (
-  <h2 className="text-xl font-bold text-gray-800 mb-6">
-    If You Want to Change Your Password, Contact the Admin
-  </h2>
-)}
+              {Number(profile.isAdmin) === 0 && (
+                <h2 className="text-xl font-bold text-gray-800 mb-6">
+                  If You Want to Change Your Password, Contact the Admin
+                </h2>
+              )}
 
-{profile.isAdmin === 1 && (
+{Number(profile.isAdmin) === 1 && (
   <form onSubmit={handlePasswordSubmit} className="space-y-5">
     <div>
       <label className="block text-sm font-medium text-gray-700 mb-1">
