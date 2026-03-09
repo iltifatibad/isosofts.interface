@@ -84,7 +84,7 @@ useEffect(() => {
 
   console.log("Token bulundu:", token.substring(0, 20) + "..."); // debug
 
-  fetch(`http://isosofts.com/api/account/self/?token=${encodeURIComponent(token)}`)
+  fetch(`http://isosofts.com/api/account/self?token=${encodeURIComponent(token)}`)
     .then(res => {
       console.log("İstek status:", res.status); // debug
       if (!res.ok) {
