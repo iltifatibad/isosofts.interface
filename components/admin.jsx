@@ -385,10 +385,36 @@ const handleEditEmployee = async (e) => {
     );
   };
 
-  const toggleEmployeeStatus = (companyId, employeeId) => {
+  const toggleEmployeeStatus = async (employeeId) => {
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(";").shift();
+    return null;
+  }
+
+  const token = getCookie("auth_token");
+  if (!token) {
+    console.warn("Auth token bulunamadı");
+    return;
+  }
+
+  try {
+    const res = await fetch(
+      `http://isosofts.com/api/account/straff/${employeeId}/active?token=${encodeURIComponent(token)}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+
+    if (!res.ok) {
+      throw new Error(`Sunucu hatası: ${res.status}`);
+    }
+
     setCompanies((prev) =>
       prev.map((c) =>
-        c.id === companyId
+        c.id === selectedCompany.id
           ? {
               ...c,
               employees: c.employees.map((emp) =>
@@ -400,7 +426,10 @@ const handleEditEmployee = async (e) => {
           : c
       )
     );
-  };
+  } catch (err) {
+    console.error("Durum güncellenemedi:", err);
+  }
+};
 
   const toggleEmployeeEditRight = (companyId, employeeId) => {
     setCompanies((prev) =>
@@ -682,7 +711,7 @@ const handleEditEmployee = async (e) => {
                                   Reset Password
                                 </button>
                                 <button
-                                  onClick={() => toggleEmployeeStatus(selectedCompany.id, emp.id)}
+                                  onClick={() => toggleEmployeeStatus(emp.id)}
                                   className={`${
                                     emp.status === "active"
                                       ? "text-red-600 hover:text-red-800"
