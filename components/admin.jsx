@@ -162,7 +162,6 @@ const AdminDashboard = () => {
 
 
   
-// Modal açma fonksiyonu
 const openSetLineManager = async (empId) => {
   setLineManagerModal({ open: true, empId });
   setSelectedLineManager("");
@@ -181,6 +180,31 @@ const openSetLineManager = async (empId) => {
     setStaffList([]);
   } finally {
     setStaffLoading(false);
+  }
+};
+
+const saveLineManager = async () => {
+  try {
+    const token = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("auth_token="))
+      ?.split("=")[1] ?? "";
+
+    const res = await fetch(
+      `http://isosofts.com/api/account/staff/${lineManagerModal.empId}/lineManager?token=${token}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ lineManagerId: selectedLineManager }),
+      }
+    );
+
+    if (!res.ok) throw new Error("Failed to assign line manager");
+
+    setLineManagerModal({ open: false, empId: null });
+    setStaffList([]);
+  } catch (err) {
+    console.error("Save line manager error:", err);
   }
 };
 
@@ -430,7 +454,7 @@ const handleResetPassword = async (e) => {
   }
 };
 
-  const toggleCompanyStatus = (companyId) => {
+const toggleCompanyStatus = (companyId) => {
     setCompanies((prev) =>
       prev.map((c) =>
         c.id === companyId
@@ -438,9 +462,9 @@ const handleResetPassword = async (e) => {
           : c
       )
     );
-  };
+};
 
-  const toggleEmployeeStatus = async (employeeId) => {
+const toggleEmployeeStatus = async (employeeId) => {
   function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
@@ -490,7 +514,7 @@ const handleResetPassword = async (e) => {
   }
 };
 
-  const toggleEmployeeEditRight = (companyId, employeeId) => {
+const toggleEmployeeEditRight = (companyId, employeeId) => {
     setCompanies((prev) =>
       prev.map((c) =>
         c.id === companyId
@@ -505,7 +529,7 @@ const handleResetPassword = async (e) => {
     );
   };
 
-  const handleCopyRegistry = (targetCompanyId) => {
+const handleCopyRegistry = (targetCompanyId) => {
     if (!selectedCompanyId || !targetCompanyId) return;
     const source = companies.find((c) => c.id === selectedCompanyId);
     if (!source) return;
@@ -525,7 +549,7 @@ const handleResetPassword = async (e) => {
   };
 
   // Registry Handlers
-  const handleAddRegistry = (e) => {
+const handleAddRegistry = (e) => {
     e.preventDefault();
     if (!newRegistryForm.name.trim()) return;
 
@@ -541,7 +565,7 @@ const handleResetPassword = async (e) => {
     setShowAddRegistryModal(false);
   };
 
-  const handleEditRegistry = (e) => {
+const handleEditRegistry = (e) => {
     e.preventDefault();
     if (!editRegistryForm.name.trim() || editRegistryForm.index < 0) return;
 
@@ -562,7 +586,7 @@ const handleResetPassword = async (e) => {
     setShowEditRegistryModal(false);
   };
 
-  const handleDeleteRegistry = (index) => {
+const handleDeleteRegistry = (index) => {
     if (!window.confirm("Are you sure you want to delete this registry?")) return;
 
     setCompanies((prev) =>
@@ -575,7 +599,7 @@ const handleResetPassword = async (e) => {
   };
 
   // Open edit modals
-  const openEditCompany = () => {
+const openEditCompany = () => {
     if (!selectedCompany) return;
     setEditCompanyForm({
       name: selectedCompany.name,
@@ -1067,17 +1091,13 @@ const openEditEmployee = (emp) => {
                 >
                   Cancel
                 </button>
-                <button
-                  onClick={() => {
-                    console.log("Assign", selectedLineManager, "to", lineManagerModal.empId);
-                    setLineManagerModal({ open: false, empId: null });
-                    setStaffList([]);
-                  }}
-                  disabled={!selectedLineManager}
-                  className="px-5 py-2 text-sm font-semibold rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm hover:shadow-md"
-                >
-                  Assign Manager
-                </button>
+<button
+  onClick={saveLineManager}
+  disabled={!selectedLineManager}
+  className="px-5 py-2 text-sm font-semibold rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm hover:shadow-md"
+>
+  Assign Manager
+</button>
               </div>
             </div>
           </div>
@@ -1191,7 +1211,7 @@ const openEditEmployee = (emp) => {
       </div>
     </form>
   </div>
-</div>
+          </div>
         )}
 
         {/* Edit Employee Modal */}
