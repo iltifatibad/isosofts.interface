@@ -13,6 +13,7 @@ const AdminDashboard = () => {
   const [showCopyRegistryModal, setShowCopyRegistryModal] = useState(false);
   const [showAddRegistryModal, setShowAddRegistryModal] = useState(false);
   const [showEditRegistryModal, setShowEditRegistryModal] = useState(false);
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [profile, setProfile] = useState(null);
   const [companies, setCompanies] = useState([
     {
@@ -258,13 +259,13 @@ const handleEditEmployee = async (e) => {
     surname: editEmployeeForm.surname.trim(),
     email: editEmployeeForm.email.trim(),
     phoneNumber: editEmployeeForm.phoneNumber
-      ? Number(editEmployeeForm.phoneNumber)
+      ? editEmployeeForm.phoneNumber
       : undefined,   // backend boş string yerine null/undefined bekliyorsa
   };
 
   try {
     const response = await fetch(
-      `http://isosofts.com/api/account/staff/${editEmployeeForm.id}?token=${token}`,
+      `http://isosofts.com/api/account/staff/${selectedEmployee.id}?token=${token}`,
       {
         method: "PUT",
         headers: {
@@ -287,6 +288,7 @@ const handleEditEmployee = async (e) => {
 
     // Başarılı
     alert("Personel bilgileri güncellendi!");
+    setSelectedEmployee(null);
     setShowEditEmployeeModal(false);
 
     // Opsiyonel: listeyi yenilemek istersen buraya fonksiyon çağır
@@ -452,6 +454,7 @@ const handleEditEmployee = async (e) => {
   };
 
   const openEditEmployee = (emp) => {
+    setSelectedEmployee(emp);
     setEditEmployeeForm({
       id: emp.id,
       fullName: emp.fullName,
