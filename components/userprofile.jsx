@@ -102,6 +102,15 @@ useEffect(() => {
     });
 }, []);
 
+  // ✅ DÜZELTME: profile null iken render etme
+  if (!profile) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <p className="text-gray-500 text-lg">Loading profile...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 py-10">
       <div className="max-w-5xl mx-auto px-6">
