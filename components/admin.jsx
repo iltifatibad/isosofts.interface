@@ -17,11 +17,11 @@ const AdminDashboard = () => {
   const [profile, setProfile] = useState(null);
   const [subordinates, setSubordinates] = useState([]);
 
-  // State eklemeleri
   const [lineManagerModal, setLineManagerModal] = useState({ open: false, empId: null });
   const [staffList, setStaffList] = useState([]);
   const [selectedLineManager, setSelectedLineManager] = useState("");
   const [staffLoading, setStaffLoading] = useState(false);
+
 
   const [companies, setCompanies] = useState([
     {
@@ -161,7 +161,8 @@ const AdminDashboard = () => {
   const [editRegistryForm, setEditRegistryForm] = useState({ index: -1, name: "" });
 
 
-  // Modal açma fonksiyonu
+  
+// Modal açma fonksiyonu
 const openSetLineManager = async (empId) => {
   setLineManagerModal({ open: true, empId });
   setSelectedLineManager("");
@@ -172,28 +173,17 @@ const openSetLineManager = async (empId) => {
       .find((row) => row.startsWith("auth_token="))
       ?.split("=")[1] ?? "";
 
-  const res = await fetch(`http://isosofts.com/api/account/staff?isActive=1&token=${token}`);
-const data = await res.json();
-
-console.log("type:", typeof data, Array.isArray(data));
-
-const list = Array.isArray(data) ? data : data.data ?? data.staff ?? data.users ?? [];
-setStaffList(list);
-
-
-  const filtered = data.filter((s) => s.name && s.name.trim() !== "");
-  setStaffList(filtered);
-    // Sadece başkasının lineManagerId'si olarak geçenleri al
-    const lineManagerIds = new Set(data.map((s) => s.lineManagerId).filter(Boolean));
-    const lineManagers = data.filter((s) => lineManagerIds.has(s.id));
-
-    setStaffList(lineManagers);
+    const res = await fetch(`http://isosofts.com/api/account/staff?isActive=1&token=${token}`);
+    const data = await res.json();
+    setStaffList(Array.isArray(data) ? data : []);
   } catch (err) {
     console.error("Staff fetch error:", err);
+    setStaffList([]);
   } finally {
     setStaffLoading(false);
   }
 };
+
 
 
   // ────────────────────────────────────────────────
@@ -976,53 +966,58 @@ const openEditEmployee = (emp) => {
           </div>
         )}
 
-        {/* Add Line Manager Modal */}
-        {lineManagerModal.open && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-            <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
-              <h2 className="text-lg font-semibold text-gray-800 mb-4">Set Line Manager</h2>
 
-              {staffLoading ? (
-  <p className="text-sm text-gray-500">Loading...</p>
-) : staffList.length === 0 ? (
-  <p className="text-sm text-red-500">No staff found</p>
-) : (
-  <select
-    value={selectedLineManager}
-    onChange={(e) => setSelectedLineManager(e.target.value)}
-    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-  >
-    <option value="">-- Select Line Manager --</option>
-    {staffList.map((s) => (
-      <option key={s.id} value={s.id}>
-        {s.name} {s.surname}
-      </option>
-    ))}
-  </select>
+// Modal JSX
+{lineManagerModal.open && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+    <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
+      <h2 className="text-lg font-semibold text-gray-800 mb-4">Set Line Manager</h2>
+
+      {staffLoading ? (
+        <p className="text-sm text-gray-500">Loading...</p>
+      ) : staffList.length === 0 ? (
+        <p className="text-sm text-red-500">No staff found</p>
+      ) : (
+        <select
+          value={selectedLineManager}
+          onChange={(e) => setSelectedLineManager(e.target.value)}
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="">-- Select Line Manager --</option>
+          {staffList.map((s) => (
+            <option key={s.id} value={s.id}>
+              {s.name} {s.surname}
+            </option>
+          ))}
+        </select>
+      )}
+
+      <div className="flex justify-end gap-3 mt-6">
+        <button
+          onClick={() => {
+            setLineManagerModal({ open: false, empId: null });
+            setStaffList([]);
+          }}
+          className="px-4 py-2 text-sm rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-50"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={() => {
+            // TODO: save işlemi buraya
+            console.log("Assign", selectedLineManager, "to", lineManagerModal.empId);
+            setLineManagerModal({ open: false, empId: null });
+            setStaffList([]);
+          }}
+          disabled={!selectedLineManager}
+          className="px-4 py-2 text-sm rounded-lg bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
 )}
-
-              <div className="flex justify-end gap-3 mt-6">
-                <button
-                  onClick={() => setLineManagerModal({ open: false, empId: null })}
-                  className="px-4 py-2 text-sm rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-50"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={() => {
-                    // TODO: save işlemi buraya
-                    console.log("Assign", selectedLineManager, "to", lineManagerModal.empId);
-                    setLineManagerModal({ open: false, empId: null });
-                  }}
-                  disabled={!selectedLineManager}
-                  className="px-4 py-2 text-sm rounded-lg bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Save
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
 
         {/* New Employee Modal */}
         {showNewEmployeeModal && (
