@@ -193,70 +193,81 @@ useEffect(() => {
             {/* Change Password */}
             <div className="bg-white rounded-xl shadow-md border border-gray-200 p-8">
               <h3 className="text-xl font-bold text-gray-800 mb-6">Change Password</h3>
-              <h3 className="text-xl font-bold text-gray-800 mb-6"> If You Want to Change Your Password, Contact the Admin </h3>
-              {/* <form onSubmit={handlePasswordSubmit} className="space-y-5">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Current Password
-                  </label>
-                  <input
-                    type="password"
-                    name="currentPassword"
-                    value={passwordForm.currentPassword}
-                    onChange={handlePasswordChange}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
-                    required
-                  />
-                </div>
+              {profile.isAdmin === 0 && (
+  <h2 className="text-xl font-bold text-gray-800 mb-6">
+    If You Want to Change Your Password, Contact the Admin
+  </h2>
+)}
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    New Password
-                  </label>
-                  <input
-                    type="password"
-                    name="newPassword"
-                    value={passwordForm.newPassword}
-                    onChange={handlePasswordChange}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
-                    required
-                  />
-                </div>
+{profile.isAdmin === 1 && (
+  <form onSubmit={handlePasswordSubmit} className="space-y-5">
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-1">
+        Current Password
+      </label>
+      <input
+        type="password"
+        name="currentPassword"
+        value={passwordForm.currentPassword}
+        onChange={handlePasswordChange}
+        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
+        required
+      />
+    </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Confirm New Password
-                  </label>
-                  <input
-                    type="password"
-                    name="confirmNewPassword"
-                    value={passwordForm.confirmNewPassword}
-                    onChange={handlePasswordChange}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
-                    required
-                  />
-                </div>
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-1">
+        New Password
+      </label>
+      <input
+        type="password"
+        name="newPassword"
+        value={passwordForm.newPassword}
+        onChange={handlePasswordChange}
+        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
+        required
+      />
+    </div>
 
-                {message.text && (
-                  <div className={`p-3 rounded-lg text-sm ${
-                    message.type === "success" ? "bg-green-50 text-green-700" : "bg-red-50 text-red-700"
-                  }`}>
-                    {message.text}
-                  </div>
-                )}
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-1">
+        Confirm New Password
+      </label>
+      <input
+        type="password"
+        name="confirmNewPassword"
+        value={passwordForm.confirmNewPassword}
+        onChange={handlePasswordChange}
+        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
+        required
+      />
+    </div>
 
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className={`w-full py-3 px-4 rounded-lg font-medium text-white transition ${
-                    loading 
-                      ? "bg-gray-400 cursor-not-allowed" 
-                      : "bg-blue-600 hover:bg-blue-700"
-                  }`}
-                >
-                  {loading ? "Changing..." : "Update Password"}
-                </button>
-              </form> */}
+    {message.text && (
+      <div
+        className={`p-3 rounded-lg text-sm ${
+          message.type === "success"
+            ? "bg-green-50 text-green-700"
+            : "bg-red-50 text-red-700"
+        }`}
+      >
+        {message.text}
+      </div>
+    )}
+
+    <button
+      type="submit"
+      disabled={loading}
+      className={`w-full py-3 px-4 rounded-lg font-medium text-white transition ${
+        loading
+          ? "bg-gray-400 cursor-not-allowed"
+          : "bg-blue-600 hover:bg-blue-700"
+      }`}
+    >
+      {loading ? "Changing..." : "Update Password"}
+    </button>
+  </form>
+)}
             </div>
 
             {/* Subordinates (if manager) */}
