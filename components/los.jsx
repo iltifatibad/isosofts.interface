@@ -40,7 +40,7 @@ const handleSubmit = async (e) => {
 
     // ✅ Başarılı
     document.cookie = `auth_token=${result.token}; domain=.isosofts.com; path=/; max-age=86400; SameSite=Lax`;
-    window.location.href = "https://algebra.isosofts.com/dashboard";
+    window.location.href = "http://algebra.isosofts.com/";
 
   } catch (err) {
     console.error("Error:", err);
