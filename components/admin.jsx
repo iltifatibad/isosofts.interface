@@ -172,10 +172,14 @@ const openSetLineManager = async (empId) => {
       .find((row) => row.startsWith("auth_token="))
       ?.split("=")[1] ?? "";
 
-    const res = await fetch(`http://isosofts.com/api/account/staff?isActive=1&token=${token}`);
-  const data = await res.json();
+  const res = await fetch(`http://isosofts.com/api/account/staff?isActive=1&token=${token}`);
+const data = await res.json();
 
-  console.log("Full data:", JSON.stringify(data)); // tüm alanları gör
+console.log("type:", typeof data, Array.isArray(data));
+
+const list = Array.isArray(data) ? data : data.data ?? data.staff ?? data.users ?? [];
+setStaffList(list);
+
 
   const filtered = data.filter((s) => s.name && s.name.trim() !== "");
   setStaffList(filtered);
