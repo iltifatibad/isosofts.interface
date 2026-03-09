@@ -78,7 +78,7 @@ useEffect(() => {
 
   if (!token) {
     console.warn("Auth token cookie'de bulunamadı");
-    // İstersen login'e yönlendir: window.location.href = "/login";
+    window.location.href = "http://isosofts.com/los";
     return;
   }
 
@@ -94,12 +94,8 @@ useEffect(() => {
     })
     .then(data => {
       console.log("Backend'den gelen veri:", data); // ← burayı mutlaka kontrol et
-      if (data.isAdmin == 1){
-        window.location.href = "http://isosofts.com/admin";
-      } else {
         setProfile(data); // direkt data'yı set et
         setSubordinates(data.subordinates || []);
-      }
     })
     .catch(err => {
       console.error("Profil hatası:", err);
