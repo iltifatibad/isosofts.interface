@@ -213,7 +213,6 @@ const AdminDashboard = () => {
     }
 
     const data = await res.json();
-    const data = await res.json();
 console.log("Çalışan eklendi:", data);
 
 // Companies state'ini güncelle
