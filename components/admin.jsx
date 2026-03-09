@@ -401,7 +401,7 @@ const handleEditEmployee = async (e) => {
 
   try {
     const res = await fetch(
-      `http://isosofts.com/api/account/straff/${employeeId}/active?token=${encodeURIComponent(token)}`,
+      `http://isosofts.com/api/account/staff/${employeeId}/active?token=${encodeURIComponent(token)}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
