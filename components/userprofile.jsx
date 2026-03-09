@@ -31,8 +31,8 @@ const UserProfile = () => {
       return;
     }
 
-    if (passwordForm.newPassword.length < 8) {
-      setMessage({ text: "New password must be at least 8 characters", type: "error" });
+    if (passwordForm.newPassword.length < 6) {
+      setMessage({ text: "New password must be at least 6 characters", type: "error" });
       return;
     }
 
@@ -193,8 +193,8 @@ useEffect(() => {
             {/* Change Password */}
             <div className="bg-white rounded-xl shadow-md border border-gray-200 p-8">
               <h3 className="text-xl font-bold text-gray-800 mb-6">Change Password</h3>
-              
-              <form onSubmit={handlePasswordSubmit} className="space-y-5">
+              <h3 className="text-xl font-bold text-gray-800 mb-6"> If You Want to Change Your Password, Contact the Admin </h3>
+              {/* <form onSubmit={handlePasswordSubmit} className="space-y-5">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Current Password
@@ -256,7 +256,7 @@ useEffect(() => {
                 >
                   {loading ? "Changing..." : "Update Password"}
                 </button>
-              </form>
+              </form> */}
             </div>
 
             {/* Subordinates (if manager) */}

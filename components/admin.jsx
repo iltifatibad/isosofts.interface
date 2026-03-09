@@ -57,6 +57,49 @@ const AdminDashboard = () => {
   const [showCopyRegistryModal, setShowCopyRegistryModal] = useState(false);
   const [showAddRegistryModal, setShowAddRegistryModal] = useState(false);
   const [showEditRegistryModal, setShowEditRegistryModal] = useState(false);
+  const [profile, setProfile] = useState(null);
+
+
+  useEffect(() => {
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+      return null;
+    }
+  
+    const token = getCookie('auth_token');
+  
+    if (!token) {
+      console.warn("Auth token cookie'de bulunamadı");
+      window.location.href = "http://isosofts.com/los";
+      return;
+    }
+  
+    console.log("Token bulundu:", token.substring(0, 20) + "..."); // debug
+  
+    fetch(`http://isosofts.com/api/account/self?token=${encodeURIComponent(token)}`)
+      .then(res => {
+        console.log("İstek status:", res.status); // debug
+        if (!res.ok) {
+          throw new Error(`Sunucu hatası: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then(data => {
+        if (data.isAdmin == 0){
+            window.location.href = "http://isosofts.com/profile";
+        }else {
+            setProfile(data); // direkt data'yı set et
+            setSubordinates(data.subordinates || []);
+        }
+      })
+      .catch(err => {
+        window.location.href = "https://isosofts.com/los"
+        console.error("Profil hatası:", err);
+      });
+  }, []);
+  
 
   // Form states
   const [newCompanyForm, setNewCompanyForm] = useState({
