@@ -966,58 +966,122 @@ const openEditEmployee = (emp) => {
           </div>
         )}
 
+        {/* Add Line Manager */}
+        {lineManagerModal.open && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center">
+            {/* Backdrop */}
+            <div
+              className="absolute inset-0 bg-gradient-to-br from-slate-900/80 to-blue-900/60 backdrop-blur-sm"
+              onClick={() => { setLineManagerModal({ open: false, empId: null }); setStaffList([]); }}
+            />
 
-// Modal JSX
-{lineManagerModal.open && (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-    <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
-      <h2 className="text-lg font-semibold text-gray-800 mb-4">Set Line Manager</h2>
+            {/* Modal */}
+            <div className="relative bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden">
+              
+              {/* Header */}
+              <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-5">
+                <div className="flex items-center gap-3">
+                  <div className="bg-white/20 rounded-lg p-2">
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h2 className="text-white font-semibold text-lg leading-tight">Set Line Manager</h2>
+                    <p className="text-blue-100 text-xs mt-0.5">Assign a manager to this employee</p>
+                  </div>
+                </div>
+                {/* Close button */}
+                <button
+                  onClick={() => { setLineManagerModal({ open: false, empId: null }); setStaffList([]); }}
+                  className="absolute top-4 right-4 text-white/70 hover:text-white transition-colors"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
 
-      {staffLoading ? (
-        <p className="text-sm text-gray-500">Loading...</p>
-      ) : staffList.length === 0 ? (
-        <p className="text-sm text-red-500">No staff found</p>
-      ) : (
-        <select
-          value={selectedLineManager}
-          onChange={(e) => setSelectedLineManager(e.target.value)}
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          <option value="">-- Select Line Manager --</option>
-          {staffList.map((s) => (
-            <option key={s.id} value={s.id}>
-              {s.name} {s.surname}
-            </option>
-          ))}
-        </select>
-      )}
+              {/* Body */}
+              <div className="px-6 py-6">
+                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                  Select Manager
+                </label>
 
-      <div className="flex justify-end gap-3 mt-6">
-        <button
-          onClick={() => {
-            setLineManagerModal({ open: false, empId: null });
-            setStaffList([]);
-          }}
-          className="px-4 py-2 text-sm rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-50"
-        >
-          Cancel
-        </button>
-        <button
-          onClick={() => {
-            // TODO: save işlemi buraya
-            console.log("Assign", selectedLineManager, "to", lineManagerModal.empId);
-            setLineManagerModal({ open: false, empId: null });
-            setStaffList([]);
-          }}
-          disabled={!selectedLineManager}
-          className="px-4 py-2 text-sm rounded-lg bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          Save
-        </button>
-      </div>
-    </div>
-  </div>
-)}
+                {staffLoading ? (
+                  <div className="flex items-center gap-3 py-4 text-gray-400">
+                    <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                    </svg>
+                    <span className="text-sm">Loading staff...</span>
+                  </div>
+                ) : staffList.length === 0 ? (
+                  <div className="flex items-center gap-2 py-4 text-red-400">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span className="text-sm">No staff found</span>
+                  </div>
+                ) : (
+                  <div className="relative">
+                    <select
+                      value={selectedLineManager}
+                      onChange={(e) => setSelectedLineManager(e.target.value)}
+                      className="w-full appearance-none bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 pr-10 text-sm text-gray-800 font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-blue-300 transition-colors cursor-pointer"
+                    >
+                      <option value="">-- Select Line Manager --</option>
+                      {staffList.map((s) => (
+                        <option key={s.id} value={s.id}>
+                          {s.name} {s.surname}
+                        </option>
+                      ))}
+                    </select>
+                    <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+                      <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  </div>
+                )}
+
+                {/* Info box - seçilince görünür */}
+                {selectedLineManager && (
+                  <div className="mt-3 flex items-center gap-2 bg-blue-50 border border-blue-100 rounded-lg px-3 py-2">
+                    <div className="w-7 h-7 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+                      {staffList.find(s => s.id === selectedLineManager)?.name?.[0]?.toUpperCase()}
+                    </div>
+                    <span className="text-xs text-blue-700 font-medium">
+                      {staffList.find(s => s.id === selectedLineManager)?.name}{" "}
+                      {staffList.find(s => s.id === selectedLineManager)?.surname} will be assigned as line manager
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              {/* Footer */}
+              <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-end gap-3">
+                <button
+                  onClick={() => { setLineManagerModal({ open: false, empId: null }); setStaffList([]); }}
+                  className="px-5 py-2 text-sm font-medium rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-100 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    console.log("Assign", selectedLineManager, "to", lineManagerModal.empId);
+                    setLineManagerModal({ open: false, empId: null });
+                    setStaffList([]);
+                  }}
+                  disabled={!selectedLineManager}
+                  className="px-5 py-2 text-sm font-semibold rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm hover:shadow-md"
+                >
+                  Assign Manager
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* New Employee Modal */}
         {showNewEmployeeModal && (
