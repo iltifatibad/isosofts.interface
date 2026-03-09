@@ -323,6 +323,8 @@ const handleEditEmployee = async (e) => {
             emp.id === selectedEmployee.id
               ? {
                   ...emp,
+                  name: payload.name,
+                  surname: payload.surname,
                   fullName: `${payload.name} ${payload.surname}`,
                   email: payload.email,
                   phoneNumber: payload.phoneNumber,
