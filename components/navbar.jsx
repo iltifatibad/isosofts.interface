@@ -66,7 +66,7 @@ const NavigationBar = ({ showProfile, setShowProfile }) => {
                 </button>
               </a>
             )}
-            <a href="/los">
+            <a href={profile ? "/profile" : "/los"}>
               <button
                 onClick={() => setShowProfile(!showProfile)}
                 className="rounded-button whitespace-nowrap cursor-pointer bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-2 hover:from-blue-600 hover:to-blue-800 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
