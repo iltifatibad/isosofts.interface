@@ -72,10 +72,12 @@ const AdminDashboard = () => {
   });
 
   const [newEmployeeForm, setNewEmployeeForm] = useState({
-    fullName: "",
+    name: "",
+    surname: "",
     email: "",
-    canEdit: false,
-    initialPassword: "",
+    phoneNumber: "",
+    password: "",
+    confirmPassword: ""
   });
 
   const [editEmployeeForm, setEditEmployeeForm] = useState({
@@ -122,35 +124,56 @@ const AdminDashboard = () => {
     setShowEditCompanyModal(false);
   };
 
-  const handleCreateEmployee = (e) => {
-    e.preventDefault();
-    if (!selectedCompanyId) return;
-    if (newEmployeeForm.initialPassword.length < 6) {
-      alert("Password must be at least 6 characters");
-      return;
+  const handleCreateEmployee = async (e) => {
+  e.preventDefault();
+
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
+  }
+
+  const token = getCookie('auth_token');
+  if (!token) {
+    console.warn("Auth token bulunamadı");
+    return;
+  }
+
+  try {
+    const res = await fetch(`http://isosofts.com/api/account/staff?token=${encodeURIComponent(token)}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: newEmployeeForm.name,
+        surname: newEmployeeForm.surname,
+        email: newEmployeeForm.email,
+        phoneNumber: newEmployeeForm.phoneNumber,
+        password: newEmployeeForm.password,
+        confirmPassword: newEmployeeForm.confirmPassword,
+      }),
+    });
+
+    if (!res.ok) {
+      throw new Error(`Sunucu hatası: ${res.status}`);
     }
 
-    const newEmp = {
-      id: `emp-${Date.now()}`,
-      fullName: newEmployeeForm.fullName,
-      email: newEmployeeForm.email,
-      role: "user",
-      canEdit: newEmployeeForm.canEdit,
-      status: "active",
-      password: newEmployeeForm.initialPassword,
-    };
-
-    setCompanies((prev) =>
-      prev.map((c) =>
-        c.id === selectedCompanyId
-          ? { ...c, employees: [...c.employees, newEmp] }
-          : c
-      )
-    );
-
-    setNewEmployeeForm({ fullName: "", email: "", canEdit: false, initialPassword: "" });
+    const data = await res.json();
+    console.log("Çalışan eklendi:", data);
     setShowNewEmployeeModal(false);
-  };
+    setNewEmployeeForm({
+      name: "",
+      surname: "",
+      email: "",
+      phoneNumber: "",
+      password: "",
+      confirmPassword: ""
+    });
+
+  } catch (err) {
+    console.error("Çalışan eklenemedi:", err);
+  }
+};
 
   const handleEditEmployee = (e) => {
     e.preventDefault();
@@ -739,82 +762,83 @@ const AdminDashboard = () => {
                 Add Employee to {selectedCompany?.name}
               </h3>
               <form onSubmit={handleCreateEmployee} className="space-y-5">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Full Name
-                  </label>
-                  <input
-                    type="text"
-                    value={newEmployeeForm.fullName}
-                    onChange={(e) =>
-                      setNewEmployeeForm({ ...newEmployeeForm, fullName: e.target.value })
-                    }
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    value={newEmployeeForm.email}
-                    onChange={(e) =>
-                      setNewEmployeeForm({ ...newEmployeeForm, email: e.target.value })
-                    }
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Initial Password
-                  </label>
-                  <input
-                    type="text"
-                    value={newEmployeeForm.initialPassword}
-                    onChange={(e) =>
-                      setNewEmployeeForm({
-                        ...newEmployeeForm,
-                        initialPassword: e.target.value,
-                      })
-                    }
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
-                    placeholder="Minimum 6 characters"
-                    required
-                  />
-                </div>
-                <div className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id="canEditNew"
-                    checked={newEmployeeForm.canEdit}
-                    onChange={(e) =>
-                      setNewEmployeeForm({ ...newEmployeeForm, canEdit: e.target.checked })
-                    }
-                    className="h-5 w-5 text-blue-600 rounded"
-                  />
-                  <label htmlFor="canEditNew" className="ml-2 text-gray-700 font-medium">
-                    Can edit records
-                  </label>
-                </div>
-                <div className="flex justify-end space-x-4 mt-8">
-                  <button
-                    type="button"
-                    onClick={() => setShowNewEmployeeModal(false)}
-                    className="px-5 py-2.5 border border-gray-300 rounded-lg hover:bg-gray-50"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="px-5 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-                  >
-                    Add Employee
-                  </button>
-                </div>
-              </form>
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+    <input
+      type="text"
+      value={newEmployeeForm.name}
+      onChange={(e) => setNewEmployeeForm({ ...newEmployeeForm, name: e.target.value })}
+      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
+      required
+    />
+  </div>
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-1">Surname</label>
+    <input
+      type="text"
+      value={newEmployeeForm.surname}
+      onChange={(e) => setNewEmployeeForm({ ...newEmployeeForm, surname: e.target.value })}
+      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
+      required
+    />
+  </div>
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+    <input
+      type="email"
+      value={newEmployeeForm.email}
+      onChange={(e) => setNewEmployeeForm({ ...newEmployeeForm, email: e.target.value })}
+      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
+      required
+    />
+  </div>
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+    <input
+      type="text"
+      value={newEmployeeForm.phoneNumber}
+      onChange={(e) => setNewEmployeeForm({ ...newEmployeeForm, phoneNumber: e.target.value })}
+      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
+      required
+    />
+  </div>
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+    <input
+      type="password"
+      value={newEmployeeForm.password}
+      onChange={(e) => setNewEmployeeForm({ ...newEmployeeForm, password: e.target.value })}
+      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
+      placeholder="Minimum 6 characters"
+      required
+    />
+  </div>
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+    <input
+      type="password"
+      value={newEmployeeForm.confirmPassword}
+      onChange={(e) => setNewEmployeeForm({ ...newEmployeeForm, confirmPassword: e.target.value })}
+      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
+      required
+    />
+  </div>
+  <div className="flex justify-end space-x-4 mt-8">
+    <button
+      type="button"
+      onClick={() => setShowNewEmployeeModal(false)}
+      className="px-5 py-2.5 border border-gray-300 rounded-lg hover:bg-gray-50"
+    >
+      Cancel
+    </button>
+    <button
+      type="submit"
+      className="px-5 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+    >
+      Add Employee
+    </button>
+  </div>
+</form>
             </div>
           </div>
         )}
