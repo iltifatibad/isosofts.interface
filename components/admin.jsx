@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 const AdminDashboard = () => {
 
   const [selectedCompanyId, setSelectedCompanyId] = useState(null);
-  const selectedCompany = companies.find((c) => c.id === selectedCompanyId);
 
   // Modal states
   const [showNewCompanyModal, setShowNewCompanyModal] = useState(false);
@@ -69,6 +68,8 @@ const AdminDashboard = () => {
     })
     .catch(err => console.error("Staff yüklenemedi:", err));
 }, []);
+  const selectedCompany = companies.find((c) => c.id === selectedCompanyId);
+
 
   useEffect(() => {
     function getCookie(name) {
