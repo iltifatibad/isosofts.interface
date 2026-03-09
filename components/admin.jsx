@@ -134,7 +134,6 @@ const AdminDashboard = () => {
   });
 
   const [editEmployeeForm, setEditEmployeeForm] = useState({
-    id: "",
     name: "",
     surname: "",
     email: "",
