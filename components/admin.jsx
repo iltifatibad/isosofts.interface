@@ -288,6 +288,26 @@ const handleEditEmployee = async (e) => {
 
     // Başarılı
     alert("Personel bilgileri güncellendi!");
+    setCompanies(prev =>
+  prev.map(company =>
+    company.id === selectedCompany.id
+      ? {
+          ...company,
+          employees: company.employees.map(emp =>
+            emp.id === selectedEmployee.id
+              ? {
+                  ...emp,
+                  fullName: `${payload.name} ${payload.surname}`,
+                  email: payload.email,
+                  phoneNumber: payload.phoneNumber,
+                }
+              : emp
+          ),
+        }
+      : company
+  )
+);
+
     setSelectedEmployee(null);
     setShowEditEmployeeModal(false);
 
