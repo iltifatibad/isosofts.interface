@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 const UserProfile = () => {
-  const [profile, setProfile] = useState();
+  const [profile, setProfile] = useState(null);
 
   const [subordinates, setSubordinates] = useState([
     { id: "EMP-9123", name: "Ahmet Yılmaz", position: "Quality Engineer", email: "ahmet.yilmaz@isosofts.com" },
@@ -66,40 +66,36 @@ const UserProfile = () => {
     }
   };
 
-  // In real app you would fetch real data here
-    useEffect(() => {
-      // Cookie'den token'ı oku (document.cookie ile)
-      // function getCookie(name) {
-      //   const value = `; ${document.cookie}`;
-      //   const parts = value.split(`; ${name}=`);
-      //   if (parts.length === 2) return parts.pop().split(';').shift();
-      //   return null;
-      // }
+useEffect(() => {
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
+  }
 
-      const token = getCookie('auth_token');  // cookie adı 'auth_token' ise
+  const token = getCookie('auth_token');
 
-      if (!token) {
-        console.warn("Auth token cookie'de bulunamadı");
-        return; // token yoksa isteği atla veya login sayfasına yönlendir
+  if (!token) {
+    console.warn("Auth token cookie'de bulunamadı");
+    return;
+  }
+
+  fetch(`http://isosofts.com/api/account/self/?token=${encodeURIComponent(token)}`)
+    .then(res => {
+      if (!res.ok) {
+        throw new Error(`Sunucu hatası: ${res.status}`);
       }
-
-      fetch(`http://isosofts.com/api/account/self/?token=${encodeURIComponent(token)}`)
-        .then(res => {
-          if (!res.ok) {
-            throw new Error(`Sunucu hatası: ${res.status}`);
-          }
-          return res.json();
-        })
-        .then(data => {
-          setProfile(data.profile);
-          setSubordinates(data.subordinates || []);
-        })
-        .catch(err => {
-          console.error("Profil yüklenirken hata:", err);
-          // İsteğe bağlı: hata durumunda kullanıcıyı login sayfasına yönlendir
-          // window.location.href = "/login";
-        });
-    }, []);
+      return res.json();
+    })
+    .then(data => {
+      setProfile(data);           // ← direkt data'yı set et (profile nested değil)
+      setSubordinates(data.subordinates || []);
+    })
+    .catch(err => {
+      console.error("Profil yüklenirken hata:", err);
+    });
+}, []);
 
   return (
     <div className="min-h-screen bg-gray-50 py-10">
