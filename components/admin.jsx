@@ -265,7 +265,7 @@ const handleEditEmployee = async (e) => {
 
   try {
     const response = await fetch(
-      `https://isosofts.com/api/account/straff/${editEmployeeForm.id}?token=${token}`,
+      `https://isosofts.com/api/account/staff/${editEmployeeForm.id}?token=${token}`,
       {
         method: "PUT",
         headers: {
