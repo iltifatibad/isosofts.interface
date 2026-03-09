@@ -61,6 +61,7 @@ const AdminDashboard = () => {
             canEdit: emp.isAdmin == 1,
             status: "active",
             phoneNumber: emp.phoneNumber,
+            isActive: emp.isActive,
           }))
         };
         return updated;
