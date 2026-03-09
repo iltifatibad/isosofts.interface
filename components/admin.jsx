@@ -213,6 +213,31 @@ const AdminDashboard = () => {
     }
 
     const data = await res.json();
+    const data = await res.json();
+console.log("Çalışan eklendi:", data);
+
+// Companies state'ini güncelle
+setCompanies(prev =>
+  prev.map(company =>
+    company.id === selectedCompany.id
+      ? {
+          ...company,
+          employees: [
+            ...company.employees,
+            {
+              id: data.id,  // backend'den gelen yeni ID
+              fullName: `${newEmployeeForm.name} ${newEmployeeForm.surname}`,
+              email: newEmployeeForm.email,
+              phoneNumber: newEmployeeForm.phoneNumber,
+              status: "active",
+              canEdit: false,
+            },
+          ],
+        }
+      : company
+  )
+);
+
     console.log("Çalışan eklendi:", data);
     setShowNewEmployeeModal(false);
     setNewEmployeeForm({
