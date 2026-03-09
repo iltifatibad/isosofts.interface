@@ -167,7 +167,12 @@ const openSetLineManager = async (empId) => {
   setSelectedLineManager("");
   setStaffLoading(true);
   try {
-    const res = await fetch(`http://isosofts.com/api/account/staff?isActive=1&token=`);
+    const token = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("auth_token="))
+      ?.split("=")[1] ?? "";
+
+    const res = await fetch(`http://isosofts.com/api/account/staff?isActive=1&token=${token}`);
     const data = await res.json();
 
     // Sadece başkasının lineManagerId'si olarak geçenleri al
