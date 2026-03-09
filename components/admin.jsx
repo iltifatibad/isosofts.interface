@@ -19,9 +19,9 @@ const AdminDashboard = () => {
   const [companies, setCompanies] = useState([
     {
       id: "This Id Is Private",
-      name: "ABC MMC",
+      name: "IsoSofts MMC",
       country: "Azerbaijan",
-      email: "info@abc.az",
+      email: "info@isosofts.com",
       status: "active",
 
       registries: [
@@ -905,230 +905,258 @@ const handleEditEmployee = async (e) => {
 
         {/* New Employee Modal */}
         {showNewEmployeeModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-            <div className="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 p-8">
-              <h3 className="text-2xl font-bold mb-6">
-                Add Employee to {selectedCompany?.name}
-              </h3>
-              <form onSubmit={handleCreateEmployee} className="space-y-5">
-  <div>
-    <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
-    <input
-      type="text"
-      value={newEmployeeForm.name}
-      onChange={(e) => setNewEmployeeForm({ ...newEmployeeForm, name: e.target.value })}
-      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
-      required
-    />
+          <div className="fixed inset-0 flex items-center justify-center z-50"
+  style={{ backdropFilter: "blur(8px)", backgroundColor: "rgba(15, 23, 42, 0.6)" }}>
+  <div className="relative bg-white w-full max-w-lg mx-4 rounded-2xl overflow-hidden shadow-2xl"
+    style={{ boxShadow: "0 25px 60px rgba(0,0,0,0.25)" }}>
+    
+    {/* Üst renkli şerit */}
+    <div style={{ background: "linear-gradient(135deg, #6366f1, #3b82f6)", padding: "28px 32px 24px" }}>
+      <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "12px", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "4px" }}>
+        {selectedCompany?.name}
+      </p>
+      <h3 style={{ color: "white", fontSize: "22px", fontWeight: 700, margin: 0 }}>
+        Add New Employee
+      </h3>
+    </div>
+
+    {/* Form alanı */}
+    <form onSubmit={handleCreateEmployee} style={{ padding: "28px 32px 32px" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+        
+        {/* Name */}
+        <div>
+          <label style={{ display: "block", fontSize: "11px", fontWeight: 600, color: "#6b7280", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "6px" }}>Name</label>
+          <input type="text" value={newEmployeeForm.name}
+            onChange={(e) => setNewEmployeeForm({ ...newEmployeeForm, name: e.target.value })}
+            required
+            style={{ width: "100%", padding: "10px 14px", borderRadius: "10px", border: "1.5px solid #e5e7eb", fontSize: "14px", outline: "none", boxSizing: "border-box", transition: "border-color 0.2s" }}
+            onFocus={e => e.target.style.borderColor = "#6366f1"}
+            onBlur={e => e.target.style.borderColor = "#e5e7eb"}
+          />
+        </div>
+
+        {/* Surname */}
+        <div>
+          <label style={{ display: "block", fontSize: "11px", fontWeight: 600, color: "#6b7280", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "6px" }}>Surname</label>
+          <input type="text" value={newEmployeeForm.surname}
+            onChange={(e) => setNewEmployeeForm({ ...newEmployeeForm, surname: e.target.value })}
+            required
+            style={{ width: "100%", padding: "10px 14px", borderRadius: "10px", border: "1.5px solid #e5e7eb", fontSize: "14px", outline: "none", boxSizing: "border-box" }}
+            onFocus={e => e.target.style.borderColor = "#6366f1"}
+            onBlur={e => e.target.style.borderColor = "#e5e7eb"}
+          />
+        </div>
+
+        {/* Email - full width */}
+        <div style={{ gridColumn: "span 2" }}>
+          <label style={{ display: "block", fontSize: "11px", fontWeight: 600, color: "#6b7280", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "6px" }}>Email</label>
+          <input type="email" value={newEmployeeForm.email}
+            onChange={(e) => setNewEmployeeForm({ ...newEmployeeForm, email: e.target.value })}
+            required
+            style={{ width: "100%", padding: "10px 14px", borderRadius: "10px", border: "1.5px solid #e5e7eb", fontSize: "14px", outline: "none", boxSizing: "border-box" }}
+            onFocus={e => e.target.style.borderColor = "#6366f1"}
+            onBlur={e => e.target.style.borderColor = "#e5e7eb"}
+          />
+        </div>
+
+        {/* Phone - full width */}
+        <div style={{ gridColumn: "span 2" }}>
+          <label style={{ display: "block", fontSize: "11px", fontWeight: 600, color: "#6b7280", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "6px" }}>Phone Number</label>
+          <input type="text" value={newEmployeeForm.phoneNumber}
+            onChange={(e) => setNewEmployeeForm({ ...newEmployeeForm, phoneNumber: e.target.value })}
+            required
+            style={{ width: "100%", padding: "10px 14px", borderRadius: "10px", border: "1.5px solid #e5e7eb", fontSize: "14px", outline: "none", boxSizing: "border-box" }}
+            onFocus={e => e.target.style.borderColor = "#6366f1"}
+            onBlur={e => e.target.style.borderColor = "#e5e7eb"}
+          />
+        </div>
+
+        {/* Password */}
+        <div>
+          <label style={{ display: "block", fontSize: "11px", fontWeight: 600, color: "#6b7280", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "6px" }}>Password</label>
+          <input type="password" value={newEmployeeForm.password}
+            onChange={(e) => setNewEmployeeForm({ ...newEmployeeForm, password: e.target.value })}
+            placeholder="Min. 6 chars"
+            required
+            style={{ width: "100%", padding: "10px 14px", borderRadius: "10px", border: "1.5px solid #e5e7eb", fontSize: "14px", outline: "none", boxSizing: "border-box" }}
+            onFocus={e => e.target.style.borderColor = "#6366f1"}
+            onBlur={e => e.target.style.borderColor = "#e5e7eb"}
+          />
+        </div>
+
+        {/* Confirm Password */}
+        <div>
+          <label style={{ display: "block", fontSize: "11px", fontWeight: 600, color: "#6b7280", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "6px" }}>Confirm</label>
+          <input type="password" value={newEmployeeForm.confirmPassword}
+            onChange={(e) => setNewEmployeeForm({ ...newEmployeeForm, confirmPassword: e.target.value })}
+            required
+            style={{ width: "100%", padding: "10px 14px", borderRadius: "10px", border: "1.5px solid #e5e7eb", fontSize: "14px", outline: "none", boxSizing: "border-box" }}
+            onFocus={e => e.target.style.borderColor = "#6366f1"}
+            onBlur={e => e.target.style.borderColor = "#e5e7eb"}
+          />
+        </div>
+      </div>
+
+      {/* Butonlar */}
+      <div style={{ display: "flex", justifyContent: "flex-end", gap: "12px", marginTop: "28px" }}>
+        <button type="button" onClick={() => setShowNewEmployeeModal(false)}
+          style={{ padding: "10px 22px", borderRadius: "10px", border: "1.5px solid #e5e7eb", background: "white", fontSize: "14px", fontWeight: 500, color: "#374151", cursor: "pointer" }}>
+          Cancel
+        </button>
+        <button type="submit"
+          style={{ padding: "10px 22px", borderRadius: "10px", border: "none", background: "linear-gradient(135deg, #6366f1, #3b82f6)", fontSize: "14px", fontWeight: 600, color: "white", cursor: "pointer", boxShadow: "0 4px 15px rgba(99,102,241,0.4)" }}>
+          Add Employee
+        </button>
+      </div>
+    </form>
   </div>
-  <div>
-    <label className="block text-sm font-medium text-gray-700 mb-1">Surname</label>
-    <input
-      type="text"
-      value={newEmployeeForm.surname}
-      onChange={(e) => setNewEmployeeForm({ ...newEmployeeForm, surname: e.target.value })}
-      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
-      required
-    />
-  </div>
-  <div>
-    <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-    <input
-      type="email"
-      value={newEmployeeForm.email}
-      onChange={(e) => setNewEmployeeForm({ ...newEmployeeForm, email: e.target.value })}
-      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
-      required
-    />
-  </div>
-  <div>
-    <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-    <input
-      type="text"
-      value={newEmployeeForm.phoneNumber}
-      onChange={(e) => setNewEmployeeForm({ ...newEmployeeForm, phoneNumber: e.target.value })}
-      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
-      required
-    />
-  </div>
-  <div>
-    <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-    <input
-      type="password"
-      value={newEmployeeForm.password}
-      onChange={(e) => setNewEmployeeForm({ ...newEmployeeForm, password: e.target.value })}
-      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
-      placeholder="Minimum 6 characters"
-      required
-    />
-  </div>
-  <div>
-    <label className="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
-    <input
-      type="password"
-      value={newEmployeeForm.confirmPassword}
-      onChange={(e) => setNewEmployeeForm({ ...newEmployeeForm, confirmPassword: e.target.value })}
-      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
-      required
-    />
-  </div>
-  <div className="flex justify-end space-x-4 mt-8">
-    <button
-      type="button"
-      onClick={() => setShowNewEmployeeModal(false)}
-      className="px-5 py-2.5 border border-gray-300 rounded-lg hover:bg-gray-50"
-    >
-      Cancel
-    </button>
-    <button
-      type="submit"
-      className="px-5 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-    >
-      Add Employee
-    </button>
-  </div>
-</form>
-            </div>
-          </div>
+</div>
         )}
 
         {/* Edit Employee Modal */}
         {showEditEmployeeModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-            <div className="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 p-8">
-              <h3 className="text-2xl font-bold mb-6">Edit Employee</h3>
-              <form onSubmit={handleEditEmployee} className="space-y-5">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    value={editEmployeeForm.name}
-                    onChange={(e) =>
-                      setEditEmployeeForm({ ...editEmployeeForm, name: e.target.value })
-                    }
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Surname
-                  </label>
-                  <input
-                    type="text"
-                    value={editEmployeeForm.surname}
-                    onChange={(e) =>
-                      setEditEmployeeForm({ ...editEmployeeForm, surname: e.target.value })
-                    }
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    value={editEmployeeForm.email}
-                    onChange={(e) =>
-                      setEditEmployeeForm({ ...editEmployeeForm, email: e.target.value })
-                    }
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Phone Number
-                  </label>
-                  <input
-                    type="number"
-                    value={editEmployeeForm.phoneNumber}
-                    onChange={(e) =>
-                      setEditEmployeeForm({ ...editEmployeeForm, phoneNumber: e.target.value })
-                    }
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
-                  />
-                </div>
-                <div className="flex justify-end space-x-4 mt-8">
-                  <button
-                    type="button"
-                    onClick={() => setShowEditEmployeeModal(false)}
-                    className="px-5 py-2.5 border border-gray-300 rounded-lg hover:bg-gray-50"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="px-5 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-                  >
-                    Save Changes
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
+          <div className="fixed inset-0 flex items-center justify-center z-50"
+  style={{ backdropFilter: "blur(8px)", backgroundColor: "rgba(15, 23, 42, 0.6)" }}>
+  <div className="relative bg-white w-full max-w-lg mx-4 rounded-2xl overflow-hidden shadow-2xl"
+    style={{ boxShadow: "0 25px 60px rgba(0,0,0,0.25)" }}>
+
+    {/* Üst gradient şerit */}
+    <div style={{ background: "linear-gradient(135deg, #8b5cf6, #6366f1)", padding: "28px 32px 24px" }}>
+      <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "12px", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "4px" }}>
+        Employee
+      </p>
+      <h3 style={{ color: "white", fontSize: "22px", fontWeight: 700, margin: 0 }}>
+        Edit Employee
+      </h3>
+    </div>
+
+    {/* Form */}
+    <form onSubmit={handleEditEmployee} style={{ padding: "28px 32px 32px" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+
+        {/* Name */}
+        <div>
+          <label style={{ display: "block", fontSize: "11px", fontWeight: 600, color: "#6b7280", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "6px" }}>Name</label>
+          <input type="text" value={editEmployeeForm.name}
+            onChange={(e) => setEditEmployeeForm({ ...editEmployeeForm, name: e.target.value })}
+            style={{ width: "100%", padding: "10px 14px", borderRadius: "10px", border: "1.5px solid #e5e7eb", fontSize: "14px", outline: "none", boxSizing: "border-box" }}
+            onFocus={e => e.target.style.borderColor = "#8b5cf6"}
+            onBlur={e => e.target.style.borderColor = "#e5e7eb"}
+          />
+        </div>
+
+        {/* Surname */}
+        <div>
+          <label style={{ display: "block", fontSize: "11px", fontWeight: 600, color: "#6b7280", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "6px" }}>Surname</label>
+          <input type="text" value={editEmployeeForm.surname}
+            onChange={(e) => setEditEmployeeForm({ ...editEmployeeForm, surname: e.target.value })}
+            style={{ width: "100%", padding: "10px 14px", borderRadius: "10px", border: "1.5px solid #e5e7eb", fontSize: "14px", outline: "none", boxSizing: "border-box" }}
+            onFocus={e => e.target.style.borderColor = "#8b5cf6"}
+            onBlur={e => e.target.style.borderColor = "#e5e7eb"}
+          />
+        </div>
+
+        {/* Email - full width */}
+        <div style={{ gridColumn: "span 2" }}>
+          <label style={{ display: "block", fontSize: "11px", fontWeight: 600, color: "#6b7280", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "6px" }}>Email</label>
+          <input type="email" value={editEmployeeForm.email}
+            onChange={(e) => setEditEmployeeForm({ ...editEmployeeForm, email: e.target.value })}
+            style={{ width: "100%", padding: "10px 14px", borderRadius: "10px", border: "1.5px solid #e5e7eb", fontSize: "14px", outline: "none", boxSizing: "border-box" }}
+            onFocus={e => e.target.style.borderColor = "#8b5cf6"}
+            onBlur={e => e.target.style.borderColor = "#e5e7eb"}
+          />
+        </div>
+
+        {/* Phone - full width */}
+        <div style={{ gridColumn: "span 2" }}>
+          <label style={{ display: "block", fontSize: "11px", fontWeight: 600, color: "#6b7280", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "6px" }}>Phone Number</label>
+          <input type="number" value={editEmployeeForm.phoneNumber}
+            onChange={(e) => setEditEmployeeForm({ ...editEmployeeForm, phoneNumber: e.target.value })}
+            style={{ width: "100%", padding: "10px 14px", borderRadius: "10px", border: "1.5px solid #e5e7eb", fontSize: "14px", outline: "none", boxSizing: "border-box" }}
+            onFocus={e => e.target.style.borderColor = "#8b5cf6"}
+            onBlur={e => e.target.style.borderColor = "#e5e7eb"}
+          />
+        </div>
+      </div>
+
+      {/* Butonlar */}
+      <div style={{ display: "flex", justifyContent: "flex-end", gap: "12px", marginTop: "28px" }}>
+        <button type="button" onClick={() => setShowEditEmployeeModal(false)}
+          style={{ padding: "10px 22px", borderRadius: "10px", border: "1.5px solid #e5e7eb", background: "white", fontSize: "14px", fontWeight: 500, color: "#374151", cursor: "pointer" }}>
+          Cancel
+        </button>
+        <button type="submit"
+          style={{ padding: "10px 22px", borderRadius: "10px", border: "none", background: "linear-gradient(135deg, #8b5cf6, #6366f1)", fontSize: "14px", fontWeight: 600, color: "white", cursor: "pointer", boxShadow: "0 4px 15px rgba(139,92,246,0.4)" }}>
+          Save Changes
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
         )}
 
         {/* Reset Password Modal */}
         {showResetPasswordModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-            <div className="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 p-8">
-              <h3 className="text-2xl font-bold mb-6">Reset / Change Password</h3>
-              <form onSubmit={handleResetPassword} className="space-y-5">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    New Password
-                  </label>
-                  <input
-                    type="text"
-                    value={resetPasswordForm.newPassword}
-                    onChange={(e) =>
-                      setResetPasswordForm({
-                        ...resetPasswordForm,
-                        newPassword: e.target.value,
-                      })
-                    }
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
-                    placeholder="Minimum 6 characters"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Confirm Password
-                  </label>
-                  <input
-                    type="text"
-                    value={resetPasswordForm.confirmPassword}
-                    onChange={(e) =>
-                      setResetPasswordForm({
-                        ...resetPasswordForm,
-                        confirmPassword: e.target.value,
-                      })
-                    }
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
-                    required
-                  />
-                </div>
-                <div className="flex justify-end space-x-4 mt-8">
-                  <button
-                    type="button"
-                    onClick={() => setShowResetPasswordModal(false)}
-                    className="px-5 py-2.5 border border-gray-300 rounded-lg hover:bg-gray-50"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="px-5 py-2.5 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
-                  >
-                    Update Password
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
+          <div className="fixed inset-0 flex items-center justify-center z-50"
+  style={{ backdropFilter: "blur(8px)", backgroundColor: "rgba(15, 23, 42, 0.6)" }}>
+  <div className="relative bg-white w-full max-w-md mx-4 rounded-2xl overflow-hidden shadow-2xl"
+    style={{ boxShadow: "0 25px 60px rgba(0,0,0,0.25)" }}>
+
+    {/* Üst gradient şerit */}
+    <div style={{ background: "linear-gradient(135deg, #ec4899, #f43f5e)", padding: "28px 32px 24px" }}>
+      <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "12px", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "4px" }}>
+        Security
+      </p>
+      <h3 style={{ color: "white", fontSize: "22px", fontWeight: 700, margin: 0 }}>
+        Reset / Change Password
+      </h3>
+    </div>
+
+    {/* Form */}
+    <form onSubmit={handleResetPassword} style={{ padding: "28px 32px 32px" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+
+        {/* New Password */}
+        <div>
+          <label style={{ display: "block", fontSize: "11px", fontWeight: 600, color: "#6b7280", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "6px" }}>New Password</label>
+          <input type="text" value={resetPasswordForm.newPassword}
+            onChange={(e) => setResetPasswordForm({ ...resetPasswordForm, newPassword: e.target.value })}
+            placeholder="Min. 6 characters"
+            required
+            style={{ width: "100%", padding: "10px 14px", borderRadius: "10px", border: "1.5px solid #e5e7eb", fontSize: "14px", outline: "none", boxSizing: "border-box" }}
+            onFocus={e => e.target.style.borderColor = "#ec4899"}
+            onBlur={e => e.target.style.borderColor = "#e5e7eb"}
+          />
+        </div>
+
+        {/* Confirm Password */}
+        <div>
+          <label style={{ display: "block", fontSize: "11px", fontWeight: 600, color: "#6b7280", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "6px" }}>Confirm Password</label>
+          <input type="text" value={resetPasswordForm.confirmPassword}
+            onChange={(e) => setResetPasswordForm({ ...resetPasswordForm, confirmPassword: e.target.value })}
+            required
+            style={{ width: "100%", padding: "10px 14px", borderRadius: "10px", border: "1.5px solid #e5e7eb", fontSize: "14px", outline: "none", boxSizing: "border-box" }}
+            onFocus={e => e.target.style.borderColor = "#ec4899"}
+            onBlur={e => e.target.style.borderColor = "#e5e7eb"}
+          />
+        </div>
+      </div>
+
+      {/* Butonlar */}
+      <div style={{ display: "flex", justifyContent: "flex-end", gap: "12px", marginTop: "28px" }}>
+        <button type="button" onClick={() => setShowResetPasswordModal(false)}
+          style={{ padding: "10px 22px", borderRadius: "10px", border: "1.5px solid #e5e7eb", background: "white", fontSize: "14px", fontWeight: 500, color: "#374151", cursor: "pointer" }}>
+          Cancel
+        </button>
+        <button type="submit"
+          style={{ padding: "10px 22px", borderRadius: "10px", border: "none", background: "linear-gradient(135deg, #ec4899, #f43f5e)", fontSize: "14px", fontWeight: 600, color: "white", cursor: "pointer", boxShadow: "0 4px 15px rgba(236,72,153,0.4)" }}>
+          Update Password
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
         )}
 
         {/* Add Registry Modal */}
