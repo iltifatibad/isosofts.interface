@@ -194,7 +194,7 @@ useEffect(() => {
             <div className="bg-white rounded-xl shadow-md border border-gray-200 p-8">
               <h3 className="text-xl font-bold text-gray-800 mb-6">Change Password</h3>
               {Number(profile.isAdmin) === 0 && (
-                <h2 className="text-xl font-bold text-gray-800 mb-6">
+                <h2 className="text-ml font-bold text-gray-800 mb-6">
                   If You Want to Change Your Password, Contact the Admin
                 </h2>
               )}

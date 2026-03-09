@@ -1,6 +1,49 @@
 import React, { useState, useEffect } from "react";
 
 const AdminDashboard = () => {
+  const [companies, setCompanies] = useState([
+    {
+      id: "comp-1",
+      name: "ABC MMC",
+      country: "Azerbaijan",
+      email: "info@abc.az",
+      status: "active",
+      employees: [
+        {
+          id: "emp-11",
+          fullName: "Elchin Mammadov",
+          email: "elchin@abc.az",
+          role: "admin",
+          canEdit: true,
+          status: "active",
+          password: "admin2025",
+        },
+        {
+          id: "emp-12",
+          fullName: "Aygun Huseynova",
+          email: "aygun@abc.az",
+          role: "user",
+          canEdit: false,
+          status: "active",
+          password: "user123456",
+        },
+      ],
+      registries: [
+        "Azerbaijan ISO 9001:2015",
+        "Georgia ISO 14001:2015",
+        "Turkey ISO 45001:2018",
+      ],
+    },
+    {
+      id: "comp-2",
+      name: "XYZ Ltd",
+      country: "Turkey",
+      email: "contact@xyz.com.tr",
+      status: "active",
+      employees: [],
+      registries: ["Turkey ISO 27001:2022"],
+    },
+  ]);
 
   const [selectedCompanyId, setSelectedCompanyId] = useState(null);
   const selectedCompany = companies.find((c) => c.id === selectedCompanyId);
@@ -377,62 +420,6 @@ const AdminDashboard = () => {
     setShowEditRegistryModal(true);
   };
 
-  const [companies, setCompanies] = useState([
-    {
-      id: "This Id Is Private",
-      name: "ABC MMC",
-      country: "Azerbaijan",
-      email: "info@abc.az",
-      status: "active",
-
-      registries: [
-        "Azerbaijan ISO 9001:2015",
-        "Georgia ISO 14001:2015",
-        "Turkey ISO 45001:2018",
-      ],
-    },
-  ]);
-
-
-  useEffect(() => {
-  function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-    return null;
-  }
-
-  const token = getCookie('auth_token');
-  if (!token) {
-    console.warn("Auth token bulunamadı");
-    return;
-  }
-
-  fetch(`http://isosofts.com/api/account/staff?token=${encodeURIComponent(token)}`)
-    .then(res => {
-      if (!res.ok) throw new Error(`Sunucu hatası: ${res.status}`);
-      return res.json();
-    })
-    .then(data => {
-      setCompanies(prev => {
-        const updated = [...prev];
-        updated[0] = {
-          ...updated[0],
-          employees: data.map(emp => ({
-            id: emp.id,
-            fullName: `${emp.name} ${emp.surname}`,
-            email: emp.email,
-            role: emp.isAdmin == 1 ? "admin" : "user",
-            canEdit: emp.isAdmin == 1,
-            status: "active",
-            phoneNumber: emp.phoneNumber,
-          }))
-        };
-        return updated;
-      });
-    })
-    .catch(err => console.error("Staff yüklenemedi:", err));
-}, []);
   // ────────────────────────────────────────────────
   // RENDER
   // ────────────────────────────────────────────────
@@ -452,8 +439,15 @@ const AdminDashboard = () => {
           <div className="lg:col-span-4 space-y-6">
             <div className="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden">
               <div className="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-5 text-white flex justify-between items-center">
-                <h2 className="text-xl font-bold">Company</h2>
+                <h2 className="text-xl font-bold">Companies</h2>
+                <button
+                  onClick={() => setShowNewCompanyModal(true)}
+                  className="bg-white text-blue-700 px-4 py-1.5 rounded-lg font-medium hover:bg-gray-100"
+                >
+                  + New Company
+                </button>
               </div>
+
               <div className="divide-y divide-gray-100 max-h-[70vh] overflow-y-auto">
                 {companies.map((comp) => (
                   <div
