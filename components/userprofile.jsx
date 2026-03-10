@@ -148,8 +148,8 @@ useEffect(() => {
 <div className="p-8 space-y-6">
 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 <div>
-<label className="block text-sm font-medium text-gray-500">Employee ID</label>
-<p className="mt-1 text-gray-900 font-medium">{profile.id}</p>
+<label className="block text-sm font-medium text-gray-500">Account</label>
+<p className="mt-1 text-gray-900 font-medium">{profile.isActive}</p>
 </div>
 <div>
 <label className="block text-sm font-medium text-gray-500">Email</label>
@@ -164,11 +164,11 @@ useEffect(() => {
 <p className="mt-1 text-gray-900 font-medium">Azerbaijan, Baku</p>
 </div>
 <div>
-<label className="block text-sm font-medium text-gray-500">Join Date</label>
+{/* <label className="block text-sm font-medium text-gray-500">Join Date</label> */}
 {/* <p className="mt-1 text-gray-900 font-medium">{profile.joinDate}</p> */}
 </div>
 <div>
-<label className="block text-sm font-medium text-gray-500">Last Login</label>
+{/* <label className="block text-sm font-medium text-gray-500">Last Login</label> */}
 {/* <p className="mt-1 text-gray-900 font-medium">{profile.lastLogin}</p> */}
 </div>
 </div>
