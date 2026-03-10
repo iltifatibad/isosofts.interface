@@ -149,7 +149,7 @@ useEffect(() => {
 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 <div>
 <label className="block text-sm font-medium text-gray-500">Account</label>
-<p className="mt-1 text-gray-900 font-medium">{profile.isActive}</p>
+<p className="mt-1 text-gray-900 font-medium">{profile.isActive === 1 ? "Active" : "Deactive"}</p>
 </div>
 <div>
 <label className="block text-sm font-medium text-gray-500">Email</label>
