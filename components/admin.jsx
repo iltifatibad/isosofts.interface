@@ -416,6 +416,7 @@ setCompanies(prev =>
               phoneNumber: newEmployeeForm.phoneNumber,
               status: "active",
               canEdit: false,
+              isActive: 1,
             },
           ],
         }
@@ -1573,7 +1574,7 @@ const openEditEmployee = (emp) => {
         </button>
         <button type="submit"
           style={{ padding: "10px 22px", borderRadius: "10px", border: "none", background: "linear-gradient(135deg, #ec4899, #f43f5e)", fontSize: "14px", fontWeight: 600, color: "white", cursor: "pointer", boxShadow: "0 4px 15px rgba(236,72,153,0.4)" }}>
-          Update Passworddd
+          Update Password
         </button>
       </div>
     </form>
