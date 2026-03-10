@@ -964,7 +964,7 @@ const openEditEmployee = (emp) => {
                         >
                           <div className="font-medium text-gray-900">{reg}</div>
                           <div className="flex items-center space-x-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <button
+                            {/* <button
                               onClick={() => openEditRegistry(index, reg)}
                               className="text-blue-600 hover:text-blue-800 text-sm"
                             >
@@ -975,7 +975,7 @@ const openEditEmployee = (emp) => {
                               className="text-red-600 hover:text-red-800 text-sm"
                             >
                               Delete
-                            </button>
+                            </button> */}
                           </div>
                         </div>
                       ))}
