@@ -364,7 +364,7 @@ const saveLineManager = async () => {
     setShowEditCompanyModal(false);
   };
 
-  const handleCreateEmployee = async (e) => {
+const handleCreateEmployee = async (e) => {
   e.preventDefault();
 
   function getCookie(name) {
@@ -399,32 +399,31 @@ const saveLineManager = async () => {
     }
 
     const data = await res.json();
-console.log("Çalışan eklendi:", data);
-
-// Companies state'ini güncelle
-setCompanies(prev =>
-  prev.map(company =>
-    company.id === selectedCompany.id
-      ? {
-          ...company,
-          employees: [
-            ...company.employees,
-            {
-              id: data.id,  // backend'den gelen yeni ID
-              fullName: `${newEmployeeForm.name} ${newEmployeeForm.surname}`,
-              email: newEmployeeForm.email,
-              phoneNumber: newEmployeeForm.phoneNumber,
-              status: "active",
-              canEdit: false,
-              isActive: 1,
-            },
-          ],
-        }
-      : company
-  )
-);
-
     console.log("Çalışan eklendi:", data);
+
+    const refreshRes = await fetch(`http://isosofts.com/api/account/staff?token=${encodeURIComponent(token)}`);
+    if (!refreshRes.ok) throw new Error(`Sunucu hatası: ${refreshRes.status}`);
+    const refreshedData = await refreshRes.json();
+    setCompanies(prev => {
+      const updated = [...prev];
+      updated[0] = {
+        ...updated[0],
+        employees: refreshedData.map(emp => ({
+          id: emp.id,
+          name: emp.name,
+          surname: emp.surname,
+          fullName: `${emp.name} ${emp.surname}`,
+          email: emp.email,
+          role: emp.isAdmin == 1 ? "admin" : "user",
+          canEdit: emp.isAdmin == 1,
+          status: "active",
+          phoneNumber: emp.phoneNumber,
+          isActive: emp.isActive,
+        }))
+      };
+      return updated;
+    });
+
     setShowNewEmployeeModal(false);
     setNewEmployeeForm({
       name: "",
