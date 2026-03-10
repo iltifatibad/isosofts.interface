@@ -146,7 +146,7 @@ useEffect(() => {
       });
   }, []);
   
-  const saveCompanyName = async () => {
+const saveCompanyName = async () => {
   const token = document.cookie
     .split("; ")
     .find((row) => row.startsWith("auth_token="))
@@ -159,6 +159,16 @@ useEffect(() => {
       body: JSON.stringify({ name: editCompanyName }),
     });
     if (!res.ok) throw new Error("Güncelleme başarısız");
+
+    setCompanies(prev => {
+      const updated = [...prev];
+      updated[0] = {
+        ...updated[0],
+        name: editCompanyName,
+      };
+      return updated;
+    });
+
     setShowEditCompanyModal(false);
   } catch (err) {
     console.error("Company update error:", err);
