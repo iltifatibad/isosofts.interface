@@ -132,82 +132,82 @@ useEffect(() => {
           {/* Left - Main Profile Info */}
           <div className="lg:col-span-2 space-y-8">
             {/* Profile Card */}
-<div className="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden">
-<div className="bg-gradient-to-r from-blue-600 to-blue-800 px-8 py-10 text-white">
-<div className="flex items-center space-x-6">
-<div className="w-24 h-24 rounded-full bg-white flex items-center justify-center text-4xl font-bold text-blue-700">
-{profile.name.split(" ").map(n => n[0]).join("")}
-</div>
-<div>
-<h2 className="text-3xl font-bold">{profile.name} {profile.surname}</h2>
-{/* <p className="text-blue-100 mt-1">{profile.position}</p>
-                    <p className="text-blue-200 mt-1">{profile.department}</p> */}
-</div>
-</div>
-</div>
-<div className="p-8 space-y-6">
-<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-<div>
-<label className="block text-sm font-medium text-gray-500">Account</label>
-<p className="mt-1 text-gray-900 font-medium">{profile.isActive === 1 ? "Active" : "Deactive"}</p>
-</div>
-<div>
-<label className="block text-sm font-medium text-gray-500">Email</label>
-<p className="mt-1 text-gray-900 font-medium">{profile.email}</p>
-</div>
-<div>
-<label className="block text-sm font-medium text-gray-500">Phone</label>
-<p className="mt-1 text-gray-900 font-medium">{profile.phoneNumber}</p>
-</div>
-<div>
-<label className="block text-sm font-medium text-gray-500">Location</label>
-<p className="mt-1 text-gray-900 font-medium">Azerbaijan, Baku</p>
-</div>
-<div>
-{/* <label className="block text-sm font-medium text-gray-500">Join Date</label> */}
-{/* <p className="mt-1 text-gray-900 font-medium">{profile.joinDate}</p> */}
-</div>
-<div>
-{/* <label className="block text-sm font-medium text-gray-500">Last Login</label> */}
-{/* <p className="mt-1 text-gray-900 font-medium">{profile.lastLogin}</p> */}
-</div>
-</div>
-</div>
-</div>
-{/* Line Manager */}
-<div className="bg-white rounded-xl shadow-md border border-gray-200 p-8">
-<h3 className="text-xl font-bold text-gray-800 mb-6">Line Manager</h3>
-<div className="flex items-start space-x-4">
-{lineManager ? (
-<>
-<div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-2xl font-bold text-white shadow-md flex-shrink-0">
-{lineManager.name?.[0]?.toUpperCase()}{lineManager.surname?.[0]?.toUpperCase()}
-</div>
-<div>
-<p className="font-semibold text-lg text-gray-800">{lineManager.name} {lineManager.surname}</p>
-<a href={"mailto:" + lineManager.email} className="text-blue-500 hover:text-blue-700 text-sm mt-1 inline-flex items-center gap-1 transition-colors">
-<svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-</svg>
-{lineManager.email}
-</a>
-</div>
-</>
-) : (
-<>
-<div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
-<svg className="w-7 h-7 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-</svg>
-</div>
-<div className="flex items-center h-16">
-<p className="text-sm text-gray-400 italic">No line manager assigned</p>
-</div>
-</>
-)}
-</div>
-</div>
-</div>
+            <div className="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden">
+            <div className="bg-gradient-to-r from-blue-600 to-blue-800 px-8 py-10 text-white">
+            <div className="flex items-center space-x-6">
+            <div className="w-24 h-24 rounded-full bg-white flex items-center justify-center text-4xl font-bold text-blue-700">
+            {profile.name.split(" ").map(n => n[0]).join("")}
+            </div>
+            <div>
+            <h2 className="text-3xl font-bold">{profile.name} {profile.surname}</h2>
+            {/* <p className="text-blue-100 mt-1">{profile.position}</p>
+                                <p className="text-blue-200 mt-1">{profile.department}</p> */}
+            </div>
+            </div>
+            </div>
+            <div className="p-8 space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+            <label className="block text-sm font-medium text-gray-500">Account</label>
+            <p className="mt-1 text-gray-900 font-medium">{profile.isActive === 1 ? "Active" : "Deactive"}</p>
+            </div>
+            <div>
+            <label className="block text-sm font-medium text-gray-500">Email</label>
+            <p className="mt-1 text-gray-900 font-medium">{profile.email}</p>
+            </div>
+            <div>
+            <label className="block text-sm font-medium text-gray-500">Phone</label>
+            <p className="mt-1 text-gray-900 font-medium">{profile.phoneNumber}</p>
+            </div>
+            <div>
+            <label className="block text-sm font-medium text-gray-500">Location</label>
+            <p className="mt-1 text-gray-900 font-medium">Azerbaijan, Baku</p>
+            </div>
+            <div>
+            {/* <label className="block text-sm font-medium text-gray-500">Join Date</label> */}
+            {/* <p className="mt-1 text-gray-900 font-medium">{profile.joinDate}</p> */}
+            </div>
+            <div>
+            {/* <label className="block text-sm font-medium text-gray-500">Last Login</label> */}
+            {/* <p className="mt-1 text-gray-900 font-medium">{profile.lastLogin}</p> */}
+            </div>
+            </div>
+            </div>
+            </div>
+            {/* Line Manager */}
+            <div className="bg-white rounded-xl shadow-md border border-gray-200 p-8">
+            <h3 className="text-xl font-bold text-gray-800 mb-6">Line Manager</h3>
+            <div className="flex items-start space-x-4">
+            {lineManager ? (
+            <>
+            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-2xl font-bold text-white shadow-md flex-shrink-0">
+            {lineManager.name?.[0]?.toUpperCase()}{lineManager.surname?.[0]?.toUpperCase()}
+            </div>
+            <div>
+            <p className="font-semibold text-lg text-gray-800">{lineManager.name} {lineManager.surname}</p>
+            <a href={"mailto:" + lineManager.email} className="text-blue-500 hover:text-blue-700 text-sm mt-1 inline-flex items-center gap-1 transition-colors">
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+            {lineManager.email}
+            </a>
+            </div>
+            </>
+            ) : (
+            <>
+            <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
+            <svg className="w-7 h-7 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+            </div>
+            <div className="flex items-center h-16">
+            <p className="text-sm text-gray-400 italic">No line manager assigned</p>
+            </div>
+            </>
+            )}
+            </div>
+            </div>
+            </div>
 
           {/* Right Column - Password Change & Subordinates */}
           <div className="space-y-8">

@@ -23,19 +23,18 @@ const AdminDashboard = () => {
   const [staffLoading, setStaffLoading] = useState(false);
 
 
-  const [companies, setCompanies] = useState([
-    {
-      id: "This Id Is Private",
-      name: "IsoSofts MMC",
-      country: "Azerbaijan",
-      email: "info@isosofts.com",
-      status: "active",
-
-      registries: [
-        "Azerbaijan ISO 9001:2015",
-      ],
-    },
-  ]);
+const [companies, setCompanies] = useState([
+  {
+    id: "This Id Is Private",
+    name: "",
+    country: "Azerbaijan",
+    email: "",
+    status: "active",
+    registries: [
+      "Azerbaijan ISO 9001:2015",
+    ],
+  },
+]);
     useEffect(() => {
   function getCookie(name) {
     const value = `; ${document.cookie}`;
@@ -50,6 +49,41 @@ const AdminDashboard = () => {
     return;
   }
 
+  useEffect(() => {
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
+  }
+
+  const token = getCookie('auth_token');
+  if (!token) {
+    console.warn("Auth token cookie'de bulunamadı");
+    window.location.href = "http://isosofts.com/los";
+    return;
+  }
+
+  // Company bilgilerini çek
+  fetch(`http://isosofts.com/api/company/self?token=${encodeURIComponent(token)}`)
+    .then(res => {
+      if (!res.ok) throw new Error(`Sunucu hatası: ${res.status}`);
+      return res.json();
+    })
+    .then(data => {
+      setCompanies(prev => {
+        const updated = [...prev];
+        updated[0] = {
+          ...updated[0],
+          name: data.name,
+          email: data.domain,
+        };
+        return updated;
+      });
+    })
+    .catch(err => console.error("Company yüklenemedi:", err));
+
+  // Staff bilgilerini çek
   fetch(`http://isosofts.com/api/account/staff?token=${encodeURIComponent(token)}`)
     .then(res => {
       if (!res.ok) throw new Error(`Sunucu hatası: ${res.status}`);
@@ -61,23 +95,29 @@ const AdminDashboard = () => {
         updated[0] = {
           ...updated[0],
           employees: data.map(emp => ({
-          id: emp.id,
-          name: emp.name,           // ← ekle
-          surname: emp.surname,     // ← ekle
-          fullName: `${emp.name} ${emp.surname}`,
-          email: emp.email,
-          role: emp.isAdmin == 1 ? "admin" : "user",
-          canEdit: emp.isAdmin == 1,
-          status: "active",
-          phoneNumber: emp.phoneNumber,
-          isActive: emp.isActive,
-        }))
+            id: emp.id,
+            name: emp.name,
+            surname: emp.surname,
+            fullName: `${emp.name} ${emp.surname}`,
+            email: emp.email,
+            role: emp.isAdmin == 1 ? "admin" : "user",
+            canEdit: emp.isAdmin == 1,
+            status: "active",
+            phoneNumber: emp.phoneNumber,
+            isActive: emp.isActive,
+          }))
         };
         return updated;
       });
     })
     .catch(err => console.error("Staff yüklenemedi:", err));
 }, []);
+
+
+}, []);
+
+
+
   const selectedCompany = companies.find((c) => c.id === selectedCompanyId);
 
 
