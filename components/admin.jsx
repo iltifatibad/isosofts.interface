@@ -47,38 +47,55 @@ const getToken = () =>
   const [staffList, setStaffList] = useState([]);
   const [selectedLineManager, setSelectedLineManager] = useState("");
   const [staffLoading, setStaffLoading] = useState(false);
-  
+  const [originalAccesses, setOriginalAccesses] = useState([]);
+  const saveAccesses = async () => {
+  const token = getToken();
+  const toAdd = empAccesses.filter((r) => !originalAccesses.includes(r));
+  const toRemove = originalAccesses.filter((r) => !empAccesses.includes(r));
 
-  const openAccessModal = async (emp) => {
+  try {
+    for (const reg of toAdd) {
+      await fetch(
+        `http://isosofts.com/api/account/staff/${accessModal.emp.id}/access?register=${reg}&token=${token}`,
+        { method: "POST" }
+      );
+    }
+    for (const reg of toRemove) {
+      await fetch(
+        `http://isosofts.com/api/account/staff/${accessModal.emp.id}/access?register=${reg}&token=${token}`,
+        { method: "DELETE" }
+      );
+    }
+  } catch (err) {
+    console.error("Access save error:", err);
+  }
+
+  setAccessModal({ open: false, emp: null });
+};
+
+const openAccessModal = async (emp) => {
   setAccessModal({ open: true, emp });
   setAccessLoading(true);
   try {
     const token = getToken();
     const res = await fetch(`http://isosofts.com/api/account/staff/${emp.id}/access?token=${token}`);
     const data = await res.json();
-    setEmpAccesses(Array.isArray(data) ? data.map((d) => d.register) : []);
+    const list = Array.isArray(data) ? data.map((d) => d.register) : [];
+    setEmpAccesses(list);
+    setOriginalAccesses(list);
   } catch (err) {
     console.error("Access fetch error:", err);
     setEmpAccesses([]);
+    setOriginalAccesses([]);
   } finally {
     setAccessLoading(false);
   }
 };
 
-const toggleAccess = async (registerKey, isCurrentlyActive) => {
-  const token = getToken();
-  const method = isCurrentlyActive ? "DELETE" : "POST";
-  try {
-    await fetch(
-      `http://isosofts.com/api/account/staff/${accessModal.emp.id}/access?register=${registerKey}&token=${token}`,
-      { method }
-    );
-    setEmpAccesses((prev) =>
-      isCurrentlyActive ? prev.filter((r) => r !== registerKey) : [...prev, registerKey]
-    );
-  } catch (err) {
-    console.error("Access toggle error:", err);
-  }
+const toggleAccess = (registerKey, isCurrentlyActive) => {
+  setEmpAccesses((prev) =>
+    isCurrentlyActive ? prev.filter((r) => r !== registerKey) : [...prev, registerKey]
+  );
 };
 const [companies, setCompanies] = useState([
   {
@@ -1299,7 +1316,7 @@ const openEditEmployee = (emp) => {
           {empAccesses.length} of {REGISTERS.length} accesses granted
         </span>
         <button
-          onClick={() => setAccessModal({ open: false, emp: null })}
+           onClick={saveAccesses}
           className="px-5 py-2 text-sm font-semibold rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 transition-all shadow-sm"
         >
           Done
