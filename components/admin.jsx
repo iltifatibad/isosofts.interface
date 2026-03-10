@@ -18,12 +18,68 @@ const AdminDashboard = () => {
   const [profile, setProfile] = useState(null);
   const [subordinates, setSubordinates] = useState([]);
   
+  const [accessModal, setAccessModal] = useState({ open: false, emp: null });
+  const [empAccesses, setEmpAccesses] = useState([]);
+  const [accessLoading, setAccessLoading] = useState(false);
+  const REGISTERS = [
+  { key: "kpi", label: "Key Performance Indicators" },
+  { key: "br",  label: "Context of Organisation, Business Risks, Opportunities & Objectives Register" },
+  { key: "hsr", label: "Health & Safety Risks Register" },
+  { key: "leg", label: "Legislation Register" },
+  { key: "eai", label: "Environmental Aspects & Impact Register" },
+  { key: "ei",  label: "Equipment & Inventory Register" },
+  { key: "tra", label: "Training Register" },
+  { key: "doc", label: "Documents Register" },
+  { key: "ven", label: "Vendor Register" },
+  { key: "cus", label: "Customer Register" },
+  { key: "fb",  label: "Feedback Register" },
+  { key: "ea",  label: "Employee Performance Appraisal Register" },
+  { key: "moc", label: "Management of Changes Register" },
+  { key: "fin", label: "Findings Register" },
+  { key: "aop", label: "Assurance & Oversight Program" },
+  { key: "mrm", label: "Management Review Meeting Register" },
+];
+
+const getToken = () =>
+  document.cookie.split("; ").find((r) => r.startsWith("auth_token="))?.split("=")[1] ?? "";
+
   const [lineManagerModal, setLineManagerModal] = useState({ open: false, empId: null });
   const [staffList, setStaffList] = useState([]);
   const [selectedLineManager, setSelectedLineManager] = useState("");
   const [staffLoading, setStaffLoading] = useState(false);
+  
 
+  const openAccessModal = async (emp) => {
+  setAccessModal({ open: true, emp });
+  setAccessLoading(true);
+  try {
+    const token = getToken();
+    const res = await fetch(`http://isosofts.com/api/account/staff/${emp.id}/access?token=${token}`);
+    const data = await res.json();
+    setEmpAccesses(Array.isArray(data) ? data.map((d) => d.register) : []);
+  } catch (err) {
+    console.error("Access fetch error:", err);
+    setEmpAccesses([]);
+  } finally {
+    setAccessLoading(false);
+  }
+};
 
+const toggleAccess = async (registerKey, isCurrentlyActive) => {
+  const token = getToken();
+  const method = isCurrentlyActive ? "DELETE" : "POST";
+  try {
+    await fetch(
+      `http://isosofts.com/api/account/staff/${accessModal.emp.id}/access?register=${registerKey}&token=${token}`,
+      { method }
+    );
+    setEmpAccesses((prev) =>
+      isCurrentlyActive ? prev.filter((r) => r !== registerKey) : [...prev, registerKey]
+    );
+  } catch (err) {
+    console.error("Access toggle error:", err);
+  }
+};
 const [companies, setCompanies] = useState([
   {
     id: "This Id Is Private",
@@ -821,14 +877,10 @@ const openEditEmployee = (emp) => {
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap">
                                 <button
-                                  onClick={() => toggleEmployeeEditRight(selectedCompany.id, emp.id)}
-                                  className={`px-3 py-1 rounded-full text-xs font-medium ${
-                                    emp.canEdit
-                                      ? "bg-green-100 text-green-800 hover:bg-green-200"
-                                      : "bg-gray-100 text-gray-800 hover:bg-gray-200"
-                                  }`}
+                                  onClick={() => openAccessModal(emp)}
+                                  className="px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 hover:bg-blue-200"
                                 >
-                                  {emp.canEdit ? "Edit" : "Read"}
+                                  Edit Accesses
                                 </button>
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap">
@@ -1156,6 +1208,106 @@ const openEditEmployee = (emp) => {
             </div>
           </div>
         )}
+
+        {/* Add Access Modal */}
+
+        {accessModal.open && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div
+      className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
+      onClick={() => setAccessModal({ open: false, emp: null })}
+    />
+    <div className="relative bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-5 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="bg-white/20 rounded-lg p-2">
+            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+          </div>
+          <div>
+            <h2 className="text-white font-semibold text-lg leading-tight">Edit Accesses</h2>
+            <p className="text-blue-100 text-xs mt-0.5">
+              {accessModal.emp?.fullName}
+            </p>
+          </div>
+        </div>
+        <button
+          onClick={() => setAccessModal({ open: false, emp: null })}
+          className="text-white/70 hover:text-white transition-colors"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Body */}
+      <div className="px-6 py-4 max-h-[60vh] overflow-y-auto">
+        {accessLoading ? (
+          <div className="flex items-center gap-3 py-6 text-gray-400 justify-center">
+            <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+            </svg>
+            <span className="text-sm">Loading accesses...</span>
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {REGISTERS.map((reg) => {
+              const isActive = empAccesses.includes(reg.key);
+              return (
+                <div
+                  key={reg.key}
+                  onClick={() => toggleAccess(reg.key, isActive)}
+                  className={`flex items-center justify-between px-4 py-3 rounded-xl border cursor-pointer transition-all ${
+                    isActive
+                      ? "bg-blue-50 border-blue-200 hover:bg-blue-100"
+                      : "bg-gray-50 border-gray-200 hover:bg-gray-100"
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className={`w-5 h-5 rounded flex items-center justify-center flex-shrink-0 border-2 transition-all ${
+                      isActive ? "bg-blue-600 border-blue-600" : "border-gray-300 bg-white"
+                    }`}>
+                      {isActive && (
+                        <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                        </svg>
+                      )}
+                    </div>
+                    <span className={`text-sm ${isActive ? "text-blue-800 font-medium" : "text-gray-600"}`}>
+                      {reg.label}
+                    </span>
+                  </div>
+                  <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
+                    isActive ? "bg-blue-100 text-blue-700" : "bg-gray-200 text-gray-500"
+                  }`}>
+                    {reg.key}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* Footer */}
+      <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-between items-center">
+        <span className="text-xs text-gray-400">
+          {empAccesses.length} of {REGISTERS.length} accesses granted
+        </span>
+        <button
+          onClick={() => setAccessModal({ open: false, emp: null })}
+          className="px-5 py-2 text-sm font-semibold rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 transition-all shadow-sm"
+        >
+          Done
+        </button>
+      </div>
+    </div>
+  </div>
+)}
 
         {/* New Employee Modal */}
         {showNewEmployeeModal && (
