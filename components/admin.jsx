@@ -35,21 +35,8 @@ const [companies, setCompanies] = useState([
     ],
   },
 ]);
-    useEffect(() => {
-  function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-    return null;
-  }
-
-  const token = getCookie('auth_token');
-  if (!token) {
-    console.warn("Auth token bulunamadı");
-    return;
-  }
-
-  useEffect(() => {
+  
+useEffect(() => {
   function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
@@ -111,9 +98,6 @@ const [companies, setCompanies] = useState([
       });
     })
     .catch(err => console.error("Staff yüklenemedi:", err));
-}, []);
-
-
 }, []);
 
 
