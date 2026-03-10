@@ -7,6 +7,7 @@ const AdminDashboard = () => {
   // Modal states
   const [showNewCompanyModal, setShowNewCompanyModal] = useState(false);
   const [showEditCompanyModal, setShowEditCompanyModal] = useState(false);
+  const [editCompanyName, setEditCompanyName] = useState("");
   const [showNewEmployeeModal, setShowNewEmployeeModal] = useState(false);
   const [showEditEmployeeModal, setShowEditEmployeeModal] = useState(false);
   const [showResetPasswordModal, setShowResetPasswordModal] = useState(false);
@@ -16,7 +17,7 @@ const AdminDashboard = () => {
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [profile, setProfile] = useState(null);
   const [subordinates, setSubordinates] = useState([]);
-
+  
   const [lineManagerModal, setLineManagerModal] = useState({ open: false, empId: null });
   const [staffList, setStaffList] = useState([]);
   const [selectedLineManager, setSelectedLineManager] = useState("");
@@ -145,6 +146,24 @@ useEffect(() => {
       });
   }, []);
   
+  const saveCompanyName = async () => {
+  const token = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("auth_token="))
+    ?.split("=")[1] ?? "";
+
+  try {
+    const res = await fetch(`http://isosofts.com/api/company/self?token=${token}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: editCompanyName }),
+    });
+    if (!res.ok) throw new Error("Güncelleme başarısız");
+    setShowEditCompanyModal(false);
+  } catch (err) {
+    console.error("Company update error:", err);
+  }
+};
 
   // Form states
   const [newCompanyForm, setNewCompanyForm] = useState({
@@ -732,20 +751,27 @@ const openEditEmployee = (emp) => {
                       <p className="text-blue-200 mt-1">{selectedCompany.email}</p>
                     </div>
                     <div className="flex items-center space-x-4">
-                      <h2 className="text-xl font-bold"> IsoSofts.com</h2>
+                      <h2 className="text-xl font-bold"> Powered By IsoSofts.com</h2>
                     </div>
                   </div>
                 </div>
 
-                {/* Action Buttons */}
-                <div className="p-6 border-b border-gray-200 flex flex-wrap gap-4">
-                  <button
-                    onClick={() => setShowNewEmployeeModal(true)}
-                    className="bg-blue-600 text-white px-5 py-2.5 rounded-lg hover:bg-blue-700"
-                  >
-                    + Add Employee
-                  </button>
-                </div>
+                  {/* Action Buttons */}
+                  <div className="p-6 border-b border-gray-200 flex flex-wrap gap-4">
+                    <button
+                      onClick={() => setShowNewEmployeeModal(true)}
+                      className="bg-blue-600 text-white px-5 py-2.5 rounded-lg hover:bg-blue-700"
+                    >
+                      + Add Employee
+                    </button>
+                    <button
+                      onClick={() => { setEditCompanyName(selectedCompany?.name || ""); setShowEditCompanyModal(true); }}
+                      className="bg-gray-100 text-gray-700 px-5 py-2.5 rounded-lg hover:bg-gray-200 border border-gray-300"
+                    >
+                      Edit Company
+                    </button>
+                  </div>
+
 
                 {/* Employees Table */}
                 <div className="p-6">
@@ -954,62 +980,56 @@ const openEditEmployee = (emp) => {
 
         {/* Edit Company Modal */}
         {showEditCompanyModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-            <div className="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 p-8">
-              <h3 className="text-2xl font-bold mb-6">Edit Company</h3>
-              <form onSubmit={handleEditCompany} className="space-y-5">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Company Name
-                  </label>
-                  <input
-                    type="text"
-                    value={editCompanyForm.name}
-                    onChange={(e) => setEditCompanyForm({ ...editCompanyForm, name: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
-                    required
-                  />
+          <div className="fixed inset-0 z-50 flex items-center justify-center">
+            <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={() => setShowEditCompanyModal(false)} />
+            <div className="relative bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden">
+              <div className="bg-gradient-to-r from-gray-700 to-gray-900 px-6 py-5 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="bg-white/20 rounded-lg p-2">
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21H5a2 2 0 01-2-2V7l7-7h9a2 2 0 012 2v17z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h2 className="text-white font-semibold text-lg leading-tight">Edit Company</h2>
+                    <p className="text-gray-300 text-xs mt-0.5">Update company information</p>
+                  </div>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    value={editCompanyForm.email}
-                    onChange={(e) => setEditCompanyForm({ ...editCompanyForm, email: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Country
-                  </label>
-                  <input
-                    type="text"
-                    value={editCompanyForm.country}
-                    onChange={(e) => setEditCompanyForm({ ...editCompanyForm, country: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
-                    required
-                  />
-                </div>
-                <div className="flex justify-end space-x-4 mt-8">
-                  <button
-                    type="button"
-                    onClick={() => setShowEditCompanyModal(false)}
-                    className="px-5 py-2.5 border border-gray-300 rounded-lg hover:bg-gray-50"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="px-5 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-                  >
-                    Save Changes
-                  </button>
-                </div>
-              </form>
+                <button onClick={() => setShowEditCompanyModal(false)} className="text-white/70 hover:text-white transition-colors">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              <div className="px-6 py-6">
+                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                  Company Name
+                </label>
+                <input
+                  type="text"
+                  value={editCompanyName}
+                  onChange={(e) => setEditCompanyName(e.target.value)}
+                  placeholder="Enter company name"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 font-medium focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent hover:border-gray-400 transition-colors"
+                />
+              </div>
+
+              <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-end gap-3">
+                <button
+                  onClick={() => setShowEditCompanyModal(false)}
+                  className="px-5 py-2 text-sm font-medium rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-100 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={saveCompanyName}
+                  disabled={!editCompanyName.trim()}
+                  className="px-5 py-2 text-sm font-semibold rounded-xl bg-gradient-to-r from-gray-700 to-gray-900 text-white hover:from-gray-800 hover:to-black disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm hover:shadow-md"
+                >
+                  Save Changes
+                </button>
+              </div>
             </div>
           </div>
         )}
