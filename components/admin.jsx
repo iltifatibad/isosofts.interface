@@ -1526,7 +1526,6 @@ const openEditEmployee = (emp) => {
   <div className="relative bg-white w-full max-w-md mx-4 rounded-2xl overflow-hidden shadow-2xl"
     style={{ boxShadow: "0 25px 60px rgba(0,0,0,0.25)" }}>
 
-    {/* Üst gradient şerit */}
     <div style={{ background: "linear-gradient(135deg, #ec4899, #f43f5e)", padding: "28px 32px 24px" }}>
       <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "12px", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "4px" }}>
         Security
@@ -1574,7 +1573,7 @@ const openEditEmployee = (emp) => {
         </button>
         <button type="submit"
           style={{ padding: "10px 22px", borderRadius: "10px", border: "none", background: "linear-gradient(135deg, #ec4899, #f43f5e)", fontSize: "14px", fontWeight: 600, color: "white", cursor: "pointer", boxShadow: "0 4px 15px rgba(236,72,153,0.4)" }}>
-          Update Password
+          Update Passworddd
         </button>
       </div>
     </form>
