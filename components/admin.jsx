@@ -1091,13 +1091,13 @@ const openEditEmployee = (emp) => {
                 >
                   Cancel
                 </button>
-<button
-  onClick={saveLineManager}
-  disabled={!selectedLineManager}
-  className="px-5 py-2 text-sm font-semibold rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm hover:shadow-md"
->
-  Assign Manager
-</button>
+                <button
+                  onClick={saveLineManager}
+                  disabled={!selectedLineManager}
+                  className="px-5 py-2 text-sm font-semibold rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm hover:shadow-md"
+                >
+                  Assign Manager
+                </button>
               </div>
             </div>
           </div>
