@@ -103,7 +103,7 @@ const handleSignUpSubmit = async (e) => {
     }
 
     if (!response.ok) throw new Error(result.message || "Registration failed");
-    window.location.href = "http://isosofts.com/los";
+    // window.location.href = "http://isosofts.com/los";
 
     setSignUpSuccess(true);
     setSignUpData({ name: "", surname: "", number: "", email: "", companyName: "", password: "", confirmPassword: "" });
