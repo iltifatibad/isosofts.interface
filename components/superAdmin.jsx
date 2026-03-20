@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react";
 
 const SuperAdminDashboard = () => {
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loginForm, setLoginForm] = useState({ password1: "", password2: "" });
+  const [loginError, setLoginError] = useState("");
+  const [loginLoading, setLoginLoading] = useState(false);
+
   const [selectedCompanyId, setSelectedCompanyId] = useState(null);
 
   // Modal states
@@ -48,6 +53,67 @@ const SuperAdminDashboard = () => {
   const [selectedLineManager, setSelectedLineManager] = useState("");
   const [staffLoading, setStaffLoading] = useState(false);
   const [originalAccesses, setOriginalAccesses] = useState([]);
+
+  // ────────────────────────────────────────────────
+  // Login check on mount
+  // ────────────────────────────────────────────────
+
+  useEffect(() => {
+    const token = document.cookie.split("; ").find((r) => r.startsWith("superAdmin_token="))?.split("=")[1];
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!isLoggedIn) return;
+    fetchCompanies();
+  }, [isLoggedIn]);
+
+  // ────────────────────────────────────────────────
+  // Login handler
+  // ────────────────────────────────────────────────
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoginError("");
+    setLoginLoading(true);
+
+    try {
+      const res = await fetch("http://isosofts.com/api/superAdmin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          password1: loginForm.password1,
+          password2: loginForm.password2,
+        }),
+      });
+
+      if (!res.ok) {
+        setLoginError("Invalid passwords. Please try again.");
+        setLoginLoading(false);
+        return;
+      }
+
+      const data = await res.json();
+      const token = data.token;
+
+      // Token'ı cookie'ye kaydet
+      document.cookie = `superAdmin_token=${token}; path=/; max-age=86400`;
+
+      setIsLoggedIn(true);
+      setLoginForm({ password1: "", password2: "" });
+    } catch (err) {
+      console.error("Login error:", err);
+      setLoginError("Connection error. Please try again.");
+    } finally {
+      setLoginLoading(false);
+    }
+  };
+
+  // ────────────────────────────────────────────────
+  // Access
+  // ────────────────────────────────────────────────
 
   const saveAccesses = async () => {
     const token = getToken();
@@ -102,18 +168,8 @@ const SuperAdminDashboard = () => {
   const [companies, setCompanies] = useState([]);
 
   const fetchCompanies = () => {
-    function getCookie(name) {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop().split(';').shift();
-      return null;
-    }
-
-    const token = getCookie('superAdmin_token');
-    if (!token) {
-      window.location.href = "http://isosofts.com/los";
-      return;
-    }
+    const token = document.cookie.split("; ").find((r) => r.startsWith("superAdmin_token="))?.split("=")[1];
+    if (!token) return;
 
     fetch(`http://isosofts.com/api/superAdmin/companies?token=${encodeURIComponent(token)}`)
       .then(res => {
@@ -137,33 +193,9 @@ const SuperAdminDashboard = () => {
   };
 
   useEffect(() => {
-    function getCookie(name) {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop().split(';').shift();
-      return null;
-    }
+    if (!selectedCompanyId || !isLoggedIn) return;
 
-    const token = getCookie('superAdmin_token');
-    if (!token) {
-      window.location.href = "http://isosofts.com/los";
-      return;
-    }
-
-    fetchCompanies();
-  }, []);
-
-  useEffect(() => {
-    if (!selectedCompanyId) return;
-
-    function getCookie(name) {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop().split(';').shift();
-      return null;
-    }
-
-    const token = getCookie('superAdmin_token');
+    const token = getToken();
     if (!token) return;
 
     fetch(`http://isosofts.com/api/superAdmin/company/${selectedCompanyId}/accounts?token=${encodeURIComponent(token)}`)
@@ -200,10 +232,7 @@ const SuperAdminDashboard = () => {
   const selectedCompany = companies.find((c) => c.id === selectedCompanyId);
 
   const saveCompanyName = async () => {
-    const token = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("superAdmin_token="))
-      ?.split("=")[1] ?? "";
+    const token = getToken();
 
     try {
       const res = await fetch(`http://isosofts.com/api/superAdmin/company/${selectedCompanyId}?token=${token}`, {
@@ -268,11 +297,7 @@ const SuperAdminDashboard = () => {
     setSelectedLineManager("");
     setStaffLoading(true);
     try {
-      const token = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("superAdmin_token="))
-        ?.split("=")[1] ?? "";
-
+      const token = getToken();
       const res = await fetch(`http://isosofts.com/api/superAdmin/company/${selectedCompanyId}/accounts?isActive=1&token=${token}`);
       const data = await res.json();
       setStaffList(Array.isArray(data) ? data : []);
@@ -286,10 +311,7 @@ const SuperAdminDashboard = () => {
 
   const saveLineManager = async () => {
     try {
-      const token = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("superAdmin_token="))
-        ?.split("=")[1] ?? "";
+      const token = getToken();
 
       const res = await fetch(
         `http://isosofts.com/api/superAdmin/user/${lineManagerModal.empId}/lineManager?token=${token}`,
@@ -315,11 +337,7 @@ const SuperAdminDashboard = () => {
 
   const handleCreateCompany = async (e) => {
     e.preventDefault();
-
-    const token = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("superAdmin_token="))
-      ?.split("=")[1] ?? "";
+    const token = getToken();
 
     try {
       const res = await fetch(`http://isosofts.com/api/superAdmin/company?token=${token}`, {
@@ -351,15 +369,7 @@ const SuperAdminDashboard = () => {
 
   const handleCreateEmployee = async (e) => {
     e.preventDefault();
-
-    function getCookie(name) {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop().split(';').shift();
-      return null;
-    }
-
-    const token = getCookie('superAdmin_token');
+    const token = getToken();
     if (!token) {
       console.warn("Auth token bulunamadı");
       return;
@@ -427,15 +437,7 @@ const SuperAdminDashboard = () => {
 
   const handleEditEmployee = async (e) => {
     e.preventDefault();
-
-    const getCookie = (name) => {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop().split(";").shift();
-      return null;
-    };
-
-    const token = getCookie("superAdmin_token");
+    const token = getToken();
 
     if (!token) {
       alert("Oturum bulunamadı. Lütfen tekrar giriş yapın.");
@@ -520,14 +522,7 @@ const SuperAdminDashboard = () => {
       return;
     }
 
-    function getCookie(name) {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop().split(";").shift();
-      return null;
-    }
-
-    const token = getCookie("superAdmin_token");
+    const token = getToken();
     if (!token) {
       alert("Token bulunamadı");
       return;
@@ -557,11 +552,7 @@ const SuperAdminDashboard = () => {
   };
 
   const toggleCompanyStatus = async (companyId, currentStatus) => {
-    const token = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("superAdmin_token="))
-      ?.split("=")[1] ?? "";
-
+    const token = getToken();
     const action = currentStatus === "active" ? "unactive" : "active";
 
     try {
@@ -585,14 +576,7 @@ const SuperAdminDashboard = () => {
   };
 
   const toggleEmployeeStatus = async (employeeId) => {
-    function getCookie(name) {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop().split(";").shift();
-      return null;
-    }
-
-    const token = getCookie("superAdmin_token");
+    const token = getToken();
     if (!token) {
       console.warn("Auth token bulunamadı");
       return;
@@ -754,6 +738,55 @@ const SuperAdminDashboard = () => {
     setEditRegistryForm({ index, name: currentName });
     setShowEditRegistryModal(true);
   };
+
+  // ────────────────────────────────────────────────
+  // LOGIN SCREEN
+  // ────────────────────────────────────────────────
+
+  if (!isLoggedIn) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 overflow-hidden">
+          <div className="bg-gradient-to-r from-blue-600 to-blue-800 px-8 py-10 text-white text-center">
+            <h1 className="text-3xl font-bold">Super Admin</h1>
+            <p className="text-blue-100 mt-2">IsoSofts.com</p>
+          </div>
+          <form onSubmit={handleLogin} className="p-8 space-y-5">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Password 1</label>
+              <input
+                type="password"
+                value={loginForm.password1}
+                onChange={(e) => setLoginForm({ ...loginForm, password1: e.target.value })}
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Password 2</label>
+              <input
+                type="password"
+                value={loginForm.password2}
+                onChange={(e) => setLoginForm({ ...loginForm, password2: e.target.value })}
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
+                required
+              />
+            </div>
+            {loginError && (
+              <p className="text-red-600 text-sm">{loginError}</p>
+            )}
+            <button
+              type="submit"
+              disabled={loginLoading}
+              className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loginLoading ? "Logging in..." : "Login"}
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
   // ────────────────────────────────────────────────
   // RENDER
