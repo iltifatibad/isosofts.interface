@@ -171,7 +171,7 @@ const SuperAdminDashboard = () => {
     const token = document.cookie.split("; ").find((r) => r.startsWith("superAdmin_token="))?.split("=")[1];
     if (!token) return;
 
-    fetch(`http://isosofts.com/api/superAdmin/companies?token=${encodeURIComponent(token)}`)
+    fetch(`http://isosofts.com/api/superAdmin/company?token=${encodeURIComponent(token)}`)
       .then(res => {
         if (!res.ok) throw new Error(`Sunucu hatası: ${res.status}`);
         return res.json();
