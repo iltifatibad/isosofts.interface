@@ -6,6 +6,7 @@ import Nav from "../components/navbar.jsx";
 import AuthPage from "../components/los.jsx"
 import UserProfile from "../components/userprofile.jsx";
 import AdminDashboard from "../components/admin.jsx";
+import SuperAdminDashboard from "../components/superAdmin.jsx";
 
 
 createRoot(document.getElementById("root")).render(
@@ -16,6 +17,7 @@ createRoot(document.getElementById("root")).render(
       <Route path="/los" element={<AuthPage />} />
       <Route path="/profile" element={<UserProfile />} />
       <Route path="/admin" element={<AdminDashboard />} />
+      <Route path="/superAdmin" element={<SuperAdminDashboard />} />
     </Routes>
   </BrowserRouter>,
 );
