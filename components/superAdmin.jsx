@@ -198,7 +198,7 @@ const SuperAdminDashboard = () => {
     const token = getToken();
     if (!token) return;
 
-    fetch(`http://isosofts.com/api/superAdmin/company/${selectedCompanyId}/accounts?token=${encodeURIComponent(token)}`)
+    fetch(`http://isosofts.com/api/superAdmin/company/${selectedCompanyId}/account?token=${encodeURIComponent(token)}`)
       .then(res => {
         if (!res.ok) throw new Error(`Sunucu hatası: ${res.status}`);
         return res.json();
@@ -298,7 +298,7 @@ const SuperAdminDashboard = () => {
     setStaffLoading(true);
     try {
       const token = getToken();
-      const res = await fetch(`http://isosofts.com/api/superAdmin/company/${selectedCompanyId}/accounts?isActive=1&token=${token}`);
+      const res = await fetch(`http://isosofts.com/api/superAdmin/company/${selectedCompanyId}/account?isActive=1&token=${token}`);
       const data = await res.json();
       setStaffList(Array.isArray(data) ? data : []);
     } catch (err) {
@@ -394,7 +394,7 @@ const SuperAdminDashboard = () => {
         throw new Error(`Sunucu hatası: ${res.status}`);
       }
 
-      const refreshRes = await fetch(`http://isosofts.com/api/superAdmin/company/${selectedCompanyId}/accounts?token=${encodeURIComponent(token)}`);
+      const refreshRes = await fetch(`http://isosofts.com/api/superAdmin/company/${selectedCompanyId}/account?token=${encodeURIComponent(token)}`);
       if (!refreshRes.ok) throw new Error(`Sunucu hatası: ${refreshRes.status}`);
       const refreshedData = await refreshRes.json();
       setCompanies(prev =>
