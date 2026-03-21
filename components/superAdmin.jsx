@@ -12,7 +12,7 @@ const SuperAdminDashboard = () => {
   // Modal states
   const [showNewCompanyModal, setShowNewCompanyModal] = useState(false);
   const [showEditCompanyModal, setShowEditCompanyModal] = useState(false);
-  const [editCompanyName, setEditCompanyName] = useState("");
+
   const [showNewEmployeeModal, setShowNewEmployeeModal] = useState(false);
   const [showEditEmployeeModal, setShowEditEmployeeModal] = useState(false);
   const [showResetPasswordModal, setShowResetPasswordModal] = useState(false);
@@ -238,13 +238,13 @@ const SuperAdminDashboard = () => {
       const res = await fetch(`http://isosofts.com/api/superAdmin/company/${selectedCompanyId}?token=${token}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: editCompanyName }),
+        body: JSON.stringify({ name: editCompanyForm.name, domain: editCompanyForm.domain }),
       });
       if (!res.ok) throw new Error("Güncelleme başarısız");
 
       setCompanies(prev =>
         prev.map(c =>
-          c.id === selectedCompanyId ? { ...c, name: editCompanyName } : c
+          c.id === selectedCompanyId ? { ...c, name: editCompanyForm.name, email: editCompanyForm.domain } : c
         )
       );
 
@@ -262,8 +262,7 @@ const SuperAdminDashboard = () => {
 
   const [editCompanyForm, setEditCompanyForm] = useState({
     name: "",
-    email: "",
-    country: "",
+    domain: "",
   });
 
   const [newEmployeeForm, setNewEmployeeForm] = useState({
@@ -706,8 +705,7 @@ const SuperAdminDashboard = () => {
     if (!selectedCompany) return;
     setEditCompanyForm({
       name: selectedCompany.name,
-      email: selectedCompany.email,
-      country: selectedCompany.country,
+      domain: selectedCompany.email,
     });
     setShowEditCompanyModal(true);
   };
@@ -807,7 +805,7 @@ const SuperAdminDashboard = () => {
           <div className="lg:col-span-4 space-y-6">
             <div className="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden">
               <div className="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-5 text-white flex justify-between items-center">
-                <h2 className="text-xl font-bold">Companies</h2>
+                <h2 className="text-xl font-bold">Company</h2>
                 <button
                   onClick={() => setShowNewCompanyModal(true)}
                   className="bg-white text-blue-700 text-sm font-semibold px-3 py-1.5 rounded-lg hover:bg-blue-50"
@@ -888,7 +886,7 @@ const SuperAdminDashboard = () => {
                       + Add Employee
                     </button>
                     <button
-                      onClick={() => { setEditCompanyName(selectedCompany?.name || ""); setShowEditCompanyModal(true); }}
+                      onClick={() => openEditCompany()}
                       className="bg-gray-100 text-gray-700 px-5 py-2.5 rounded-lg hover:bg-gray-200 border border-gray-300"
                     >
                       Edit Company
@@ -1110,17 +1108,31 @@ const SuperAdminDashboard = () => {
                 </button>
               </div>
 
-              <div className="px-6 py-6">
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
-                  Company Name
-                </label>
-                <input
-                  type="text"
-                  value={editCompanyName}
-                  onChange={(e) => setEditCompanyName(e.target.value)}
-                  placeholder="Enter company name"
-                  className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 font-medium focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent hover:border-gray-400 transition-colors"
-                />
+              <div className="px-6 py-6 space-y-4">
+                <div>
+                  <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                    Company Name
+                  </label>
+                  <input
+                    type="text"
+                    value={editCompanyForm.name}
+                    onChange={(e) => setEditCompanyForm({ ...editCompanyForm, name: e.target.value })}
+                    placeholder="Enter company name"
+                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 font-medium focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent hover:border-gray-400 transition-colors"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                    Domain
+                  </label>
+                  <input
+                    type="text"
+                    value={editCompanyForm.domain}
+                    onChange={(e) => setEditCompanyForm({ ...editCompanyForm, domain: e.target.value })}
+                    placeholder="e.g. company.com"
+                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 font-medium focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent hover:border-gray-400 transition-colors"
+                  />
+                </div>
               </div>
 
               <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-end gap-3">
@@ -1132,7 +1144,7 @@ const SuperAdminDashboard = () => {
                 </button>
                 <button
                   onClick={saveCompanyName}
-                  disabled={!editCompanyName.trim()}
+                  disabled={!editCompanyForm.name.trim()}
                   className="px-5 py-2 text-sm font-semibold rounded-xl bg-gradient-to-r from-gray-700 to-gray-900 text-white hover:from-gray-800 hover:to-black disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm hover:shadow-md"
                 >
                   Save Changes
