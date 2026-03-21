@@ -186,7 +186,7 @@ const SuperAdminDashboard = () => {
             status: comp.isActive === 1 ? "active" : "inactive",
             registries: [],
             employees: [],
-          }))
+          })) ?? []
         );
       })
       .catch(err => console.error("Companies yüklenemedi:", err));
@@ -209,7 +209,7 @@ const SuperAdminDashboard = () => {
             c.id === selectedCompanyId
               ? {
                   ...c,
-                  employees: data.map(emp => ({
+                  employees: Array.isArray(data) ? data.map(emp => ({
                     id: emp.id,
                     name: emp.name,
                     surname: emp.surname,
@@ -220,7 +220,7 @@ const SuperAdminDashboard = () => {
                     status: "active",
                     phoneNumber: emp.phoneNumber,
                     isActive: emp.isActive,
-                  }))
+                  })) : []
                 }
               : c
           )
@@ -581,7 +581,7 @@ const SuperAdminDashboard = () => {
       return;
     }
 
-    const employee = selectedCompany.employees.find(emp => emp.id === employeeId);
+    const employee = (selectedCompany.employees ?? []).find(emp => emp.id === employeeId);
     const action = employee.isActive ? "unactive" : "active";
 
     try {
@@ -922,7 +922,7 @@ const SuperAdminDashboard = () => {
                           </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
-                          {selectedCompany.employees.map((emp) => (
+                          {(selectedCompany.employees ?? []).map((emp) => (
                             <tr key={emp.id}>
                               <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">
                                 {emp.fullName}
