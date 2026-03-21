@@ -1035,7 +1035,8 @@ const SuperAdminDashboard = () => {
 
         {/* New Company Modal */}
         {showNewCompanyModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+          <div className="fixed inset-0 z-50 flex items-center justify-center"
+  style={{ backdropFilter: "blur(8px)", backgroundColor: "rgba(15, 23, 42, 0.6)" }}>
             <div className="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 p-8">
               <h3 className="text-2xl font-bold mb-6">Create New Company</h3>
               <form onSubmit={handleCreateCompany} className="space-y-5">
