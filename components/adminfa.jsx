@@ -954,7 +954,7 @@ const AdminDashboard = () => {
         )}
 
         {/* Reset Password Modal */}
-        {showResetPasswordModal && (
+        {/* {showResetPasswordModal && (
           <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
             <div className="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 p-8">
               <h3 className="text-2xl font-bold mb-6">Reset / Change Password</h3>
@@ -1012,10 +1012,10 @@ const AdminDashboard = () => {
               </form>
             </div>
           </div>
-        )}
+        )} */}
 
         {/* Add Registry Modal */}
-        {showAddRegistryModal && (
+        {/* {showAddRegistryModal && (
           <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
             <div className="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 p-8">
               <h3 className="text-2xl font-bold mb-6">Add New Registry</h3>
@@ -1051,10 +1051,10 @@ const AdminDashboard = () => {
               </form>
             </div>
           </div>
-        )}
+        )} */}
 
         {/* Edit Registry Modal */}
-        {showEditRegistryModal && (
+        {/* {showEditRegistryModal && (
           <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
             <div className="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 p-8">
               <h3 className="text-2xl font-bold mb-6">Edit Registry</h3>
@@ -1091,7 +1091,7 @@ const AdminDashboard = () => {
               </form>
             </div>
           </div>
-        )}
+        )} */}
 
         {/* Copy Registry Modal */}
         {showCopyRegistryModal && selectedCompany && (
