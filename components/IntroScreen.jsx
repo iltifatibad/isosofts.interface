@@ -94,10 +94,10 @@ export default function IntroScreen({ onDone }) {
             WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
             animation: "introShimmer 2s linear infinite",
           }}>
-            Algebra
+            IsoSofts
           </h1>
           <p style={{ margin: "4px 0 0", fontSize: 15, color: "rgba(148,163,184,0.9)", letterSpacing: "0.3em", textTransform: "uppercase", fontWeight: 500 }}>
-            ISOSofts Platform
+            Mitigate Risks, Multiply Your Impact.
           </p>
         </div>
 
