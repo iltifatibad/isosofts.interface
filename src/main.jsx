@@ -9,6 +9,9 @@ import AdminDashboard from "../components/admin.jsx";
 import SuperAdminDashboard from "../components/superAdmin.jsx";
 import IntroScreen from "../components/IntroScreen.jsx";
 
+import React, { useState, useEffect } from "react";
+
+
 function App() {
   const [introDone, setIntroDone] = useState(false);
 
