@@ -7,6 +7,7 @@ import AuthPage from "../components/los.jsx"
 import UserProfile from "../components/userprofile.jsx";
 import AdminDashboard from "../components/admin.jsx";
 import SuperAdminDashboard from "../components/superAdmin.jsx";
+import HelpEditor from "../components/HelpEditor.jsx";
 import IntroScreen from "../components/IntroScreen.jsx";
 
 import React, { useState, useEffect } from "react";
@@ -25,6 +26,7 @@ function App() {
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/superAdmin" element={<SuperAdminDashboard />} />
+        <Route path="/help-editor" element={<HelpEditor />} />
       </Routes>
     </BrowserRouter>,
   );
