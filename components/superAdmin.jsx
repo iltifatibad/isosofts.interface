@@ -793,16 +793,14 @@ const SuperAdminDashboard = () => {
   // ────────────────────────────────────────────────
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 pt-24 pb-8">
       <div className="max-w-7xl mx-auto px-6">
         <div className="mb-10">
-          <div className="flex items-start justify-between">
-            <div>
-              <h1 className="text-4xl font-bold text-gray-800">Super Admin Panel</h1>
-              <p className="text-gray-600 mt-2">
-                Company & User Management • Multi-Registry System
-              </p>
-            </div>
+          <h1 className="text-4xl font-bold text-gray-800">Super Admin Panel</h1>
+          <div className="flex items-center justify-between mt-2">
+            <p className="text-gray-600">
+              Company & User Management • Multi-Registry System
+            </p>
             <button
               onClick={() => navigate("/help-editor")}
               className="flex items-center gap-2 bg-indigo-600 text-white text-sm font-semibold px-4 py-2.5 rounded-xl hover:bg-indigo-700 transition-colors shadow-sm"
