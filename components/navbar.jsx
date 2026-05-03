@@ -16,22 +16,19 @@ const NavigationBar = ({ showProfile, setShowProfile }) => {
       console.warn("Auth token cookie'de bulunamadı");
       return;
     }
-    console.log("Token bulundu:", token.substring(0, 20) + "...");
-    fetch(`https://isosofts.com/api/account/self?token=${encodeURIComponent(token)}`)
+    const controller = new AbortController();
+    fetch(`https://isosofts.com/api/account/self?token=${encodeURIComponent(token)}`, {
+      signal: controller.signal,
+    })
       .then(res => {
-        console.log("İstek status:", res.status);
-        if (!res.ok) {
-          throw new Error(`Sunucu hatası: ${res.status}`);
-        }
+        if (!res.ok) throw new Error(`Sunucu hatası: ${res.status}`);
         return res.json();
       })
-      .then(data => {
-        console.log("Backend'den gelen veri:", data);
-        setProfile(data);
-      })
+      .then(data => setProfile(data))
       .catch(err => {
-        console.error("Profil hatası:", err);
+        if (err.name !== "AbortError") console.error("Profil hatası:", err);
       });
+    return () => controller.abort();
   }, []);
 
   return (

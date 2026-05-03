@@ -125,8 +125,10 @@ useEffect(() => {
     return;
   }
 
-  // Company bilgilerini çek
-  fetch(`https://isosofts.com/api/company/self?token=${encodeURIComponent(token)}`)
+  const controller = new AbortController();
+  const { signal } = controller;
+
+  fetch(`https://isosofts.com/api/company/self?token=${encodeURIComponent(token)}`, { signal })
     .then(res => {
       if (!res.ok) throw new Error(`Sunucu hatası: ${res.status}`);
       return res.json();
@@ -134,18 +136,13 @@ useEffect(() => {
     .then(data => {
       setCompanies(prev => {
         const updated = [...prev];
-        updated[0] = {
-          ...updated[0],
-          name: data.name,
-          email: data.domain,
-        };
+        updated[0] = { ...updated[0], name: data.name, email: data.domain };
         return updated;
       });
     })
-    .catch(err => console.error("Company yüklenemedi:", err));
+    .catch(err => { if (err.name !== "AbortError") console.error("Company yüklenemedi:", err); });
 
-  // Staff bilgilerini çek
-  fetch(`https://isosofts.com/api/account/staff?token=${encodeURIComponent(token)}`)
+  fetch(`https://isosofts.com/api/account/staff?token=${encodeURIComponent(token)}`, { signal })
     .then(res => {
       if (!res.ok) throw new Error(`Sunucu hatası: ${res.status}`);
       return res.json();
@@ -171,7 +168,9 @@ useEffect(() => {
         return updated;
       });
     })
-    .catch(err => console.error("Staff yüklenemedi:", err));
+    .catch(err => { if (err.name !== "AbortError") console.error("Staff yüklenemedi:", err); });
+
+  return () => controller.abort();
 }, []);
 
 
@@ -186,37 +185,41 @@ useEffect(() => {
       if (parts.length === 2) return parts.pop().split(';').shift();
       return null;
     }
-  
+
     const token = getCookie('auth_token');
-  
     if (!token) {
       console.warn("Auth token cookie'de bulunamadı");
       window.location.href = "https://isosofts.com/los";
       return;
     }
-  
-    console.log("Token bulundu:", token.substring(0, 20) + "..."); // debug
-  
-    fetch(`https://isosofts.com/api/account/self?token=${encodeURIComponent(token)}`)
+
+    const controller = new AbortController();
+
+    fetch(`https://isosofts.com/api/account/self?token=${encodeURIComponent(token)}`, {
+      signal: controller.signal,
+    })
       .then(res => {
-        console.log("İstek status:", res.status); // debug
         if (!res.ok) {
-          window.location.href = "https://isosofts.com/los"
+          window.location.href = "https://isosofts.com/los";
           throw new Error(`Sunucu hatası: ${res.status}`);
         }
         return res.json();
       })
       .then(data => {
-        if (data.isAdmin === 0){
-            window.location.href = "https://isosofts.com/profile";
-        }else {
-            setProfile(data); // direkt data'yı set et
+        if (data.isAdmin === 0) {
+          window.location.href = "https://isosofts.com/profile";
+        } else {
+          setProfile(data);
         }
       })
       .catch(err => {
-        window.location.href = "https://isosofts.com/los"
-        console.error("Profil hatası:", err);
+        if (err.name !== "AbortError") {
+          window.location.href = "https://isosofts.com/los";
+          console.error("Profil hatası:", err);
+        }
       });
+
+    return () => controller.abort();
   }, []);
   
 const saveCompanyName = async () => {

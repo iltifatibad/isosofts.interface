@@ -81,7 +81,10 @@ useEffect(() => {
     return;
   }
 
-  fetch(`https://isosofts.com/api/account/self?token=${encodeURIComponent(token)}`)
+  const controller = new AbortController();
+  const { signal } = controller;
+
+  fetch(`https://isosofts.com/api/account/self?token=${encodeURIComponent(token)}`, { signal })
     .then(res => {
       if (!res.ok) throw new Error(`Sunucu hatası: ${res.status}`);
       return res.json();
@@ -91,16 +94,18 @@ useEffect(() => {
       setSubordinates(data.subordinates || []);
 
       if (data.lineManagerId) {
-        fetch(`https://isosofts.com/api/account/staff/${data.lineManagerId}?token=${encodeURIComponent(token)}`)
+        fetch(`https://isosofts.com/api/account/staff/${data.lineManagerId}?token=${encodeURIComponent(token)}`, { signal })
           .then(res => {
             if (!res.ok) throw new Error(`Line manager hatası: ${res.status}`);
             return res.json();
           })
           .then(lm => setLineManager(lm))
-          .catch(err => console.error("Line manager fetch hatası:", err));
+          .catch(err => { if (err.name !== "AbortError") console.error("Line manager fetch hatası:", err); });
       }
     })
-    .catch(err => console.error("Profil hatası:", err));
+    .catch(err => { if (err.name !== "AbortError") console.error("Profil hatası:", err); });
+
+  return () => controller.abort();
 }, []);
 
 

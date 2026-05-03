@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { auth, db } from "../utils/firebase.js";
 import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
 import { ref, get, set } from "firebase/database";
@@ -21,6 +21,7 @@ const HelpEditor = () => {
   const [savedMsg, setSavedMsg] = useState("");
   const [openSections, setOpenSections] = useState({});
   const [firebaseStatus, setFirebaseStatus] = useState({});
+  const savedMsgTimerRef = useRef(null);
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
@@ -32,6 +33,7 @@ const HelpEditor = () => {
 
   useEffect(() => {
     if (!firebaseUser) return;
+    let mounted = true;
     Promise.all(
       ALL_HELP_MODULES.map(async (m) => {
         const key = toKey(m.title);
@@ -39,11 +41,17 @@ const HelpEditor = () => {
         return [key, snap.exists()];
       })
     ).then((results) => {
+      if (!mounted) return;
       const status = {};
       results.forEach(([key, exists]) => (status[key] = exists));
       setFirebaseStatus(status);
     });
+    return () => { mounted = false; };
   }, [firebaseUser]);
+
+  useEffect(() => {
+    return () => clearTimeout(savedMsgTimerRef.current);
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -81,11 +89,13 @@ const HelpEditor = () => {
     try {
       await set(ref(db, `helpContent/${key}`), editData);
       setFirebaseStatus((p) => ({ ...p, [key]: true }));
+      clearTimeout(savedMsgTimerRef.current);
       setSavedMsg("Saved successfully!");
-      setTimeout(() => setSavedMsg(""), 3000);
+      savedMsgTimerRef.current = setTimeout(() => setSavedMsg(""), 3000);
     } catch {
+      clearTimeout(savedMsgTimerRef.current);
       setSavedMsg("Save failed. Check Firebase rules.");
-      setTimeout(() => setSavedMsg(""), 4000);
+      savedMsgTimerRef.current = setTimeout(() => setSavedMsg(""), 4000);
     } finally {
       setSaving(false);
     }
@@ -94,8 +104,9 @@ const HelpEditor = () => {
   const resetModule = async () => {
     if (!selectedModule) return;
     setEditData(JSON.parse(JSON.stringify(selectedModule)));
+    clearTimeout(savedMsgTimerRef.current);
     setSavedMsg("Reset to default (not saved yet)");
-    setTimeout(() => setSavedMsg(""), 3000);
+    savedMsgTimerRef.current = setTimeout(() => setSavedMsg(""), 3000);
   };
 
   // ── Edit helpers ──────────────────────────────────────────
