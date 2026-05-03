@@ -19,7 +19,7 @@ const handleSubmit = async (e) => {
   setFieldErrors({});
   const dataToSend = { email: formData.email, password: formData.password };
   try {
-    const response = await fetch("http://isosofts.com/api/account/login", {
+    const response = await fetch("https://isosofts.com/api/account/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(dataToSend),
@@ -40,7 +40,7 @@ const handleSubmit = async (e) => {
 
     // ✅ Başarılı
     document.cookie = `auth_token=${result.token}; domain=.isosofts.com; path=/; max-age=86400; SameSite=Lax`;
-    window.location.href = "http://algebra.isosofts.com/";
+    window.location.href = "https://algebra.isosofts.com/";
 
   } catch (err) {
     console.error("Error:", err);
@@ -86,7 +86,7 @@ const handleSignUpSubmit = async (e) => {
   };
 
   try {
-    const response = await fetch("http://isosofts.com/api/account/signup", {
+    const response = await fetch("https://isosofts.com/api/account/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(dataToSend),
@@ -103,7 +103,7 @@ const handleSignUpSubmit = async (e) => {
     }
 
     if (!response.ok) throw new Error(result.message || "Registration failed");
-    window.location.href = "http://isosofts.com/los";
+    window.location.href = "https://isosofts.com/los";
 
     setSignUpSuccess(true);
     setSignUpData({ name: "", surname: "", number: "", email: "", companyName: "", password: "", confirmPassword: "" });

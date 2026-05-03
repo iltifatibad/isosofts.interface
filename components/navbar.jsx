@@ -17,7 +17,7 @@ const NavigationBar = ({ showProfile, setShowProfile }) => {
       return;
     }
     console.log("Token bulundu:", token.substring(0, 20) + "...");
-    fetch(`http://isosofts.com/api/account/self?token=${encodeURIComponent(token)}`)
+    fetch(`https://isosofts.com/api/account/self?token=${encodeURIComponent(token)}`)
       .then(res => {
         console.log("İstek status:", res.status);
         if (!res.ok) {

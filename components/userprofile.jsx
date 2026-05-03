@@ -41,7 +41,7 @@ const UserProfile = () => {
 
     try {
       // Simulate API call
-      // await fetch("http://localhost:8000/api/user/change-password", {
+      // await fetch("https://localhost:8000/api/user/change-password", {
       //   method: "POST",
       //   headers: { "Content-Type": "application/json" },
       //   body: JSON.stringify({
@@ -77,11 +77,11 @@ useEffect(() => {
   const token = getCookie('auth_token');
   if (!token) {
     console.warn("Auth token cookie'de bulunamadı");
-    window.location.href = "http://isosofts.com/los";
+    window.location.href = "https://isosofts.com/los";
     return;
   }
 
-  fetch(`http://isosofts.com/api/account/self?token=${encodeURIComponent(token)}`)
+  fetch(`https://isosofts.com/api/account/self?token=${encodeURIComponent(token)}`)
     .then(res => {
       if (!res.ok) throw new Error(`Sunucu hatası: ${res.status}`);
       return res.json();
@@ -91,7 +91,7 @@ useEffect(() => {
       setSubordinates(data.subordinates || []);
 
       if (data.lineManagerId) {
-        fetch(`http://isosofts.com/api/account/staff/${data.lineManagerId}?token=${encodeURIComponent(token)}`)
+        fetch(`https://isosofts.com/api/account/staff/${data.lineManagerId}?token=${encodeURIComponent(token)}`)
           .then(res => {
             if (!res.ok) throw new Error(`Line manager hatası: ${res.status}`);
             return res.json();

@@ -82,7 +82,7 @@ const SuperAdminDashboard = () => {
     setLoginLoading(true);
 
     try {
-      const res = await fetch("http://isosofts.com/api/superAdmin/login", {
+      const res = await fetch("https://isosofts.com/api/superAdmin/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -125,13 +125,13 @@ const SuperAdminDashboard = () => {
     try {
       for (const reg of toAdd) {
         await fetch(
-          `http://isosofts.com/api/superAdmin/user/${accessModal.emp.id}/access?register=${reg}&token=${token}`,
+          `https://isosofts.com/api/superAdmin/user/${accessModal.emp.id}/access?register=${reg}&token=${token}`,
           { method: "POST" }
         );
       }
       for (const reg of toRemove) {
         await fetch(
-          `http://isosofts.com/api/superAdmin/user/${accessModal.emp.id}/access?register=${reg}&token=${token}`,
+          `https://isosofts.com/api/superAdmin/user/${accessModal.emp.id}/access?register=${reg}&token=${token}`,
           { method: "DELETE" }
         );
       }
@@ -147,7 +147,7 @@ const SuperAdminDashboard = () => {
     setAccessLoading(true);
     try {
       const token = getToken();
-      const res = await fetch(`http://isosofts.com/api/superAdmin/user/${emp.id}/access?token=${token}`);
+      const res = await fetch(`https://isosofts.com/api/superAdmin/user/${emp.id}/access?token=${token}`);
       const data = await res.json();
       const list = Array.isArray(data) ? data.map((d) => d.register) : [];
       setEmpAccesses(list);
@@ -173,7 +173,7 @@ const SuperAdminDashboard = () => {
     const token = document.cookie.split("; ").find((r) => r.startsWith("superAdmin_token="))?.split("=")[1];
     if (!token) return;
 
-    fetch(`http://isosofts.com/api/superAdmin/company?token=${encodeURIComponent(token)}`)
+    fetch(`https://isosofts.com/api/superAdmin/company?token=${encodeURIComponent(token)}`)
       .then(res => {
         if (!res.ok) throw new Error(`Sunucu hatası: ${res.status}`);
         return res.json();
@@ -200,7 +200,7 @@ const SuperAdminDashboard = () => {
     const token = getToken();
     if (!token) return;
 
-    fetch(`http://isosofts.com/api/superAdmin/company/${selectedCompanyId}/account?token=${encodeURIComponent(token)}`)
+    fetch(`https://isosofts.com/api/superAdmin/company/${selectedCompanyId}/account?token=${encodeURIComponent(token)}`)
       .then(res => {
         if (!res.ok) throw new Error(`Sunucu hatası: ${res.status}`);
         return res.json();
@@ -237,7 +237,7 @@ const SuperAdminDashboard = () => {
     const token = getToken();
 
     try {
-      const res = await fetch(`http://isosofts.com/api/superAdmin/company/${selectedCompanyId}?token=${token}`, {
+      const res = await fetch(`https://isosofts.com/api/superAdmin/company/${selectedCompanyId}?token=${token}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: editCompanyForm.name, domain: editCompanyForm.domain }),
@@ -299,7 +299,7 @@ const SuperAdminDashboard = () => {
     setStaffLoading(true);
     try {
       const token = getToken();
-      const res = await fetch(`http://isosofts.com/api/superAdmin/company/${selectedCompanyId}/account?isActive=1&token=${token}`);
+      const res = await fetch(`https://isosofts.com/api/superAdmin/company/${selectedCompanyId}/account?isActive=1&token=${token}`);
       const data = await res.json();
       setStaffList(Array.isArray(data) ? data : []);
     } catch (err) {
@@ -315,7 +315,7 @@ const SuperAdminDashboard = () => {
       const token = getToken();
 
       const res = await fetch(
-        `http://isosofts.com/api/superAdmin/user/${lineManagerModal.empId}/lineManager?token=${token}`,
+        `https://isosofts.com/api/superAdmin/user/${lineManagerModal.empId}/lineManager?token=${token}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -341,7 +341,7 @@ const SuperAdminDashboard = () => {
     const token = getToken();
 
     try {
-      const res = await fetch(`http://isosofts.com/api/superAdmin/company?token=${token}`, {
+      const res = await fetch(`https://isosofts.com/api/superAdmin/company?token=${token}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -377,7 +377,7 @@ const SuperAdminDashboard = () => {
     }
 
     try {
-      const res = await fetch(`http://isosofts.com/api/superAdmin/company/${selectedCompanyId}/account?token=${encodeURIComponent(token)}`, {
+      const res = await fetch(`https://isosofts.com/api/superAdmin/company/${selectedCompanyId}/account?token=${encodeURIComponent(token)}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -395,7 +395,7 @@ const SuperAdminDashboard = () => {
         throw new Error(`Sunucu hatası: ${res.status}`);
       }
 
-      const refreshRes = await fetch(`http://isosofts.com/api/superAdmin/company/${selectedCompanyId}/account?token=${encodeURIComponent(token)}`);
+      const refreshRes = await fetch(`https://isosofts.com/api/superAdmin/company/${selectedCompanyId}/account?token=${encodeURIComponent(token)}`);
       if (!refreshRes.ok) throw new Error(`Sunucu hatası: ${refreshRes.status}`);
       const refreshedData = await refreshRes.json();
       setCompanies(prev =>
@@ -461,7 +461,7 @@ const SuperAdminDashboard = () => {
 
     try {
       const response = await fetch(
-        `http://isosofts.com/api/superAdmin/user/${selectedEmployee.id}?token=${token}`,
+        `https://isosofts.com/api/superAdmin/user/${selectedEmployee.id}?token=${token}`,
         {
           method: "PUT",
           headers: {
@@ -531,7 +531,7 @@ const SuperAdminDashboard = () => {
 
     try {
       const res = await fetch(
-        `http://isosofts.com/api/superAdmin/user/${resetPasswordForm.employeeId}/password?token=${encodeURIComponent(token)}`,
+        `https://isosofts.com/api/superAdmin/user/${resetPasswordForm.employeeId}/password?token=${encodeURIComponent(token)}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -558,7 +558,7 @@ const SuperAdminDashboard = () => {
 
     try {
       const res = await fetch(
-        `http://isosofts.com/api/superAdmin/company/${companyId}/${action}?token=${token}`,
+        `https://isosofts.com/api/superAdmin/company/${companyId}/${action}?token=${token}`,
         { method: "PUT", headers: { "Content-Type": "application/json" } }
       );
 
@@ -588,7 +588,7 @@ const SuperAdminDashboard = () => {
 
     try {
       const res = await fetch(
-        `http://isosofts.com/api/superAdmin/user/${employeeId}/${action}?token=${encodeURIComponent(token)}`,
+        `https://isosofts.com/api/superAdmin/user/${employeeId}/${action}?token=${encodeURIComponent(token)}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

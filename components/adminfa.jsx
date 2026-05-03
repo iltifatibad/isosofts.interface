@@ -72,13 +72,13 @@ const AdminDashboard = () => {
   
     if (!token) {
       console.warn("Auth token cookie'de bulunamadı");
-      window.location.href = "http://isosofts.com/los";
+      window.location.href = "https://isosofts.com/los";
       return;
     }
   
     console.log("Token bulundu:", token.substring(0, 20) + "..."); // debug
   
-    fetch(`http://isosofts.com/api/account/self?token=${encodeURIComponent(token)}`)
+    fetch(`https://isosofts.com/api/account/self?token=${encodeURIComponent(token)}`)
       .then(res => {
         console.log("İstek status:", res.status); // debug
         if (!res.ok) {
@@ -89,7 +89,7 @@ const AdminDashboard = () => {
       })
       .then(data => {
         if (data.isAdmin == 0){
-            window.location.href = "http://isosofts.com/profile";
+            window.location.href = "https://isosofts.com/profile";
         }else {
             setProfile(data); // direkt data'yı set et
             setSubordinates(data.subordinates || []);
@@ -185,7 +185,7 @@ const AdminDashboard = () => {
   }
 
   try {
-    const res = await fetch(`http://isosofts.com/api/account/staff?token=${encodeURIComponent(token)}`, {
+    const res = await fetch(`https://isosofts.com/api/account/staff?token=${encodeURIComponent(token)}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

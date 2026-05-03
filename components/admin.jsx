@@ -56,13 +56,13 @@ const getToken = () =>
   try {
     for (const reg of toAdd) {
       await fetch(
-        `http://isosofts.com/api/account/staff/${accessModal.emp.id}/access?register=${reg}&token=${token}`,
+        `https://isosofts.com/api/account/staff/${accessModal.emp.id}/access?register=${reg}&token=${token}`,
         { method: "POST" }
       );
     }
     for (const reg of toRemove) {
       await fetch(
-        `http://isosofts.com/api/account/staff/${accessModal.emp.id}/access?register=${reg}&token=${token}`,
+        `https://isosofts.com/api/account/staff/${accessModal.emp.id}/access?register=${reg}&token=${token}`,
         { method: "DELETE" }
       );
     }
@@ -78,7 +78,7 @@ const openAccessModal = async (emp) => {
   setAccessLoading(true);
   try {
     const token = getToken();
-    const res = await fetch(`http://isosofts.com/api/account/staff/${emp.id}/access?token=${token}`);
+    const res = await fetch(`https://isosofts.com/api/account/staff/${emp.id}/access?token=${token}`);
     const data = await res.json();
     const list = Array.isArray(data) ? data.map((d) => d.register) : [];
     setEmpAccesses(list);
@@ -121,12 +121,12 @@ useEffect(() => {
   const token = getCookie('auth_token');
   if (!token) {
     console.warn("Auth token cookie'de bulunamadı");
-    window.location.href = "http://isosofts.com/los";
+    window.location.href = "https://isosofts.com/los";
     return;
   }
 
   // Company bilgilerini çek
-  fetch(`http://isosofts.com/api/company/self?token=${encodeURIComponent(token)}`)
+  fetch(`https://isosofts.com/api/company/self?token=${encodeURIComponent(token)}`)
     .then(res => {
       if (!res.ok) throw new Error(`Sunucu hatası: ${res.status}`);
       return res.json();
@@ -145,7 +145,7 @@ useEffect(() => {
     .catch(err => console.error("Company yüklenemedi:", err));
 
   // Staff bilgilerini çek
-  fetch(`http://isosofts.com/api/account/staff?token=${encodeURIComponent(token)}`)
+  fetch(`https://isosofts.com/api/account/staff?token=${encodeURIComponent(token)}`)
     .then(res => {
       if (!res.ok) throw new Error(`Sunucu hatası: ${res.status}`);
       return res.json();
@@ -191,30 +191,30 @@ useEffect(() => {
   
     if (!token) {
       console.warn("Auth token cookie'de bulunamadı");
-      window.location.href = "http://isosofts.com/los";
+      window.location.href = "https://isosofts.com/los";
       return;
     }
   
     console.log("Token bulundu:", token.substring(0, 20) + "..."); // debug
   
-    fetch(`http://isosofts.com/api/account/self?token=${encodeURIComponent(token)}`)
+    fetch(`https://isosofts.com/api/account/self?token=${encodeURIComponent(token)}`)
       .then(res => {
         console.log("İstek status:", res.status); // debug
         if (!res.ok) {
-          window.location.href = "http://isosofts.com/los"
+          window.location.href = "https://isosofts.com/los"
           throw new Error(`Sunucu hatası: ${res.status}`);
         }
         return res.json();
       })
       .then(data => {
         if (data.isAdmin === 0){
-            window.location.href = "http://isosofts.com/profile";
+            window.location.href = "https://isosofts.com/profile";
         }else {
             setProfile(data); // direkt data'yı set et
         }
       })
       .catch(err => {
-        window.location.href = "http://isosofts.com/los"
+        window.location.href = "https://isosofts.com/los"
         console.error("Profil hatası:", err);
       });
   }, []);
@@ -226,7 +226,7 @@ const saveCompanyName = async () => {
     ?.split("=")[1] ?? "";
 
   try {
-    const res = await fetch(`http://isosofts.com/api/company/self?token=${token}`, {
+    const res = await fetch(`https://isosofts.com/api/company/self?token=${token}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name: editCompanyName }),
@@ -298,7 +298,7 @@ const openSetLineManager = async (empId) => {
       .find((row) => row.startsWith("auth_token="))
       ?.split("=")[1] ?? "";
 
-    const res = await fetch(`http://isosofts.com/api/account/staff?isActive=1&token=${token}`);
+    const res = await fetch(`https://isosofts.com/api/account/staff?isActive=1&token=${token}`);
     const data = await res.json();
     setStaffList(Array.isArray(data) ? data : []);
   } catch (err) {
@@ -317,7 +317,7 @@ const saveLineManager = async () => {
       ?.split("=")[1] ?? "";
 
     const res = await fetch(
-      `http://isosofts.com/api/account/staff/${lineManagerModal.empId}/lineManager?token=${token}`,
+      `https://isosofts.com/api/account/staff/${lineManagerModal.empId}/lineManager?token=${token}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -381,7 +381,7 @@ const handleCreateEmployee = async (e) => {
   }
 
   try {
-    const res = await fetch(`http://isosofts.com/api/account/staff?token=${encodeURIComponent(token)}`, {
+    const res = await fetch(`https://isosofts.com/api/account/staff?token=${encodeURIComponent(token)}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -401,7 +401,7 @@ const handleCreateEmployee = async (e) => {
     const data = await res.json();
     console.log("Çalışan eklendi:", data);
 
-    const refreshRes = await fetch(`http://isosofts.com/api/account/staff?token=${encodeURIComponent(token)}`);
+    const refreshRes = await fetch(`https://isosofts.com/api/account/staff?token=${encodeURIComponent(token)}`);
     if (!refreshRes.ok) throw new Error(`Sunucu hatası: ${refreshRes.status}`);
     const refreshedData = await refreshRes.json();
     setCompanies(prev => {
@@ -475,7 +475,7 @@ const handleEditEmployee = async (e) => {
 
   try {
     const response = await fetch(
-      `http://isosofts.com/api/account/staff/${selectedEmployee.id}?token=${token}`,
+      `https://isosofts.com/api/account/staff/${selectedEmployee.id}?token=${token}`,
       {
         method: "PUT",
         headers: {
@@ -559,7 +559,7 @@ const handleResetPassword = async (e) => {
 
   try {
     const res = await fetch(
-      `http://isosofts.com/api/account/staff/${resetPasswordForm.employeeId}/password?token=${encodeURIComponent(token)}`,
+      `https://isosofts.com/api/account/staff/${resetPasswordForm.employeeId}/password?token=${encodeURIComponent(token)}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -610,7 +610,7 @@ const toggleEmployeeStatus = async (employeeId) => {
 
   try {
     const res = await fetch(
-      `http://isosofts.com/api/account/staff/${employeeId}/${action}?token=${encodeURIComponent(token)}`,
+      `https://isosofts.com/api/account/staff/${employeeId}/${action}?token=${encodeURIComponent(token)}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
