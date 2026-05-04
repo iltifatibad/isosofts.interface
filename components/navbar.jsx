@@ -52,10 +52,28 @@ const NavigationBar = ({ showProfile, setShowProfile }) => {
             </div>
 
             <div className="hidden md:flex space-x-6">
-              <a href="/" className="text-sm text-gray-600 hover:text-blue-600 transition-colors font-medium">Home</a>
-              <a href="" className="text-sm text-gray-600 hover:text-blue-600 transition-colors font-medium">Services</a>
-              <a href="#" className="text-sm text-gray-600 hover:text-blue-600 transition-colors font-medium">About</a>
-              <a href="#" className="text-sm text-gray-600 hover:text-blue-600 transition-colors font-medium">Contact</a>
+              {[
+                { label: "Home",     href: "/#home" },
+                { label: "Services", href: "/#services" },
+                { label: "About",    href: "/#about" },
+                { label: "Contact",  href: "/#contact" },
+              ].map(({ label, href }) => (
+                <a
+                  key={label}
+                  href={href}
+                  onClick={e => {
+                    const id = href.replace("/#", "");
+                    const el = document.getElementById(id);
+                    if (el) {
+                      e.preventDefault();
+                      el.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }
+                  }}
+                  className="text-sm text-gray-600 hover:text-blue-600 transition-colors font-medium cursor-pointer"
+                >
+                  {label}
+                </a>
+              ))}
             </div>
           </div>
 

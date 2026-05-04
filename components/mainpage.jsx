@@ -70,7 +70,7 @@ const IsosoftsMain = () => {
     <div className="min-h-screen bg-white font-sans">
 
       {/* ── HERO ── */}
-      <section className="relative min-h-screen flex items-center overflow-hidden">
+      <section id="home" className="relative min-h-screen flex items-center overflow-hidden">
 
         {/* Background */}
         <div style={{
@@ -231,7 +231,7 @@ const IsosoftsMain = () => {
       </section>
 
       {/* ── WHY CHOOSE ── */}
-      <section style={{ background: "linear-gradient(180deg, #fff 0%, #f8fafc 100%)", padding: "80px 0" }}>
+      <section id="about" style={{ background: "linear-gradient(180deg, #fff 0%, #f8fafc 100%)", padding: "80px 0" }}>
         <div className="max-w-7xl mx-auto px-6">
           <div style={{ textAlign: "center", marginBottom: 56 }}>
             <p style={{ color: "#3b82f6", fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 700, margin: "0 0 8px" }}>
@@ -323,7 +323,7 @@ const IsosoftsMain = () => {
       </section>
 
       {/* ── SERVICES ── */}
-      <section style={{ background: "#fff", padding: "80px 0" }}>
+      <section id="services" style={{ background: "#fff", padding: "80px 0" }}>
         <div className="max-w-7xl mx-auto px-6">
           <div style={{ textAlign: "center", marginBottom: 56 }}>
             <p style={{ color: "#3b82f6", fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 700, margin: "0 0 8px" }}>
@@ -369,7 +369,7 @@ const IsosoftsMain = () => {
       </section>
 
       {/* ── FOOTER ── */}
-      <footer style={{ background: "linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)", color: "#fff", padding: "64px 0 32px" }}>
+      <footer id="contact" style={{ background: "linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)", color: "#fff", padding: "64px 0 32px" }}>
         <div className="max-w-7xl mx-auto px-6">
           <div style={{ display: "grid", gap: 40 }} className="md:grid-cols-4">
 
