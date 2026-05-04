@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { isAuth } from "../utils/isAuth";
 
 const MODULES = [
@@ -65,6 +65,18 @@ const SERVICES = [
 
 const IsosoftsMain = () => {
   const [showProfile, setShowProfile] = useState(false);
+
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (!hash) return;
+    const id = hash.replace("#", "");
+    const scroll = () => {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+    // kısa gecikme: navbar yüklendikten sonra scroll yap
+    setTimeout(scroll, 120);
+  }, []);
 
   return (
     <div className="min-h-screen bg-white font-sans">
@@ -367,6 +379,81 @@ const IsosoftsMain = () => {
           </div>
         </div>
       </section>
+
+      {/* ── TESTIMONIALS ── */}
+<section style={{ background:"linear-gradient(180deg, #f8fafc 0%, #fff 100%)", padding:"80px 0" }}>
+  <div className="max-w-7xl mx-auto px-6">
+    <div style={{ textAlign:"center", marginBottom:56 }}>
+      <p style={{ color:"#3b82f6", fontSize:11, letterSpacing:"0.2em", textTransform:"uppercase", fontWeight:700, margin:"0 0 8px" }}>
+        Testimonials
+      </p>
+      <h2 style={{ fontSize:"clamp(28px,4vw,40px)", fontWeight:800, color:"#1e3a5f", margin:0 }}>
+        Trusted by compliance teams
+      </h2>
+    </div>
+    <div style={{ display:"grid", gap:24 }} className="lg:grid-cols-3">
+      {[
+        { name:"Sarah Mitchell", role:"QHSE Manager", company:"TechCorp Ltd.", quote:"Algebra replaced 6 separate spreadsheets. Our audit preparation time dropped by 60% in the first quarter.", initials:"SM", color:"#3b82f6" },
+        { name:"James Okafor",   role:"HSE Director", company:"BuildSafe Group", quote:"The KPI dashboard gives our board real-time visibility into safety performance. It's exactly what we needed.", initials:"JO", color:"#8b5cf6" },
+        { name:"Lena Brandt",    role:"ISO Consultant", company:"QualityFirst GmbH", quote:"I recommend Isosofts to every client. The multi-standard coverage in one platform is a genuine differentiator.", initials:"LB", color:"#10b981" },
+      ].map(t => (
+        <div key={t.name} style={{ background:"#fff", border:"1px solid #e2e8f0", borderRadius:16, padding:32, display:"flex", flexDirection:"column", gap:20, transition:"transform 0.2s, box-shadow 0.2s" }}
+          onMouseEnter={e=>{ e.currentTarget.style.transform="translateY(-4px)"; e.currentTarget.style.boxShadow="0 12px 32px rgba(0,0,0,0.08)"; e.currentTarget.style.borderColor="#bfdbfe"; }}
+          onMouseLeave={e=>{ e.currentTarget.style.transform=""; e.currentTarget.style.boxShadow=""; e.currentTarget.style.borderColor="#e2e8f0"; }}
+        >
+          <div style={{ display:"flex", gap:4 }}>
+            {[1,2,3,4,5].map(s => <i key={s} className="fas fa-star" style={{ fontSize:13, color:"#f59e0b" }} />)}
+          </div>
+          <p style={{ fontSize:15, color:"#374151", lineHeight:1.75, margin:0, fontStyle:"italic" }}>"{t.quote}"</p>
+          <div style={{ display:"flex", alignItems:"center", gap:12, marginTop:"auto" }}>
+            <div style={{ width:42, height:42, borderRadius:10, background:`${t.color}20`, border:`1px solid ${t.color}40`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+              <span style={{ fontSize:13, fontWeight:700, color:t.color }}>{t.initials}</span>
+            </div>
+            <div>
+              <p style={{ fontSize:14, fontWeight:700, color:"#1e3a5f", margin:0 }}>{t.name}</p>
+              <p style={{ fontSize:12, color:"#64748b", margin:"2px 0 0" }}>{t.role} · {t.company}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+      {/* ── CTA ── */}
+<section style={{ background: "linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)", padding: "80px 0", position: "relative", overflow: "hidden" }}>
+  <div style={{ position:"absolute", inset:0, pointerEvents:"none", backgroundImage:"radial-gradient(circle at 1px 1px, rgba(59,130,246,0.07) 1px, transparent 0)", backgroundSize:"28px 28px" }} />
+  <div style={{ position:"absolute", top:"-30%", right:"10%", width:400, height:400, borderRadius:"50%", background:"radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%)", pointerEvents:"none" }} />
+  <div className="max-w-7xl mx-auto px-6 relative" style={{ textAlign:"center" }}>
+    <span style={{ display:"inline-block", padding:"4px 16px", borderRadius:99, border:"1px solid rgba(59,130,246,0.4)", color:"#93c5fd", fontSize:11, fontWeight:700, letterSpacing:"0.12em", background:"rgba(59,130,246,0.1)", marginBottom:20 }}>
+      GET STARTED TODAY
+    </span>
+    <h2 style={{ fontSize:"clamp(28px,4vw,44px)", fontWeight:800, color:"#fff", margin:"0 0 16px", letterSpacing:"-0.5px" }}>
+      Ready to transform your<br />compliance management?
+    </h2>
+    <p style={{ fontSize:17, color:"rgba(148,163,184,0.85)", maxWidth:520, margin:"0 auto 36px", lineHeight:1.7 }}>
+      Join organisations that trust Isosofts to manage their ISO 9001, ISO 14001 and ISO 45001 requirements — all in one place.
+    </p>
+    <div style={{ display:"flex", gap:14, justifyContent:"center", flexWrap:"wrap" }}>
+      <button
+        onClick={() => isAuth()}
+        style={{ padding:"15px 36px", borderRadius:12, border:"none", cursor:"pointer", background:"linear-gradient(135deg,#3b82f6,#6366f1)", color:"#fff", fontSize:16, fontWeight:700, boxShadow:"0 4px 24px rgba(59,130,246,0.4)", transition:"transform 0.2s, box-shadow 0.2s" }}
+        onMouseEnter={e=>{ e.currentTarget.style.transform="translateY(-2px)"; e.currentTarget.style.boxShadow="0 8px 32px rgba(59,130,246,0.5)"; }}
+        onMouseLeave={e=>{ e.currentTarget.style.transform=""; e.currentTarget.style.boxShadow="0 4px 24px rgba(59,130,246,0.4)"; }}
+      >
+        <i className="fas fa-rocket mr-2" />Start Free Trial
+      </button>
+      <a href="/#contact">
+        <button style={{ padding:"15px 36px", borderRadius:12, cursor:"pointer", background:"rgba(255,255,255,0.08)", border:"1px solid rgba(255,255,255,0.15)", color:"#e2e8f0", fontSize:16, fontWeight:600, transition:"background 0.2s" }}
+          onMouseEnter={e=>e.currentTarget.style.background="rgba(255,255,255,0.14)"}
+          onMouseLeave={e=>e.currentTarget.style.background="rgba(255,255,255,0.08)"}
+        >
+          Contact Us
+        </button>
+      </a>
+    </div>
+  </div>
+</section>
 
       {/* ── FOOTER ── */}
       <footer id="contact" style={{ background: "linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)", color: "#fff", padding: "64px 0 32px" }}>
