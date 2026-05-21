@@ -23,6 +23,7 @@ const AdminDashboard = () => {
   const [accessLoading, setAccessLoading] = useState(false);
   const REGISTERS = [
   { key: "kpi", label: "Key Performance Indicators" },
+  { key: "opi", label: "Operation Performance Indicators" },
   { key: "br",  label: "Context of Organisation, Business Risks, Opportunities & Objectives Register" },
   { key: "hsr", label: "Health & Safety Risks Register" },
   { key: "leg", label: "Legislation Register" },
@@ -38,6 +39,7 @@ const AdminDashboard = () => {
   { key: "fin", label: "Findings Register" },
   { key: "aop", label: "Assurance & Oversight Program" },
   { key: "mrm", label: "Management Review Meeting Register" },
+  { key: "dropdownlistitem", label: "DropDown List Items" },
 ];
 
 const getToken = () =>
