@@ -241,7 +241,7 @@ useEffect(() => {
   try {
     const token = getToken();
     await fetch(
-      `https://isosofts.com/api/tablecomponent/dropdownlistitem?token=${token}`,
+      `https://algebra.isosofts.com/api/tablecomponent/dropdownlistitem?token=${token}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -252,7 +252,7 @@ useEffect(() => {
         }),
       }
     );
-    const res = await fetch(`https://isosofts.com/api/tablecomponent/dropdownlistitem?token=${token}`);
+    const res = await fetch(`https://algebra.isosofts.com/api/tablecomponent/dropdownlistitem?token=${token}`);
     setDropdownItems(await res.json());
     setDropdownForm({ value: "", shortValue: "" });
     setDropdownView("list");
@@ -270,7 +270,7 @@ const handleDropdownUpdate = async (e) => {
   try {
     const token = getToken();
     await fetch(
-      `https://isosofts.com/api/tablecomponent/dropdownlistitem/${dropdownEditItem.id}?token=${token}`,
+      `https://algebra.isosofts.com/api/tablecomponent/dropdownlistitem/${dropdownEditItem.id}?token=${token}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -280,7 +280,7 @@ const handleDropdownUpdate = async (e) => {
         }),
       }
     );
-    const res = await fetch(`https://isosofts.com/api/tablecomponent/dropdownlistitem?token=${token}`);
+    const res = await fetch(`https://algebra.isosofts.com/api/tablecomponent/dropdownlistitem?token=${token}`);
     setDropdownItems(await res.json());
     setDropdownEditItem(null);
     setDropdownForm({ value: "", shortValue: "" });
