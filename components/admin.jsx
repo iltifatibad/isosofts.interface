@@ -332,7 +332,7 @@ const closeDropdownModal = () => {
     try {
       const token = getToken();
       const res = await fetch(
-        `https://isosofts.com/api/tablecomponent/dropdownlistitem?token=${token}`
+        `https://algebra.isosofts.com/api/tablecomponent/dropdownlistitem?token=${token}`
       );
       if (!res.ok) throw new Error(`Error: ${res.status}`);
       const data = await res.json();
