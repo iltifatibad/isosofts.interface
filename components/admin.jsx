@@ -17,6 +17,14 @@ const AdminDashboard = () => {
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [profile, setProfile] = useState(null);
   const [subordinates, setSubordinates] = useState([]);
+  const [showDropdownModal, setShowDropdownModal] = useState(false);
+const [dropdownItems, setDropdownItems] = useState({});
+const [dropdownLoading, setDropdownLoading] = useState(false);
+const [dropdownSelectedType, setDropdownSelectedType] = useState(null);
+const [dropdownForm, setDropdownForm] = useState({ value: "", shortValue: "" });
+const [dropdownEditItem, setDropdownEditItem] = useState(null);
+const [dropdownActionLoading, setDropdownActionLoading] = useState(false);
+const [dropdownView, setDropdownView] = useState("list");
   
   const [accessModal, setAccessModal] = useState({ open: false, emp: null });
   const [empAccesses, setEmpAccesses] = useState([]);
@@ -857,6 +865,12 @@ const openEditEmployee = (emp) => {
                       className="bg-gray-100 text-gray-700 px-5 py-2.5 rounded-lg hover:bg-gray-200 border border-gray-300"
                     >
                       Edit Company
+                    </button>
+                    <button
+                      onClick={() => setShowDropdownModal(true)}
+                      className="bg-gray-100 text-gray-700 px-5 py-2.5 rounded-lg hover:bg-gray-200 border border-gray-300"
+                    >
+                      Edit Dropdown List Items
                     </button>
                   </div>
 
@@ -1702,6 +1716,19 @@ const openEditEmployee = (emp) => {
             </div>
           </div>
         )}
+
+        {showDropdownModal && (
+  <DropdownListItemsModal
+    onClose={() => {
+      setShowDropdownModal(false);
+      setSelectedDropdownType(null);
+      setDropdownItems({});
+      setEditDropdownItem(null);
+      setDropdownForm({ value: "", shortValue: "" });
+    }}
+    getToken={getToken}
+  />
+)}
       </div>
     </div>
   );
