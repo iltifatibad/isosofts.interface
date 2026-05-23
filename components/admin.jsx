@@ -18,6 +18,7 @@ const AdminDashboard = () => {
   const [profile, setProfile] = useState(null);
   const [subordinates, setSubordinates] = useState([]);
   const [showDropdownModal, setShowDropdownModal] = useState(false);
+
 const [dropdownItems, setDropdownItems] = useState({});
 const [dropdownLoading, setDropdownLoading] = useState(false);
 const [dropdownSelectedType, setDropdownSelectedType] = useState(null);
@@ -25,6 +26,7 @@ const [dropdownForm, setDropdownForm] = useState({ value: "", shortValue: "" });
 const [dropdownEditItem, setDropdownEditItem] = useState(null);
 const [dropdownActionLoading, setDropdownActionLoading] = useState(false);
 const [dropdownView, setDropdownView] = useState("list");
+
   
   const [accessModal, setAccessModal] = useState({ open: false, emp: null });
   const [empAccesses, setEmpAccesses] = useState([]);
@@ -232,6 +234,120 @@ useEffect(() => {
     return () => controller.abort();
   }, []);
   
+  const handleDropdownCreate = async (e) => {
+  e.preventDefault();
+  if (!dropdownSelectedType || !dropdownForm.value.trim()) return;
+  setDropdownActionLoading(true);
+  try {
+    const token = getToken();
+    await fetch(
+      `https://isosofts.com/api/tablecomponent/dropdownlistitem?token=${token}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: dropdownSelectedType,
+          value: dropdownForm.value.trim(),
+          shortValue: dropdownForm.shortValue.trim(),
+        }),
+      }
+    );
+    const res = await fetch(`https://isosofts.com/api/tablecomponent/dropdownlistitem?token=${token}`);
+    setDropdownItems(await res.json());
+    setDropdownForm({ value: "", shortValue: "" });
+    setDropdownView("list");
+  } catch (err) {
+    console.error("Create error:", err);
+  } finally {
+    setDropdownActionLoading(false);
+  }
+};
+
+const handleDropdownUpdate = async (e) => {
+  e.preventDefault();
+  if (!dropdownEditItem) return;
+  setDropdownActionLoading(true);
+  try {
+    const token = getToken();
+    await fetch(
+      `https://isosofts.com/api/tablecomponent/dropdownlistitem/${dropdownEditItem.id}?token=${token}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          value: dropdownForm.value.trim(),
+          shortValue: dropdownForm.shortValue.trim(),
+        }),
+      }
+    );
+    const res = await fetch(`https://isosofts.com/api/tablecomponent/dropdownlistitem?token=${token}`);
+    setDropdownItems(await res.json());
+    setDropdownEditItem(null);
+    setDropdownForm({ value: "", shortValue: "" });
+    setDropdownView("list");
+  } catch (err) {
+    console.error("Update error:", err);
+  } finally {
+    setDropdownActionLoading(false);
+  }
+};
+
+const handleDropdownDelete = async (item) => {
+  if (!window.confirm(`Delete "${item.value}"?`)) return;
+  try {
+    const token = getToken();
+    await fetch(
+      `https://isosofts.com/api/tablecomponent/dropdownlistitem/${item.id}?token=${token}`,
+      { method: "PUT" }
+    );
+    const res = await fetch(`https://isosofts.com/api/tablecomponent/dropdownlistitem?token=${token}`);
+    setDropdownItems(await res.json());
+  } catch (err) {
+    console.error("Delete error:", err);
+  }
+};
+
+const openDropdownEdit = (item) => {
+  setDropdownEditItem(item);
+  setDropdownForm({ value: item.value, shortValue: item.shortValue || "" });
+  setDropdownView("edit");
+};
+
+const dropdownTypeLabel = (key) =>
+  key.replace(/([A-Z])/g, " $1").replace(/^./, (s) => s.toUpperCase());
+
+const closeDropdownModal = () => {
+  setShowDropdownModal(false);
+  setDropdownSelectedType(null);
+  setDropdownItems({});
+  setDropdownEditItem(null);
+  setDropdownForm({ value: "", shortValue: "" });
+  setDropdownView("list");
+};
+
+  useEffect(() => {
+  if (!showDropdownModal) return;
+  const fetchDropdownItems = async () => {
+    setDropdownLoading(true);
+    try {
+      const token = getToken();
+      const res = await fetch(
+        `https://isosofts.com/api/tablecomponent/dropdownlistitem?token=${token}`
+      );
+      if (!res.ok) throw new Error(`Error: ${res.status}`);
+      const data = await res.json();
+      setDropdownItems(data);
+      setDropdownSelectedType(Object.keys(data)[0] || null);
+    } catch (err) {
+      console.error("Dropdown fetch error:", err);
+    } finally {
+      setDropdownLoading(false);
+    }
+  };
+  fetchDropdownItems();
+}, [showDropdownModal]);
+
+
 const saveCompanyName = async () => {
   const token = document.cookie
     .split("; ")
@@ -1718,17 +1834,208 @@ const openEditEmployee = (emp) => {
         )}
 
         {showDropdownModal && (
-  <DropdownListItemsModal
-    onClose={() => {
-      setShowDropdownModal(false);
-      setSelectedDropdownType(null);
-      setDropdownItems({});
-      setEditDropdownItem(null);
-      setDropdownForm({ value: "", shortValue: "" });
-    }}
-    getToken={getToken}
-  />
-)}
+          <div className="fixed inset-0 z-50 flex items-center justify-center"
+            style={{ backdropFilter: "blur(8px)", backgroundColor: "rgba(15, 23, 42, 0.65)" }}>
+            <div className="relative bg-white w-full mx-4 rounded-2xl overflow-hidden shadow-2xl"
+              style={{ maxWidth: "780px", maxHeight: "90vh", display: "flex", flexDirection: "column", boxShadow: "0 25px 60px rgba(0,0,0,0.3)" }}>
+
+              {/* Header */}
+              <div style={{ background: "linear-gradient(135deg, #0f766e, #0369a1)", padding: "24px 28px 20px", flexShrink: 0 }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                    <div style={{ background: "rgba(255,255,255,0.2)", borderRadius: "10px", padding: "8px", display: "flex" }}>
+                      <svg width="20" height="20" fill="none" stroke="white" strokeWidth="2" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 10h16M4 14h10M4 18h6" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p style={{ color: "rgba(255,255,255,0.65)", fontSize: "11px", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", margin: 0 }}>
+                        Configuration
+                      </p>
+                      <h3 style={{ color: "white", fontSize: "20px", fontWeight: 700, margin: "2px 0 0" }}>
+                        Dropdown List Items
+                      </h3>
+                    </div>
+                  </div>
+                  <button onClick={closeDropdownModal}
+                    style={{ background: "rgba(255,255,255,0.15)", border: "none", borderRadius: "8px", padding: "6px", cursor: "pointer", display: "flex" }}>
+                    <svg width="18" height="18" fill="none" stroke="white" strokeWidth="2" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              {/* Body */}
+              {dropdownLoading ? (
+                <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: "12px", color: "#6b7280", padding: "48px" }}>
+                  <svg className="animate-spin" width="22" height="22" fill="none" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" style={{ opacity: 0.25 }} />
+                    <path fill="currentColor" d="M4 12a8 8 0 018-8v8z" style={{ opacity: 0.75 }} />
+                  </svg>
+                  <span style={{ fontSize: "14px" }}>Loading items...</span>
+                </div>
+              ) : (
+                <div style={{ flex: 1, display: "flex", overflow: "hidden" }}>
+
+                  {/* Sol: Tip listesi */}
+                  <div style={{ width: "220px", borderRight: "1px solid #f0f0f0", overflowY: "auto", padding: "12px 0", flexShrink: 0, background: "#fafafa" }}>
+                    {Object.keys(dropdownItems).map((type) => (
+                      <button key={type}
+                        onClick={() => { setDropdownSelectedType(type); setDropdownView("list"); setDropdownEditItem(null); setDropdownForm({ value: "", shortValue: "" }); }}
+                        style={{
+                          width: "100%", textAlign: "left", padding: "10px 18px", border: "none",
+                          background: dropdownSelectedType === type ? "white" : "transparent",
+                          borderLeft: dropdownSelectedType === type ? "3px solid #0369a1" : "3px solid transparent",
+                          cursor: "pointer", fontSize: "13px",
+                          fontWeight: dropdownSelectedType === type ? 600 : 400,
+                          color: dropdownSelectedType === type ? "#0369a1" : "#374151",
+                          display: "flex", justifyContent: "space-between", alignItems: "center"
+                        }}>
+                        <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "150px" }}>
+                          {dropdownTypeLabel(type)}
+                        </span>
+                        <span style={{
+                          background: dropdownSelectedType === type ? "#dbeafe" : "#e5e7eb",
+                          color: dropdownSelectedType === type ? "#1d4ed8" : "#6b7280",
+                          fontSize: "11px", fontWeight: 600, padding: "1px 7px", borderRadius: "20px", flexShrink: 0
+                        }}>
+                          {dropdownItems[type]?.length || 0}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Sağ: İçerik */}
+                  <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+
+                    {/* Sağ header */}
+                    <div style={{ padding: "14px 20px", borderBottom: "1px solid #f0f0f0", display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0 }}>
+                      <div>
+                        <p style={{ margin: 0, fontSize: "15px", fontWeight: 700, color: "#111827" }}>
+                          {dropdownSelectedType ? dropdownTypeLabel(dropdownSelectedType) : ""}
+                        </p>
+                        <p style={{ margin: 0, fontSize: "12px", color: "#9ca3af" }}>
+                          {(dropdownItems[dropdownSelectedType] || []).length} items
+                        </p>
+                      </div>
+                      {dropdownView === "list" && (
+                        <button
+                          onClick={() => { setDropdownView("add"); setDropdownEditItem(null); setDropdownForm({ value: "", shortValue: "" }); }}
+                          style={{ background: "linear-gradient(135deg, #0f766e, #0369a1)", border: "none", borderRadius: "10px", color: "white", fontSize: "13px", fontWeight: 600, padding: "8px 16px", cursor: "pointer", display: "flex", alignItems: "center", gap: "6px" }}>
+                          <svg width="14" height="14" fill="none" stroke="white" strokeWidth="2.5" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                          </svg>
+                          Add Item
+                        </button>
+                      )}
+                      {(dropdownView === "add" || dropdownView === "edit") && (
+                        <button
+                          onClick={() => { setDropdownView("list"); setDropdownEditItem(null); setDropdownForm({ value: "", shortValue: "" }); }}
+                          style={{ background: "white", border: "1.5px solid #e5e7eb", borderRadius: "10px", color: "#374151", fontSize: "13px", fontWeight: 500, padding: "7px 14px", cursor: "pointer" }}>
+                          ← Back
+                        </button>
+                      )}
+                    </div>
+
+                    {/* List view */}
+                    {dropdownView === "list" && (
+                      <div style={{ flex: 1, overflowY: "auto", padding: "12px 16px" }}>
+                        {(dropdownItems[dropdownSelectedType] || []).length === 0 ? (
+                          <div style={{ textAlign: "center", padding: "40px 20px", color: "#9ca3af" }}>
+                            <svg width="40" height="40" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" style={{ margin: "0 auto 12px", display: "block" }}>
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                            </svg>
+                            <p style={{ fontSize: "14px", margin: 0 }}>No items yet.</p>
+                          </div>
+                        ) : (
+                          <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                            {(dropdownItems[dropdownSelectedType] || []).map((item) => (
+                              <div key={item.id}
+                                style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 14px", borderRadius: "10px", border: "1px solid #f3f4f6", background: "white" }}
+                                onMouseEnter={e => e.currentTarget.style.borderColor = "#d1d5db"}
+                                onMouseLeave={e => e.currentTarget.style.borderColor = "#f3f4f6"}>
+                                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                                  <div style={{ width: "7px", height: "7px", borderRadius: "50%", background: "#0369a1", flexShrink: 0 }} />
+                                  <div>
+                                    <p style={{ margin: 0, fontSize: "14px", fontWeight: 500, color: "#111827" }}>{item.value}</p>
+                                    {item.shortValue && (
+                                      <p style={{ margin: 0, fontSize: "11px", color: "#9ca3af" }}>Short: {item.shortValue}</p>
+                                    )}
+                                  </div>
+                                </div>
+                                <div style={{ display: "flex", gap: "6px" }}>
+                                  <button onClick={() => openDropdownEdit(item)}
+                                    style={{ background: "#eff6ff", border: "none", borderRadius: "7px", color: "#1d4ed8", fontSize: "12px", fontWeight: 600, padding: "5px 12px", cursor: "pointer" }}>
+                                    Edit
+                                  </button>
+                                  <button onClick={() => handleDropdownDelete(item)}
+                                    style={{ background: "#fff1f2", border: "none", borderRadius: "7px", color: "#e11d48", fontSize: "12px", fontWeight: 600, padding: "5px 12px", cursor: "pointer" }}>
+                                    Delete
+                                  </button>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Add / Edit form */}
+                    {(dropdownView === "add" || dropdownView === "edit") && (
+                      <div style={{ flex: 1, overflowY: "auto", padding: "24px 20px" }}>
+                        <div style={{ maxWidth: "420px" }}>
+                          <p style={{ fontSize: "13px", fontWeight: 600, color: "#374151", marginBottom: "20px" }}>
+                            {dropdownView === "add"
+                              ? `New item for "${dropdownSelectedType ? dropdownTypeLabel(dropdownSelectedType) : ""}"`
+                              : `Editing: "${dropdownEditItem?.value}"`}
+                          </p>
+                          <form onSubmit={dropdownView === "add" ? handleDropdownCreate : handleDropdownUpdate}>
+                            <div style={{ marginBottom: "16px" }}>
+                              <label style={{ display: "block", fontSize: "11px", fontWeight: 600, color: "#6b7280", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "6px" }}>
+                                Value <span style={{ color: "#e11d48" }}>*</span>
+                              </label>
+                              <input type="text" value={dropdownForm.value} required
+                                onChange={(e) => setDropdownForm({ ...dropdownForm, value: e.target.value })}
+                                placeholder="e.g. Forklift Operator"
+                                style={{ width: "100%", padding: "10px 14px", borderRadius: "10px", border: "1.5px solid #e5e7eb", fontSize: "14px", outline: "none", boxSizing: "border-box" }}
+                                onFocus={e => e.target.style.borderColor = "#0369a1"}
+                                onBlur={e => e.target.style.borderColor = "#e5e7eb"}
+                              />
+                            </div>
+                            <div style={{ marginBottom: "24px" }}>
+                              <label style={{ display: "block", fontSize: "11px", fontWeight: 600, color: "#6b7280", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "6px" }}>
+                                Short Value <span style={{ color: "#9ca3af" }}>(optional)</span>
+                              </label>
+                              <input type="text" value={dropdownForm.shortValue}
+                                onChange={(e) => setDropdownForm({ ...dropdownForm, shortValue: e.target.value })}
+                                placeholder="e.g. FO"
+                                style={{ width: "100%", padding: "10px 14px", borderRadius: "10px", border: "1.5px solid #e5e7eb", fontSize: "14px", outline: "none", boxSizing: "border-box" }}
+                                onFocus={e => e.target.style.borderColor = "#0369a1"}
+                                onBlur={e => e.target.style.borderColor = "#e5e7eb"}
+                              />
+                            </div>
+                            <div style={{ display: "flex", gap: "10px" }}>
+                              <button type="button"
+                                onClick={() => { setDropdownView("list"); setDropdownEditItem(null); setDropdownForm({ value: "", shortValue: "" }); }}
+                                style={{ padding: "10px 20px", borderRadius: "10px", border: "1.5px solid #e5e7eb", background: "white", fontSize: "14px", fontWeight: 500, color: "#374151", cursor: "pointer" }}>
+                                Cancel
+                              </button>
+                              <button type="submit" disabled={dropdownActionLoading || !dropdownForm.value.trim()}
+                                style={{ padding: "10px 22px", borderRadius: "10px", border: "none", background: dropdownActionLoading ? "#9ca3af" : "linear-gradient(135deg, #0f766e, #0369a1)", fontSize: "14px", fontWeight: 600, color: "white", cursor: dropdownActionLoading ? "not-allowed" : "pointer", boxShadow: "0 4px 12px rgba(3,105,161,0.3)" }}>
+                                {dropdownActionLoading ? "Saving..." : dropdownView === "add" ? "Add Item" : "Save Changes"}
+                              </button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
