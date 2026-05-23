@@ -297,10 +297,10 @@ const handleDropdownDelete = async (item) => {
   try {
     const token = getToken();
     await fetch(
-      `https://isosofts.com/api/tablecomponent/dropdownlistitem/${item.id}?token=${token}`,
+      `https://algebra.isosofts.com/api/tablecomponent/dropdownlistitem/${item.id}?token=${token}`,
       { method: "PUT" }
     );
-    const res = await fetch(`https://isosofts.com/api/tablecomponent/dropdownlistitem?token=${token}`);
+    const res = await fetch(`https://algebra.isosofts.com/api/tablecomponent/dropdownlistitem?token=${token}`);
     setDropdownItems(await res.json());
   } catch (err) {
     console.error("Delete error:", err);
